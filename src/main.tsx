@@ -403,29 +403,29 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     x: 54.69,
-    y: 1824.84
+    y: 1899.84
   },
   {
     image: "/assets/artist-algaly.png",
     x: 456.23,
-    y: 1824.84,
+    y: 1899.84,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     x: 857.77,
-    y: 1824.84
+    y: 1899.84
   },
   {
     image: "/assets/artist-montse.png",
     x: 59.82,
-    y: 2635.5,
+    y: 2710.5,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     x: 461.36,
-    y: 2635.5,
+    y: 2710.5,
     imageFit: "jonathan"
   }
 ];

@@ -73,7 +73,7 @@ h3 {
 
 .page {
   width: 100vw;
-  min-height: calc(5447px * var(--figma-scale));
+  min-height: calc(5522px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
@@ -81,7 +81,7 @@ h3 {
 .stage {
   position: relative;
   width: 100vw;
-  height: calc(5447px * var(--figma-scale));
+  height: calc(5522px * var(--figma-scale));
   margin: 0;
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ h3 {
   left: 50%;
   top: 0;
   width: 1280px;
-  height: 5447px;
+  height: 5522px;
   background: var(--blue);
   transform: translateX(-50%) scale(var(--figma-scale));
   transform-origin: top center;
@@ -481,7 +481,7 @@ h3 {
   left: -10.52px;
   top: 876.86px;
   width: 1290.52px;
-  height: 80px;
+  height: 112px;
   color: var(--red);
   font-family: "Rye", serif;
   font-size: 40px;
@@ -496,15 +496,17 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 0;
   width: calc(1290.52px + (2 * var(--edge-bleed)));
-  height: 80px;
+  height: 112px;
   background: #ffffff;
-  border: 10px solid var(--navy);
+  border-top: 8px solid var(--navy);
+  border-bottom: 8px solid var(--navy);
+  box-sizing: border-box;
   z-index: 0;
 }
 
 .triad-word {
   position: absolute;
-  top: 19.04px;
+  top: 35.04px;
   height: 50px;
   z-index: 1;
   transition:
@@ -536,7 +538,7 @@ h3 {
 
 .triad-dot {
   position: absolute;
-  top: 29.6px;
+  top: 45.6px;
   width: 21px;
   height: 21px;
   border-radius: 999px;
@@ -561,9 +563,9 @@ h3 {
 .festival {
   position: absolute;
   left: 0;
-  top: 965px;
+  top: 1008px;
   width: 1280px;
-  height: 770px;
+  height: 802px;
   color: var(--blue);
 }
 
@@ -573,7 +575,7 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 0;
   width: calc(1280px + (2 * var(--edge-bleed)));
-  height: 770px;
+  height: 802px;
   background: #ffffff;
   z-index: 0;
 }
@@ -586,11 +588,11 @@ h3 {
 }
 
 .dotted-top {
-  top: 16px;
+  top: 24px;
 }
 
 .dotted-bottom {
-  top: 705px;
+  top: 725px;
 }
 
 .festival-title {
@@ -684,7 +686,7 @@ h3 {
 
 .red-band {
   left: calc(-1 * var(--edge-bleed));
-  top: 749px;
+  top: 780px;
   width: calc(1280px + (2 * var(--edge-bleed)));
   height: 20.77px;
   background: var(--red);
@@ -789,7 +791,7 @@ h3 {
 
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
-  top: 3503.59px;
+  top: 3578.59px;
   width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: #ffffff;
@@ -798,7 +800,7 @@ h3 {
 
 .location-kicker {
   left: 560.5px;
-  top: 3600.29px;
+  top: 3675.29px;
   width: 159px;
   color: var(--red);
   font-size: 18.75px;
@@ -809,7 +811,7 @@ h3 {
 
 .text-yeehaw {
   left: 265.55px;
-  top: 3642.97px;
+  top: 3717.97px;
   width: 759.85px;
   height: 97.85px;
   color: var(--red);
@@ -820,7 +822,7 @@ h3 {
 
 .text-en-barcelona {
   left: 191.21px;
-  top: 3750.83px;
+  top: 3825.83px;
   width: 805.37px;
   height: 97.85px;
   color: #0048ff;
@@ -830,7 +832,7 @@ h3 {
 
 .map-placeholder {
   left: 144.46px;
-  top: 3882.63px;
+  top: 3957.63px;
   width: 991.08px;
   height: 424.57px;
   background: #d9d9d9;
@@ -896,7 +898,7 @@ h3 {
 
 .date-banner {
   left: 273.21px;
-  top: 4403.9px;
+  top: 4478.9px;
   width: 795.94px;
   height: 137.91px;
   overflow: hidden;
@@ -925,17 +927,17 @@ h3 {
 
 .date-star-left {
   left: 359.2px;
-  top: 4413.5px;
+  top: 4488.5px;
 }
 
 .date-star-right {
   left: 880.9px;
-  top: 4413.5px;
+  top: 4488.5px;
 }
 
 .text-date {
   left: 477.15px;
-  top: 4429.15px;
+  top: 4504.15px;
   width: 324.74px;
   color: #ffffff;
   font-size: 34.62px;
@@ -947,7 +949,7 @@ h3 {
 
 .text-mantente {
   left: 83.7px;
-  top: 4567px;
+  top: 4642px;
   width: 1112.61px;
   height: 95px;
   color: #ffffff;
@@ -957,7 +959,7 @@ h3 {
 
 .contact-form {
   left: 0;
-  top: 4712px;
+  top: 4787px;
   width: 1280px;
   height: 340px;
 }
@@ -1071,7 +1073,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 5122px;
+  top: 5197px;
   width: 1280px;
   height: 324.59px;
   background: transparent;
