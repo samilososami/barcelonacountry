@@ -1,5 +1,7 @@
-import { StrictMode, useEffect, useState, type FormEvent } from "react";
+import { StrictMode, useEffect, useRef, useState, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
+import maplibregl, { type Map as MapLibreMap } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./styles.css";
 
 type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
@@ -437,19 +439,22 @@ const getInitialLanguage = (): LanguageKey => {
   return "es";
 };
 
-const createMapsSrc = (language: LanguageKey) =>
-  `https://maps.google.com/maps?width=100%25&height=600&hl=${language}&q=41.3874,2.1686&t=&z=13&ie=UTF8&iwloc=B&output=embed`;
-
 const createArtists = (copy: Copy): Artist[] =>
   artistLayouts.map((layout, index) => ({
     ...layout,
     ...copy.artists[index]
   }));
 
+const VIEWPORT_FIT_SCALE = 0.985;
+const MAP_CENTER: [number, number] = [2.1686, 41.3874];
+
+const createMapsSrc = (language: LanguageKey) =>
+  `https://www.google.com/maps?q=41.3874,2.1686&z=13&hl=${language}&output=embed`;
+
 function useFigmaScale() {
   useEffect(() => {
     const update = () => {
-      const scale = window.innerWidth / 1280;
+      const scale = (window.innerWidth / 1280) * VIEWPORT_FIT_SCALE;
       document.documentElement.style.setProperty("--figma-scale", String(scale));
     };
 
@@ -457,6 +462,76 @@ function useFigmaScale() {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+}
+
+function InteractiveMap({ language, title }: { language: LanguageKey; title: string }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
+  const [mapFailed, setMapFailed] = useState(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML = "";
+    setMapFailed(false);
+    let map: MapLibreMap;
+
+    try {
+      map = new maplibregl.Map({
+        container,
+        style: "/Map/map.json",
+        center: MAP_CENTER,
+        zoom: 12.6,
+        attributionControl: false
+      });
+    } catch {
+      container.innerHTML = "";
+      setMapFailed(true);
+      return;
+    }
+
+    mapRef.current = map;
+    new maplibregl.Marker({ color: "#ff0000" }).setLngLat(MAP_CENTER).addTo(map);
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+    const resize = () => map.resize();
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(resize);
+    resizeObserver?.observe(container);
+    window.addEventListener("resize", resize);
+    map.on("load", resize);
+    map.on("style.load", resize);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", resize);
+      map.remove();
+      container.innerHTML = "";
+      mapRef.current = null;
+    };
+  }, []);
+
+  return (
+    <>
+      {mapFailed && (
+        <iframe
+          className="map-fallback-embed"
+          src={createMapsSrc(language)}
+          title={title}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      )}
+      <div
+        className={`map-canvas${mapFailed ? " is-hidden" : ""}`}
+        ref={containerRef}
+        role="application"
+        aria-label={title}
+      />
+    </>
+  );
 }
 
 function ArtistCard({ artist }: { artist: Artist }) {
@@ -536,7 +611,11 @@ function App() {
                 aria-expanded={isLanguageOpen}
                 onClick={() => setIsLanguageOpen((open) => !open)}
               >
-                <span className="globe-icon" aria-hidden="true" />
+                <svg className="globe-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18" />
+                  <path d="M12 3c2.55 2.55 4 5.78 4 9s-1.45 6.45-4 9c-2.55-2.55-4-5.78-4-9s1.45-6.45 4-9Z" />
+                </svg>
                 <span className="sr-only">{copy.languageName}</span>
               </button>
               {isLanguageOpen && (
@@ -635,13 +714,7 @@ function App() {
               {copy.inBarcelona}
             </p>
             <div className="abs map-placeholder" aria-label={copy.mapTitle}>
-              <iframe
-                className="map-embed"
-                src={createMapsSrc(language)}
-                title={copy.mapTitle}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <InteractiveMap language={language} title={copy.mapTitle} />
             </div>
             <div className="abs date-banner">
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />

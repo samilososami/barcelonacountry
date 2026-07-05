@@ -78,6 +78,7 @@ h3 {
 }
 
 .stage {
+  position: relative;
   width: 100vw;
   height: calc(5645px * var(--figma-scale));
   margin: 0;
@@ -85,12 +86,14 @@ h3 {
 }
 
 .frame {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 0;
   width: 1280px;
   height: 5645px;
   background: var(--blue);
-  transform: scale(var(--figma-scale));
-  transform-origin: top left;
+  transform: translateX(-50%) scale(var(--figma-scale));
+  transform-origin: top center;
 }
 
 .abs {
@@ -218,35 +221,13 @@ h3 {
 }
 
 .globe-icon {
-  position: relative;
-  width: 25px;
-  height: 25px;
-  border: 3px solid currentColor;
-  border-radius: 999px;
-}
-
-.globe-icon::before,
-.globe-icon::after {
-  content: "";
-  position: absolute;
-  border-color: currentColor;
-  border-style: solid;
-}
-
-.globe-icon::before {
-  left: 3px;
-  right: 3px;
-  top: 9px;
-  border-width: 2px 0 0;
-}
-
-.globe-icon::after {
-  top: -3px;
-  bottom: -3px;
-  left: 8px;
-  width: 5px;
-  border-width: 0 2px;
-  border-radius: 50%;
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.45px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .language-menu {
@@ -667,9 +648,49 @@ h3 {
   overflow: hidden;
 }
 
-.map-embed {
+.map-canvas,
+.map-canvas .maplibregl-canvas {
   width: 100%;
   height: 100%;
+}
+
+.map-canvas {
+  overflow: hidden;
+}
+
+.map-canvas.is-hidden {
+  display: none;
+}
+
+.map-canvas .maplibregl-canvas {
+  display: block;
+}
+
+.map-fallback-embed {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.maplibregl-ctrl-bottom-right,
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-attrib {
+  display: none;
+}
+
+.maplibregl-ctrl-top-right {
+  top: 13px;
+  right: 13px;
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.maplibregl-ctrl-group button {
+  width: 34px;
+  height: 34px;
   border: 0;
 }
 
