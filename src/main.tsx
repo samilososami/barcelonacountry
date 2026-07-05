@@ -1,6 +1,8 @@
-import { StrictMode, useEffect, type FormEvent } from "react";
+import { StrictMode, useEffect, useState, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
+
+type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
 
 type Artist = {
   name: string;
@@ -12,50 +14,409 @@ type Artist = {
   imageFit?: "cover" | "stretch" | "montse" | "jonathan";
 };
 
-const artists: Artist[] = [
+type Copy = {
+  languageName: string;
+  nav: string[];
+  heroKicker: string;
+  heroCopy: string;
+  cta: string;
+  triad: string[];
+  festivalTitle: string;
+  festivalCopy: string;
+  days: string;
+  internationalArtists: string;
+  expectedDancers: string;
+  artistsTitle: string;
+  artists: Pick<Artist, "name" | "role" | "body">[];
+  locationKicker: string;
+  inBarcelona: string;
+  mapTitle: string;
+  date: string;
+  contactTitle: string;
+  formName: string;
+  formPhone: string;
+  formEmail: string;
+  footer: string;
+};
+
+const languageOptions: { key: LanguageKey; label: string }[] = [
+  { key: "de", label: "Aleman" },
+  { key: "es", label: "Español" },
+  { key: "ca", label: "Catalan" },
+  { key: "fr", label: "Francés" },
+  { key: "en", label: "Inglés" },
+  { key: "it", label: "Italiano" }
+];
+
+const copies: Record<LanguageKey, Copy> = {
+  de: {
+    languageName: "Deutsch",
+    nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
+    heroKicker: "BARCELONA · SPANIEN",
+    heroCopy:
+      "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit im Herzen der Stadt.",
+    cta: "Informiert bleiben",
+    triad: ["TANZ", "MUSIK", "AMERIKA"],
+    festivalTitle: "Das Festival",
+    festivalCopy:
+      "Barcelona Country vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, Western-Markt und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
+    days: "Tage",
+    internationalArtists: "INTERNATIONALE\nKÜNSTLER",
+    expectedDancers: "ERWARTETE TÄNZER",
+    artistsTitle: "Künstler",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "Internationaler Choreograf",
+        body:
+          "Referenz des katalanischen Line Dance. Sohn des Musikers Greg Ryan, Autor zahlreicher Choreografien auf Tanzflächen in ganz Europa. Sein Stil verbindet amerikanische Energie mit mediterranem Charakter."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Choreograf & Trainer",
+        body:
+          "Eine der frischesten jungen Stimmen des europäischen Line Dance. Er arbeitet regelmäßig mit Pol F. Ryan zusammen und brachte seinen Stil mit viralen Choreografien nach Belgien, Spanien und Italien."
+      },
+      {
+        name: "David Villellas",
+        role: "Tänzer & Choreograf",
+        body:
+          "Eine echte Legende der katalanischen Country-Szene. Mehr als 20 Jahre auf der Bühne, internationale Festivalshows und sogar eine eigene Stiefelkollektion."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Choreografin & Trainerin",
+        body:
+          "Ein unverzichtbarer Name im Catalan Country Style. Detailreiche Choreografien, getanzt beim Festival Big Ben in Mollerussa und im Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Folk-Country-Singer-Songwriter",
+        body:
+          "Singer-Songwriter aus Kingston, Ontario. Akustische Fingerstyle-Gitarre und ehrliche Texte über Liebe, Verlust und Widerstandskraft. Europa-Debüt in Barcelona."
+      }
+    ],
+    locationKicker: "STANDORT",
+    inBarcelona: "IN BARCELONA!",
+    mapTitle: "Karte mit dem Zentrum von Barcelona",
+    date: "BARCELONA - 27. NOV",
+    contactTitle: "BLEIB INFORMIERT",
+    formName: "Name",
+    formPhone: "Telefonnummer",
+    formEmail: "E-Mail",
+    footer: "© 2026 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
+  },
+  es: {
+    languageName: "Español",
+    nav: ["INICIO", "FESTIVAL", "ARTISTAS", "PROGRAMA", "UBICACIÓN", "CONTACTO"],
+    heroKicker: "BARCELONA · ESPAÑA",
+    heroCopy:
+      "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano en el corazón de la ciudad.",
+    cta: "Mantente informado",
+    triad: ["BAILE", "MÚSICA", "AMÉRICA"],
+    festivalTitle: "El Festival",
+    festivalCopy:
+      "Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en directo, mercadillo western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
+    days: "Días",
+    internationalArtists: "ARTISTAS\nINTERNACIONALES",
+    expectedDancers: "BAILARINES ESPERADOS",
+    artistsTitle: "Artistas",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "Coreógrafo internacional",
+        body:
+          "Referente del line dance catalán. Hijo del músico Greg Ryan, ha firmado decenas de coreografías que se bailan en pistas de toda Europa. Su estilo mezcla energía americana con sabor mediterráneo."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Coreógrafo & instructor",
+        body:
+          "Una de las voces jóvenes más frescas del line dance europeo. Colabora habitualmente con Pol F. Ryan y ha llevado su estilo a Bélgica, España e Italia con coreografías virales."
+      },
+      {
+        name: "David Villellas",
+        role: "Bailarín & coreógrafo",
+        body:
+          "Auténtica leyenda del country catalán. Más de 20 años sobre las tablas, sus shows han conquistado festivales internacionales y hasta tiene su propia colección de botas."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Coreógrafa & instructora",
+        body:
+          "Nombre imprescindible del circuito Catalan Country Style. Coreografías cuidadas al detalle que se han bailado en el Festival Big Ben de Mollerussa y en El Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Cantautor folk-country",
+        body:
+          "Singer-songwriter de Kingston (Ontario). Guitarra acústica en fingerstyle y letras honestas sobre amor, pérdida y resiliencia. Debut europeo en Barcelona."
+      }
+    ],
+    locationKicker: "UBICACIÓN",
+    inBarcelona: "EN BARCELONA!",
+    mapTitle: "Mapa del centro de Barcelona",
+    date: "BARCELONA - 27 NOV",
+    contactTitle: "MANTENTE INFORMADO",
+    formName: "Nombre",
+    formPhone: "Número de teléf.",
+    formEmail: "Correo electrónico",
+    footer: "© 2026 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
+  },
+  ca: {
+    languageName: "Català",
+    nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
+    heroKicker: "BARCELONA · ESPANYA",
+    heroCopy:
+      "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà al cor de la ciutat.",
+    cta: "Mantén-te informat",
+    triad: ["BALL", "MÚSICA", "AMÈRICA"],
+    festivalTitle: "El Festival",
+    festivalCopy:
+      "Barcelona Country reuneix durant tres dies el millor del line dance internacional, música en directe, mercat western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
+    days: "Dies",
+    internationalArtists: "ARTISTES\nINTERNACIONALS",
+    expectedDancers: "BALLARINS ESPERATS",
+    artistsTitle: "Artistes",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "Coreògraf internacional",
+        body:
+          "Referent del line dance català. Fill del músic Greg Ryan, ha signat desenes de coreografies que es ballen arreu d'Europa. El seu estil barreja energia americana amb sabor mediterrani."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Coreògraf & instructor",
+        body:
+          "Una de les veus joves més fresques del line dance europeu. Col·labora habitualment amb Pol F. Ryan i ha portat el seu estil a Bèlgica, Espanya i Itàlia amb coreografies virals."
+      },
+      {
+        name: "David Villellas",
+        role: "Ballarí & coreògraf",
+        body:
+          "Autèntica llegenda del country català. Més de 20 anys sobre els escenaris, els seus shows han conquerit festivals internacionals i fins i tot té la seva pròpia col·lecció de botes."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Coreògrafa & instructora",
+        body:
+          "Nom imprescindible del circuit Catalan Country Style. Coreografies cuidades al detall que s'han ballat al Festival Big Ben de Mollerussa i a El Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Cantautor folk-country",
+        body:
+          "Singer-songwriter de Kingston (Ontario). Guitarra acústica en fingerstyle i lletres honestes sobre amor, pèrdua i resiliència. Debut europeu a Barcelona."
+      }
+    ],
+    locationKicker: "UBICACIÓ",
+    inBarcelona: "A BARCELONA!",
+    mapTitle: "Mapa del centre de Barcelona",
+    date: "BARCELONA - 27 NOV",
+    contactTitle: "MANTÉN-TE INFORMAT",
+    formName: "Nom",
+    formPhone: "Número de telèf.",
+    formEmail: "Correu electrònic",
+    footer: "© 2026 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
+  },
+  fr: {
+    languageName: "Français",
+    nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
+    heroKicker: "BARCELONE · ESPAGNE",
+    heroCopy:
+      "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain au cœur de la ville.",
+    cta: "Restez informé",
+    triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
+    festivalTitle: "Le Festival",
+    festivalCopy:
+      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, un marché western et des food trucks avec un authentique barbecue américain. Un événement pour danseurs, familles et amoureux du country.",
+    days: "Jours",
+    internationalArtists: "ARTISTES\nINTERNATIONAUX",
+    expectedDancers: "DANSEURS ATTENDUS",
+    artistsTitle: "Artistes",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "Chorégraphe international",
+        body:
+          "Référence du line dance catalan. Fils du musicien Greg Ryan, il a signé des dizaines de chorégraphies dansées partout en Europe. Son style mêle énergie américaine et saveur méditerranéenne."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Chorégraphe & instructeur",
+        body:
+          "L'une des jeunes voix les plus fraîches du line dance européen. Il collabore régulièrement avec Pol F. Ryan et a porté son style en Belgique, en Espagne et en Italie."
+      },
+      {
+        name: "David Villellas",
+        role: "Danseur & chorégraphe",
+        body:
+          "Véritable légende du country catalan. Plus de 20 ans sur scène, des shows dans des festivals internationaux et même sa propre collection de bottes."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Chorégraphe & instructrice",
+        body:
+          "Un nom incontournable du Catalan Country Style. Des chorégraphies travaillées au détail, dansées au Festival Big Ben de Mollerussa et à El Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Auteur-compositeur folk-country",
+        body:
+          "Singer-songwriter de Kingston, Ontario. Guitare acoustique fingerstyle et textes sincères sur l'amour, la perte et la résilience. Début européen à Barcelone."
+      }
+    ],
+    locationKicker: "LIEU",
+    inBarcelona: "À BARCELONE!",
+    mapTitle: "Carte du centre de Barcelone",
+    date: "BARCELONE - 27 NOV",
+    contactTitle: "RESTEZ INFORMÉ",
+    formName: "Nom",
+    formPhone: "Téléphone",
+    formEmail: "E-mail",
+    footer: "© 2026 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
+  },
+  en: {
+    languageName: "English",
+    nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
+    heroKicker: "BARCELONA · SPAIN",
+    heroCopy:
+      "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit in the heart of the city.",
+    cta: "Stay informed",
+    triad: ["DANCE", "MUSIC", "AMERICA"],
+    festivalTitle: "The Festival",
+    festivalCopy:
+      "Barcelona Country brings together three days of international line dance, live music, a western market and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
+    days: "Days",
+    internationalArtists: "INTERNATIONAL\nARTISTS",
+    expectedDancers: "EXPECTED DANCERS",
+    artistsTitle: "Artists",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "International choreographer",
+        body:
+          "A reference in Catalan line dance. Son of musician Greg Ryan, he has created dozens of choreographies danced across Europe. His style mixes American energy with Mediterranean character."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Choreographer & instructor",
+        body:
+          "One of the freshest young voices in European line dance. He regularly collaborates with Pol F. Ryan and has taken his style to Belgium, Spain and Italy with viral choreographies."
+      },
+      {
+        name: "David Villellas",
+        role: "Dancer & choreographer",
+        body:
+          "A true legend of Catalan country. More than 20 years on stage, international festival shows and even his own boot collection."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Choreographer & instructor",
+        body:
+          "An essential name in the Catalan Country Style scene. Carefully crafted choreographies danced at Festival Big Ben in Mollerussa and at El Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Folk-country singer-songwriter",
+        body:
+          "Singer-songwriter from Kingston, Ontario. Acoustic fingerstyle guitar and honest lyrics about love, loss and resilience. European debut in Barcelona."
+      }
+    ],
+    locationKicker: "LOCATION",
+    inBarcelona: "IN BARCELONA!",
+    mapTitle: "Map of central Barcelona",
+    date: "BARCELONA - 27 NOV",
+    contactTitle: "STAY INFORMED",
+    formName: "Name",
+    formPhone: "Phone number",
+    formEmail: "Email",
+    footer: "© 2026 Barcelona Country Festival · All rights reserved · Yeehaw!"
+  },
+  it: {
+    languageName: "Italiano",
+    nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
+    heroKicker: "BARCELLONA · SPAGNA",
+    heroCopy:
+      "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano nel cuore della città.",
+    cta: "Resta informato",
+    triad: ["BALLO", "MUSICA", "AMERICA"],
+    festivalTitle: "Il Festival",
+    festivalCopy:
+      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, mercato western e food truck con autentico barbecue americano. Un evento per ballerini, famiglie e amanti del country.",
+    days: "Giorni",
+    internationalArtists: "ARTISTI\nINTERNAZIONALI",
+    expectedDancers: "BALLERINI ATTESI",
+    artistsTitle: "Artisti",
+    artists: [
+      {
+        name: "Pol F. Ryan",
+        role: "Coreografo internazionale",
+        body:
+          "Punto di riferimento del line dance catalano. Figlio del musicista Greg Ryan, ha firmato decine di coreografie ballate in tutta Europa. Il suo stile unisce energia americana e sapore mediterraneo."
+      },
+      {
+        name: "Algaly Fofana",
+        role: "Coreografo & istruttore",
+        body:
+          "Una delle voci giovani più fresche del line dance europeo. Collabora spesso con Pol F. Ryan e ha portato il suo stile in Belgio, Spagna e Italia con coreografie virali."
+      },
+      {
+        name: "David Villellas",
+        role: "Ballerino & coreografo",
+        body:
+          "Autentica leggenda del country catalano. Oltre 20 anni sul palco, show in festival internazionali e persino una propria collezione di stivali."
+      },
+      {
+        name: "Montse Moscardó",
+        role: "Coreografa & istruttrice",
+        body:
+          "Nome imprescindibile del Catalan Country Style. Coreografie curate nei dettagli, ballate al Festival Big Ben di Mollerussa e a El Barn d'en Greg."
+      },
+      {
+        name: "Jonathan Jones",
+        role: "Cantautore folk-country",
+        body:
+          "Singer-songwriter di Kingston, Ontario. Chitarra acustica fingerstyle e testi sinceri su amore, perdita e resilienza. Debutto europeo a Barcellona."
+      }
+    ],
+    locationKicker: "LUOGO",
+    inBarcelona: "A BARCELLONA!",
+    mapTitle: "Mappa del centro di Barcellona",
+    date: "BARCELLONA - 27 NOV",
+    contactTitle: "RESTA INFORMATO",
+    formName: "Nome",
+    formPhone: "Telefono",
+    formEmail: "Email",
+    footer: "© 2026 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
+  }
+};
+
+const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
-    name: "Pol F. Ryan",
-    role: "Coreógrafo internacional",
-    body:
-      "Referente del line dance catalán. Hijo del músico Greg Ryan, ha firmado decenas de coreografías que se bailan en pistas de toda Europa. Su estilo mezcla energía americana con sabor mediterráneo.",
     image: "/assets/artist-pol.png",
     x: 54.69,
     y: 2022.84
   },
   {
-    name: "Algaly Fofana",
-    role: "Coreógrafo & instructor",
-    body:
-      "Una de las voces jóvenes más frescas del line dance europeo. Colabora habitualmente con Pol F. Ryan y ha llevado su estilo a Bélgica, España e Italia con coreografías virales.",
     image: "/assets/artist-algaly.png",
     x: 456.23,
     y: 2022.84,
     imageFit: "stretch"
   },
   {
-    name: "David Villellas",
-    role: "Bailarín & coreógrafo",
-    body:
-      "Auténtica leyenda del country catalán. Más de 20 años sobre las tablas, sus shows han conquistado festivales internacionales y hasta tiene su propia colección de botas.",
     image: "/assets/artist-david.png",
     x: 857.77,
     y: 2022.84
   },
   {
-    name: "Montse Moscardó",
-    role: "Coreógrafa & instructora",
-    body:
-      "Nombre imprescindible del circuito Catalan Country Style. Coreografías cuidadas al detalle que se han bailado en el Festival Big Ben de Mollerussa y en El Barn d’en Greg.",
     image: "/assets/artist-montse.png",
     x: 59.82,
     y: 2833.5,
     imageFit: "montse"
   },
   {
-    name: "Jonathan Jones",
-    role: "Cantautor folk-country",
-    body:
-      "Singer-songwriter de Kingston (Ontario). Guitarra acústica en fingerstyle y letras honestas sobre amor, pérdida y resiliencia. Debut europeo en Barcelona.",
     image: "/assets/artist-jonathan.png",
     x: 461.36,
     y: 2833.5,
@@ -63,10 +424,32 @@ const artists: Artist[] = [
   }
 ];
 
+const getInitialLanguage = (): LanguageKey => {
+  try {
+    const stored = window.localStorage.getItem("barcelona-country-language");
+    if (stored && stored in copies) {
+      return stored as LanguageKey;
+    }
+  } catch {
+    return "es";
+  }
+
+  return "es";
+};
+
+const createMapsSrc = (language: LanguageKey) =>
+  `https://maps.google.com/maps?width=100%25&height=600&hl=${language}&q=41.3874,2.1686&t=&z=13&ie=UTF8&iwloc=B&output=embed`;
+
+const createArtists = (copy: Copy): Artist[] =>
+  artistLayouts.map((layout, index) => ({
+    ...layout,
+    ...copy.artists[index]
+  }));
+
 function useFigmaScale() {
   useEffect(() => {
     const update = () => {
-      const scale = Math.min(window.innerWidth / 1280, 1);
+      const scale = window.innerWidth / 1280;
       document.documentElement.style.setProperty("--figma-scale", String(scale));
     };
 
@@ -108,9 +491,23 @@ function ArtistCard({ artist }: { artist: Artist }) {
 
 function App() {
   useFigmaScale();
+  const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const copy = copies[language];
+  const artists = createArtists(copy);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  };
+
+  const handleLanguageChange = (nextLanguage: LanguageKey) => {
+    setLanguage(nextLanguage);
+    window.localStorage.setItem("barcelona-country-language", nextLanguage);
+    window.location.reload();
   };
 
   return (
@@ -125,12 +522,39 @@ function App() {
             <img className="abs nav-star nav-star-left" src="/assets/nav-star.svg" alt="" />
             <img className="abs nav-star nav-star-right" src="/assets/nav-star.svg" alt="" />
             <nav className="abs nav" aria-label="Principal">
-              {["HOME", "FESTIVAL", "ARTISTAS", "PROGRAMA", "LOCATION", "CONTACT"].map((item) => (
+              {copy.nav.map((item) => (
                 <span key={item} data-text-node="nav-item">
                   {item}
                 </span>
               ))}
             </nav>
+            <div className="abs language-picker">
+              <button
+                className="language-trigger"
+                type="button"
+                aria-label="Cambiar idioma"
+                aria-expanded={isLanguageOpen}
+                onClick={() => setIsLanguageOpen((open) => !open)}
+              >
+                <span className="globe-icon" aria-hidden="true" />
+                <span className="sr-only">{copy.languageName}</span>
+              </button>
+              {isLanguageOpen && (
+                <div className="language-menu" role="menu">
+                  {languageOptions.map((option) => (
+                    <button
+                      key={option.key}
+                      type="button"
+                      role="menuitem"
+                      className={option.key === language ? "active" : ""}
+                      onClick={() => handleLanguageChange(option.key)}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="abs hero-image">
               <img src="/assets/hero-bg.png" alt="" />
@@ -145,54 +569,46 @@ function App() {
             </p>
 
             <p className="abs hero-kicker" data-text-node="hero-kicker">
-              BARCELONA · SPAIN
+              {copy.heroKicker}
             </p>
             <p className="abs hero-copy" data-text-node="hero-copy">
-              L’esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en
-              directe i esperit americà al cor de la Ciutat Comtal.
+              {copy.heroCopy}
             </p>
             <div className="abs cta hero-cta">
               <span className="cta-type" data-text-node="hero-cta">
-                Mantenme informado
+                {copy.cta}
               </span>
               <img className="cta-star" src="/assets/star-button.png" alt="" />
             </div>
 
             <div className="abs triad" aria-label="Dance music America">
-              <span data-text-node="triad-dance">DANCE</span>
+              <span data-text-node="triad-dance">{copy.triad[0]}</span>
               <img src="/assets/dot.png" alt="" />
-              <span data-text-node="triad-music">MUSIC</span>
+              <span data-text-node="triad-music">{copy.triad[1]}</span>
               <img src="/assets/dot.png" alt="" />
-              <span data-text-node="triad-america">AMERICA</span>
+              <span data-text-node="triad-america">{copy.triad[2]}</span>
             </div>
           </section>
 
           <section className="festival" aria-labelledby="festival-title">
             <img className="abs dotted dotted-top" src="/assets/line-blue.svg" alt="" />
             <h2 id="festival-title" className="abs festival-title" data-text-node="festival-title">
-              The Festival
+              {copy.festivalTitle}
             </h2>
             <p className="abs festival-copy" data-text-node="festival-copy">
-              El Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en
-              directo, mercadillo western y food trucks con auténtica barbacoa americana. Un evento pensado para
-              bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir
-              de Barcelona.
+              {copy.festivalCopy}
             </p>
             <div className="abs stat stat-one">
               <strong data-text-node="stat-value">3</strong>
-              <span data-text-node="stat-label">Días</span>
+              <span data-text-node="stat-label">{copy.days}</span>
             </div>
             <div className="abs stat stat-two">
               <strong data-text-node="stat-value">5+</strong>
-              <span data-text-node="stat-label">
-                ARTISTAS
-                <br />
-                INTERNACIONALES
-              </span>
+              <span data-text-node="stat-label">{copy.internationalArtists}</span>
             </div>
             <div className="abs stat stat-three">
               <strong data-text-node="stat-value">1000</strong>
-              <span data-text-node="stat-label">BAILARINES ESPERADOS</span>
+              <span data-text-node="stat-label">{copy.expectedDancers}</span>
             </div>
             <img className="abs dotted dotted-bottom" src="/assets/line-blue.svg" alt="" />
             <div className="abs red-band" />
@@ -200,7 +616,7 @@ function App() {
 
           <section className="artists" aria-labelledby="artists-title">
             <h2 id="artists-title" className="sr-only">
-              Artistas
+              {copy.artistsTitle}
             </h2>
             {artists.map((artist) => (
               <ArtistCard key={artist.name} artist={artist} />
@@ -210,37 +626,45 @@ function App() {
           <section className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
             <p className="abs location-kicker" data-text-node="location-kicker">
-              UBICACIÓN
+              {copy.locationKicker}
             </p>
             <p className="abs western rio text-yeehaw" data-text-node="location-yeehaw">
               Yeehaw!
             </p>
             <p className="abs western rustler text-en-barcelona" data-text-node="location-en-barcelona">
-              ¡en BARCELONA!
+              {copy.inBarcelona}
             </p>
-            <div className="abs map-placeholder" aria-label="Mapa de ubicación en Barcelona" />
+            <div className="abs map-placeholder" aria-label={copy.mapTitle}>
+              <iframe
+                className="map-embed"
+                src={createMapsSrc(language)}
+                title={copy.mapTitle}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
             <div className="abs date-banner">
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
             </div>
             <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" />
             <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" />
             <p className="abs western rustler text-date" data-text-node="location-date">
-              BARCELONA - 27 nov
+              {copy.date}
             </p>
           </section>
 
           <section className="contact" aria-labelledby="contact-title">
             <h2 id="contact-title" className="abs western rustler text-mantente" data-text-node="contact-title">
-              MANTENTE INFORMADO
+              {copy.contactTitle}
             </h2>
             <form className="abs contact-form" aria-label="Formulario de información" onSubmit={handleSubmit}>
               <label className="abs label label-name" htmlFor="name" data-text-node="form-label">
-                Nombre
+                {copy.formName}
               </label>
               <input className="abs input input-name" id="name" name="name" type="text" autoComplete="name" />
 
               <label className="abs label label-phone" htmlFor="phone" data-text-node="form-label">
-                Número de teléf.
+                {copy.formPhone}
               </label>
               <div className="abs phone-wrap">
                 <span className="phone-prefix" data-text-node="phone-prefix">
@@ -250,12 +674,12 @@ function App() {
               </div>
 
               <label className="abs label label-email" htmlFor="email" data-text-node="form-label">
-                Correo electrónico
+                {copy.formEmail}
               </label>
               <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" />
               <button className="abs cta bottom-cta" type="submit">
                 <span className="cta-type" data-text-node="contact-cta">
-                  Mantenme informado
+                  {copy.cta}
                 </span>
                 <img className="cta-star" src="/assets/star-button.png" alt="" />
               </button>
@@ -271,7 +695,7 @@ function App() {
               country
             </p>
             <p className="abs footer-copy" data-text-node="footer-copy">
-              © 2026 Barcelona Country Festival · All rights reserved · Yeehaw!
+              {copy.footer}
             </p>
           </footer>
         </main>

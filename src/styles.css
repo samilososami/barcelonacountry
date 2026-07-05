@@ -54,6 +54,7 @@ body {
   background: var(--blue);
   color: #ffffff;
   font-family: "Special Elite", ui-monospace, monospace;
+  overflow-x: hidden;
 }
 
 img {
@@ -70,15 +71,16 @@ h3 {
 }
 
 .page {
+  width: 100vw;
   min-height: calc(5645px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
 
 .stage {
-  width: min(100vw, 1280px);
+  width: 100vw;
   height: calc(5645px * var(--figma-scale));
-  margin: 0 auto;
+  margin: 0;
   overflow: hidden;
 }
 
@@ -191,6 +193,95 @@ h3 {
   left: 1138.17px;
 }
 
+.language-picker {
+  left: 1202px;
+  top: 52px;
+  z-index: 10;
+}
+
+.language-trigger {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border: 3px solid #ffffff;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.language-trigger:focus-visible {
+  outline: 4px solid var(--red);
+  outline-offset: 3px;
+}
+
+.globe-icon {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border: 3px solid currentColor;
+  border-radius: 999px;
+}
+
+.globe-icon::before,
+.globe-icon::after {
+  content: "";
+  position: absolute;
+  border-color: currentColor;
+  border-style: solid;
+}
+
+.globe-icon::before {
+  left: 3px;
+  right: 3px;
+  top: 9px;
+  border-width: 2px 0 0;
+}
+
+.globe-icon::after {
+  top: -3px;
+  bottom: -3px;
+  left: 8px;
+  width: 5px;
+  border-width: 0 2px;
+  border-radius: 50%;
+}
+
+.language-menu {
+  position: absolute;
+  right: 0;
+  top: 62px;
+  width: 190px;
+  padding: 8px;
+  background: #ffffff;
+  border: 4px solid var(--navy);
+  box-shadow: 0 8px 0 var(--red);
+}
+
+.language-menu button {
+  display: block;
+  width: 100%;
+  height: 34px;
+  border: 0;
+  background: #ffffff;
+  color: var(--blue);
+  cursor: pointer;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 16px;
+  line-height: 1;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.language-menu button:hover,
+.language-menu button:focus-visible,
+.language-menu button.active {
+  background: var(--blue);
+  color: #ffffff;
+}
+
 .hero-image {
   left: 0;
   top: 151.25px;
@@ -282,9 +373,9 @@ h3 {
 
 .cta-type {
   position: absolute;
-  left: 0;
+  left: 17px;
   top: 23.59px;
-  width: 302.4px;
+  width: 245px;
   height: 22px;
   color: #ffffff;
   font-family: "Rustler", "Rye", serif;
@@ -441,6 +532,7 @@ h3 {
   font-size: 19px;
   line-height: 1.71;
   letter-spacing: 1.14px;
+  white-space: pre-line;
 }
 
 .stat-two span,
@@ -572,6 +664,13 @@ h3 {
   height: 424.57px;
   background: #d9d9d9;
   border: 7px solid var(--blue);
+  overflow: hidden;
+}
+
+.map-embed {
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .date-banner {
@@ -724,7 +823,7 @@ h3 {
 }
 
 .bottom-cta .cta-type {
-  left: 0;
+  left: 17px;
   top: 23.59px;
 }
 
