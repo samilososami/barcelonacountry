@@ -86,13 +86,17 @@ function ArtistCard({ artist }: { artist: Artist }) {
       <div className="artist-photo abs" style={{ left: 5.13, top: 6.5 }}>
         <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt="" />
       </div>
-      <h3 className="artist-name abs" style={{ left: 0, top: 395.4, width: 367.54 }}>
+      <h3 className="artist-name abs" style={{ left: 0, top: 395.4, width: 367.54 }} data-text-node="artist-name">
         {artist.name}
       </h3>
-      <p className="artist-role abs" style={{ left: 0, top: 436.49, width: 367.54 }}>
+      <p className="artist-role abs" style={{ left: 0, top: 436.49, width: 367.54 }} data-text-node="artist-role">
         {artist.role}
       </p>
-      <p className="artist-body abs" style={{ left: centerX - artist.x - 141.16, top: 496.81 }}>
+      <p
+        className="artist-body abs"
+        style={{ left: centerX - artist.x - 141.16, top: 496.81 }}
+        data-text-node="artist-body"
+      >
         {artist.body}
       </p>
       <span className="sr-only">
@@ -122,7 +126,9 @@ function App() {
             <img className="abs nav-star nav-star-right" src="/assets/nav-star.svg" alt="" />
             <nav className="abs nav" aria-label="Principal">
               {["HOME", "FESTIVAL", "ARTISTAS", "PROGRAMA", "LOCATION", "CONTACT"].map((item) => (
-                <span key={item}>{item}</span>
+                <span key={item} data-text-node="nav-item">
+                  {item}
+                </span>
               ))}
             </nav>
 
@@ -131,56 +137,62 @@ function App() {
               <div className="hero-scrim" />
             </div>
 
-            <p id="hero-title" className="abs western rio hero-barcelona">
+            <p id="hero-title" className="abs western rio hero-barcelona" data-text-node="hero-barcelona">
               BARCELONA
             </p>
-            <p className="abs western rio hero-country">country</p>
+            <p className="abs western rio hero-country" data-text-node="hero-country">
+              country
+            </p>
 
-            <p className="abs hero-kicker">BARCELONA · SPAIN</p>
-            <p className="abs hero-copy">
+            <p className="abs hero-kicker" data-text-node="hero-kicker">
+              BARCELONA · SPAIN
+            </p>
+            <p className="abs hero-copy" data-text-node="hero-copy">
               L’esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en
               directe i esperit americà al cor de la Ciutat Comtal.
             </p>
-            <div className="abs cta hero-cta" aria-hidden="true">
-              <span className="cta-type">Mantenme informado</span>
+            <div className="abs cta hero-cta">
+              <span className="cta-type" data-text-node="hero-cta">
+                Mantenme informado
+              </span>
               <img className="cta-star" src="/assets/star-button.png" alt="" />
             </div>
 
             <div className="abs triad" aria-label="Dance music America">
-              <span>DANCE</span>
+              <span data-text-node="triad-dance">DANCE</span>
               <img src="/assets/dot.png" alt="" />
-              <span>MUSIC</span>
+              <span data-text-node="triad-music">MUSIC</span>
               <img src="/assets/dot.png" alt="" />
-              <span>AMERICA</span>
+              <span data-text-node="triad-america">AMERICA</span>
             </div>
           </section>
 
           <section className="festival" aria-labelledby="festival-title">
             <img className="abs dotted dotted-top" src="/assets/line-blue.svg" alt="" />
-            <h2 id="festival-title" className="abs festival-title">
+            <h2 id="festival-title" className="abs festival-title" data-text-node="festival-title">
               The Festival
             </h2>
-            <p className="abs festival-copy">
+            <p className="abs festival-copy" data-text-node="festival-copy">
               El Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en
               directo, mercadillo western y food trucks con auténtica barbacoa americana. Un evento pensado para
               bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir
               de Barcelona.
             </p>
             <div className="abs stat stat-one">
-              <strong>3</strong>
-              <span>Días</span>
+              <strong data-text-node="stat-value">3</strong>
+              <span data-text-node="stat-label">Días</span>
             </div>
             <div className="abs stat stat-two">
-              <strong>5+</strong>
-              <span>
+              <strong data-text-node="stat-value">5+</strong>
+              <span data-text-node="stat-label">
                 ARTISTAS
                 <br />
                 INTERNACIONALES
               </span>
             </div>
             <div className="abs stat stat-three">
-              <strong>1000</strong>
-              <span>BAILARINES ESPERADOS</span>
+              <strong data-text-node="stat-value">1000</strong>
+              <span data-text-node="stat-label">BAILARINES ESPERADOS</span>
             </div>
             <img className="abs dotted dotted-bottom" src="/assets/line-blue.svg" alt="" />
             <div className="abs red-band" />
@@ -197,42 +209,54 @@ function App() {
 
           <section className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
-            <p className="abs location-kicker">UBICACIÓN</p>
-            <p className="abs western rio type-yeehaw">Yeehaw!</p>
-            <p className="abs western rustler type-en-barcelona">¡en BARCELONA!</p>
+            <p className="abs location-kicker" data-text-node="location-kicker">
+              UBICACIÓN
+            </p>
+            <p className="abs western rio text-yeehaw" data-text-node="location-yeehaw">
+              Yeehaw!
+            </p>
+            <p className="abs western rustler text-en-barcelona" data-text-node="location-en-barcelona">
+              ¡en BARCELONA!
+            </p>
             <div className="abs map-placeholder" aria-label="Mapa de ubicación en Barcelona" />
             <div className="abs date-banner">
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
             </div>
             <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" />
             <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" />
-            <p className="abs western rustler type-date">BARCELONA - 27 nov</p>
+            <p className="abs western rustler text-date" data-text-node="location-date">
+              BARCELONA - 27 nov
+            </p>
           </section>
 
           <section className="contact" aria-labelledby="contact-title">
-            <h2 id="contact-title" className="abs western rustler type-mantente">
+            <h2 id="contact-title" className="abs western rustler text-mantente" data-text-node="contact-title">
               MANTENTE INFORMADO
             </h2>
             <form className="abs contact-form" aria-label="Formulario de información" onSubmit={handleSubmit}>
-              <label className="abs label label-name" htmlFor="name">
+              <label className="abs label label-name" htmlFor="name" data-text-node="form-label">
                 Nombre
               </label>
               <input className="abs input input-name" id="name" name="name" type="text" autoComplete="name" />
 
-              <label className="abs label label-phone" htmlFor="phone">
+              <label className="abs label label-phone" htmlFor="phone" data-text-node="form-label">
                 Número de teléf.
               </label>
               <div className="abs phone-wrap">
-                <span className="phone-prefix">+34</span>
+                <span className="phone-prefix" data-text-node="phone-prefix">
+                  +34
+                </span>
                 <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" />
               </div>
 
-              <label className="abs label label-email" htmlFor="email">
+              <label className="abs label label-email" htmlFor="email" data-text-node="form-label">
                 Correo electrónico
               </label>
               <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" />
               <button className="abs cta bottom-cta" type="submit">
-                <span className="cta-type">Mantenme informado</span>
+                <span className="cta-type" data-text-node="contact-cta">
+                  Mantenme informado
+                </span>
                 <img className="cta-star" src="/assets/star-button.png" alt="" />
               </button>
             </form>
@@ -240,9 +264,15 @@ function App() {
 
           <footer className="abs footer">
             <img className="abs footer-line" src="/assets/line-full.svg" alt="" />
-            <p className="abs western rio footer-barcelona">BARCELONA</p>
-            <p className="abs western rio footer-country">country</p>
-            <p className="abs footer-copy">© 2026 Barcelona Country Festival · All rights reserved · Yeehaw!</p>
+            <p className="abs western rio footer-barcelona" data-text-node="footer-barcelona">
+              BARCELONA
+            </p>
+            <p className="abs western rio footer-country" data-text-node="footer-country">
+              country
+            </p>
+            <p className="abs footer-copy" data-text-node="footer-copy">
+              © 2026 Barcelona Country Festival · All rights reserved · Yeehaw!
+            </p>
           </footer>
         </main>
       </div>
