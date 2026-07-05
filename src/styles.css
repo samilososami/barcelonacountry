@@ -73,7 +73,7 @@ h3 {
 
 .page {
   width: 100vw;
-  min-height: calc(5645px * var(--figma-scale));
+  min-height: calc(5447px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
@@ -81,7 +81,7 @@ h3 {
 .stage {
   position: relative;
   width: 100vw;
-  height: calc(5645px * var(--figma-scale));
+  height: calc(5447px * var(--figma-scale));
   margin: 0;
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ h3 {
   left: 50%;
   top: 0;
   width: 1280px;
-  height: 5645px;
+  height: 5447px;
   background: var(--blue);
   transform: translateX(-50%) scale(var(--figma-scale));
   transform-origin: top center;
@@ -125,6 +125,26 @@ h3 {
 [data-text-node] {
   pointer-events: auto;
   user-select: text;
+}
+
+[data-scrolljs] {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.98);
+  transition:
+    opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 280ms ease,
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+  transition-delay: var(--scrolljs-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-scrolljs].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .rio {
@@ -173,6 +193,11 @@ h3 {
   width: 229.3px;
   height: 29.56px;
   margin-right: -71px;
+  cursor: default;
+  transition:
+    color 220ms ease,
+    text-shadow 220ms ease,
+    transform 220ms ease;
 }
 
 .nav span:first-child {
@@ -183,10 +208,25 @@ h3 {
   margin-right: 0;
 }
 
+.nav span:hover {
+  color: var(--red);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
+  transform: translateY(-3px);
+}
+
 .nav-star {
   top: 61.9px;
   width: 35px;
   height: 33.6px;
+  pointer-events: auto;
+  transition:
+    transform 260ms ease,
+    filter 260ms ease;
+}
+
+.nav-star:hover {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
+  transform: rotate(18deg) scale(1.18);
 }
 
 .nav-star-left {
@@ -216,6 +256,16 @@ h3 {
   cursor: pointer;
   line-height: 0;
   padding: 0;
+  transition:
+    background-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.language-trigger:hover {
+  background: var(--red);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.2);
+  transform: rotate(-8deg) scale(1.05);
 }
 
 .language-trigger:focus-visible {
@@ -247,6 +297,7 @@ h3 {
   background: #ffffff;
   border: 4px solid var(--navy);
   box-shadow: 0 8px 0 var(--red);
+  animation: language-pop 180ms ease-out;
 }
 
 .language-menu button {
@@ -379,6 +430,21 @@ h3 {
   border-radius: 2px;
   margin: 0;
   padding: 0;
+  cursor: pointer;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.cta:hover {
+  background: var(--red);
+  box-shadow: 0 10px 0 var(--navy);
+  transform: translateY(-7px);
+}
+
+.cta:hover .cta-star {
+  transform: rotate(144deg) scale(1.12);
 }
 
 .hero-cta {
@@ -408,13 +474,14 @@ h3 {
   top: 14px;
   width: 47px;
   height: 47px;
+  transition: transform 280ms ease;
 }
 
 .triad {
   left: -10.52px;
   top: 876.86px;
   width: 1290.52px;
-  height: 136.77px;
+  height: 80px;
   color: var(--red);
   font-family: "Rye", serif;
   font-size: 40px;
@@ -429,7 +496,7 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 0;
   width: calc(1290.52px + (2 * var(--edge-bleed)));
-  height: 136.77px;
+  height: 80px;
   background: #ffffff;
   border: 10px solid var(--navy);
   z-index: 0;
@@ -437,9 +504,19 @@ h3 {
 
 .triad-word {
   position: absolute;
-  top: 38.04px;
+  top: 19.04px;
   height: 50px;
   z-index: 1;
+  transition:
+    color 220ms ease,
+    transform 220ms ease,
+    text-shadow 220ms ease;
+}
+
+.triad-word:hover {
+  color: var(--blue);
+  text-shadow: 0 4px 0 rgba(255, 0, 0, 0.24);
+  transform: translateY(-4px) rotate(-1deg);
 }
 
 .triad-dance {
@@ -459,12 +536,18 @@ h3 {
 
 .triad-dot {
   position: absolute;
-  top: 48.6px;
+  top: 29.6px;
   width: 21px;
   height: 21px;
   border-radius: 999px;
   background: var(--navy);
   z-index: 1;
+  transition: transform 220ms ease, background-color 220ms ease;
+}
+
+.triad-dot:hover {
+  background: var(--red);
+  transform: scale(1.25);
 }
 
 .triad-dot-one {
@@ -478,9 +561,9 @@ h3 {
 .festival {
   position: absolute;
   left: 0;
-  top: 1023.09px;
+  top: 965px;
   width: 1280px;
-  height: 909.8px;
+  height: 770px;
   color: var(--blue);
 }
 
@@ -490,7 +573,7 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 0;
   width: calc(1280px + (2 * var(--edge-bleed)));
-  height: 909.8px;
+  height: 770px;
   background: #ffffff;
   z-index: 0;
 }
@@ -503,16 +586,16 @@ h3 {
 }
 
 .dotted-top {
-  top: 42.25px;
+  top: 16px;
 }
 
 .dotted-bottom {
-  top: 832.61px;
+  top: 705px;
 }
 
 .festival-title {
   left: 268.17px;
-  top: 132.59px;
+  top: 63px;
   width: 759.85px;
   color: var(--blue);
   font-family: "Rye", serif;
@@ -529,7 +612,7 @@ h3 {
 
 .festival-copy {
   left: 253.76px;
-  top: 263.29px;
+  top: 180px;
   width: 792.78px;
   color: #10316e;
   font-size: 19px;
@@ -540,7 +623,7 @@ h3 {
 }
 
 .stat {
-  top: 485.13px;
+  top: 410px;
   width: 367.54px;
   height: 242.3px;
   background: #ffffff;
@@ -548,6 +631,16 @@ h3 {
   box-shadow: 0 11px 0 var(--red);
   text-align: center;
   z-index: 1;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.stat:hover {
+  border-color: var(--red);
+  box-shadow: 0 18px 0 var(--red), 0 24px 22px rgba(23, 35, 96, 0.16);
+  transform: translateY(-7px);
 }
 
 .stat-one {
@@ -591,7 +684,7 @@ h3 {
 
 .red-band {
   left: calc(-1 * var(--edge-bleed));
-  top: 889.03px;
+  top: 749px;
   width: calc(1280px + (2 * var(--edge-bleed)));
   height: 20.77px;
   background: var(--red);
@@ -604,6 +697,16 @@ h3 {
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 11px 0 var(--red);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 260ms ease;
+}
+
+.artist-card:hover {
+  border-color: var(--red);
+  box-shadow: 0 18px 0 var(--red), 0 26px 26px rgba(23, 35, 96, 0.24);
+  transform: translateY(-8px);
 }
 
 .artist-photo {
@@ -618,11 +721,23 @@ h3 {
   object-fit: cover;
   transform: scale(1.06);
   transform-origin: center;
+  transition:
+    filter 260ms ease,
+    transform 360ms ease;
+}
+
+.artist-card:hover .artist-image {
+  filter: saturate(1.13) contrast(1.04);
+  transform: scale(1.13);
 }
 
 .artist-image.stretch {
   object-fit: fill;
   transform: scale(1.04);
+}
+
+.artist-card:hover .artist-image.stretch {
+  transform: scale(1.09);
 }
 
 .artist-image.montse {
@@ -638,6 +753,10 @@ h3 {
   width: 263.37%;
   height: 351.17%;
   object-fit: cover;
+}
+
+.artist-card:hover .artist-image.jonathan {
+  transform: scale(1.03);
 }
 
 .artist-name {
@@ -670,7 +789,7 @@ h3 {
 
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
-  top: 3701.59px;
+  top: 3503.59px;
   width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: #ffffff;
@@ -679,7 +798,7 @@ h3 {
 
 .location-kicker {
   left: 560.5px;
-  top: 3798.29px;
+  top: 3600.29px;
   width: 159px;
   color: var(--red);
   font-size: 18.75px;
@@ -690,7 +809,7 @@ h3 {
 
 .text-yeehaw {
   left: 265.55px;
-  top: 3840.97px;
+  top: 3642.97px;
   width: 759.85px;
   height: 97.85px;
   color: var(--red);
@@ -701,7 +820,7 @@ h3 {
 
 .text-en-barcelona {
   left: 191.21px;
-  top: 3948.83px;
+  top: 3750.83px;
   width: 805.37px;
   height: 97.85px;
   color: #0048ff;
@@ -711,12 +830,22 @@ h3 {
 
 .map-placeholder {
   left: 144.46px;
-  top: 4080.63px;
+  top: 3882.63px;
   width: 991.08px;
   height: 424.57px;
   background: #d9d9d9;
   border: 7px solid var(--blue);
   overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 260ms ease;
+}
+
+.map-placeholder:hover {
+  border-color: var(--red);
+  box-shadow: 0 16px 0 var(--blue), 0 24px 28px rgba(23, 35, 96, 0.18);
+  transform: translateY(-6px);
 }
 
 .map-canvas,
@@ -767,10 +896,18 @@ h3 {
 
 .date-banner {
   left: 273.21px;
-  top: 4601.9px;
+  top: 4403.9px;
   width: 795.94px;
   height: 137.91px;
   overflow: hidden;
+  transition:
+    filter 220ms ease,
+    transform 220ms ease;
+}
+
+.date-banner:hover {
+  filter: saturate(1.2) contrast(1.06);
+  transform: translateY(-5px);
 }
 
 .date-wood {
@@ -788,17 +925,17 @@ h3 {
 
 .date-star-left {
   left: 359.2px;
-  top: 4611.5px;
+  top: 4413.5px;
 }
 
 .date-star-right {
   left: 880.9px;
-  top: 4611.5px;
+  top: 4413.5px;
 }
 
 .text-date {
   left: 477.15px;
-  top: 4627.15px;
+  top: 4429.15px;
   width: 324.74px;
   color: #ffffff;
   font-size: 34.62px;
@@ -810,7 +947,7 @@ h3 {
 
 .text-mantente {
   left: 83.7px;
-  top: 4765px;
+  top: 4567px;
   width: 1112.61px;
   height: 95px;
   color: #ffffff;
@@ -820,7 +957,7 @@ h3 {
 
 .contact-form {
   left: 0;
-  top: 4910px;
+  top: 4712px;
   width: 1280px;
   height: 340px;
 }
@@ -858,10 +995,18 @@ h3 {
   letter-spacing: 0.4px;
   outline: none;
   padding: 0 20px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .input:focus {
   border-color: rgba(255, 255, 255, 0.72);
+  background: #31508d;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
 }
 
 .input-name {
@@ -926,7 +1071,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 5320px;
+  top: 5122px;
   width: 1280px;
   height: 324.59px;
   background: transparent;
@@ -983,4 +1128,31 @@ h3 {
   letter-spacing: 0.4px;
   text-align: center;
   z-index: 1;
+}
+
+@keyframes language-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  [data-scrolljs] {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useRef, useState, type FormEvent } from "react";
+import { StrictMode, useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import maplibregl, { type Map as MapLibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -39,6 +39,10 @@ type Copy = {
   formPhone: string;
   formEmail: string;
   footer: string;
+};
+
+type RevealStyle = CSSProperties & {
+  "--scrolljs-delay"?: string;
 };
 
 const languageOptions: { key: LanguageKey; label: string }[] = [
@@ -399,29 +403,29 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     x: 54.69,
-    y: 2022.84
+    y: 1824.84
   },
   {
     image: "/assets/artist-algaly.png",
     x: 456.23,
-    y: 2022.84,
+    y: 1824.84,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     x: 857.77,
-    y: 2022.84
+    y: 1824.84
   },
   {
     image: "/assets/artist-montse.png",
     x: 59.82,
-    y: 2833.5,
+    y: 2635.5,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     x: 461.36,
-    y: 2833.5,
+    y: 2635.5,
     imageFit: "jonathan"
   }
 ];
@@ -464,6 +468,46 @@ function useFigmaScale() {
     return () => window.removeEventListener("resize", update);
   }, []);
 }
+
+function useScrollJsReveal() {
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-scrolljs]"));
+    if (!nodes.length) {
+      return;
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion || typeof IntersectionObserver === "undefined") {
+      nodes.forEach((node) => node.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.04,
+        rootMargin: "0px 0px 8% 0px"
+      }
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+}
+
+const revealStyle = (style: CSSProperties = {}, delay = 0): RevealStyle => ({
+  ...style,
+  "--scrolljs-delay": `${delay}ms`
+});
 
 function InteractiveMap({ language, title }: { language: LanguageKey; title: string }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -541,7 +585,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
   const centerX = artist.x + 183.77;
 
   return (
-    <article className="artist-card abs" style={{ left: artist.x, top: artist.y }}>
+    <article className="artist-card abs" style={revealStyle({ left: artist.x, top: artist.y }, 80)} data-scrolljs>
       <div className="artist-photo abs" style={{ left: 5.13, top: 6.5 }}>
         <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt="" />
       </div>
@@ -567,6 +611,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
 
 function App() {
   useFigmaScale();
+  useScrollJsReveal();
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const copy = copies[language];
@@ -593,7 +638,6 @@ function App() {
           <h1 className="sr-only">Barcelona Country Festival</h1>
 
           <section className="hero" aria-labelledby="hero-title">
-            <div className="top-line top-line-one" />
             <div className="top-line top-line-two" />
             <img className="abs nav-star nav-star-left" src="/assets/nav-star.svg" alt="" />
             <img className="abs nav-star nav-star-right" src="/assets/nav-star.svg" alt="" />
@@ -641,20 +685,31 @@ function App() {
               <div className="hero-scrim" />
             </div>
 
-            <p id="hero-title" className="abs western rio hero-barcelona" data-text-node="hero-barcelona">
+            <p
+              id="hero-title"
+              className="abs western rio hero-barcelona"
+              data-text-node="hero-barcelona"
+              data-scrolljs
+              style={revealStyle({}, 0)}
+            >
               BARCELONA
             </p>
-            <p className="abs western rio hero-country" data-text-node="hero-country">
+            <p
+              className="abs western rio hero-country"
+              data-text-node="hero-country"
+              data-scrolljs
+              style={revealStyle({}, 80)}
+            >
               country
             </p>
 
-            <p className="abs hero-kicker" data-text-node="hero-kicker">
+            <p className="abs hero-kicker" data-text-node="hero-kicker" data-scrolljs style={revealStyle({}, 150)}>
               {copy.heroKicker}
             </p>
-            <p className="abs hero-copy" data-text-node="hero-copy">
+            <p className="abs hero-copy" data-text-node="hero-copy" data-scrolljs style={revealStyle({}, 220)}>
               {copy.heroCopy}
             </p>
-            <div className="abs cta hero-cta">
+            <div className="abs cta hero-cta" data-scrolljs style={revealStyle({}, 300)}>
               <span className="cta-type" data-text-node="hero-cta">
                 {copy.cta}
               </span>
@@ -662,37 +717,48 @@ function App() {
             </div>
 
             <div className="abs triad" aria-label="Dance music America">
-              <span className="triad-word triad-dance" data-text-node="triad-dance">
+              <span className="triad-word triad-dance" data-text-node="triad-dance" data-scrolljs style={revealStyle({}, 0)}>
                 {copy.triad[0]}
               </span>
               <span className="triad-dot triad-dot-one" aria-hidden="true" />
-              <span className="triad-word triad-music" data-text-node="triad-music">
+              <span className="triad-word triad-music" data-text-node="triad-music" data-scrolljs style={revealStyle({}, 60)}>
                 {copy.triad[1]}
               </span>
               <span className="triad-dot triad-dot-two" aria-hidden="true" />
-              <span className="triad-word triad-america" data-text-node="triad-america">
+              <span
+                className="triad-word triad-america"
+                data-text-node="triad-america"
+                data-scrolljs
+                style={revealStyle({}, 120)}
+              >
                 {copy.triad[2]}
               </span>
             </div>
           </section>
 
           <section className="festival" aria-labelledby="festival-title">
-            <img className="abs dotted dotted-top" src="/assets/line-blue.svg" alt="" />
-            <h2 id="festival-title" className="abs festival-title" data-text-node="festival-title">
+            <img className="abs dotted dotted-top" src="/assets/line-blue.svg" alt="" data-scrolljs style={revealStyle({}, 0)} />
+            <h2
+              id="festival-title"
+              className="abs festival-title"
+              data-text-node="festival-title"
+              data-scrolljs
+              style={revealStyle({}, 80)}
+            >
               {copy.festivalTitle}
             </h2>
-            <p className="abs festival-copy" data-text-node="festival-copy">
+            <p className="abs festival-copy" data-text-node="festival-copy" data-scrolljs style={revealStyle({}, 140)}>
               {copy.festivalCopy}
             </p>
-            <div className="abs stat stat-one">
+            <div className="abs stat stat-one" data-scrolljs style={revealStyle({}, 80)}>
               <strong data-text-node="stat-value">3</strong>
               <span data-text-node="stat-label">{copy.days}</span>
             </div>
-            <div className="abs stat stat-two">
+            <div className="abs stat stat-two" data-scrolljs style={revealStyle({}, 150)}>
               <strong data-text-node="stat-value">5+</strong>
               <span data-text-node="stat-label">{copy.internationalArtists}</span>
             </div>
-            <div className="abs stat stat-three">
+            <div className="abs stat stat-three" data-scrolljs style={revealStyle({}, 220)}>
               <strong data-text-node="stat-value">1000</strong>
               <span data-text-node="stat-label">{copy.expectedDancers}</span>
             </div>
@@ -711,33 +777,50 @@ function App() {
 
           <section className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
-            <p className="abs location-kicker" data-text-node="location-kicker">
+            <p className="abs location-kicker" data-text-node="location-kicker" data-scrolljs style={revealStyle({}, 0)}>
               {copy.locationKicker}
             </p>
-            <p className="abs western rio text-yeehaw" data-text-node="location-yeehaw">
+            <p className="abs western rio text-yeehaw" data-text-node="location-yeehaw" data-scrolljs style={revealStyle({}, 80)}>
               Yeehaw!
             </p>
-            <p className="abs western rustler text-en-barcelona" data-text-node="location-en-barcelona">
+            <p
+              className="abs western rustler text-en-barcelona"
+              data-text-node="location-en-barcelona"
+              data-scrolljs
+              style={revealStyle({}, 150)}
+            >
               {copy.inBarcelona}
             </p>
-            <div className="abs map-placeholder" aria-label={copy.mapTitle}>
+            <div className="abs map-placeholder" aria-label={copy.mapTitle} data-scrolljs style={revealStyle({}, 220)}>
               <InteractiveMap language={language} title={copy.mapTitle} />
             </div>
-            <div className="abs date-banner">
+            <div className="abs date-banner" data-scrolljs style={revealStyle({}, 120)}>
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
             </div>
-            <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" />
-            <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" />
-            <p className="abs western rustler text-date" data-text-node="location-date">
+            <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" data-scrolljs style={revealStyle({}, 180)} />
+            <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" data-scrolljs style={revealStyle({}, 180)} />
+            <p className="abs western rustler text-date" data-text-node="location-date" data-scrolljs style={revealStyle({}, 240)}>
               {copy.date}
             </p>
           </section>
 
           <section className="contact" aria-labelledby="contact-title">
-            <h2 id="contact-title" className="abs western rustler text-mantente" data-text-node="contact-title">
+            <h2
+              id="contact-title"
+              className="abs western rustler text-mantente"
+              data-text-node="contact-title"
+              data-scrolljs
+              style={revealStyle({}, 0)}
+            >
               {copy.contactTitle}
             </h2>
-            <form className="abs contact-form" aria-label="Formulario de información" onSubmit={handleSubmit}>
+            <form
+              className="abs contact-form"
+              aria-label="Formulario de información"
+              onSubmit={handleSubmit}
+              data-scrolljs
+              style={revealStyle({}, 100)}
+            >
               <label className="abs label label-name" htmlFor="name" data-text-node="form-label">
                 {copy.formName}
               </label>
@@ -766,7 +849,7 @@ function App() {
             </form>
           </section>
 
-          <footer className="abs footer">
+          <footer className="abs footer" data-scrolljs style={revealStyle({}, 0)}>
             <img className="abs footer-line" src="/assets/line-full.svg" alt="" />
             <p className="abs western rio footer-barcelona" data-text-node="footer-barcelona">
               BARCELONA
