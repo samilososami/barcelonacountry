@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from "react";
+import { StrictMode, useEffect, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
@@ -9,7 +9,7 @@ type Artist = {
   image: string;
   x: number;
   y: number;
-  imageFit?: "cover" | "bottom" | "montse" | "jonathan";
+  imageFit?: "cover" | "stretch" | "montse" | "jonathan";
 };
 
 const artists: Artist[] = [
@@ -30,7 +30,7 @@ const artists: Artist[] = [
     image: "/assets/artist-algaly.png",
     x: 456.23,
     y: 2022.84,
-    imageFit: "bottom"
+    imageFit: "stretch"
   },
   {
     name: "David Villellas",
@@ -76,18 +76,6 @@ function useFigmaScale() {
   }, []);
 }
 
-function DecorativeType({
-  className,
-  src,
-  alt = ""
-}: {
-  className: string;
-  src: string;
-  alt?: string;
-}) {
-  return <img className={`abs type ${className}`} src={src} alt={alt} aria-hidden={alt ? undefined : true} />;
-}
-
 function ArtistCard({ artist }: { artist: Artist }) {
   const imageX = artist.x + 5.13;
   const imageY = artist.y + 6.5;
@@ -117,6 +105,10 @@ function ArtistCard({ artist }: { artist: Artist }) {
 function App() {
   useFigmaScale();
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="page">
       <div className="stage" aria-label="Barcelona Country Festival">
@@ -139,8 +131,10 @@ function App() {
               <div className="hero-scrim" />
             </div>
 
-            <DecorativeType className="hero-barcelona" src="/assets/type-barcelona.png" />
-            <DecorativeType className="hero-country" src="/assets/type-country.png" />
+            <p id="hero-title" className="abs western rio hero-barcelona">
+              BARCELONA
+            </p>
+            <p className="abs western rio hero-country">country</p>
 
             <p className="abs hero-kicker">BARCELONA · SPAIN</p>
             <p className="abs hero-copy">
@@ -148,7 +142,7 @@ function App() {
               directe i esperit americà al cor de la Ciutat Comtal.
             </p>
             <div className="abs cta hero-cta" aria-hidden="true">
-              <img className="cta-type" src="/assets/type-cta.png" alt="" />
+              <span className="cta-type">Mantenme informado</span>
               <img className="cta-star" src="/assets/star-button.png" alt="" />
             </div>
 
@@ -204,47 +198,50 @@ function App() {
           <section className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
             <p className="abs location-kicker">UBICACIÓN</p>
-            <DecorativeType className="type-yeehaw" src="/assets/type-yeehaw.png" alt="Yeehaw!" />
-            <DecorativeType className="type-en-barcelona" src="/assets/type-en-barcelona.png" alt="¡en Barcelona!" />
+            <p className="abs western rio type-yeehaw">Yeehaw!</p>
+            <p className="abs western rustler type-en-barcelona">¡en BARCELONA!</p>
             <div className="abs map-placeholder" aria-label="Mapa de ubicación en Barcelona" />
             <div className="abs date-banner">
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
             </div>
             <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" />
             <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" />
-            <DecorativeType className="type-date" src="/assets/type-date.png" alt="Barcelona - 27 nov" />
+            <p className="abs western rustler type-date">BARCELONA - 27 nov</p>
           </section>
 
           <section className="contact" aria-labelledby="contact-title">
-            <DecorativeType className="type-mantente" src="/assets/type-mantente.png" alt="Mantente informado" />
-            <form className="abs contact-form" aria-label="Formulario de información">
+            <h2 id="contact-title" className="abs western rustler type-mantente">
+              MANTENTE INFORMADO
+            </h2>
+            <form className="abs contact-form" aria-label="Formulario de información" onSubmit={handleSubmit}>
               <label className="abs label label-name" htmlFor="name">
                 Nombre
               </label>
-              <div className="abs input input-name" id="name" />
+              <input className="abs input input-name" id="name" name="name" type="text" autoComplete="name" />
 
               <label className="abs label label-phone" htmlFor="phone">
                 Número de teléf.
               </label>
-              <div className="abs input input-phone" id="phone">
+              <div className="abs phone-wrap">
                 <span className="phone-prefix">+34</span>
+                <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" />
               </div>
 
               <label className="abs label label-email" htmlFor="email">
                 Correo electrónico
               </label>
-              <div className="abs input input-email" id="email" />
+              <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" />
+              <button className="abs cta bottom-cta" type="submit">
+                <span className="cta-type">Mantenme informado</span>
+                <img className="cta-star" src="/assets/star-button.png" alt="" />
+              </button>
             </form>
-            <div className="abs cta bottom-cta" aria-hidden="true">
-              <img className="cta-type" src="/assets/type-cta-bottom.png" alt="" />
-              <img className="cta-star" src="/assets/star-button.png" alt="" />
-            </div>
           </section>
 
           <footer className="abs footer">
             <img className="abs footer-line" src="/assets/line-full.svg" alt="" />
-            <DecorativeType className="footer-barcelona" src="/assets/type-footer-barcelona.png" alt="Barcelona" />
-            <DecorativeType className="footer-country" src="/assets/type-footer-country.png" alt="country" />
+            <p className="abs western rio footer-barcelona">BARCELONA</p>
+            <p className="abs western rio footer-country">country</p>
             <p className="abs footer-copy">© 2026 Barcelona Country Festival · All rights reserved · Yeehaw!</p>
           </footer>
         </main>

@@ -14,6 +14,22 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Rio Grande";
+  src: url("/fonts/rio-grande.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rustler";
+  src: url("/fonts/rustler.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   --figma-scale: 1;
   --blue: #1e54b9;
@@ -52,14 +68,14 @@ h3 {
 }
 
 .page {
-  min-height: calc(5936px * var(--figma-scale));
+  min-height: calc(5645px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
 
 .stage {
   width: min(100vw, 1280px);
-  height: calc(5936px * var(--figma-scale));
+  height: calc(5645px * var(--figma-scale));
   margin: 0 auto;
   overflow: hidden;
 }
@@ -67,7 +83,7 @@ h3 {
 .frame {
   position: relative;
   width: 1280px;
-  height: 5936px;
+  height: 5645px;
   background: var(--blue);
   transform: scale(var(--figma-scale));
   transform-origin: top left;
@@ -89,9 +105,25 @@ h3 {
   border: 0;
 }
 
-.type {
+.western {
   pointer-events: none;
   user-select: none;
+  font-weight: 400;
+  text-align: center;
+  text-wrap: nowrap;
+  word-break: normal;
+}
+
+.rio {
+  font-family: "Rio Grande", "Rye", serif;
+  font-weight: 700;
+  line-height: 0.97;
+}
+
+.rustler {
+  font-family: "Rustler", "Rye", serif;
+  font-weight: 400;
+  line-height: 0.97;
 }
 
 .top-line {
@@ -173,17 +205,25 @@ h3 {
 }
 
 .hero-barcelona {
-  left: 282.07px;
-  top: 218.83px;
-  width: 716px;
-  height: 233px;
+  left: 260.08px;
+  top: 286.41px;
+  width: 759.85px;
+  height: 97.85px;
+  color: var(--red);
+  font-size: 96px;
+  letter-spacing: 3.84px;
+  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
 }
 
 .hero-country {
-  left: 330.98px;
-  top: 308.76px;
-  width: 597px;
-  height: 244px;
+  left: 352.41px;
+  top: 384.26px;
+  width: 554.13px;
+  height: 93px;
+  color: #ffffff;
+  font-size: 96px;
+  letter-spacing: 3.84px;
+  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
 }
 
 .hero-kicker {
@@ -216,6 +256,8 @@ h3 {
   background: #db0909;
   border: 2px solid #ffffff;
   border-radius: 2px;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-cta {
@@ -225,10 +267,17 @@ h3 {
 
 .cta-type {
   position: absolute;
-  left: 40.2px;
-  top: 25.08px;
-  width: 222px;
-  height: 19px;
+  left: 0;
+  top: 23.59px;
+  width: 302.4px;
+  height: 22px;
+  color: #ffffff;
+  font-family: "Rustler", "Rye", serif;
+  font-size: 24px;
+  line-height: 1.41;
+  letter-spacing: 1.44px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .cta-star {
@@ -413,8 +462,8 @@ h3 {
   object-fit: cover;
 }
 
-.artist-image.bottom {
-  object-position: bottom;
+.artist-image.stretch {
+  object-fit: fill;
 }
 
 .artist-image.montse {
@@ -481,17 +530,24 @@ h3 {
 }
 
 .type-yeehaw {
-  left: 353.48px;
-  top: 3780.97px;
-  width: 583px;
-  height: 231px;
+  left: 265.55px;
+  top: 3840.97px;
+  width: 759.85px;
+  height: 97.85px;
+  color: var(--red);
+  font-size: 96px;
+  letter-spacing: 3.84px;
+  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
 }
 
 .type-en-barcelona {
-  left: 310.89px;
-  top: 3959.25px;
-  width: 566px;
-  height: 77px;
+  left: 191.21px;
+  top: 3948.83px;
+  width: 805.37px;
+  height: 97.85px;
+  color: #0048ff;
+  font-size: 96px;
+  letter-spacing: 3.84px;
 }
 
 .map-placeholder {
@@ -535,25 +591,32 @@ h3 {
 }
 
 .type-date {
-  left: 438.52px;
-  top: 4580.15px;
-  width: 402px;
-  height: 150px;
+  left: 477.15px;
+  top: 4627.15px;
+  width: 324.74px;
+  color: #ffffff;
+  font-size: 34.62px;
+  letter-spacing: 2.08px;
+  text-shadow:
+    0 15.55px 61.75px rgba(255, 255, 255, 0.3),
+    0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .type-mantente {
-  left: 172.5px;
-  top: 4813.31px;
-  width: 935px;
-  height: 76px;
+  left: 83.7px;
+  top: 4765px;
+  width: 1112.61px;
+  height: 95px;
+  color: #ffffff;
+  font-size: 96px;
+  letter-spacing: 9.6px;
 }
 
 .contact-form {
   left: 0;
   top: 0;
   width: 1280px;
-  height: 5450px;
-  pointer-events: none;
+  height: 5320px;
 }
 
 .label {
@@ -565,41 +628,60 @@ h3 {
 
 .label-name {
   left: 176.44px;
-  top: 5018.63px;
+  top: 4910px;
 }
 
 .label-phone {
   left: 660.28px;
-  top: 5018.63px;
+  top: 4910px;
 }
 
 .label-email {
   left: 170.21px;
-  top: 5183.32px;
+  top: 5034px;
 }
 
 .input {
-  height: 73.38px;
+  height: 60px;
   background: var(--field);
   border: 2px solid rgba(255, 255, 255, 0.38);
-  border-radius: 13px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 22px;
+  letter-spacing: 0.4px;
+  outline: none;
+  padding: 0 20px;
+}
+
+.input:focus {
+  border-color: rgba(255, 255, 255, 0.72);
 }
 
 .input-name {
   left: 176.79px;
-  top: 5050.19px;
+  top: 4942px;
   width: 363.5px;
 }
 
-.input-phone {
+.phone-wrap {
   left: 660.43px;
-  top: 5050.19px;
+  top: 4942px;
   width: 427.47px;
+  height: 60px;
+}
+
+.input-phone {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 427.47px;
+  padding-left: 98px;
 }
 
 .input-email {
   left: 170.55px;
-  top: 5226.11px;
+  top: 5066px;
   width: 917.36px;
 }
 
@@ -608,24 +690,27 @@ h3 {
   left: -2px;
   top: -2px;
   width: 79.11px;
-  height: 74.68px;
-  border-radius: 7.16px 0 0 7.16px;
+  height: 61.3px;
+  border-radius: 8px 0 0 8px;
   background: #ffffff;
   color: var(--blue);
   font-size: 25.04px;
-  line-height: 74.68px;
+  line-height: 61.3px;
   letter-spacing: 0;
   text-align: center;
+  z-index: 2;
 }
 
 .bottom-cta {
   left: 445.75px;
-  top: 5372.92px;
+  top: 5168px;
+  appearance: none;
+  cursor: pointer;
 }
 
 .bottom-cta .cta-type {
-  left: 51.2px;
-  top: 24.58px;
+  left: 0;
+  top: 23.59px;
 }
 
 .bottom-cta .cta-star {
@@ -635,7 +720,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 5611.41px;
+  top: 5320px;
   width: 1280px;
   height: 324.59px;
   background: var(--footer-blue);
@@ -653,6 +738,9 @@ h3 {
   top: 113.76px;
   width: 366px;
   height: 50px;
+  color: var(--red);
+  font-size: 62.76px;
+  letter-spacing: 2.51px;
 }
 
 .footer-country {
@@ -660,6 +748,9 @@ h3 {
   top: 113.76px;
   width: 287px;
   height: 56px;
+  color: #ffffff;
+  font-size: 62.76px;
+  letter-spacing: 2.51px;
 }
 
 .footer-copy {
