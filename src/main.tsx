@@ -445,7 +445,6 @@ const createArtists = (copy: Copy): Artist[] =>
     ...copy.artists[index]
   }));
 
-const VIEWPORT_FIT_SCALE = 0.985;
 const MAP_CENTER: [number, number] = [2.1686, 41.3874];
 
 const createMapsSrc = (language: LanguageKey) =>
@@ -454,7 +453,7 @@ const createMapsSrc = (language: LanguageKey) =>
 function useFigmaScale() {
   useEffect(() => {
     const update = () => {
-      const scale = (window.innerWidth / 1280) * VIEWPORT_FIT_SCALE;
+      const scale = Math.min(1, window.innerWidth / 1280);
       document.documentElement.style.setProperty("--figma-scale", String(scale));
     };
 
@@ -661,11 +660,17 @@ function App() {
             </div>
 
             <div className="abs triad" aria-label="Dance music America">
-              <span data-text-node="triad-dance">{copy.triad[0]}</span>
-              <img src="/assets/dot.png" alt="" />
-              <span data-text-node="triad-music">{copy.triad[1]}</span>
-              <img src="/assets/dot.png" alt="" />
-              <span data-text-node="triad-america">{copy.triad[2]}</span>
+              <span className="triad-word triad-dance" data-text-node="triad-dance">
+                {copy.triad[0]}
+              </span>
+              <span className="triad-dot triad-dot-one" aria-hidden="true" />
+              <span className="triad-word triad-music" data-text-node="triad-music">
+                {copy.triad[1]}
+              </span>
+              <span className="triad-dot triad-dot-two" aria-hidden="true" />
+              <span className="triad-word triad-america" data-text-node="triad-america">
+                {copy.triad[2]}
+              </span>
             </div>
           </section>
 

@@ -183,17 +183,17 @@ h3 {
 }
 
 .nav-star {
-  top: 64.2px;
-  width: 30.18px;
-  height: 29px;
+  top: 61.9px;
+  width: 35px;
+  height: 33.6px;
 }
 
 .nav-star-left {
-  left: 91.35px;
+  left: 89px;
 }
 
 .nav-star-right {
-  left: 1138.17px;
+  left: 1135.8px;
 }
 
 .language-picker {
@@ -213,6 +213,8 @@ h3 {
   background: var(--blue);
   color: #ffffff;
   cursor: pointer;
+  line-height: 0;
+  padding: 0;
 }
 
 .language-trigger:focus-visible {
@@ -221,13 +223,18 @@ h3 {
 }
 
 .globe-icon {
-  width: 27px;
-  height: 27px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  display: block;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2.45px;
+  stroke-width: 2.35px;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transform: translate(-50%, -50%);
 }
 
 .language-menu {
@@ -274,9 +281,10 @@ h3 {
 }
 
 .hero-image img {
-  width: 100%;
-  height: 100%;
+  width: 108%;
+  height: 108%;
   object-fit: cover;
+  transform: translate(-4%, -3%);
 }
 
 .hero-scrim {
@@ -294,7 +302,24 @@ h3 {
   color: var(--red);
   font-size: 96px;
   letter-spacing: 3.84px;
-  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
+  text-shadow:
+    -2px -2px 0 #ffffff,
+    0 -2px 0 #ffffff,
+    2px -2px 0 #ffffff,
+    -2px 0 0 #ffffff,
+    2px 0 0 #ffffff,
+    -2px 2px 0 #ffffff,
+    0 2px 0 #ffffff,
+    2px 2px 0 #ffffff,
+    -4px -4px 0 #1a1a1a,
+    0 -4px 0 #1a1a1a,
+    4px -4px 0 #1a1a1a,
+    -4px 0 0 #1a1a1a,
+    4px 0 0 #1a1a1a,
+    -4px 4px 0 #1a1a1a,
+    0 4px 0 #1a1a1a,
+    4px 4px 0 #1a1a1a,
+    0 20px 79.4px rgba(255, 255, 255, 0.3);
   z-index: 2;
 }
 
@@ -306,7 +331,16 @@ h3 {
   color: #ffffff;
   font-size: 96px;
   letter-spacing: 3.84px;
-  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
+  text-shadow:
+    -3px -3px 0 #151515,
+    0 -3px 0 #151515,
+    3px -3px 0 #151515,
+    -3px 0 0 #151515,
+    3px 0 0 #151515,
+    -3px 3px 0 #151515,
+    0 3px 0 #151515,
+    3px 3px 0 #151515,
+    0 20px 79.4px rgba(255, 255, 255, 0.3);
   z-index: 2;
 }
 
@@ -369,10 +403,10 @@ h3 {
 
 .cta-star {
   position: absolute;
-  left: 274.94px;
-  top: 17.67px;
-  width: 40.17px;
-  height: 40.17px;
+  left: 271px;
+  top: 14px;
+  width: 47px;
+  height: 47px;
 }
 
 .triad {
@@ -390,39 +424,41 @@ h3 {
   text-align: center;
 }
 
-.triad span {
+.triad-word {
   position: absolute;
   top: 38.04px;
   height: 50px;
 }
 
-.triad span:nth-child(1) {
+.triad-dance {
   left: 232.96px;
   width: 207.53px;
 }
 
-.triad span:nth-child(3) {
+.triad-music {
   left: 518.99px;
   width: 207.53px;
 }
 
-.triad span:nth-child(5) {
+.triad-america {
   left: 837.29px;
   width: 233.44px;
 }
 
-.triad img {
+.triad-dot {
   position: absolute;
-  top: 49.06px;
-  width: 18.64px;
-  height: 18.64px;
+  top: 48.6px;
+  width: 21px;
+  height: 21px;
+  border-radius: 999px;
+  background: var(--navy);
 }
 
-.triad img:nth-child(2) {
+.triad-dot-one {
   left: 475.86px;
 }
 
-.triad img:nth-child(4) {
+.triad-dot-two {
   left: 751.02px;
 }
 
@@ -460,6 +496,10 @@ h3 {
   line-height: 0.97;
   letter-spacing: 2.8px;
   text-align: center;
+  text-shadow: none;
+  -webkit-text-stroke: 0 transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 .festival-copy {
@@ -548,10 +588,13 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.06);
+  transform-origin: center;
 }
 
 .artist-image.stretch {
   object-fit: fill;
+  transform: scale(1.04);
 }
 
 .artist-image.montse {
@@ -711,18 +754,18 @@ h3 {
 }
 
 .date-star {
-  width: 40.17px;
-  height: 40.17px;
+  width: 47px;
+  height: 47px;
 }
 
 .date-star-left {
-  left: 362.57px;
-  top: 4614.91px;
+  left: 359.2px;
+  top: 4611.5px;
 }
 
 .date-star-right {
-  left: 884.36px;
-  top: 4614.91px;
+  left: 880.9px;
+  top: 4611.5px;
 }
 
 .text-date {
