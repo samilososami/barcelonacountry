@@ -1,7 +1,5 @@
 import { StrictMode, useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { createRoot } from "react-dom/client";
-import maplibregl, { type Map as MapLibreMap } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
 import "./styles.css";
 
 type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
@@ -39,6 +37,12 @@ type Copy = {
   formPhone: string;
   formEmail: string;
   footer: string;
+};
+
+type PhoneCountry = {
+  name: string;
+  dial: string;
+  iso: string;
 };
 
 type RevealStyle = CSSProperties & {
@@ -175,7 +179,7 @@ const copies: Record<LanguageKey, Copy> = {
     heroKicker: "BARCELONA · ESPANYA",
     heroCopy:
       "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà al cor de la ciutat.",
-    cta: "Mantén-te informat",
+    cta: "Manten-te informat",
     triad: ["BALL", "MÚSICA", "AMÈRICA"],
     festivalTitle: "El Festival",
     festivalCopy:
@@ -220,7 +224,7 @@ const copies: Record<LanguageKey, Copy> = {
     inBarcelona: "A BARCELONA!",
     mapTitle: "Mapa del centre de Barcelona",
     date: "BARCELONA - 27 NOV",
-    contactTitle: "MANTÉN-TE INFORMAT",
+    contactTitle: "MANTEN-TE INFORMAT",
     formName: "Nom",
     formPhone: "Número de telèf.",
     formEmail: "Correu electrònic",
@@ -449,10 +453,30 @@ const createArtists = (copy: Copy): Artist[] =>
     ...copy.artists[index]
   }));
 
-const MAP_CENTER: [number, number] = [2.1686, 41.3874];
-
 const createMapsSrc = (language: LanguageKey) =>
   `https://www.google.com/maps?q=41.3874,2.1686&z=13&hl=${language}&output=embed`;
+
+const phoneCountries: PhoneCountry[] = [
+  { name: "España", dial: "+34", iso: "ES" },
+  { name: "Alemania", dial: "+49", iso: "DE" },
+  { name: "Andorra", dial: "+376", iso: "AD" },
+  { name: "Argentina", dial: "+54", iso: "AR" },
+  { name: "Bélgica", dial: "+32", iso: "BE" },
+  { name: "Brasil", dial: "+55", iso: "BR" },
+  { name: "Canadá", dial: "+1", iso: "CA" },
+  { name: "Chile", dial: "+56", iso: "CL" },
+  { name: "Colombia", dial: "+57", iso: "CO" },
+  { name: "Estados Unidos", dial: "+1", iso: "US" },
+  { name: "Francia", dial: "+33", iso: "FR" },
+  { name: "Irlanda", dial: "+353", iso: "IE" },
+  { name: "Italia", dial: "+39", iso: "IT" },
+  { name: "México", dial: "+52", iso: "MX" },
+  { name: "Países Bajos", dial: "+31", iso: "NL" },
+  { name: "Portugal", dial: "+351", iso: "PT" },
+  { name: "Reino Unido", dial: "+44", iso: "GB" },
+  { name: "Suiza", dial: "+41", iso: "CH" },
+  { name: "Uruguay", dial: "+598", iso: "UY" }
+];
 
 function useFigmaScale() {
   useEffect(() => {
@@ -509,73 +533,90 @@ const revealStyle = (style: CSSProperties = {}, delay = 0): RevealStyle => ({
   "--scrolljs-delay": `${delay}ms`
 });
 
-function InteractiveMap({ language, title }: { language: LanguageKey; title: string }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<MapLibreMap | null>(null);
-  const [mapFailed, setMapFailed] = useState(false);
+function GoogleMap({ language, title }: { language: LanguageKey; title: string }) {
+  return (
+    <iframe
+      className="google-map-embed"
+      src={createMapsSrc(language)}
+      title={title}
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      allowFullScreen
+    />
+  );
+}
+
+function PhonePrefixSelect() {
+  const [selectedCountry, setSelectedCountry] = useState(phoneCountries[0]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [filter, setFilter] = useState("");
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const normalizedFilter = filter.trim().toLowerCase();
+  const filteredCountries = phoneCountries.filter((country) => {
+    const haystack = `${country.name} ${country.dial} ${country.iso}`.toLowerCase();
+    return haystack.includes(normalizedFilter);
+  });
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
+    if (!isOpen) {
       return;
     }
 
-    container.innerHTML = "";
-    setMapFailed(false);
-    let map: MapLibreMap;
-
-    try {
-      map = new maplibregl.Map({
-        container,
-        style: "/Map/map.json",
-        center: MAP_CENTER,
-        zoom: 12.6,
-        attributionControl: false
-      });
-    } catch {
-      container.innerHTML = "";
-      setMapFailed(true);
-      return;
-    }
-
-    mapRef.current = map;
-    new maplibregl.Marker({ color: "#ff0000" }).setLngLat(MAP_CENTER).addTo(map);
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-
-    const resize = () => map.resize();
-    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(resize);
-    resizeObserver?.observe(container);
-    window.addEventListener("resize", resize);
-    map.on("load", resize);
-    map.on("style.load", resize);
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener("resize", resize);
-      map.remove();
-      container.innerHTML = "";
-      mapRef.current = null;
+    const handleClick = (event: MouseEvent) => {
+      if (!wrapRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     };
-  }, []);
+
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, [isOpen]);
+
+  const selectCountry = (country: PhoneCountry) => {
+    setSelectedCountry(country);
+    setFilter("");
+    setIsOpen(false);
+  };
 
   return (
-    <>
-      {mapFailed && (
-        <iframe
-          className="map-fallback-embed"
-          src={createMapsSrc(language)}
-          title={title}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+    <div className="abs phone-wrap" ref={wrapRef}>
+      <button
+        className="phone-prefix"
+        type="button"
+        aria-label="Seleccionar prefijo telefónico"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        {selectedCountry.dial}
+      </button>
+      <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
+      <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" />
+      {isOpen && (
+        <div className="prefix-menu">
+          <input
+            className="prefix-search"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+            placeholder="País o prefijo"
+            autoFocus
+          />
+          <div className="prefix-options">
+            {filteredCountries.map((country) => (
+              <button
+                className="prefix-option"
+                type="button"
+                key={`${country.iso}-${country.dial}`}
+                onClick={() => selectCountry(country)}
+              >
+                <span>{country.dial}</span>
+                <strong>{country.name}</strong>
+              </button>
+            ))}
+            {!filteredCountries.length && <p className="prefix-empty">Sin resultados</p>}
+          </div>
+        </div>
       )}
-      <div
-        className={`map-canvas${mapFailed ? " is-hidden" : ""}`}
-        ref={containerRef}
-        role="application"
-        aria-label={title}
-      />
-    </>
+    </div>
   );
 }
 
@@ -792,7 +833,7 @@ function App() {
               {copy.inBarcelona}
             </p>
             <div className="abs map-placeholder" aria-label={copy.mapTitle} data-scrolljs style={revealStyle({}, 220)}>
-              <InteractiveMap language={language} title={copy.mapTitle} />
+              <GoogleMap language={language} title={copy.mapTitle} />
             </div>
             <div className="abs date-banner" data-scrolljs style={revealStyle({}, 120)}>
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
@@ -829,12 +870,7 @@ function App() {
               <label className="abs label label-phone" htmlFor="phone" data-text-node="form-label">
                 {copy.formPhone}
               </label>
-              <div className="abs phone-wrap">
-                <span className="phone-prefix" data-text-node="phone-prefix">
-                  +34
-                </span>
-                <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" />
-              </div>
+              <PhonePrefixSelect />
 
               <label className="abs label label-email" htmlFor="email" data-text-node="form-label">
                 {copy.formEmail}
