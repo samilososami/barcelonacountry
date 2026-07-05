@@ -454,7 +454,9 @@ function useFigmaScale() {
   useEffect(() => {
     const update = () => {
       const scale = Math.min(1, window.innerWidth / 1280);
+      const edgeBleed = scale === 1 ? Math.max(0, (window.innerWidth - 1280) / 2) : 0;
       document.documentElement.style.setProperty("--figma-scale", String(scale));
+      document.documentElement.style.setProperty("--edge-bleed", `${edgeBleed}px`);
     };
 
     update();

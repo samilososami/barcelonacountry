@@ -32,6 +32,7 @@
 
 :root {
   --figma-scale: 1;
+  --edge-bleed: 0px;
   --blue: #1e54b9;
   --navy: #172360;
   --field: #294278;
@@ -140,8 +141,8 @@ h3 {
 
 .top-line {
   position: absolute;
-  left: 0;
-  width: 1280px;
+  left: calc(-1 * var(--edge-bleed));
+  width: calc(1280px + (2 * var(--edge-bleed)));
   background: #ffffff;
 }
 
@@ -271,9 +272,9 @@ h3 {
 }
 
 .hero-image {
-  left: 0;
+  left: calc(-1 * var(--edge-bleed));
   top: 151.25px;
-  width: 1280px;
+  width: calc(1280px + (2 * var(--edge-bleed)));
   height: 725.61px;
   overflow: hidden;
   pointer-events: none;
@@ -414,8 +415,6 @@ h3 {
   top: 876.86px;
   width: 1290.52px;
   height: 136.77px;
-  background: #ffffff;
-  border: 10px solid var(--navy);
   color: var(--red);
   font-family: "Rye", serif;
   font-size: 40px;
@@ -424,10 +423,23 @@ h3 {
   text-align: center;
 }
 
+.triad::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--edge-bleed));
+  top: 0;
+  width: calc(1290.52px + (2 * var(--edge-bleed)));
+  height: 136.77px;
+  background: #ffffff;
+  border: 10px solid var(--navy);
+  z-index: 0;
+}
+
 .triad-word {
   position: absolute;
   top: 38.04px;
   height: 50px;
+  z-index: 1;
 }
 
 .triad-dance {
@@ -452,6 +464,7 @@ h3 {
   height: 21px;
   border-radius: 999px;
   background: var(--navy);
+  z-index: 1;
 }
 
 .triad-dot-one {
@@ -468,14 +481,25 @@ h3 {
   top: 1023.09px;
   width: 1280px;
   height: 909.8px;
-  background: #ffffff;
   color: var(--blue);
+}
+
+.festival::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--edge-bleed));
+  top: 0;
+  width: calc(1280px + (2 * var(--edge-bleed)));
+  height: 909.8px;
+  background: #ffffff;
+  z-index: 0;
 }
 
 .dotted {
   left: 50.89px;
   width: 1208.94px;
   height: 8px;
+  z-index: 1;
 }
 
 .dotted-top {
@@ -500,6 +524,7 @@ h3 {
   -webkit-text-stroke: 0 transparent;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
+  z-index: 1;
 }
 
 .festival-copy {
@@ -511,6 +536,7 @@ h3 {
   line-height: 1.71;
   letter-spacing: 1.14px;
   text-align: center;
+  z-index: 1;
 }
 
 .stat {
@@ -521,6 +547,7 @@ h3 {
   border: 1px solid var(--blue);
   box-shadow: 0 11px 0 var(--red);
   text-align: center;
+  z-index: 1;
 }
 
 .stat-one {
@@ -563,11 +590,12 @@ h3 {
 }
 
 .red-band {
-  left: 0;
+  left: calc(-1 * var(--edge-bleed));
   top: 889.03px;
-  width: 1280px;
+  width: calc(1280px + (2 * var(--edge-bleed)));
   height: 20.77px;
   background: var(--red);
+  z-index: 1;
 }
 
 .artist-card {
@@ -641,9 +669,9 @@ h3 {
 }
 
 .location-panel {
-  left: -23.82px;
+  left: calc(-23.82px - var(--edge-bleed));
   top: 3701.59px;
-  width: 1327.63px;
+  width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: #ffffff;
   border: 7px solid var(--red);
@@ -901,14 +929,26 @@ h3 {
   top: 5320px;
   width: 1280px;
   height: 324.59px;
+  background: transparent;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--edge-bleed));
+  top: 0;
+  width: calc(1280px + (2 * var(--edge-bleed)));
+  height: 324.59px;
   background: var(--footer-blue);
+  z-index: 0;
 }
 
 .footer-line {
-  left: 0;
+  left: calc(-1 * var(--edge-bleed));
   top: 0;
-  width: 1280px;
+  width: calc(1280px + (2 * var(--edge-bleed)));
   height: 5px;
+  z-index: 1;
 }
 
 .footer-barcelona {
@@ -919,6 +959,7 @@ h3 {
   color: var(--red);
   font-size: 62.76px;
   letter-spacing: 2.51px;
+  z-index: 1;
 }
 
 .footer-country {
@@ -929,6 +970,7 @@ h3 {
   color: #ffffff;
   font-size: 62.76px;
   letter-spacing: 2.51px;
+  z-index: 1;
 }
 
 .footer-copy {
@@ -940,4 +982,5 @@ h3 {
   line-height: 0.97;
   letter-spacing: 0.4px;
   text-align: center;
+  z-index: 1;
 }
