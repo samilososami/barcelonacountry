@@ -416,33 +416,42 @@ const copies: Record<LanguageKey, Copy> = {
 const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
-    x: 54.69,
-    y: 1929.84
+    x: 42,
+    y: 1940
   },
   {
     image: "/assets/artist-algaly.png",
-    x: 456.23,
-    y: 1929.84,
+    x: 286,
+    y: 1940,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
-    x: 857.77,
-    y: 1929.84
+    x: 530,
+    y: 1940
   },
   {
     image: "/assets/artist-montse.png",
-    x: 59.82,
-    y: 2740.5,
+    x: 774,
+    y: 1940,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
-    x: 461.36,
-    y: 2740.5,
+    x: 1018,
+    y: 1940,
     imageFit: "jonathan"
   }
 ];
+
+const artistCardMetrics = {
+  width: 220,
+  photoInset: 5,
+  nameTop: 247,
+  roleTop: 294,
+  bodyTop: 346,
+  bodyWidth: 178
+};
 
 const getInitialLanguage = (): LanguageKey => {
   try {
@@ -669,24 +678,32 @@ function PhonePrefixSelect() {
 }
 
 function ArtistCard({ artist }: { artist: Artist }) {
-  const imageX = artist.x + 5.13;
-  const imageY = artist.y + 6.5;
-  const centerX = artist.x + 183.77;
+  const imageX = artist.x + artistCardMetrics.photoInset;
+  const imageY = artist.y + artistCardMetrics.photoInset;
+  const bodyLeft = (artistCardMetrics.width - artistCardMetrics.bodyWidth) / 2;
 
   return (
     <article className="artist-card abs" style={revealStyle({ left: artist.x, top: artist.y }, 80)} data-scrolljs>
-      <div className="artist-photo abs" style={{ left: 5.13, top: 6.5 }}>
+      <div className="artist-photo abs" style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}>
         <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt="" />
       </div>
-      <h3 className="artist-name abs" style={{ left: 0, top: 395.4, width: 367.54 }} data-text-node="artist-name">
+      <h3
+        className="artist-name abs"
+        style={{ left: 0, top: artistCardMetrics.nameTop, width: artistCardMetrics.width }}
+        data-text-node="artist-name"
+      >
         {artist.name}
       </h3>
-      <p className="artist-role abs" style={{ left: 0, top: 436.49, width: 367.54 }} data-text-node="artist-role">
+      <p
+        className="artist-role abs"
+        style={{ left: 0, top: artistCardMetrics.roleTop, width: artistCardMetrics.width }}
+        data-text-node="artist-role"
+      >
         {artist.role}
       </p>
       <p
         className="artist-body abs"
-        style={{ left: centerX - artist.x - 141.16, top: 496.81 }}
+        style={{ left: bodyLeft, top: artistCardMetrics.bodyTop }}
         data-text-node="artist-body"
       >
         {artist.body}

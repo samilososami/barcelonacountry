@@ -73,7 +73,7 @@ h3 {
 
 .page {
   width: 100vw;
-  min-height: calc(5522px * var(--figma-scale));
+  min-height: calc(4622px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
@@ -81,7 +81,7 @@ h3 {
 .stage {
   position: relative;
   width: 100vw;
-  height: calc(5522px * var(--figma-scale));
+  height: calc(4622px * var(--figma-scale));
   margin: 0;
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ h3 {
   left: 50%;
   top: 0;
   width: 1280px;
-  height: 5522px;
+  height: 4622px;
   background: var(--blue);
   transform: translateX(-50%) scale(var(--figma-scale));
   transform-origin: top center;
@@ -731,13 +731,31 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 1809px;
   width: calc(1280px + (2 * var(--edge-bleed)));
-  height: 1769px;
-  background:
-    linear-gradient(rgba(30, 84, 185, 0.34), rgba(30, 84, 185, 0.42)),
-    url("/assets/country-pattern.jpg") center / cover no-repeat;
-  opacity: 0.78;
+  height: 870px;
+  overflow: hidden;
+  background: var(--blue);
   pointer-events: none;
   z-index: 0;
+}
+
+.artists-background::before,
+.artists-background::after {
+  content: "";
+  position: absolute;
+  inset: -170px -320px;
+  background-image: url("data:image/svg+xml,%3Csvg width='126' height='126' viewBox='0 0 126 126' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M63 12.5 76.6 48.2h37.6L83.8 70.6l11.8 36.2L63 84.9 30.4 106.8l11.8-36.2L11.8 48.2h37.6Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 190px 146px;
+  opacity: 0.115;
+  transform: rotate(-7deg);
+  animation: stars-drift-left 44s linear infinite;
+}
+
+.artists-background::after {
+  background-size: 246px 176px;
+  opacity: 0.075;
+  transform: rotate(-7deg) translateY(62px);
+  animation: stars-drift-right 58s linear infinite;
 }
 
 .artists-heading {
@@ -751,6 +769,7 @@ h3 {
   line-height: 0.97;
   letter-spacing: 2px;
   text-align: center;
+  white-space: nowrap;
   text-shadow:
     0 4px 0 var(--red),
     0 15px 26px rgba(6, 19, 52, 0.32);
@@ -759,11 +778,11 @@ h3 {
 
 .artist-card {
   z-index: 1;
-  width: 367.54px;
-  height: 764.95px;
+  width: 220px;
+  height: 590px;
   background: #ffffff;
   border: 1px solid var(--blue);
-  box-shadow: 0 11px 0 var(--red);
+  box-shadow: 0 9px 0 var(--red);
   transition:
     border-color 260ms ease,
     box-shadow 460ms ease,
@@ -772,13 +791,13 @@ h3 {
 
 .artist-card:hover {
   border-color: var(--red);
-  box-shadow: 0 18px 0 var(--red), 0 26px 26px rgba(23, 35, 96, 0.24);
-  transform: translateY(-9px) scale(1.018);
+  box-shadow: 0 14px 0 var(--red), 0 22px 24px rgba(23, 35, 96, 0.24);
+  transform: translateY(-7px) scale(1.018);
 }
 
 .artist-photo {
-  width: 357.28px;
-  height: 357.28px;
+  width: 210px;
+  height: 210px;
   overflow: hidden;
 }
 
@@ -829,34 +848,34 @@ h3 {
 .artist-name {
   color: var(--blue);
   font-family: "Rye", serif;
-  font-size: 30px;
+  font-size: 20.5px;
   font-weight: 400;
-  line-height: 0.97;
-  letter-spacing: 1.2px;
+  line-height: 1.05;
+  letter-spacing: 0.35px;
   text-align: center;
 }
 
 .artist-role {
   color: var(--red);
-  font-size: 16px;
-  line-height: 1.71;
-  letter-spacing: 0.96px;
+  font-size: 12px;
+  line-height: 1.45;
+  letter-spacing: 0.52px;
   text-align: center;
   text-transform: uppercase;
 }
 
 .artist-body {
-  width: 282.32px;
+  width: 178px;
   color: var(--blue);
-  font-size: 16px;
-  line-height: 1.71;
-  letter-spacing: 0.96px;
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: 0.3px;
   text-align: center;
 }
 
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
-  top: 3578.59px;
+  top: 2678.59px;
   width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: #ffffff;
@@ -865,7 +884,7 @@ h3 {
 
 .location-kicker {
   left: 560.5px;
-  top: 3675.29px;
+  top: 2775.29px;
   width: 159px;
   color: var(--red);
   font-size: 18.75px;
@@ -876,7 +895,7 @@ h3 {
 
 .text-yeehaw {
   left: 260.08px;
-  top: 3717.97px;
+  top: 2817.97px;
   width: 759.85px;
   height: 97.85px;
   color: var(--red);
@@ -887,7 +906,7 @@ h3 {
 
 .text-en-barcelona {
   left: 237.31px;
-  top: 3825.83px;
+  top: 2925.83px;
   width: 805.37px;
   height: 97.85px;
   color: #0048ff;
@@ -897,7 +916,7 @@ h3 {
 
 .map-placeholder {
   left: 144.46px;
-  top: 3957.63px;
+  top: 3057.63px;
   width: 991.08px;
   height: 424.57px;
   background: #d9d9d9;
@@ -923,7 +942,7 @@ h3 {
 
 .date-banner {
   left: 273.21px;
-  top: 4478.9px;
+  top: 3578.9px;
   width: 795.94px;
   height: 137.91px;
   overflow: hidden;
@@ -952,17 +971,17 @@ h3 {
 
 .date-star-left {
   left: 359.2px;
-  top: 4488.5px;
+  top: 3588.5px;
 }
 
 .date-star-right {
   left: 880.9px;
-  top: 4488.5px;
+  top: 3588.5px;
 }
 
 .text-date {
   left: 477.15px;
-  top: 4504.15px;
+  top: 3604.15px;
   width: 324.74px;
   color: #ffffff;
   font-size: 34.62px;
@@ -974,7 +993,7 @@ h3 {
 
 .text-mantente {
   left: 83.7px;
-  top: 4642px;
+  top: 3742px;
   width: 1112.61px;
   height: 95px;
   color: #ffffff;
@@ -984,7 +1003,7 @@ h3 {
 
 .contact-form {
   left: 0;
-  top: 4787px;
+  top: 3887px;
   width: 1280px;
   height: 340px;
 }
@@ -1200,7 +1219,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 5197px;
+  top: 4297px;
   width: 1280px;
   height: 324.59px;
   background: transparent;
@@ -1322,6 +1341,26 @@ h3 {
 
   100% {
     transform: rotate(120deg) scale(1.12);
+  }
+}
+
+@keyframes stars-drift-left {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -420px 0;
+  }
+}
+
+@keyframes stars-drift-right {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 420px 0;
   }
 }
 
