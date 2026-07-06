@@ -72,9 +72,9 @@ const copies: Record<LanguageKey, Copy> = {
   de: {
     languageName: "Deutsch",
     nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
-    heroKicker: "BARCELONA · SPANIEN",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit im Herzen der Stadt.",
+      "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit.",
     cta: "Informiert bleiben",
     triad: ["TANZ", "MUSIK", "AMERIKA"],
     festivalTitle: "Das Festival",
@@ -129,9 +129,9 @@ const copies: Record<LanguageKey, Copy> = {
   es: {
     languageName: "Español",
     nav: ["INICIO", "FESTIVAL", "ARTISTAS", "PROGRAMA", "UBICACIÓN", "CONTACTO"],
-    heroKicker: "BARCELONA · ESPAÑA",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano en el corazón de la ciudad.",
+      "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano.",
     cta: "Mantente informado",
     triad: ["BAILE", "MÚSICA", "AMÉRICA"],
     festivalTitle: "El Festival",
@@ -186,9 +186,9 @@ const copies: Record<LanguageKey, Copy> = {
   ca: {
     languageName: "Català",
     nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
-    heroKicker: "BARCELONA · ESPANYA",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà al cor de la ciutat.",
+      "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà.",
     cta: "Manten-te informat",
     triad: ["BALL", "MÚSICA", "AMÈRICA"],
     festivalTitle: "El Festival",
@@ -243,9 +243,9 @@ const copies: Record<LanguageKey, Copy> = {
   fr: {
     languageName: "Français",
     nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
-    heroKicker: "BARCELONE · ESPAGNE",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain au cœur de la ville.",
+      "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain.",
     cta: "Restez informé",
     triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
     festivalTitle: "Le Festival",
@@ -300,9 +300,9 @@ const copies: Record<LanguageKey, Copy> = {
   en: {
     languageName: "English",
     nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
-    heroKicker: "BARCELONA · SPAIN",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit in the heart of the city.",
+      "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit.",
     cta: "Stay informed",
     triad: ["DANCE", "MUSIC", "AMERICA"],
     festivalTitle: "The Festival",
@@ -357,9 +357,9 @@ const copies: Record<LanguageKey, Copy> = {
   it: {
     languageName: "Italiano",
     nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
-    heroKicker: "BARCELLONA · SPAGNA",
+    heroKicker: "BARCELONA - NOVIEMBRE 27",
     heroCopy:
-      "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano nel cuore della città.",
+      "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano.",
     cta: "Resta informato",
     triad: ["BALLO", "MUSICA", "AMERICA"],
     festivalTitle: "Il Festival",
@@ -417,29 +417,29 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     x: 54.69,
-    y: 1899.84
+    y: 1929.84
   },
   {
     image: "/assets/artist-algaly.png",
     x: 456.23,
-    y: 1899.84,
+    y: 1929.84,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     x: 857.77,
-    y: 1899.84
+    y: 1929.84
   },
   {
     image: "/assets/artist-montse.png",
     x: 59.82,
-    y: 2710.5,
+    y: 2740.5,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     x: 461.36,
-    y: 2710.5,
+    y: 2740.5,
     imageFit: "jonathan"
   }
 ];
@@ -862,6 +862,7 @@ function App() {
           </section>
 
           <section id="artists" className="artists" aria-labelledby="artists-title">
+            <div className="abs artists-background" aria-hidden="true" />
             <h2
               id="artists-title"
               className="abs artists-heading"
