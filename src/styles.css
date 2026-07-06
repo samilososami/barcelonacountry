@@ -727,6 +727,23 @@ h3 {
   z-index: 1;
 }
 
+.artists-heading {
+  left: 0;
+  top: 1827px;
+  width: 1280px;
+  color: #ffffff;
+  font-family: "Rye", serif;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 0.97;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow:
+    0 4px 0 var(--red),
+    0 15px 26px rgba(6, 19, 52, 0.32);
+  z-index: 1;
+}
+
 .artist-card {
   width: 367.54px;
   height: 764.95px;

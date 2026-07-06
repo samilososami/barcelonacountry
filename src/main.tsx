@@ -83,7 +83,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Tage",
     internationalArtists: "INTERNATIONALE\nKÜNSTLER",
     expectedDancers: "ERWARTETE TÄNZER",
-    artistsTitle: "Künstler",
+    artistsTitle: "Internationale Künstler",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -140,7 +140,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Días",
     internationalArtists: "ARTISTAS\nINTERNACIONALES",
     expectedDancers: "BAILARINES ESPERADOS",
-    artistsTitle: "Artistas",
+    artistsTitle: "Artistas internacionales",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -197,7 +197,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Dies",
     internationalArtists: "ARTISTES\nINTERNACIONALS",
     expectedDancers: "BALLARINS ESPERATS",
-    artistsTitle: "Artistes",
+    artistsTitle: "Artistes internacionals",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -254,7 +254,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
     expectedDancers: "DANSEURS ATTENDUS",
-    artistsTitle: "Artistes",
+    artistsTitle: "Artistes internationaux",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -311,7 +311,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Days",
     internationalArtists: "INTERNATIONAL\nARTISTS",
     expectedDancers: "EXPECTED DANCERS",
-    artistsTitle: "Artists",
+    artistsTitle: "International Artists",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -368,7 +368,7 @@ const copies: Record<LanguageKey, Copy> = {
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
     expectedDancers: "BALLERINI ATTESI",
-    artistsTitle: "Artisti",
+    artistsTitle: "Artisti internazionali",
     artists: [
       {
         name: "Pol F. Ryan",
@@ -862,7 +862,13 @@ function App() {
           </section>
 
           <section id="artists" className="artists" aria-labelledby="artists-title">
-            <h2 id="artists-title" className="sr-only">
+            <h2
+              id="artists-title"
+              className="abs artists-heading"
+              data-text-node="artists-title"
+              data-scrolljs
+              style={revealStyle({}, 0)}
+            >
               {copy.artistsTitle}
             </h2>
             {artists.map((artist) => (
