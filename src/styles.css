@@ -728,7 +728,7 @@ h3 {
 }
 
 .artists-background {
-  --artist-star-pattern: url("data:image/svg+xml,%3Csvg width='260' height='220' viewBox='0 0 260 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M130 34 143.5 75.5h43.6l-35.3 25.6 13.5 41.5L130 117l-35.3 25.6 13.5-41.5-35.3-25.6h43.6Z' fill='none' stroke='white' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  --artist-star-pattern: url("data:image/svg+xml,%3Csvg width='112' height='112' viewBox='0 0 112 112' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M56 7 68.8 43.2h38.1L76.1 65.5l11.8 36.2L56 79.4l-31.9 22.3 11.8-36.2L5.1 43.2h38.1Z' fill='none' stroke='white' stroke-width='2.9' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
   left: calc(-1 * var(--edge-bleed));
   top: 1809px;
   width: calc(1280px + (2 * var(--edge-bleed)));
@@ -743,18 +743,18 @@ h3 {
 .artists-background::after {
   content: "";
   position: absolute;
-  inset: -220px -420px;
+  inset: -220px -360px;
   background-image: var(--artist-star-pattern);
   background-repeat: repeat;
-  background-size: 260px 220px;
-  opacity: 0.105;
+  background-size: 112px 224px;
+  opacity: 0.1;
   transform: rotate(-7deg);
-  animation: stars-drift-left 52s linear infinite;
+  animation: stars-drift-left 38s linear infinite;
 }
 
 .artists-background::after {
-  opacity: 0.085;
-  animation: stars-drift-right 64s linear infinite;
+  opacity: 0.082;
+  animation: stars-drift-right 42s linear infinite;
 }
 
 .artists-heading {
@@ -777,8 +777,8 @@ h3 {
 
 .artist-card {
   z-index: 1;
-  width: 235px;
-  height: 628px;
+  width: 246px;
+  height: 660px;
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 9px 0 var(--red);
@@ -795,8 +795,8 @@ h3 {
 }
 
 .artist-photo {
-  width: 225px;
-  height: 225px;
+  width: 236px;
+  height: 236px;
   overflow: hidden;
 }
 
@@ -847,26 +847,26 @@ h3 {
 .artist-name {
   color: var(--blue);
   font-family: "Rye", serif;
-  font-size: 21.5px;
+  font-size: 22.5px;
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: 0.42px;
+  letter-spacing: 0.48px;
   text-align: center;
 }
 
 .artist-role {
   color: var(--red);
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.45;
-  letter-spacing: 0.52px;
+  letter-spacing: 0.56px;
   text-align: center;
   text-transform: uppercase;
 }
 
 .artist-body {
-  width: 192px;
+  width: 204px;
   color: var(--blue);
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.55;
   letter-spacing: 0.3px;
   text-align: center;
@@ -1349,17 +1349,17 @@ h3 {
   }
 
   to {
-    background-position: -520px 0;
+    background-position: -1120px 0;
   }
 }
 
 @keyframes stars-drift-right {
   from {
-    background-position: 130px 110px;
+    background-position: 0 112px;
   }
 
   to {
-    background-position: 650px 110px;
+    background-position: 1120px 112px;
   }
 }
 
