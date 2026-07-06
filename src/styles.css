@@ -129,12 +129,12 @@ h3 {
 
 [data-scrolljs] {
   opacity: 0;
-  filter: blur(7px);
-  transform: translate3d(0, 72px, 0) scale(0.94) rotate(-1deg);
+  filter: blur(10px);
+  transform: translate3d(0, 58px, 0) scale(0.97);
   transition:
-    opacity 980ms ease-out,
-    transform 1250ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 1050ms ease-out,
+    opacity 1180ms cubic-bezier(0.33, 0, 0.2, 1),
+    transform 1220ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1040ms cubic-bezier(0.33, 0, 0.2, 1),
     color 220ms ease,
     background-color 220ms ease,
     border-color 220ms ease,
@@ -199,9 +199,9 @@ h3 {
   display: inline-block;
   transform-origin: center;
   transition:
-    color 220ms ease,
-    text-shadow 220ms ease,
-    transform 320ms cubic-bezier(0.18, 1.35, 0.35, 1);
+    color 260ms ease,
+    text-shadow 320ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav span:first-child {
@@ -215,10 +215,10 @@ h3 {
 .nav span:hover {
   color: #ffffff;
   text-shadow:
-    0 0 12px rgba(255, 255, 255, 0.72),
-    0 6px 0 rgba(23, 35, 96, 0.3);
-  transform: translateY(-4px) scale(1.16) rotate(-1deg);
-  animation: nav-jump 520ms cubic-bezier(0.18, 1.35, 0.35, 1);
+    0 0 14px rgba(255, 255, 255, 0.7),
+    0 5px 0 rgba(23, 35, 96, 0.24);
+  transform: translateY(-4px) scale(1.13);
+  animation: nav-float 820ms ease-in-out;
 }
 
 .nav-star {
@@ -438,22 +438,23 @@ h3 {
   margin: 0;
   padding: 0;
   cursor: pointer;
+  overflow: visible;
   transition:
-    transform 340ms cubic-bezier(0.18, 1.35, 0.35, 1),
-    box-shadow 260ms ease,
-    background-color 220ms ease;
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms ease,
+    background-color 260ms ease;
 }
 
 .cta:hover {
   background: var(--red);
-  box-shadow: 0 12px 0 var(--navy), 0 18px 24px rgba(9, 22, 48, 0.28);
-  transform: translateY(-8px) scale(1.035) rotate(-1deg);
-  animation: cta-kick 620ms cubic-bezier(0.18, 1.35, 0.35, 1);
+  box-shadow: 0 11px 0 var(--navy), 0 20px 28px rgba(9, 22, 48, 0.28);
+  transform: translateY(-7px) scale(1.025);
+  animation: cta-float 900ms ease-in-out;
 }
 
 .cta:hover .cta-star {
-  animation: star-spin 620ms cubic-bezier(0.18, 1.35, 0.35, 1);
-  transform: rotate(144deg) scale(1.16);
+  animation: star-pulse 900ms ease-in-out;
+  transform: rotate(120deg) scale(1.12);
 }
 
 .hero-cta {
@@ -464,17 +465,22 @@ h3 {
 
 .cta-type {
   position: absolute;
-  left: 17px;
-  top: 23.59px;
-  width: 245px;
-  height: 22px;
+  left: 20px;
+  right: 80px;
+  top: 0;
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #ffffff;
   font-family: "Rustler", "Rye", serif;
-  font-size: 24px;
-  line-height: 1.41;
+  font-size: 23px;
+  line-height: 1;
   letter-spacing: 1.44px;
   text-align: center;
   white-space: nowrap;
+  overflow: visible;
 }
 
 .cta-star {
@@ -483,7 +489,8 @@ h3 {
   top: 14px;
   width: 47px;
   height: 47px;
-  transition: transform 280ms ease;
+  pointer-events: none;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .triad {
@@ -529,8 +536,8 @@ h3 {
   text-shadow:
     0 4px 0 rgba(23, 35, 96, 0.18),
     0 0 14px rgba(255, 0, 0, 0.18);
-  transform: translateY(-5px) scale(1.12) rotate(-1deg);
-  animation: nav-jump 520ms cubic-bezier(0.18, 1.35, 0.35, 1);
+  transform: translateY(-4px) scale(1.1);
+  animation: nav-float 820ms ease-in-out;
 }
 
 .triad-dance {
@@ -609,13 +616,13 @@ h3 {
 
 .festival-title {
   left: 268.17px;
-  top: 63px;
+  top: 67px;
   width: 759.85px;
   color: #2257bd;
   font-family: "Rye", serif;
-  font-size: 68px;
+  font-size: 64px;
   line-height: 0.95;
-  letter-spacing: 1.1px;
+  letter-spacing: 0.2px;
   text-align: center;
   text-shadow: none !important;
   font-kerning: normal;
@@ -623,7 +630,7 @@ h3 {
   -webkit-text-stroke: 0 transparent;
   -webkit-text-stroke-width: 0;
   paint-order: normal;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
   text-rendering: optimizeLegibility;
   z-index: 1;
 }
@@ -650,15 +657,15 @@ h3 {
   text-align: center;
   z-index: 1;
   transition:
-    border-color 220ms ease,
-    box-shadow 260ms ease,
-    transform 340ms cubic-bezier(0.18, 1.35, 0.35, 1);
+    border-color 260ms ease,
+    box-shadow 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .stat:hover {
   border-color: var(--red);
   box-shadow: 0 18px 0 var(--red), 0 24px 22px rgba(23, 35, 96, 0.16);
-  transform: translateY(-8px) scale(1.025) rotate(-0.6deg);
+  transform: translateY(-7px) scale(1.018);
 }
 
 .stat-one {
@@ -716,15 +723,15 @@ h3 {
   border: 1px solid var(--blue);
   box-shadow: 0 11px 0 var(--red);
   transition:
-    border-color 220ms ease,
-    box-shadow 280ms ease,
-    transform 420ms cubic-bezier(0.18, 1.35, 0.35, 1);
+    border-color 260ms ease,
+    box-shadow 460ms ease,
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .artist-card:hover {
   border-color: var(--red);
   box-shadow: 0 18px 0 var(--red), 0 26px 26px rgba(23, 35, 96, 0.24);
-  transform: translateY(-10px) scale(1.025) rotate(-0.5deg);
+  transform: translateY(-9px) scale(1.018);
 }
 
 .artist-photo {
@@ -1138,8 +1145,10 @@ h3 {
 }
 
 .bottom-cta .cta-type {
-  left: 17px;
-  top: 23.59px;
+  left: 20px;
+  right: 80px;
+  top: 0;
+  width: auto;
 }
 
 .bottom-cta .cta-star {
@@ -1220,45 +1229,57 @@ h3 {
   }
 }
 
-@keyframes nav-jump {
+@keyframes nav-float {
   0% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
 
   45% {
-    transform: translateY(-8px) scale(1.2) rotate(-1.5deg);
+    transform: translateY(-6px) scale(1.14);
+  }
+
+  72% {
+    transform: translateY(-3px) scale(1.11);
   }
 
   100% {
-    transform: translateY(-4px) scale(1.16) rotate(-1deg);
+    transform: translateY(-4px) scale(1.13);
   }
 }
 
-@keyframes cta-kick {
+@keyframes cta-float {
   0% {
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
 
-  45% {
-    transform: translateY(-11px) scale(1.05) rotate(1deg);
+  50% {
+    transform: translateY(-9px) scale(1.03);
+  }
+
+  78% {
+    transform: translateY(-5px) scale(1.02);
   }
 
   100% {
-    transform: translateY(-8px) scale(1.035) rotate(-1deg);
+    transform: translateY(-7px) scale(1.025);
   }
 }
 
-@keyframes star-spin {
+@keyframes star-pulse {
   0% {
     transform: rotate(0deg) scale(1);
   }
 
-  70% {
-    transform: rotate(170deg) scale(1.22);
+  55% {
+    transform: rotate(135deg) scale(1.18);
+  }
+
+  78% {
+    transform: rotate(105deg) scale(1.09);
   }
 
   100% {
-    transform: rotate(144deg) scale(1.16);
+    transform: rotate(120deg) scale(1.12);
   }
 }
 
