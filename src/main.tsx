@@ -416,12 +416,12 @@ const copies: Record<LanguageKey, Copy> = {
 const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
-    x: 42,
+    x: 28,
     y: 1940
   },
   {
     image: "/assets/artist-algaly.png",
-    x: 286,
+    x: 279,
     y: 1940,
     imageFit: "stretch"
   },
@@ -432,25 +432,25 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   },
   {
     image: "/assets/artist-montse.png",
-    x: 774,
+    x: 781,
     y: 1940,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
-    x: 1018,
+    x: 1032,
     y: 1940,
     imageFit: "jonathan"
   }
 ];
 
 const artistCardMetrics = {
-  width: 220,
+  width: 235,
   photoInset: 5,
-  nameTop: 247,
-  roleTop: 294,
-  bodyTop: 346,
-  bodyWidth: 178
+  nameTop: 264,
+  roleTop: 314,
+  bodyTop: 368,
+  bodyWidth: 192
 };
 
 const getInitialLanguage = (): LanguageKey => {

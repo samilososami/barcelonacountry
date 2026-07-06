@@ -728,6 +728,7 @@ h3 {
 }
 
 .artists-background {
+  --artist-star-pattern: url("data:image/svg+xml,%3Csvg width='260' height='220' viewBox='0 0 260 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M130 34 143.5 75.5h43.6l-35.3 25.6 13.5 41.5L130 117l-35.3 25.6 13.5-41.5-35.3-25.6h43.6Z' fill='none' stroke='white' stroke-width='3.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
   left: calc(-1 * var(--edge-bleed));
   top: 1809px;
   width: calc(1280px + (2 * var(--edge-bleed)));
@@ -742,20 +743,18 @@ h3 {
 .artists-background::after {
   content: "";
   position: absolute;
-  inset: -170px -320px;
-  background-image: url("data:image/svg+xml,%3Csvg width='126' height='126' viewBox='0 0 126 126' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M63 12.5 76.6 48.2h37.6L83.8 70.6l11.8 36.2L63 84.9 30.4 106.8l11.8-36.2L11.8 48.2h37.6Z' fill='none' stroke='white' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+  inset: -220px -420px;
+  background-image: var(--artist-star-pattern);
   background-repeat: repeat;
-  background-size: 190px 146px;
-  opacity: 0.115;
+  background-size: 260px 220px;
+  opacity: 0.105;
   transform: rotate(-7deg);
-  animation: stars-drift-left 44s linear infinite;
+  animation: stars-drift-left 52s linear infinite;
 }
 
 .artists-background::after {
-  background-size: 246px 176px;
-  opacity: 0.075;
-  transform: rotate(-7deg) translateY(62px);
-  animation: stars-drift-right 58s linear infinite;
+  opacity: 0.085;
+  animation: stars-drift-right 64s linear infinite;
 }
 
 .artists-heading {
@@ -778,8 +777,8 @@ h3 {
 
 .artist-card {
   z-index: 1;
-  width: 220px;
-  height: 590px;
+  width: 235px;
+  height: 628px;
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 9px 0 var(--red);
@@ -796,8 +795,8 @@ h3 {
 }
 
 .artist-photo {
-  width: 210px;
-  height: 210px;
+  width: 225px;
+  height: 225px;
   overflow: hidden;
 }
 
@@ -848,16 +847,16 @@ h3 {
 .artist-name {
   color: var(--blue);
   font-family: "Rye", serif;
-  font-size: 20.5px;
+  font-size: 21.5px;
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: 0.35px;
+  letter-spacing: 0.42px;
   text-align: center;
 }
 
 .artist-role {
   color: var(--red);
-  font-size: 12px;
+  font-size: 12.5px;
   line-height: 1.45;
   letter-spacing: 0.52px;
   text-align: center;
@@ -865,9 +864,9 @@ h3 {
 }
 
 .artist-body {
-  width: 178px;
+  width: 192px;
   color: var(--blue);
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.55;
   letter-spacing: 0.3px;
   text-align: center;
@@ -1350,17 +1349,17 @@ h3 {
   }
 
   to {
-    background-position: -420px 0;
+    background-position: -520px 0;
   }
 }
 
 @keyframes stars-drift-right {
   from {
-    background-position: 0 0;
+    background-position: 130px 110px;
   }
 
   to {
-    background-position: 420px 0;
+    background-position: 650px 110px;
   }
 }
 
