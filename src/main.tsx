@@ -49,6 +49,16 @@ type RevealStyle = CSSProperties & {
   "--scrolljs-delay"?: string;
 };
 
+const navTargets = ["home", "festival", "artists", "program", "location", "contact"];
+const scrollTargetSelectors: Record<string, string> = {
+  home: ".frame",
+  festival: ".festival",
+  artists: ".artist-card",
+  program: ".date-banner",
+  location: ".location-panel",
+  contact: ".text-mantente"
+};
+
 const languageOptions: { key: LanguageKey; label: string }[] = [
   { key: "de", label: "Aleman" },
   { key: "es", label: "Español" },
@@ -511,14 +521,16 @@ function useScrollJsReveal() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-          } else {
+          } else if (entry.boundingClientRect.top > window.innerHeight) {
             entry.target.classList.remove("is-visible");
+          } else if (entry.boundingClientRect.top < 0) {
+            entry.target.classList.add("is-visible");
           }
         });
       },
       {
-        threshold: 0.14,
-        rootMargin: "-2% 0px -16% 0px"
+        threshold: 0.08,
+        rootMargin: "0px 0px -12% 0px"
       }
     );
 
@@ -531,6 +543,43 @@ const revealStyle = (style: CSSProperties = {}, delay = 0): RevealStyle => ({
   ...style,
   "--scrolljs-delay": `${delay}ms`
 });
+
+let scrollAnimationFrame = 0;
+
+const easeInOutCubic = (progress: number) =>
+  progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+function scrollToTarget(targetId: string) {
+  const target = document.querySelector<HTMLElement>(scrollTargetSelectors[targetId]) ?? document.getElementById(targetId);
+  if (!target) {
+    return;
+  }
+
+  cancelAnimationFrame(scrollAnimationFrame);
+
+  const start = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const targetTop = Math.min(maxScroll, Math.max(0, target.getBoundingClientRect().top + window.scrollY));
+  const distance = targetTop - start;
+  const duration = Math.min(1500, Math.max(760, Math.abs(distance) * 0.42));
+  const startTime = performance.now();
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.scrollTo(0, targetTop);
+    return;
+  }
+
+  const step = (now: number) => {
+    const progress = Math.min(1, (now - startTime) / duration);
+    window.scrollTo(0, start + distance * easeInOutCubic(progress));
+
+    if (progress < 1) {
+      scrollAnimationFrame = requestAnimationFrame(step);
+    }
+  };
+
+  scrollAnimationFrame = requestAnimationFrame(step);
+}
 
 function GoogleMap({ language, title }: { language: LanguageKey; title: string }) {
   return (
@@ -677,15 +726,21 @@ function App() {
         <main className="frame">
           <h1 className="sr-only">Barcelona Country Festival</h1>
 
-          <section className="hero" aria-labelledby="hero-title">
+          <section id="home" className="hero" aria-labelledby="hero-title">
             <div className="top-line top-line-two" />
             <img className="abs nav-star nav-star-left" src="/assets/nav-star.svg" alt="" />
             <img className="abs nav-star nav-star-right" src="/assets/nav-star.svg" alt="" />
             <nav className="abs nav" aria-label="Principal">
-              {copy.nav.map((item) => (
-                <span key={item} data-text-node="nav-item">
+              {copy.nav.map((item, index) => (
+                <button
+                  key={item}
+                  className="nav-link"
+                  type="button"
+                  data-text-node="nav-item"
+                  onClick={() => scrollToTarget(navTargets[index])}
+                >
                   {item}
-                </span>
+                </button>
               ))}
             </nav>
             <div className="abs language-picker">
@@ -776,7 +831,7 @@ function App() {
             </div>
           </section>
 
-          <section className="festival" aria-labelledby="festival-title">
+          <section id="festival" className="festival" aria-labelledby="festival-title">
             <img className="abs dotted dotted-top" src="/assets/line-blue.svg" alt="" data-scrolljs style={revealStyle({}, 0)} />
             <h2
               id="festival-title"
@@ -806,7 +861,7 @@ function App() {
             <div className="abs red-band" />
           </section>
 
-          <section className="artists" aria-labelledby="artists-title">
+          <section id="artists" className="artists" aria-labelledby="artists-title">
             <h2 id="artists-title" className="sr-only">
               {copy.artistsTitle}
             </h2>
@@ -815,7 +870,7 @@ function App() {
             ))}
           </section>
 
-          <section className="location" aria-labelledby="location-title">
+          <section id="location" className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
             <p className="abs location-kicker" data-text-node="location-kicker" data-scrolljs style={revealStyle({}, 0)}>
               {copy.locationKicker}
@@ -834,7 +889,7 @@ function App() {
             <div className="abs map-placeholder" aria-label={copy.mapTitle} data-scrolljs style={revealStyle({}, 220)}>
               <GoogleMap language={language} title={copy.mapTitle} />
             </div>
-            <div className="abs date-banner" data-scrolljs style={revealStyle({}, 120)}>
+            <div id="program" className="abs date-banner" data-scrolljs style={revealStyle({}, 120)}>
               <img className="date-wood" src="/assets/wood-banner.png" alt="" />
             </div>
             <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" data-scrolljs style={revealStyle({}, 180)} />
@@ -844,7 +899,7 @@ function App() {
             </p>
           </section>
 
-          <section className="contact" aria-labelledby="contact-title">
+          <section id="contact" className="contact" aria-labelledby="contact-title">
             <h2
               id="contact-title"
               className="abs western rustler text-mantente"

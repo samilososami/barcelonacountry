@@ -129,12 +129,10 @@ h3 {
 
 [data-scrolljs] {
   opacity: 0;
-  filter: blur(10px);
-  transform: translate3d(0, 58px, 0) scale(0.97);
+  transform: translate3d(0, 46px, 0) scale(0.985);
   transition:
-    opacity 1180ms cubic-bezier(0.33, 0, 0.2, 1),
-    transform 1220ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 1040ms cubic-bezier(0.33, 0, 0.2, 1),
+    opacity 1040ms cubic-bezier(0.33, 0, 0.2, 1),
+    transform 1120ms cubic-bezier(0.16, 1, 0.3, 1),
     color 220ms ease,
     background-color 220ms ease,
     border-color 220ms ease,
@@ -145,7 +143,6 @@ h3 {
 
 [data-scrolljs].is-visible {
   opacity: 1;
-  filter: blur(0);
   transform: translate3d(0, 0, 0) scale(1);
 }
 
@@ -191,12 +188,20 @@ h3 {
   text-align: center;
 }
 
-.nav span {
+.nav-link {
   width: 229.3px;
   height: 29.56px;
   margin-right: -71px;
-  cursor: default;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
   display: inline-block;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: center;
   transform-origin: center;
   transition:
     color 260ms ease,
@@ -204,21 +209,27 @@ h3 {
     transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.nav span:first-child {
+.nav-link:first-child {
   width: 157.21px;
 }
 
-.nav span:last-child {
+.nav-link:last-child {
   margin-right: 0;
 }
 
-.nav span:hover {
+.nav-link:hover,
+.nav-link:focus-visible {
   color: #ffffff;
   text-shadow:
     0 0 14px rgba(255, 255, 255, 0.7),
     0 5px 0 rgba(23, 35, 96, 0.24);
   transform: translateY(-4px) scale(1.13);
   animation: nav-float 820ms ease-in-out;
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.88);
+  outline-offset: 6px;
 }
 
 .nav-star {
@@ -616,22 +627,22 @@ h3 {
 
 .festival-title {
   left: 268.17px;
-  top: 67px;
+  top: 63px;
   width: 759.85px;
-  color: #2257bd;
+  color: var(--blue);
   font-family: "Rye", serif;
-  font-size: 64px;
-  line-height: 0.95;
-  letter-spacing: 0.2px;
+  font-size: 68px;
+  font-weight: 400;
+  line-height: 0.97;
+  letter-spacing: 2.72px;
   text-align: center;
   text-shadow: none !important;
-  font-kerning: normal;
-  -webkit-text-fill-color: #2257bd;
+  -webkit-text-fill-color: var(--blue);
   -webkit-text-stroke: 0 transparent;
   -webkit-text-stroke-width: 0;
   paint-order: normal;
-  -webkit-font-smoothing: subpixel-antialiased;
-  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
   z-index: 1;
 }
 
