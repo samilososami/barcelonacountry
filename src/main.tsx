@@ -50,10 +50,17 @@ type RevealStyle = CSSProperties & {
   "--scrolljs-delay"?: string;
 };
 
+type FindItem =
+  | string
+  | {
+      heading: string;
+      body: string;
+    };
+
 type FindCard = {
   title: string;
   icon: string;
-  items: string[];
+  items: FindItem[];
 };
 
 type FindCopy = {
@@ -120,39 +127,76 @@ const findCopies: Record<LanguageKey, FindCopy> = {
     ]
   },
   es: {
-    kicker: "QUÉ ENCONTRARÁS",
-    title: "Country non stop",
+    kicker: "QUE ENCONTRARÁS",
+    title: "Una experiencia inolvidable:",
     cards: [
       {
-        title: "Música, baile y leyendas",
-        icon: "US",
+        title: "CATALAN STYLE & MÚSICA",
+        icon: "music",
         items: [
-          "El laboratorio de creatividad de las leyendas.",
-          "Baile ininterrumpido durante todo el evento.",
-          "Padres compartiendo su pasión con sus hijos.",
-          "El pulso sonoro del festival.",
-          "Country non stop!"
+          {
+            heading: "ZONA DE COREÓGRAFOS Y WORKSHOPS:",
+            body: "El laboratorio de creatividad de las leyendas."
+          },
+          {
+            heading: "LINE DANCE HALLS:",
+            body: "Baile ininterrumpido durante todo el evento."
+          },
+          {
+            heading: "WORKSHOP INFANTIL",
+            body: "Padres compartiendo su pasión con sus hijos."
+          },
+          {
+            heading: "ESCENARIOS DE MÚSICA EN DIRECTO:",
+            body: "El pulso sonoro del festival."
+          },
+          {
+            heading: "GRANDES CONCIERTOS NOCTURNOS:",
+            body: "Country non stop!"
+          }
         ]
       },
       {
-        title: "Market western",
-        icon: "SHOP",
+        title: "SHOPPING & LIFESTYLE",
+        icon: "shopping",
         items: [
-          "El gran escaparate comercial.",
-          "Incluidas las míticas motos Harley Davidson.",
-          "Inmersión total en la cultura.",
-          "Pasarela de moda de alta costura country."
+          {
+            heading: "ÁREA WESTERN LIFESTYLE & SHOPPING:",
+            body: "El gran escaparate comercial."
+          },
+          {
+            heading: "EXPOSICIÓN VEHÍCULOS AMERICANOS:",
+            body: "Incluidas las míticas motos Harley Davidson."
+          },
+          {
+            heading: "ZONA DE EXPERIENCIAS Y EXHIBICIONES:",
+            body: "Inmersión total en la cultura."
+          },
+          {
+            heading: "WESTERN FASHION SHOW:",
+            body: "Pasarela de moda de alta costura country."
+          }
         ]
       },
       {
-        title: "Food trucks",
-        icon: "BBQ",
-        items: ["Sabor auténtico western."]
+        title: "GASTRONOMÍA COUNTRY",
+        icon: "food",
+        items: [
+          {
+            heading: "ESPACIOS GASTRONÓMICOS COUNTRY:",
+            body: "Sabor auténtico western."
+          }
+        ]
       },
       {
-        title: "Récord mundial",
-        icon: "REC",
-        items: ["El intento de récord mundial."]
+        title: "CATALAN STYLE & MÚSICA",
+        icon: "cowboy",
+        items: [
+          {
+            heading: "THE SEA OF COWBOY HATS:",
+            body: "El intento de récord mundial."
+          }
+        ]
       }
     ]
   },
@@ -965,6 +1009,58 @@ function ArtistCard({ artist }: { artist: Artist }) {
   );
 }
 
+const getFindItemParts = (item: FindItem) => (typeof item === "string" ? { heading: "", body: item } : item);
+
+function FindCardIcon({ icon }: { icon: string }) {
+  if (icon === "shopping" || icon === "SHOP") {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M20 24h32l-4 29H16l-4-29h8Z" />
+        <path d="M25 24v-4c0-7 4-11 10-11s10 4 10 11v4" />
+        <path d="M13 32h38" />
+        <path d="M10 42h16" />
+      </svg>
+    );
+  }
+
+  if (icon === "food" || icon === "BBQ") {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M10 42h44" />
+        <path d="M17 42c1-13 9-22 22-22s21 9 22 22" />
+        <path d="M39 16a5 5 0 0 0-10 0" />
+        <path d="M15 50h34" />
+        <path d="M7 32h10" />
+        <path d="M6 27h10" />
+      </svg>
+    );
+  }
+
+  if (icon === "cowboy" || icon === "REC") {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M8 29c8 4 14 2 21-4 7 6 15 8 27 4-3 10-11 14-24 14S12 39 8 29Z" />
+        <path d="M20 28c2-10 7-15 12-15s10 5 12 15" />
+        <path d="M21 44c3 7 7 10 12 10s9-3 12-10" />
+        <path d="M25 37h.2" />
+        <path d="M39 37h.2" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M42 8 56 22" />
+      <path d="M46 12 25 33" />
+      <path d="M51 17 30 38" />
+      <path d="M20 30c-8 0-13 5-13 13 0 7 5 12 12 12 5 0 9-2 12-6 4 1 8 0 11-3 5-5 5-13 0-18-4-4-10-5-15-2-2 2-4 3-7 4Z" />
+      <path d="M21 39a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z" />
+      <path d="M13 9v22" />
+      <path d="M13 14h9v10h-9" />
+    </svg>
+  );
+}
+
 function FindSection({ copy }: { copy: FindCopy }) {
   return (
     <section id="find" className="find-section" aria-labelledby="find-title">
@@ -990,17 +1086,24 @@ function FindSection({ copy }: { copy: FindCopy }) {
           >
             <div className="find-card-header">
               <span className="find-card-icon" aria-hidden="true">
-                {card.icon}
+                <FindCardIcon icon={card.icon} />
               </span>
               <h3>{card.title}</h3>
             </div>
             <ul>
-              {card.items.map((item) => (
-                <li key={item}>
-                  <span className="find-bullet" aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
+              {card.items.map((item) => {
+                const itemParts = getFindItemParts(item);
+
+                return (
+                  <li key={`${itemParts.heading}-${itemParts.body}`}>
+                    {itemParts.heading && <strong>{itemParts.heading}</strong>}
+                    <span className="find-description">
+                      <span className="find-bullet" aria-hidden="true" />
+                      {itemParts.body}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           </article>
         ))}
