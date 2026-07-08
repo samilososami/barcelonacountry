@@ -9,6 +9,7 @@ type Artist = {
   role: string;
   body: string;
   image: string;
+  instagram: string;
   x: number;
   y: number;
   imageFit?: "cover" | "stretch" | "montse" | "jonathan";
@@ -49,6 +50,18 @@ type RevealStyle = CSSProperties & {
   "--scrolljs-delay"?: string;
 };
 
+type FindCard = {
+  title: string;
+  icon: string;
+  items: string[];
+};
+
+type FindCopy = {
+  kicker: string;
+  title: string;
+  cards: FindCard[];
+};
+
 const navTargets = ["home", "festival", "artists", "program", "location", "contact"];
 const scrollTargetSelectors: Record<string, string> = {
   home: ".frame",
@@ -67,6 +80,231 @@ const languageOptions: { key: LanguageKey; label: string }[] = [
   { key: "en", label: "Inglés" },
   { key: "it", label: "Italiano" }
 ];
+
+const findCopies: Record<LanguageKey, FindCopy> = {
+  de: {
+    kicker: "WAS DICH ERWARTET",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Musik, Tanz und Legenden",
+        icon: "US",
+        items: [
+          "Das Kreativlabor der Legenden.",
+          "Ununterbrochener Tanz während des gesamten Events.",
+          "Eltern teilen ihre Leidenschaft mit ihren Kindern.",
+          "Der Soundpuls des Festivals.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Western Markt",
+        icon: "SHOP",
+        items: [
+          "Das große kommerzielle Schaufenster.",
+          "Mit den legendären Harley-Davidson-Motorrädern.",
+          "Totales Eintauchen in die Kultur.",
+          "Country-High-Fashion-Laufsteg."
+        ]
+      },
+      {
+        title: "Food Trucks",
+        icon: "BBQ",
+        items: ["Authentischer Western-Geschmack."]
+      },
+      {
+        title: "Weltrekord",
+        icon: "REC",
+        items: ["Der Versuch eines Weltrekords."]
+      }
+    ]
+  },
+  es: {
+    kicker: "QUÉ ENCONTRARÁS",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Música, baile y leyendas",
+        icon: "US",
+        items: [
+          "El laboratorio de creatividad de las leyendas.",
+          "Baile ininterrumpido durante todo el evento.",
+          "Padres compartiendo su pasión con sus hijos.",
+          "El pulso sonoro del festival.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Market western",
+        icon: "SHOP",
+        items: [
+          "El gran escaparate comercial.",
+          "Incluidas las míticas motos Harley Davidson.",
+          "Inmersión total en la cultura.",
+          "Pasarela de moda de alta costura country."
+        ]
+      },
+      {
+        title: "Food trucks",
+        icon: "BBQ",
+        items: ["Sabor auténtico western."]
+      },
+      {
+        title: "Récord mundial",
+        icon: "REC",
+        items: ["El intento de récord mundial."]
+      }
+    ]
+  },
+  ca: {
+    kicker: "QUÈ HI TROBARÀS",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Música, ball i llegendes",
+        icon: "US",
+        items: [
+          "El laboratori de creativitat de les llegendes.",
+          "Ball ininterromput durant tot l'esdeveniment.",
+          "Pares compartint la passió amb els seus fills.",
+          "El pols sonor del festival.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Market western",
+        icon: "SHOP",
+        items: [
+          "El gran aparador comercial.",
+          "Incloses les mítiques motos Harley Davidson.",
+          "Immersió total en la cultura.",
+          "Passarel·la de moda d'alta costura country."
+        ]
+      },
+      {
+        title: "Food trucks",
+        icon: "BBQ",
+        items: ["Sabor western autèntic."]
+      },
+      {
+        title: "Rècord mundial",
+        icon: "REC",
+        items: ["L'intent de rècord mundial."]
+      }
+    ]
+  },
+  fr: {
+    kicker: "CE QUE VOUS TROUVEREZ",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Musique, danse et légendes",
+        icon: "US",
+        items: [
+          "Le laboratoire créatif des légendes.",
+          "Danse non-stop pendant tout l'événement.",
+          "Des parents partageant leur passion avec leurs enfants.",
+          "Le pouls sonore du festival.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Marché western",
+        icon: "SHOP",
+        items: [
+          "La grande vitrine commerciale.",
+          "Avec les mythiques motos Harley Davidson.",
+          "Immersion totale dans la culture.",
+          "Défilé de mode haute couture country."
+        ]
+      },
+      {
+        title: "Food trucks",
+        icon: "BBQ",
+        items: ["Saveur western authentique."]
+      },
+      {
+        title: "Record mondial",
+        icon: "REC",
+        items: ["La tentative de record mondial."]
+      }
+    ]
+  },
+  en: {
+    kicker: "WHAT YOU'LL FIND",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Music, dance and legends",
+        icon: "US",
+        items: [
+          "The creative lab of the legends.",
+          "Non-stop dancing throughout the whole event.",
+          "Parents sharing their passion with their children.",
+          "The sound pulse of the festival.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Western market",
+        icon: "SHOP",
+        items: [
+          "The big commercial showcase.",
+          "Including the legendary Harley Davidson motorcycles.",
+          "Full immersion in the culture.",
+          "A high-fashion country runway."
+        ]
+      },
+      {
+        title: "Food trucks",
+        icon: "BBQ",
+        items: ["Authentic western flavor."]
+      },
+      {
+        title: "World record",
+        icon: "REC",
+        items: ["The world record attempt."]
+      }
+    ]
+  },
+  it: {
+    kicker: "COSA TROVERAI",
+    title: "Country non stop",
+    cards: [
+      {
+        title: "Musica, ballo e leggende",
+        icon: "US",
+        items: [
+          "Il laboratorio creativo delle leggende.",
+          "Ballo ininterrotto durante tutto l'evento.",
+          "Genitori che condividono la passione con i figli.",
+          "Il battito sonoro del festival.",
+          "Country non stop!"
+        ]
+      },
+      {
+        title: "Market western",
+        icon: "SHOP",
+        items: [
+          "La grande vetrina commerciale.",
+          "Incluse le mitiche moto Harley Davidson.",
+          "Immersione totale nella cultura.",
+          "Passerella di alta moda country."
+        ]
+      },
+      {
+        title: "Food truck",
+        icon: "BBQ",
+        items: ["Autentico sapore western."]
+      },
+      {
+        title: "Record mondiale",
+        icon: "REC",
+        items: ["Il tentativo di record mondiale."]
+      }
+    ]
+  }
+};
 
 const copies: Record<LanguageKey, Copy> = {
   de: {
@@ -416,41 +654,46 @@ const copies: Record<LanguageKey, Copy> = {
 const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
-    x: 14,
+    instagram: "https://www.instagram.com/polfryann/",
+    x: 0,
     y: 1940
   },
   {
     image: "/assets/artist-algaly.png",
-    x: 268,
+    instagram: "https://www.instagram.com/algalyfofana/",
+    x: 256.5,
     y: 1940,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
-    x: 522,
+    instagram: "https://www.instagram.com/david.villellas/",
+    x: 513,
     y: 1940
   },
   {
     image: "/assets/artist-montse.png",
-    x: 776,
+    instagram: "https://www.instagram.com/montse.moscardo/",
+    x: 769.5,
     y: 1940,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
-    x: 1030,
+    instagram: "https://www.instagram.com/jonathan_jones_music/",
+    x: 1026,
     y: 1940,
     imageFit: "jonathan"
   }
 ];
 
 const artistCardMetrics = {
-  width: 246,
+  width: 254,
   photoInset: 5,
-  nameTop: 276,
-  roleTop: 328,
-  bodyTop: 386,
-  bodyWidth: 204
+  nameTop: 286,
+  roleTop: 341,
+  bodyTop: 403,
+  bodyWidth: 214
 };
 
 const getInitialLanguage = (): LanguageKey => {
@@ -684,9 +927,16 @@ function ArtistCard({ artist }: { artist: Artist }) {
 
   return (
     <article className="artist-card abs" style={revealStyle({ left: artist.x, top: artist.y }, 80)} data-scrolljs>
-      <div className="artist-photo abs" style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}>
+      <a
+        className="artist-photo artist-photo-link abs"
+        style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}
+        href={artist.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Instagram de ${artist.name}`}
+      >
         <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt="" />
-      </div>
+      </a>
       <h3
         className="artist-name abs"
         style={{ left: 0, top: artistCardMetrics.nameTop, width: artistCardMetrics.width }}
@@ -715,12 +965,57 @@ function ArtistCard({ artist }: { artist: Artist }) {
   );
 }
 
+function FindSection({ copy }: { copy: FindCopy }) {
+  return (
+    <section id="find" className="find-section" aria-labelledby="find-title">
+      <p className="abs find-kicker" data-text-node="find-kicker" data-scrolljs style={revealStyle({}, 0)}>
+        {copy.kicker}
+      </p>
+      <h2
+        id="find-title"
+        className="abs western rio find-title"
+        data-text-node="find-title"
+        data-scrolljs
+        style={revealStyle({}, 80)}
+      >
+        {copy.title}
+      </h2>
+      <div className="abs find-grid" aria-label={copy.kicker}>
+        {copy.cards.map((card, index) => (
+          <article
+            className={`find-card find-card-${index + 1}`}
+            key={card.title}
+            data-scrolljs
+            style={revealStyle({}, 100 + index * 70)}
+          >
+            <div className="find-card-header">
+              <span className="find-card-icon" aria-hidden="true">
+                {card.icon}
+              </span>
+              <h3>{card.title}</h3>
+            </div>
+            <ul>
+              {card.items.map((item) => (
+                <li key={item}>
+                  <span className="find-bullet" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function App() {
   useFigmaScale();
   useScrollJsReveal();
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const copy = copies[language];
+  const findCopy = findCopies[language];
   const artists = createArtists(copy);
 
   useEffect(() => {
@@ -893,6 +1188,8 @@ function App() {
               <ArtistCard key={artist.name} artist={artist} />
             ))}
           </section>
+
+          <FindSection copy={findCopy} />
 
           <section id="location" className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />

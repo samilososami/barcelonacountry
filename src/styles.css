@@ -73,7 +73,7 @@ h3 {
 
 .page {
   width: 100vw;
-  min-height: calc(4622px * var(--figma-scale));
+  min-height: calc(5942px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
@@ -81,7 +81,7 @@ h3 {
 .stage {
   position: relative;
   width: 100vw;
-  height: calc(4622px * var(--figma-scale));
+  height: calc(5942px * var(--figma-scale));
   margin: 0;
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ h3 {
   left: 50%;
   top: 0;
   width: 1280px;
-  height: 4622px;
+  height: 5942px;
   background: var(--blue);
   transform: translateX(-50%) scale(var(--figma-scale));
   transform-origin: top center;
@@ -777,8 +777,8 @@ h3 {
 
 .artist-card {
   z-index: 1;
-  width: 246px;
-  height: 660px;
+  width: 254px;
+  height: 700px;
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 9px 0 var(--red);
@@ -795,9 +795,19 @@ h3 {
 }
 
 .artist-photo {
-  width: 236px;
-  height: 236px;
+  width: 244px;
+  height: 244px;
   overflow: hidden;
+}
+
+.artist-photo-link {
+  display: block;
+  cursor: pointer;
+  outline: none;
+}
+
+.artist-photo-link:focus-visible {
+  box-shadow: 0 0 0 5px #ffffff, 0 0 0 9px var(--red);
 }
 
 .artist-image {
@@ -847,34 +857,185 @@ h3 {
 .artist-name {
   color: var(--blue);
   font-family: "Rye", serif;
-  font-size: 22.5px;
+  font-size: 23.6px;
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: 0.48px;
+  letter-spacing: 0.5px;
   text-align: center;
 }
 
 .artist-role {
   color: var(--red);
-  font-size: 13px;
+  font-size: 13.6px;
   line-height: 1.45;
-  letter-spacing: 0.56px;
+  letter-spacing: 0.58px;
   text-align: center;
   text-transform: uppercase;
 }
 
 .artist-body {
-  width: 204px;
+  width: 214px;
   color: var(--blue);
-  font-size: 14px;
+  font-size: 14.45px;
   line-height: 1.55;
   letter-spacing: 0.3px;
   text-align: center;
 }
 
+.find-section {
+  position: absolute;
+  left: 0;
+  top: 2700px;
+  width: 1280px;
+  height: 1286px;
+  color: var(--blue);
+}
+
+.find-section::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--edge-bleed));
+  top: 0;
+  width: calc(1280px + (2 * var(--edge-bleed)));
+  height: 1286px;
+  background: #ffffff;
+  z-index: 0;
+}
+
+.find-section::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--edge-bleed));
+  top: 0;
+  width: calc(1280px + (2 * var(--edge-bleed)));
+  height: 20px;
+  background: var(--red);
+  z-index: 1;
+}
+
+.find-kicker {
+  left: 503.5px;
+  top: 99px;
+  width: 273px;
+  color: var(--red);
+  font-size: 18.75px;
+  line-height: 0.97;
+  letter-spacing: 7.69px;
+  text-align: center;
+  z-index: 2;
+}
+
+.find-title {
+  left: 127.45px;
+  top: 152px;
+  width: 1025.1px;
+  height: 97.85px;
+  color: #0048ff;
+  font-size: 96px;
+  line-height: 0.97;
+  letter-spacing: 3.84px;
+  text-shadow: 0 20px 79.4px rgba(255, 255, 255, 0.3);
+  z-index: 2;
+}
+
+.find-grid {
+  left: 49.83px;
+  top: 282.9px;
+  width: 1176.92px;
+  display: grid;
+  grid-template-columns: repeat(2, 570.42px);
+  grid-template-rows: 608px 241px;
+  gap: 54px 36.5px;
+  z-index: 2;
+}
+
+.find-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 2px solid var(--blue);
+  box-shadow: 0 10px 0 var(--red);
+  transition:
+    border-color 260ms ease,
+    box-shadow 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.find-card:hover {
+  border-color: var(--red);
+  box-shadow: 0 16px 0 var(--red), 0 24px 26px rgba(23, 35, 96, 0.18);
+  transform: translateY(-7px) scale(1.012);
+}
+
+.find-card-header {
+  height: 95.63px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--blue);
+  color: #ffffff;
+  padding: 0 28px;
+}
+
+.find-card-icon {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: #ffffff;
+  border: 3px solid var(--red);
+  color: var(--blue);
+  font-family: "Rye", serif;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.find-card h3 {
+  color: #ffffff;
+  font-family: "Rye", serif;
+  font-size: 31px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 1.2px;
+}
+
+.find-card ul {
+  display: grid;
+  gap: 34px;
+  margin: 0;
+  padding: 38px 38px 0 38px;
+  list-style: none;
+}
+
+.find-card li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: #10316e;
+  font-size: 20px;
+  line-height: 1.23;
+  letter-spacing: 0.6px;
+}
+
+.find-card-3 ul,
+.find-card-4 ul {
+  padding-top: 34px;
+}
+
+.find-bullet {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  background: var(--red);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 56%, 80% 91%, 50% 70%, 20% 91%, 32% 56%, 2% 35%, 39% 35%);
+}
+
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
-  top: 2678.59px;
+  top: 3998.59px;
   width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: #ffffff;
@@ -883,7 +1044,7 @@ h3 {
 
 .location-kicker {
   left: 560.5px;
-  top: 2775.29px;
+  top: 4095.29px;
   width: 159px;
   color: var(--red);
   font-size: 18.75px;
@@ -894,7 +1055,7 @@ h3 {
 
 .text-yeehaw {
   left: 260.08px;
-  top: 2817.97px;
+  top: 4137.97px;
   width: 759.85px;
   height: 97.85px;
   color: var(--red);
@@ -905,7 +1066,7 @@ h3 {
 
 .text-en-barcelona {
   left: 237.31px;
-  top: 2925.83px;
+  top: 4245.83px;
   width: 805.37px;
   height: 97.85px;
   color: #0048ff;
@@ -915,7 +1076,7 @@ h3 {
 
 .map-placeholder {
   left: 144.46px;
-  top: 3057.63px;
+  top: 4377.63px;
   width: 991.08px;
   height: 424.57px;
   background: #d9d9d9;
@@ -941,7 +1102,7 @@ h3 {
 
 .date-banner {
   left: 273.21px;
-  top: 3578.9px;
+  top: 4898.9px;
   width: 795.94px;
   height: 137.91px;
   overflow: hidden;
@@ -970,17 +1131,17 @@ h3 {
 
 .date-star-left {
   left: 359.2px;
-  top: 3588.5px;
+  top: 4908.5px;
 }
 
 .date-star-right {
   left: 880.9px;
-  top: 3588.5px;
+  top: 4908.5px;
 }
 
 .text-date {
   left: 477.15px;
-  top: 3604.15px;
+  top: 4924.15px;
   width: 324.74px;
   color: #ffffff;
   font-size: 34.62px;
@@ -992,7 +1153,7 @@ h3 {
 
 .text-mantente {
   left: 83.7px;
-  top: 3742px;
+  top: 5062px;
   width: 1112.61px;
   height: 95px;
   color: #ffffff;
@@ -1002,7 +1163,7 @@ h3 {
 
 .contact-form {
   left: 0;
-  top: 3887px;
+  top: 5207px;
   width: 1280px;
   height: 340px;
 }
@@ -1218,7 +1379,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 4297px;
+  top: 5617px;
   width: 1280px;
   height: 324.59px;
   background: transparent;
