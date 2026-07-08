@@ -1080,7 +1080,7 @@ function FindSection({ copy }: { copy: FindCopy }) {
         {copy.cards.map((card, index) => (
           <article
             className={`find-card find-card-${index + 1}`}
-            key={card.title}
+            key={`${card.title}-${index}`}
             data-scrolljs
             style={revealStyle({}, 100 + index * 70)}
           >
