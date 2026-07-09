@@ -823,6 +823,17 @@ function useScrollJsReveal() {
       return;
     }
 
+    const revealVisibleNodes = () => {
+      nodes.forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          node.classList.add("is-visible");
+        } else if (rect.top > window.innerHeight) {
+          node.classList.remove("is-visible");
+        }
+      });
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -848,7 +859,16 @@ function useScrollJsReveal() {
       }
       observer.observe(node);
     });
-    return () => observer.disconnect();
+
+    revealVisibleNodes();
+    window.addEventListener("scroll", revealVisibleNodes, { passive: true });
+    window.addEventListener("resize", revealVisibleNodes);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", revealVisibleNodes);
+      window.removeEventListener("resize", revealVisibleNodes);
+    };
   }, []);
 }
 
