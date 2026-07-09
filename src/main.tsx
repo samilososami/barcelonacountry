@@ -710,45 +710,45 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     instagram: "https://www.instagram.com/polfryann/",
-    x: 0,
-    y: 1940
+    x: -31,
+    y: 1920
   },
   {
     image: "/assets/artist-algaly.png",
     instagram: "https://www.instagram.com/algalyfofana/",
-    x: 256.5,
-    y: 1940,
+    x: 239.25,
+    y: 1920,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     instagram: "https://www.instagram.com/david.villellas/",
-    x: 513,
-    y: 1940
+    x: 509.5,
+    y: 1920
   },
   {
     image: "/assets/artist-montse.png",
     instagram: "https://www.instagram.com/montse.moscardo/",
-    x: 769.5,
-    y: 1940,
+    x: 779.75,
+    y: 1920,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     instagram: "https://www.instagram.com/jonathan_jones_music/",
-    x: 1026,
-    y: 1940,
+    x: 1050,
+    y: 1920,
     imageFit: "jonathan"
   }
 ];
 
 const artistCardMetrics = {
-  width: 254,
+  width: 262,
   photoInset: 5,
-  nameTop: 286,
-  roleTop: 341,
-  bodyTop: 403,
-  bodyWidth: 214
+  nameTop: 300,
+  roleTop: 358,
+  bodyTop: 424,
+  bodyWidth: 224
 };
 
 const getInitialLanguage = (): LanguageKey => {
@@ -841,7 +841,13 @@ function useScrollJsReveal() {
       }
     );
 
-    nodes.forEach((node) => observer.observe(node));
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        node.classList.add("is-visible");
+      }
+      observer.observe(node);
+    });
     return () => observer.disconnect();
   }, []);
 }
