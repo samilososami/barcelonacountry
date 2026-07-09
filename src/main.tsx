@@ -79,6 +79,17 @@ const scrollTargetSelectors: Record<string, string> = {
   contact: ".text-mantente"
 };
 
+const findIconAssets: Record<string, string> = {
+  music: "/assets/find-icon-music.png",
+  US: "/assets/find-icon-music.png",
+  shopping: "/assets/find-icon-shopping.png",
+  SHOP: "/assets/find-icon-shopping.png",
+  food: "/assets/find-icon-food.png",
+  BBQ: "/assets/find-icon-food.png",
+  cowboy: "/assets/find-icon-cowboy.png",
+  REC: "/assets/find-icon-cowboy.png"
+};
+
 const languageOptions: { key: LanguageKey; label: string }[] = [
   { key: "de", label: "Aleman" },
   { key: "es", label: "Español" },
@@ -1011,57 +1022,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
 
 const getFindItemParts = (item: FindItem) => (typeof item === "string" ? { heading: "", body: item } : item);
 
-function FindCardIcon({ icon }: { icon: string }) {
-  if (icon === "shopping" || icon === "SHOP") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path className="icon-line" d="M27 24 34 15l10 9" />
-        <path className="icon-line" d="M18 29h34l-4 22H16l-4-22h6Z" />
-        <path className="icon-line" d="M24 29v-4c0-5 4-8 9-8 4 0 8 3 8 8v4" />
-        <path className="icon-line" d="M17 36h32" />
-        <path className="icon-line" d="M24 43h4" />
-        <path className="icon-line" d="M35 43h4" />
-      </svg>
-    );
-  }
-
-  if (icon === "food" || icon === "BBQ") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path className="icon-line" d="M9 43h46" />
-        <path className="icon-line" d="M18 41c1-12 9-20 21-20s20 8 21 20" />
-        <path className="icon-line" d="M38 17a5 5 0 0 0-10 0" />
-        <path className="icon-line" d="M15 50h33" />
-        <path className="icon-line" d="M8 35h12v7H8Z" />
-        <path className="icon-line" d="M12 28c-3-3 3-5 0-8" />
-        <path className="icon-line" d="M18 28c-3-3 3-5 0-8" />
-      </svg>
-    );
-  }
-
-  if (icon === "cowboy" || icon === "REC") {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path className="icon-line" d="M8 29c8 4 15 2 22-4 7 6 16 8 27 4-3 9-12 13-25 13S12 38 8 29Z" />
-        <path className="icon-line" d="M20 28c2-10 7-15 12-15s10 5 12 15" />
-        <path className="icon-line" d="M22 43c2 8 6 12 10 12s8-4 10-12" />
-        <path className="icon-line" d="M26 37h.2" />
-        <path className="icon-line" d="M38 37h.2" />
-        <path className="icon-line" d="M28 47c3 2 6 2 9 0" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path className="icon-fill" d="M14 6h8v25c6 2 10 8 10 15 0 8-6 14-14 14S4 54 4 46c0-7 4-13 10-15V6Z" />
-      <path className="icon-cut" d="M12 12h12M12 19h12M12 26h12" />
-      <path className="icon-cut" d="M18 41a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" />
-      <path className="icon-fill" d="M39 8h10v30h6c5 0 8 3 8 8v8H39c-7 0-11-4-11-11V29h11V8Z" />
-      <path className="icon-cut" d="M39 16h10M39 25h10M39 34h12" />
-    </svg>
-  );
-}
+const getFindIconAsset = (icon: string) => findIconAssets[icon] ?? findIconAssets.music;
 
 function FindSection({ copy }: { copy: FindCopy }) {
   return (
@@ -1088,7 +1049,7 @@ function FindSection({ copy }: { copy: FindCopy }) {
           >
             <div className="find-card-header">
               <span className="find-card-icon" aria-hidden="true">
-                <FindCardIcon icon={card.icon} />
+                <img src={getFindIconAsset(card.icon)} alt="" />
               </span>
               <h3>{card.title}</h3>
             </div>
