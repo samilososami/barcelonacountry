@@ -1015,10 +1015,12 @@ function FindCardIcon({ icon }: { icon: string }) {
   if (icon === "shopping" || icon === "SHOP") {
     return (
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M20 24h32l-4 29H16l-4-29h8Z" />
-        <path d="M25 24v-4c0-7 4-11 10-11s10 4 10 11v4" />
-        <path d="M13 32h38" />
-        <path d="M10 42h16" />
+        <path className="icon-line" d="M27 24 34 15l10 9" />
+        <path className="icon-line" d="M18 29h34l-4 22H16l-4-22h6Z" />
+        <path className="icon-line" d="M24 29v-4c0-5 4-8 9-8 4 0 8 3 8 8v4" />
+        <path className="icon-line" d="M17 36h32" />
+        <path className="icon-line" d="M24 43h4" />
+        <path className="icon-line" d="M35 43h4" />
       </svg>
     );
   }
@@ -1026,12 +1028,13 @@ function FindCardIcon({ icon }: { icon: string }) {
   if (icon === "food" || icon === "BBQ") {
     return (
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M10 42h44" />
-        <path d="M17 42c1-13 9-22 22-22s21 9 22 22" />
-        <path d="M39 16a5 5 0 0 0-10 0" />
-        <path d="M15 50h34" />
-        <path d="M7 32h10" />
-        <path d="M6 27h10" />
+        <path className="icon-line" d="M9 43h46" />
+        <path className="icon-line" d="M18 41c1-12 9-20 21-20s20 8 21 20" />
+        <path className="icon-line" d="M38 17a5 5 0 0 0-10 0" />
+        <path className="icon-line" d="M15 50h33" />
+        <path className="icon-line" d="M8 35h12v7H8Z" />
+        <path className="icon-line" d="M12 28c-3-3 3-5 0-8" />
+        <path className="icon-line" d="M18 28c-3-3 3-5 0-8" />
       </svg>
     );
   }
@@ -1039,24 +1042,23 @@ function FindCardIcon({ icon }: { icon: string }) {
   if (icon === "cowboy" || icon === "REC") {
     return (
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M8 29c8 4 14 2 21-4 7 6 15 8 27 4-3 10-11 14-24 14S12 39 8 29Z" />
-        <path d="M20 28c2-10 7-15 12-15s10 5 12 15" />
-        <path d="M21 44c3 7 7 10 12 10s9-3 12-10" />
-        <path d="M25 37h.2" />
-        <path d="M39 37h.2" />
+        <path className="icon-line" d="M8 29c8 4 15 2 22-4 7 6 16 8 27 4-3 9-12 13-25 13S12 38 8 29Z" />
+        <path className="icon-line" d="M20 28c2-10 7-15 12-15s10 5 12 15" />
+        <path className="icon-line" d="M22 43c2 8 6 12 10 12s8-4 10-12" />
+        <path className="icon-line" d="M26 37h.2" />
+        <path className="icon-line" d="M38 37h.2" />
+        <path className="icon-line" d="M28 47c3 2 6 2 9 0" />
       </svg>
     );
   }
 
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path d="M42 8 56 22" />
-      <path d="M46 12 25 33" />
-      <path d="M51 17 30 38" />
-      <path d="M20 30c-8 0-13 5-13 13 0 7 5 12 12 12 5 0 9-2 12-6 4 1 8 0 11-3 5-5 5-13 0-18-4-4-10-5-15-2-2 2-4 3-7 4Z" />
-      <path d="M21 39a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z" />
-      <path d="M13 9v22" />
-      <path d="M13 14h9v10h-9" />
+      <path className="icon-fill" d="M14 6h8v25c6 2 10 8 10 15 0 8-6 14-14 14S4 54 4 46c0-7 4-13 10-15V6Z" />
+      <path className="icon-cut" d="M12 12h12M12 19h12M12 26h12" />
+      <path className="icon-cut" d="M18 41a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" />
+      <path className="icon-fill" d="M39 8h10v30h6c5 0 8 3 8 8v8H39c-7 0-11-4-11-11V29h11V8Z" />
+      <path className="icon-cut" d="M39 16h10M39 25h10M39 34h12" />
     </svg>
   );
 }
