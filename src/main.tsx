@@ -125,6 +125,7 @@ const findVisuals = [
 ];
 
 const findTabIcons = ["🎸", "🛍️", "🍗", "🤠"];
+const findSlideStep = 1225;
 
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
@@ -1146,17 +1147,16 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
         ))}
       </div>
       <div className="abs find-carousel" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 190)}>
-        <div className="find-track" style={{ transform: `translate3d(${-activeIndex * 1138}px, 0, 0)` }}>
+        <div className="find-track" style={{ transform: `translate3d(${-activeIndex * findSlideStep}px, 0, 0)` }}>
           {copy.cards.map((card, cardIndex) => {
             const stops = getFindStops(card);
-            const cardIcon = getFindIconAsset(card.icon);
 
             return (
               <article className="find-slide" key={`${card.title}-${cardIndex}`}>
                 <div className="find-slide-image-wrap">
                   <img className="find-slide-image" src={findVisuals[cardIndex] ?? findVisuals[0]} alt="" />
-                  <span className="find-slide-badge">
-                    <img src={cardIcon} alt="" />
+                  <span className="find-slide-badge" aria-hidden="true">
+                    {findTabIcons[cardIndex] ?? "★"}
                   </span>
                 </div>
                 <div className="find-slide-copy">

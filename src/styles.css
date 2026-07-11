@@ -1453,13 +1453,13 @@ h3 {
   top: 398px;
   width: 1280px;
   height: 720px;
-  overflow: visible;
+  overflow: hidden;
   z-index: 3;
 }
 
 .find-track {
   display: flex;
-  gap: 53px;
+  gap: 140px;
   padding-left: 70px;
   will-change: transform;
   transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -1506,9 +1506,12 @@ h3 {
   border: 5px solid #ffffff;
   border-radius: 999px;
   background: var(--red);
+  color: #ffffff;
+  font-size: 39px;
+  line-height: 1;
   box-shadow:
     0 0 0 4px var(--blue),
-    0 8px 14px rgba(8, 18, 62, 0.22);
+    5px 5px 0 rgba(255, 65, 71, 0.42);
 }
 
 .find-slide-badge img {
@@ -1526,7 +1529,7 @@ h3 {
   max-width: 440px;
   color: #14246c;
   font-family: "Rye", serif;
-  font-size: 45px;
+  font-size: 47px;
   font-weight: 400;
   line-height: 0.93;
   letter-spacing: 1px;
@@ -1538,7 +1541,7 @@ h3 {
   width: auto;
   margin-top: 18px;
   color: #73a8ff;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1;
   letter-spacing: 0.35px;
   text-align: left;
@@ -1547,19 +1550,19 @@ h3 {
 .find-red-dots {
   width: 520px;
   height: 10px;
-  margin: 32px 0 18px;
+  margin: 26px 0 16px;
   background: radial-gradient(circle, var(--red) 0 4px, transparent 4.5px) 0 0 / 28px 10px repeat-x;
 }
 
 .find-stop-list {
-  gap: 13px;
+  gap: 11px;
 }
 
 .find-stop-list li {
-  min-height: 54px;
+  min-height: 69px;
   grid-template-columns: 64px 1fr;
   gap: 9px;
-  padding: 7px 18px 6px 0;
+  padding: 8px 18px 7px 0;
   background: #ffeded;
   border: 0;
   border-left: 8px solid var(--red);
@@ -1573,19 +1576,19 @@ h3 {
 
 .find-stop-number {
   padding-top: 3px;
-  font-size: 29px;
+  font-size: 34px;
 }
 
 .find-stop-copy {
-  gap: 3px;
+  gap: 4px;
   color: #17215c;
-  font-size: 9px;
-  line-height: 1.2;
+  font-size: 14px;
+  line-height: 1.22;
 }
 
 .find-stop-copy strong {
   color: var(--blue);
-  font-size: 13px;
+  font-size: 17px;
   line-height: 1.08;
   letter-spacing: 0.55px;
 }
@@ -1599,7 +1602,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   color: #17215c;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 1px;
 }
 
@@ -1619,7 +1622,7 @@ h3 {
   background: transparent;
   color: var(--red);
   font-family: "Special Elite", ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0;
   box-shadow: none;
 }
