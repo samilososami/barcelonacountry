@@ -1399,6 +1399,7 @@ function App() {
           </section>
 
           <section id="contact" className="contact" aria-labelledby="contact-title">
+            <div className="abs contact-pattern" aria-hidden="true" />
             <h2
               id="contact-title"
               className="abs western rustler text-mantente"
