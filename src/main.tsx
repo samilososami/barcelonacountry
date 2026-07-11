@@ -1110,7 +1110,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
         {findIntroLabels[language]}
       </p>
       <div className="abs find-slider" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 170)}>
-        <div className="find-visual" key={`visual-${activeCard.title}`}>
+        <div className="find-visual" key={`visual-${activeIndex}-${activeCard.title}`}>
           <div className="find-ticket">
             <span className="find-ticket-number">{String(activeIndex + 1).padStart(2, "0")}</span>
             <img className="find-ticket-icon" src={activeIcon} alt="" />
@@ -1118,11 +1118,11 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
           </div>
           <p className="find-quote">«Where boots meet beat.»</p>
         </div>
-        <div className="find-details" key={`details-${activeCard.title}`}>
+        <div className="find-details" key={`details-${activeIndex}-${activeCard.title}`}>
           <div className="find-progress" aria-label="Paradas disponibles">
             {copy.cards.map((card, index) => (
               <button
-                key={card.title}
+                key={`${card.title}-${index}`}
                 className={`find-progress-dot ${index === activeIndex ? "is-active" : ""}`}
                 type="button"
                 aria-label={card.title}
