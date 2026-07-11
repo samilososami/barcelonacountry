@@ -117,6 +117,15 @@ const findIntroLabels: Record<LanguageKey, string> = {
   it: "Scegli una tappa del percorso. Ogni categoria apre una porta al vero spirito western."
 };
 
+const findVisuals = [
+  "/assets/find-catalan.jpg",
+  "/assets/find-shopping.jpg",
+  "/assets/find-food.jpg",
+  "/assets/find-food.jpg"
+];
+
+const findTabIcons = ["🎸", "🛍️", "🍗", "🤠"];
+
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
     kicker: "WAS DICH ERWARTET",
@@ -157,7 +166,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
   },
   es: {
     kicker: "QUE ENCONTRARÁS",
-    title: "Una experiencia inolvidable:",
+    title: "DETALLES DEL FESTIVAL",
     cards: [
       {
         title: "CATALAN STYLE & MÚSICA",
@@ -208,22 +217,30 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         ]
       },
       {
-        title: "GASTRONOMÍA COUNTRY",
+        title: "BOCADOS COUNTRY",
         icon: "food",
         items: [
           {
             heading: "ESPACIOS GASTRONÓMICOS COUNTRY:",
-            body: "Sabor auténtico western."
+            body: "BBQ, ribs, pulled pork, bourbon i cerveses artesanes."
+          },
+          {
+            heading: "FOOD TRUCKS AMERICANS",
+            body: "Del pretzel de Nova York al chili de Texas."
           }
         ]
       },
       {
-        title: "CATALAN STYLE & MÚSICA",
+        title: "COMUNIDAD Y AMIGOS",
         icon: "cowboy",
         items: [
           {
             heading: "THE SEA OF COWBOY HATS:",
-            body: "El intento de récord mundial."
+            body: "L'intent de record mundial: un mar de barrets omplint Barcelona."
+          },
+          {
+            heading: "TROBADA DE COLLES COUNTRY",
+            body: "Clubs de tota Europa units sota el mateix sol."
           }
         ]
       }
@@ -1080,9 +1097,6 @@ const getFindStops = (card: FindCard) =>
 
 function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
-  const activeStops = getFindStops(activeCard);
-  const activeIcon = getFindIconAsset(activeCard.icon);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -1091,6 +1105,9 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
   const goToNextStop = () => {
     setActiveIndex((index) => (index + 1) % copy.cards.length);
   };
+  const titleParts = copy.title.split(" ");
+  const titleAccent = titleParts.length > 1 ? titleParts.pop() : "";
+  const titleLead = titleParts.join(" ");
 
   return (
     <section id="find" className="find-section" aria-labelledby="find-title">
@@ -1104,48 +1121,66 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
         data-scrolljs
         style={revealStyle({}, 80)}
       >
-        {copy.title}
+        <span>{titleLead}</span> <span className="find-title-accent">{titleAccent}</span>
       </h2>
+      <div className="abs find-heading-dots" aria-hidden="true" />
       <p className="abs find-intro" data-scrolljs style={revealStyle({}, 130)}>
         {findIntroLabels[language]}
       </p>
-      <div className="abs find-slider" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 170)}>
-        <div className="find-visual" key={`visual-${activeIndex}-${activeCard.title}`}>
-          <div className="find-ticket">
-            <span className="find-ticket-number">{String(activeIndex + 1).padStart(2, "0")}</span>
-            <img className="find-ticket-icon" src={activeIcon} alt="" />
-            <h3>{activeCard.title}</h3>
-          </div>
-          <p className="find-quote">«Where boots meet beat.»</p>
-        </div>
-        <div className="find-details" key={`details-${activeIndex}-${activeCard.title}`}>
-          <div className="find-progress" aria-label="Paradas disponibles">
-            {copy.cards.map((card, index) => (
-              <button
-                key={`${card.title}-${index}`}
-                className={`find-progress-dot ${index === activeIndex ? "is-active" : ""}`}
-                type="button"
-                aria-label={card.title}
-                aria-current={index === activeIndex}
-                onClick={() => setActiveIndex(index)}
-              />
-            ))}
-          </div>
-          <ol className="find-stop-list">
-            {activeStops.map((stop, index) => (
-              <li key={`${activeCard.title}-${stop.heading}`}>
-                <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
-                <span className="find-stop-copy">
-                  <strong>{stop.heading}</strong>
-                  <span>{stop.body}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
-          <button className="find-next" type="button" onClick={goToNextStop}>
-            {nextStopLabels[language]}
-            <span aria-hidden="true">→</span>
+      <div className="abs find-tabs" aria-label="Paradas del festival" data-scrolljs style={revealStyle({}, 155)}>
+        {copy.cards.map((card, index) => (
+          <button
+            key={`${card.title}-${index}`}
+            className={`find-tab ${index === activeIndex ? "is-active" : ""}`}
+            type="button"
+            aria-current={index === activeIndex}
+            onClick={() => setActiveIndex(index)}
+          >
+            <span aria-hidden="true">{findTabIcons[index] ?? "★"}</span>
+            {card.title.split("&")[0].replace("COUNTRY", "").trim()}
+            <small>{String(index + 1).padStart(2, "0")}</small>
           </button>
+        ))}
+      </div>
+      <div className="abs find-carousel" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 190)}>
+        <div className="find-track" style={{ transform: `translate3d(${-activeIndex * 1138}px, 0, 0)` }}>
+          {copy.cards.map((card, cardIndex) => {
+            const stops = getFindStops(card);
+            const cardIcon = getFindIconAsset(card.icon);
+
+            return (
+              <article className="find-slide" key={`${card.title}-${cardIndex}`}>
+                <div className="find-slide-image-wrap">
+                  <img className="find-slide-image" src={findVisuals[cardIndex] ?? findVisuals[0]} alt="" />
+                  <span className="find-slide-badge">
+                    <img src={cardIcon} alt="" />
+                  </span>
+                </div>
+                <div className="find-slide-copy">
+                  <h3>{card.title}</h3>
+                  <p className="find-quote">«{cardIndex === 0 ? "Where boots meet beat." : "Dress the part. Live the myth."}»</p>
+                  <div className="find-red-dots" aria-hidden="true" />
+                  <ol className="find-stop-list">
+                    {stops.map((stop, index) => (
+                      <li key={`${card.title}-${stop.heading}`}>
+                        <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
+                        <span className="find-stop-copy">
+                          <strong>{stop.heading}</strong>
+                          <span>{stop.body}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                  <div className="find-slide-footer">
+                    <span>{cardIndex + 1} / {copy.cards.length}</span>
+                    <button className="find-next" type="button" onClick={goToNextStop}>
+                      {nextStopLabels[language]} <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

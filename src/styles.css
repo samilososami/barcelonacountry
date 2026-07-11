@@ -1299,6 +1299,316 @@ h3 {
   outline-offset: 5px;
 }
 
+/* Figma sliding stop layout */
+.find-section {
+  height: 1286px;
+  background: #202157;
+}
+
+.find-section::before {
+  background:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.035) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.035) 75%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.035) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.035) 75%),
+    linear-gradient(180deg, #24245f 0%, #202157 100%);
+  background-position: 0 0, 36px 36px, 0 0;
+  background-size: 72px 72px, 72px 72px, auto;
+  animation: none;
+}
+
+.find-kicker {
+  top: 70px;
+  color: #ffffff;
+  font-size: 12px;
+  letter-spacing: 7px;
+  text-shadow: none;
+}
+
+.find-kicker::before,
+.find-kicker::after {
+  display: none;
+}
+
+.find-title {
+  top: 105px;
+  height: 62px;
+  color: #ffffff;
+  font-family: "Rye", serif;
+  font-size: 52px;
+  letter-spacing: 1px;
+  text-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.38),
+    0 8px 16px rgba(5, 12, 40, 0.32);
+}
+
+.find-title-accent {
+  color: var(--red);
+  text-shadow:
+    0 2px 0 rgba(12, 20, 58, 0.55),
+    0 8px 16px rgba(5, 12, 40, 0.26);
+}
+
+.find-heading-dots {
+  left: 542px;
+  top: 191px;
+  width: 196px;
+  height: 10px;
+  background: radial-gradient(circle, var(--red) 0 4px, transparent 4.5px) 0 0 / 28px 10px repeat-x;
+  z-index: 2;
+}
+
+.find-intro {
+  top: 235px;
+  left: 421px;
+  width: 438px;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.55;
+  letter-spacing: 0.35px;
+}
+
+.find-tabs {
+  left: 72px;
+  top: 307px;
+  width: 1136px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 38px;
+  z-index: 4;
+}
+
+.find-tab {
+  height: 58px;
+  border: 4px solid #111c68;
+  background: #2b2d83;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "Rye", serif;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.45px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 7px 0 rgba(6, 14, 58, 0.48);
+  transition:
+    background-color 260ms ease,
+    box-shadow 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.find-tab span {
+  margin-right: 9px;
+}
+
+.find-tab small {
+  margin-left: 8px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.find-tab:hover,
+.find-tab:focus-visible {
+  transform: translateY(-5px);
+}
+
+.find-tab:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 5px;
+}
+
+.find-tab.is-active {
+  background: var(--red);
+  border-color: #c70f19;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 7px 0 #111c68;
+}
+
+.find-carousel {
+  left: 0;
+  top: 398px;
+  width: 1280px;
+  height: 720px;
+  overflow: visible;
+  z-index: 3;
+}
+
+.find-track {
+  display: flex;
+  gap: 53px;
+  padding-left: 70px;
+  will-change: transform;
+  transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.find-slide {
+  position: relative;
+  flex: 0 0 1085px;
+  height: 650px;
+  display: grid;
+  grid-template-columns: 457px 1fr;
+  column-gap: 46px;
+  padding: 28px 42px 32px 28px;
+  background: #ffffff;
+  border: 5px solid var(--blue);
+  box-shadow:
+    9px 10px 0 var(--red),
+    0 24px 38px rgba(4, 8, 31, 0.32);
+  color: var(--blue);
+}
+
+.find-slide-image-wrap {
+  position: relative;
+  width: 428px;
+  height: 596px;
+}
+
+.find-slide-image {
+  width: 428px;
+  height: 596px;
+  object-fit: cover;
+  border: 4px dashed rgba(255, 255, 255, 0.82);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.find-slide-badge {
+  position: absolute;
+  right: -17px;
+  bottom: -18px;
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  border: 5px solid #ffffff;
+  border-radius: 999px;
+  background: var(--red);
+  box-shadow:
+    0 0 0 4px var(--blue),
+    0 8px 14px rgba(8, 18, 62, 0.22);
+}
+
+.find-slide-badge img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.find-slide-copy {
+  position: relative;
+  padding-top: 46px;
+}
+
+.find-slide-copy h3 {
+  max-width: 440px;
+  color: #14246c;
+  font-family: "Rye", serif;
+  font-size: 47px;
+  font-weight: 400;
+  line-height: 0.93;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.find-slide-copy .find-quote {
+  position: static;
+  width: auto;
+  margin-top: 18px;
+  color: #73a8ff;
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: 0.35px;
+  text-align: left;
+}
+
+.find-red-dots {
+  width: 520px;
+  height: 10px;
+  margin: 41px 0 22px;
+  background: radial-gradient(circle, var(--red) 0 4px, transparent 4.5px) 0 0 / 28px 10px repeat-x;
+}
+
+.find-stop-list {
+  gap: 18px;
+}
+
+.find-stop-list li {
+  min-height: 76px;
+  grid-template-columns: 64px 1fr;
+  gap: 9px;
+  padding: 12px 18px 10px 0;
+  background: #ffeded;
+  border: 0;
+  border-left: 8px solid var(--red);
+  box-shadow: none;
+}
+
+.find-stop-list li:hover {
+  box-shadow: 8px 0 0 rgba(255, 65, 71, 0.16);
+  transform: translateX(8px);
+}
+
+.find-stop-number {
+  padding-top: 5px;
+  font-size: 31px;
+}
+
+.find-stop-copy {
+  gap: 5px;
+  color: #17215c;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+.find-stop-copy strong {
+  color: var(--blue);
+  font-size: 14px;
+  line-height: 1.08;
+  letter-spacing: 0.55px;
+}
+
+.find-slide-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #17215c;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.find-slide-footer .find-next {
+  position: static;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--red);
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
+.find-slide-footer .find-next:hover,
+.find-slide-footer .find-next:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  transform: translateX(5px);
+}
+
+.find-slide-footer .find-next:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+
+.find-slide-footer .find-next span {
+  margin-left: 4px;
+}
+
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
   top: 3998.59px;
