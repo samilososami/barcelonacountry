@@ -99,6 +99,24 @@ const languageOptions: { key: LanguageKey; label: string }[] = [
   { key: "it", label: "Italiano" }
 ];
 
+const nextStopLabels: Record<LanguageKey, string> = {
+  de: "Nächster Halt",
+  es: "Siguiente parada",
+  ca: "Seguent parada",
+  fr: "Prochain arrêt",
+  en: "Next stop",
+  it: "Prossima fermata"
+};
+
+const findIntroLabels: Record<LanguageKey, string> = {
+  de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
+  es: "Elige una parada del camino. Cada categoría abre una puerta al verdadero espíritu western.",
+  ca: "Tria una parada del camí. Cada categoria és una porta al veritable esperit western.",
+  fr: "Choisissez une étape du chemin. Chaque catégorie ouvre une porte vers le véritable esprit western.",
+  en: "Choose a stop on the trail. Each category opens a door to the real western spirit.",
+  it: "Scegli una tappa del percorso. Ogni categoria apre una porta al vero spirito western."
+};
+
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
     kicker: "WAS DICH ERWARTET",
@@ -1050,7 +1068,30 @@ const getFindItemParts = (item: FindItem) => (typeof item === "string" ? { headi
 
 const getFindIconAsset = (icon: string) => findIconAssets[icon] ?? findIconAssets.music;
 
-function FindSection({ copy }: { copy: FindCopy }) {
+const getFindStops = (card: FindCard) =>
+  card.items.map((item, index) => {
+    const itemParts = getFindItemParts(item);
+
+    return {
+      heading: itemParts.heading || (index === 0 ? card.title : `Parada ${String(index + 1).padStart(2, "0")}`),
+      body: itemParts.body
+    };
+  });
+
+function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
+  const activeStops = getFindStops(activeCard);
+  const activeIcon = getFindIconAsset(activeCard.icon);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [copy]);
+
+  const goToNextStop = () => {
+    setActiveIndex((index) => (index + 1) % copy.cards.length);
+  };
+
   return (
     <section id="find" className="find-section" aria-labelledby="find-title">
       <p className="abs find-kicker" data-text-node="find-kicker" data-scrolljs style={revealStyle({}, 0)}>
@@ -1065,37 +1106,47 @@ function FindSection({ copy }: { copy: FindCopy }) {
       >
         {copy.title}
       </h2>
-      <div className="abs find-grid" aria-label={copy.kicker}>
-        {copy.cards.map((card, index) => (
-          <article
-            className={`find-card find-card-${index + 1}`}
-            key={`${card.title}-${index}`}
-            data-scrolljs
-            style={revealStyle({}, 100 + index * 70)}
-          >
-            <div className="find-card-header">
-              <span className="find-card-icon" aria-hidden="true">
-                <img src={getFindIconAsset(card.icon)} alt="" />
-              </span>
-              <h3>{card.title}</h3>
-            </div>
-            <ul>
-              {card.items.map((item) => {
-                const itemParts = getFindItemParts(item);
-
-                return (
-                  <li key={`${itemParts.heading}-${itemParts.body}`}>
-                    {itemParts.heading && <strong>{itemParts.heading}</strong>}
-                    <span className="find-description">
-                      <span className="find-bullet" aria-hidden="true" />
-                      {itemParts.body}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </article>
-        ))}
+      <p className="abs find-intro" data-scrolljs style={revealStyle({}, 130)}>
+        {findIntroLabels[language]}
+      </p>
+      <div className="abs find-slider" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 170)}>
+        <div className="find-visual" key={`visual-${activeCard.title}`}>
+          <div className="find-ticket">
+            <span className="find-ticket-number">{String(activeIndex + 1).padStart(2, "0")}</span>
+            <img className="find-ticket-icon" src={activeIcon} alt="" />
+            <h3>{activeCard.title}</h3>
+          </div>
+          <p className="find-quote">«Where boots meet beat.»</p>
+        </div>
+        <div className="find-details" key={`details-${activeCard.title}`}>
+          <div className="find-progress" aria-label="Paradas disponibles">
+            {copy.cards.map((card, index) => (
+              <button
+                key={card.title}
+                className={`find-progress-dot ${index === activeIndex ? "is-active" : ""}`}
+                type="button"
+                aria-label={card.title}
+                aria-current={index === activeIndex}
+                onClick={() => setActiveIndex(index)}
+              />
+            ))}
+          </div>
+          <ol className="find-stop-list">
+            {activeStops.map((stop, index) => (
+              <li key={`${activeCard.title}-${stop.heading}`}>
+                <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
+                <span className="find-stop-copy">
+                  <strong>{stop.heading}</strong>
+                  <span>{stop.body}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+          <button className="find-next" type="button" onClick={goToNextStop}>
+            {nextStopLabels[language]}
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
     </section>
   );
@@ -1281,7 +1332,7 @@ function App() {
             ))}
           </section>
 
-          <FindSection copy={findCopy} />
+          <FindSection copy={findCopy} language={language} />
 
           <section id="location" className="location" aria-labelledby="location-title">
             <div className="abs location-panel" />
