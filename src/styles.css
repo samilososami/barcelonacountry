@@ -939,15 +939,16 @@ h3 {
 .find-section::after {
   content: "";
   position: absolute;
-  left: calc(-1 * var(--edge-bleed));
+  left: 50%;
   top: 0;
-  width: calc(1280px + (2 * var(--edge-bleed)));
+  width: 100vw;
   height: 20px;
   background: var(--red);
   box-shadow:
     0 8px 0 #ffffff,
     0 1260px 0 var(--red),
     0 1252px 0 #ffffff;
+  transform: translateX(-50%);
   z-index: 1;
 }
 
@@ -1602,6 +1603,13 @@ h3 {
   letter-spacing: 1px;
 }
 
+.find-slide-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.find-slide-footer .find-prev,
 .find-slide-footer .find-next {
   position: static;
   min-width: 0;
@@ -1616,16 +1624,36 @@ h3 {
   box-shadow: none;
 }
 
+.find-slide-footer .find-prev {
+  color: var(--blue);
+}
+
+.find-slide-footer .find-prev:hover,
+.find-slide-footer .find-prev:focus-visible,
 .find-slide-footer .find-next:hover,
 .find-slide-footer .find-next:focus-visible {
   background: transparent;
   box-shadow: none;
+}
+
+.find-slide-footer .find-prev:hover,
+.find-slide-footer .find-prev:focus-visible {
+  transform: translateX(-5px);
+}
+
+.find-slide-footer .find-next:hover,
+.find-slide-footer .find-next:focus-visible {
   transform: translateX(5px);
 }
 
+.find-slide-footer .find-prev:focus-visible,
 .find-slide-footer .find-next:focus-visible {
   outline: 2px solid var(--red);
   outline-offset: 4px;
+}
+
+.find-slide-footer .find-prev span {
+  margin-right: 4px;
 }
 
 .find-slide-footer .find-next span {

@@ -1105,6 +1105,9 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
   const goToNextStop = () => {
     setActiveIndex((index) => (index + 1) % copy.cards.length);
   };
+  const goToPreviousStop = () => {
+    setActiveIndex((index) => Math.max(0, index - 1));
+  };
   const titleParts = copy.title.split(" ");
   const titleAccent = titleParts.length > 1 ? titleParts.pop() : "";
   const titleLead = titleParts.join(" ");
@@ -1173,9 +1176,16 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
                   </ol>
                   <div className="find-slide-footer">
                     <span>{cardIndex + 1} / {copy.cards.length}</span>
-                    <button className="find-next" type="button" onClick={goToNextStop}>
-                      {nextStopLabels[language]} <span aria-hidden="true">→</span>
-                    </button>
+                    <span className="find-slide-actions">
+                      {activeIndex > 0 && (
+                        <button className="find-prev" type="button" onClick={goToPreviousStop}>
+                          <span aria-hidden="true">←</span> parada anterior
+                        </button>
+                      )}
+                      <button className="find-next" type="button" onClick={goToNextStop}>
+                        {nextStopLabels[language]} <span aria-hidden="true">→</span>
+                      </button>
+                    </span>
                   </div>
                 </div>
               </article>
