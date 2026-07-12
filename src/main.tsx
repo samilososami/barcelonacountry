@@ -124,9 +124,6 @@ const findVisuals = [
   "/assets/find-food.jpg"
 ];
 
-const findTabIcons = ["🎸", "🛍️", "🍗", "🤠"];
-const findSlideStep = 1225;
-
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
     kicker: "WAS DICH ERWARTET",
@@ -1098,6 +1095,8 @@ const getFindStops = (card: FindCard) =>
 
 function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
+  const activeStops = getFindStops(activeCard);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -1140,58 +1139,52 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
             aria-current={index === activeIndex}
             onClick={() => setActiveIndex(index)}
           >
-            <span aria-hidden="true">{findTabIcons[index] ?? "★"}</span>
+            <span aria-hidden="true">
+              <img src={getFindIconAsset(card.icon)} alt="" />
+            </span>
             {card.title.split("&")[0].replace("COUNTRY", "").trim()}
             <small>{String(index + 1).padStart(2, "0")}</small>
           </button>
         ))}
       </div>
       <div className="abs find-carousel" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 190)}>
-        <div className="find-track" style={{ transform: `translate3d(${-activeIndex * findSlideStep}px, 0, 0)` }}>
-          {copy.cards.map((card, cardIndex) => {
-            const stops = getFindStops(card);
-
-            return (
-              <article className="find-slide" key={`${card.title}-${cardIndex}`}>
-                <div className="find-slide-image-wrap">
-                  <img className="find-slide-image" src={findVisuals[cardIndex] ?? findVisuals[0]} alt="" />
-                  <span className="find-slide-badge" aria-hidden="true">
-                    {findTabIcons[cardIndex] ?? "★"}
+        <article className="find-slide" key={`${activeCard.title}-${activeIndex}`}>
+          <div className="find-slide-image-wrap">
+            <img className="find-slide-image" src={findVisuals[activeIndex] ?? findVisuals[0]} alt="" />
+            <span className="find-slide-badge" aria-hidden="true">
+              <img src={getFindIconAsset(activeCard.icon)} alt="" />
+            </span>
+          </div>
+          <div className="find-slide-copy">
+            <h3>{activeCard.title}</h3>
+            <p className="find-quote">«{activeIndex === 0 ? "Where boots meet beat." : "Dress the part. Live the myth."}»</p>
+            <div className="find-red-dots" aria-hidden="true" />
+            <ol className="find-stop-list">
+              {activeStops.map((stop, index) => (
+                <li key={`${activeCard.title}-${stop.heading}`}>
+                  <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="find-stop-copy">
+                    <strong>{stop.heading}</strong>
+                    <span>{stop.body}</span>
                   </span>
-                </div>
-                <div className="find-slide-copy">
-                  <h3>{card.title}</h3>
-                  <p className="find-quote">«{cardIndex === 0 ? "Where boots meet beat." : "Dress the part. Live the myth."}»</p>
-                  <div className="find-red-dots" aria-hidden="true" />
-                  <ol className="find-stop-list">
-                    {stops.map((stop, index) => (
-                      <li key={`${card.title}-${stop.heading}`}>
-                        <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
-                        <span className="find-stop-copy">
-                          <strong>{stop.heading}</strong>
-                          <span>{stop.body}</span>
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                  <div className="find-slide-footer">
-                    <span>{cardIndex + 1} / {copy.cards.length}</span>
-                    <span className="find-slide-actions">
-                      {activeIndex > 0 && (
-                        <button className="find-prev" type="button" onClick={goToPreviousStop}>
-                          <span aria-hidden="true">←</span> Parada anterior
-                        </button>
-                      )}
-                      <button className="find-next" type="button" onClick={goToNextStop}>
-                        {nextStopLabels[language]} <span aria-hidden="true">→</span>
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                </li>
+              ))}
+            </ol>
+            <div className="find-slide-footer">
+              <span>{activeIndex + 1} / {copy.cards.length}</span>
+              <span className="find-slide-actions">
+                {activeIndex > 0 && (
+                  <button className="find-prev" type="button" onClick={goToPreviousStop}>
+                    <span aria-hidden="true">←</span> Parada anterior
+                  </button>
+                )}
+                <button className="find-next" type="button" onClick={goToNextStop}>
+                  {nextStopLabels[language]} <span aria-hidden="true">→</span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );

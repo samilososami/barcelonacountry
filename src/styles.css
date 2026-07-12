@@ -1402,6 +1402,9 @@ h3 {
 
 .find-tab {
   height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 4px solid #111c68;
   background: #2b2d83;
   color: #ffffff;
@@ -1420,7 +1423,17 @@ h3 {
 }
 
 .find-tab span {
+  display: inline-grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
   margin-right: 9px;
+}
+
+.find-tab span img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .find-tab small {
@@ -1458,20 +1471,17 @@ h3 {
 }
 
 .find-track {
-  display: flex;
-  gap: 140px;
-  padding-left: 70px;
-  will-change: transform;
-  transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
 }
 
 .find-slide {
   position: relative;
-  flex: 0 0 1085px;
-  height: 650px;
+  width: 1188px;
+  height: 690px;
+  margin-left: 46px;
   display: grid;
-  grid-template-columns: 457px 1fr;
-  column-gap: 46px;
+  grid-template-columns: 466px 1fr;
+  column-gap: 48px;
   padding: 28px 42px 32px 28px;
   background: #ffffff;
   border: 5px solid var(--blue);
@@ -1479,17 +1489,18 @@ h3 {
     9px 10px 0 var(--red),
     0 24px 38px rgba(4, 8, 31, 0.32);
   color: var(--blue);
+  animation: find-slide-in-right 360ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .find-slide-image-wrap {
   position: relative;
-  width: 428px;
-  height: 596px;
+  width: 438px;
+  height: 606px;
 }
 
 .find-slide-image {
-  width: 428px;
-  height: 596px;
+  width: 438px;
+  height: 606px;
   object-fit: cover;
   border: 4px dashed rgba(255, 255, 255, 0.82);
   box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08);
@@ -1499,24 +1510,23 @@ h3 {
   position: absolute;
   right: -17px;
   bottom: -18px;
-  width: 86px;
-  height: 86px;
+  width: 84px;
+  height: 84px;
   display: grid;
   place-items: center;
   border: 5px solid #ffffff;
   border-radius: 999px;
   background: var(--red);
   color: #ffffff;
-  font-size: 39px;
-  line-height: 1;
   box-shadow:
     0 0 0 4px var(--blue),
-    5px 5px 0 rgba(255, 65, 71, 0.42);
+    5px 5px 0 var(--red),
+    0 14px 22px rgba(5, 12, 40, 0.32);
 }
 
 .find-slide-badge img {
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   object-fit: contain;
 }
 
@@ -1526,7 +1536,7 @@ h3 {
 }
 
 .find-slide-copy h3 {
-  max-width: 440px;
+  max-width: 490px;
   color: #14246c;
   font-family: "Rye", serif;
   font-size: 47px;
@@ -1548,18 +1558,18 @@ h3 {
 }
 
 .find-red-dots {
-  width: 520px;
+  width: 560px;
   height: 10px;
   margin: 26px 0 16px;
   background: radial-gradient(circle, var(--red) 0 4px, transparent 4.5px) 0 0 / 28px 10px repeat-x;
 }
 
 .find-stop-list {
-  gap: 11px;
+  gap: 10px;
 }
 
 .find-stop-list li {
-  min-height: 69px;
+  min-height: 76px;
   grid-template-columns: 64px 1fr;
   gap: 9px;
   padding: 8px 18px 7px 0;
@@ -1582,13 +1592,13 @@ h3 {
 .find-stop-copy {
   gap: 4px;
   color: #17215c;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.22;
 }
 
 .find-stop-copy strong {
   color: var(--blue);
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.08;
   letter-spacing: 0.55px;
 }
@@ -1602,14 +1612,14 @@ h3 {
   align-items: center;
   justify-content: space-between;
   color: #17215c;
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 1px;
 }
 
 .find-slide-actions {
   display: inline-flex;
   align-items: center;
-  gap: 28px;
+  gap: 32px;
 }
 
 .find-slide-footer .find-prev,
@@ -1622,7 +1632,8 @@ h3 {
   background: transparent;
   color: var(--red);
   font-family: "Special Elite", ui-monospace, monospace;
-  font-size: 13px;
+  font-size: 16px;
+  line-height: 1;
   letter-spacing: 0;
   box-shadow: none;
 }
@@ -1783,9 +1794,9 @@ h3 {
 
 .contact-pattern {
   left: calc(-1 * var(--edge-bleed));
-  top: 5036px;
+  top: 4898px;
   width: calc(1280px + (2 * var(--edge-bleed)));
-  height: 610px;
+  height: 748px;
   overflow: hidden;
   background:
     url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 58 58' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='58' height='58' fill='%231f52ad'/%3E%3Cpath d='M29 0 58 29 29 58 0 29Z' fill='%23275fbf' fill-opacity='.48'/%3E%3Cpath d='M29 0 58 29 29 58 0 29Z' fill='none' stroke='%233768c3' stroke-opacity='.28' stroke-width='1'/%3E%3C/svg%3E"),
