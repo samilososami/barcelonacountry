@@ -1627,12 +1627,6 @@ h3 {
   box-shadow: none;
 }
 
-.find-slide-footer .find-prev {
-  color: var(--blue);
-}
-
-.find-slide-footer .find-prev:hover,
-.find-slide-footer .find-prev:focus-visible,
 .find-slide-footer .find-next:hover,
 .find-slide-footer .find-next:focus-visible {
   background: transparent;
@@ -1641,7 +1635,9 @@ h3 {
 
 .find-slide-footer .find-prev:hover,
 .find-slide-footer .find-prev:focus-visible {
-  transform: translateX(-5px);
+  background: transparent;
+  box-shadow: none;
+  transform: translateX(5px);
 }
 
 .find-slide-footer .find-next:hover,

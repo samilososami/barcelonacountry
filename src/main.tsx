@@ -1179,7 +1179,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
                     <span className="find-slide-actions">
                       {activeIndex > 0 && (
                         <button className="find-prev" type="button" onClick={goToPreviousStop}>
-                          <span aria-hidden="true">←</span> parada anterior
+                          <span aria-hidden="true">←</span> Parada anterior
                         </button>
                       )}
                       <button className="find-next" type="button" onClick={goToNextStop}>
