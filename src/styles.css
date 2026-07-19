@@ -73,7 +73,7 @@ h3 {
 
 .page {
   width: 100vw;
-  min-height: calc(5942px * var(--figma-scale));
+  min-height: calc(6952px * var(--figma-scale));
   overflow-x: hidden;
   background: var(--blue);
 }
@@ -81,7 +81,7 @@ h3 {
 .stage {
   position: relative;
   width: 100vw;
-  height: calc(5942px * var(--figma-scale));
+  height: calc(6952px * var(--figma-scale));
   margin: 0;
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ h3 {
   left: 50%;
   top: 0;
   width: 1280px;
-  height: 5942px;
+  height: 6952px;
   background: var(--blue);
   transform: translateX(-50%) scale(var(--figma-scale));
   transform-origin: top center;
@@ -744,6 +744,13 @@ h3 {
   line-height: 1.35;
 }
 
+.stat-two strong,
+.stat-three strong {
+  margin-top: 72px;
+  font-size: 48px;
+  letter-spacing: 1.5px;
+}
+
 .red-band {
   left: calc(-1 * var(--edge-bleed));
   top: 780px;
@@ -758,7 +765,7 @@ h3 {
   left: calc(-1 * var(--edge-bleed));
   top: 1809px;
   width: calc(1280px + (2 * var(--edge-bleed)));
-  height: 870px;
+  height: 1875px;
   overflow: hidden;
   background: var(--blue);
   pointer-events: none;
@@ -803,8 +810,8 @@ h3 {
 
 .artist-card {
   z-index: 1;
-  width: 262px;
-  height: 746px;
+  width: 276px;
+  height: 830px;
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 9px 0 var(--red);
@@ -821,8 +828,8 @@ h3 {
 }
 
 .artist-photo {
-  width: 252px;
-  height: 252px;
+  width: 266px;
+  height: 266px;
   overflow: hidden;
 }
 
@@ -876,6 +883,21 @@ h3 {
   object-fit: cover;
 }
 
+.artist-image.steve {
+  object-position: center 34%;
+  transform: scale(1.04);
+}
+
+.artist-image.johnny {
+  object-position: center 46%;
+  transform: scale(1.08);
+}
+
+.artist-image.sofia {
+  object-position: center 22%;
+  transform: scale(1.03);
+}
+
 .artist-card:hover .artist-image.jonathan {
   transform: scale(1.03);
 }
@@ -900,7 +922,7 @@ h3 {
 }
 
 .artist-body {
-  width: 224px;
+  width: 244px;
   color: var(--blue);
   font-size: 15.1px;
   line-height: 1.57;
@@ -912,7 +934,7 @@ h3 {
   --find-star-pattern: url("data:image/svg+xml,%3Csvg width='132' height='132' viewBox='0 0 132 132' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M66 12 78.9 50.5h40.5L86.8 74.1 99.2 114 66 89.7 32.8 114l12.4-39.9L12.6 50.5h40.5Z' fill='none' stroke='white' stroke-width='2.1' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
   position: absolute;
   left: 0;
-  top: 2700px;
+  top: 3710px;
   width: 1280px;
   height: 1286px;
   overflow: hidden;
@@ -1465,7 +1487,7 @@ h3 {
   left: var(--edge-bleed);
   top: 398px;
   width: 1280px;
-  height: 720px;
+  height: 770px;
   overflow: hidden;
   z-index: 3;
 }
@@ -1477,7 +1499,7 @@ h3 {
 .find-slide {
   position: relative;
   width: 1188px;
-  height: 690px;
+  height: 740px;
   margin-left: 46px;
   display: grid;
   grid-template-columns: 466px 1fr;
@@ -1495,12 +1517,12 @@ h3 {
 .find-slide-image-wrap {
   position: relative;
   width: 438px;
-  height: 606px;
+  height: 656px;
 }
 
 .find-slide-image {
   width: 438px;
-  height: 606px;
+  height: 656px;
   object-fit: cover;
   border: 4px dashed rgba(255, 255, 255, 0.82);
   box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08);
@@ -1672,7 +1694,7 @@ h3 {
 
 .location-panel {
   left: calc(-23.82px - var(--edge-bleed));
-  top: 3998.59px;
+  top: 5008.59px;
   width: calc(1327.63px + (2 * var(--edge-bleed)));
   height: 900.3px;
   background: var(--red);
@@ -1681,7 +1703,7 @@ h3 {
 
 .location-kicker {
   left: 560.5px;
-  top: 4095.29px;
+  top: 5105.29px;
   width: 159px;
   color: #ffffff;
   font-size: 18.75px;
@@ -1692,7 +1714,7 @@ h3 {
 
 .text-yeehaw {
   left: 260.08px;
-  top: 4137.97px;
+  top: 5147.97px;
   width: 759.85px;
   height: 97.85px;
   color: #ffffff;
@@ -1705,7 +1727,7 @@ h3 {
 
 .text-en-barcelona {
   left: 237.31px;
-  top: 4245.83px;
+  top: 5255.83px;
   width: 805.37px;
   height: 97.85px;
   color: #ffffff;
@@ -1717,7 +1739,7 @@ h3 {
 
 .map-placeholder {
   left: 144.46px;
-  top: 4377.63px;
+  top: 5387.63px;
   width: 991.08px;
   height: 424.57px;
   background: #d9d9d9;
@@ -1743,7 +1765,7 @@ h3 {
 
 .date-banner {
   left: 273.21px;
-  top: 4898.9px;
+  top: 5908.9px;
   width: 795.94px;
   height: 137.91px;
   overflow: hidden;
@@ -1772,17 +1794,17 @@ h3 {
 
 .date-star-left {
   left: 359.2px;
-  top: 4908.5px;
+  top: 5918.5px;
 }
 
 .date-star-right {
   left: 880.9px;
-  top: 4908.5px;
+  top: 5918.5px;
 }
 
 .text-date {
   left: 477.15px;
-  top: 4924.15px;
+  top: 5934.15px;
   width: 324.74px;
   color: #ffffff;
   font-size: 34.62px;
@@ -1794,7 +1816,7 @@ h3 {
 
 .contact-pattern {
   left: calc(-1 * var(--edge-bleed));
-  top: 4898px;
+  top: 5908px;
   width: calc(1280px + (2 * var(--edge-bleed)));
   height: 748px;
   overflow: hidden;
@@ -1807,7 +1829,7 @@ h3 {
 
 .text-mantente {
   left: 83.7px;
-  top: 5062px;
+  top: 6072px;
   width: 1112.61px;
   height: 95px;
   color: #ffffff;
@@ -1818,7 +1840,7 @@ h3 {
 
 .contact-form {
   left: 0;
-  top: 5207px;
+  top: 6217px;
   width: 1280px;
   height: 340px;
   z-index: 1;
@@ -2035,7 +2057,7 @@ h3 {
 
 .footer {
   left: 0;
-  top: 5617px;
+  top: 6627px;
   width: 1280px;
   height: 324.59px;
   background: transparent;

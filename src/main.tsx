@@ -12,7 +12,7 @@ type Artist = {
   instagram: string;
   x: number;
   y: number;
-  imageFit?: "cover" | "stretch" | "montse" | "jonathan";
+  imageFit?: "cover" | "stretch" | "montse" | "jonathan" | "steve" | "johnny" | "sofia";
 };
 
 type Copy = {
@@ -108,6 +108,15 @@ const nextStopLabels: Record<LanguageKey, string> = {
   it: "Prossima fermata"
 };
 
+const festivalStatValues: Record<LanguageKey, { artists: string; dancers: string }> = {
+  de: { artists: "Mehr als 10", dancers: "Mehr als 3000" },
+  es: { artists: "+ de 10", dancers: "+ de 3000" },
+  ca: { artists: "Més de 10", dancers: "Més de 3000" },
+  fr: { artists: "+ de 10", dancers: "+ de 3000" },
+  en: { artists: "10+", dancers: "3000+" },
+  it: { artists: "Più di 10", dancers: "Più di 3000" }
+};
+
 const findIntroLabels: Record<LanguageKey, string> = {
   de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
   es: "Elige una parada del camino. Cada categoría abre una puerta al verdadero espíritu western.",
@@ -136,7 +145,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
           "Das Kreativlabor der Legenden.",
           "Ununterbrochener Tanz während des gesamten Events.",
           "Eltern teilen ihre Leidenschaft mit ihren Kindern.",
-          "Der Soundpuls des Festivals.",
+          "Verlosung großer Reisen mit deinen Lieblingschoreografen.",
           "Country non stop!"
         ]
       },
@@ -158,7 +167,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
       {
         title: "Weltrekord",
         icon: "REC",
-        items: ["Der Versuch eines Weltrekords."]
+        items: ["Der Versuch eines Weltrekords.", "Ein gemeinsamer Big Dance mit Tausenden von Tänzern."]
       }
     ]
   },
@@ -183,8 +192,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
             body: "Padres compartiendo su pasión con sus hijos."
           },
           {
-            heading: "ESCENARIOS DE MÚSICA EN DIRECTO:",
-            body: "El pulso sonoro del festival."
+            heading: "SORTEOS DE GRANDES VIAJES:",
+            body: "Viaja con tus coreógrafos preferidos."
           },
           {
             heading: "GRANDES CONCIERTOS NOCTURNOS:",
@@ -234,11 +243,15 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         items: [
           {
             heading: "THE SEA OF COWBOY HATS:",
-            body: "L'intent de record mundial: un mar de barrets omplint Barcelona."
+            body: "El intento de récord mundial: un mar de sombreros llenando Barcelona."
           },
           {
             heading: "TROBADA DE COLLES COUNTRY",
-            body: "Clubs de tota Europa units sota el mateix sol."
+            body: "Clubs de toda Europa unidos bajo el mismo sol."
+          },
+          {
+            heading: "BIG DANCE BARCELONA",
+            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           }
         ]
       }
@@ -255,7 +268,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
           "El laboratori de creativitat de les llegendes.",
           "Ball ininterromput durant tot l'esdeveniment.",
           "Pares compartint la passió amb els seus fills.",
-          "El pols sonor del festival.",
+          "Sorteig de grans viatges amb els teus coreògrafs preferits.",
           "Country non stop!"
         ]
       },
@@ -277,7 +290,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
       {
         title: "Rècord mundial",
         icon: "REC",
-        items: ["L'intent de rècord mundial."]
+        items: ["L'intent de rècord mundial.", "Un Big Dance multitudinari al cor del festival."]
       }
     ]
   },
@@ -292,7 +305,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
           "Le laboratoire créatif des légendes.",
           "Danse non-stop pendant tout l'événement.",
           "Des parents partageant leur passion avec leurs enfants.",
-          "Le pouls sonore du festival.",
+          "Tirages au sort de grands voyages avec vos chorégraphes préférés.",
           "Country non stop!"
         ]
       },
@@ -314,7 +327,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
       {
         title: "Record mondial",
         icon: "REC",
-        items: ["La tentative de record mondial."]
+        items: ["La tentative de record mondial.", "Un Big Dance collectif au cœur du festival."]
       }
     ]
   },
@@ -329,7 +342,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
           "The creative lab of the legends.",
           "Non-stop dancing throughout the whole event.",
           "Parents sharing their passion with their children.",
-          "The sound pulse of the festival.",
+          "Major travel giveaways with your favorite choreographers.",
           "Country non stop!"
         ]
       },
@@ -351,7 +364,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
       {
         title: "World record",
         icon: "REC",
-        items: ["The world record attempt."]
+        items: ["The world record attempt.", "A mass Big Dance at the heart of the festival."]
       }
     ]
   },
@@ -366,7 +379,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
           "Il laboratorio creativo delle leggende.",
           "Ballo ininterrotto durante tutto l'evento.",
           "Genitori che condividono la passione con i figli.",
-          "Il battito sonoro del festival.",
+          "Estrazioni di grandi viaggi con i tuoi coreografi preferiti.",
           "Country non stop!"
         ]
       },
@@ -388,7 +401,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
       {
         title: "Record mondiale",
         icon: "REC",
-        items: ["Il tentativo di record mondiale."]
+        items: ["Il tentativo di record mondiale.", "Un Big Dance collettivo nel cuore del festival."]
       }
     ]
   }
@@ -405,7 +418,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["TANZ", "MUSIK", "AMERIKA"],
     festivalTitle: "Das Festival",
     festivalCopy:
-      "Barcelona Country vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, Western-Markt und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
+      "Barcelona Country vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, hochwertigen Western-Produkten und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
     days: "Tage",
     internationalArtists: "INTERNATIONALE\nKÜNSTLER",
     expectedDancers: "ERWARTETE TÄNZER",
@@ -462,7 +475,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BAILE", "MÚSICA", "AMÉRICA"],
     festivalTitle: "El Festival",
     festivalCopy:
-      "Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en directo, mercadillo western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
+      "Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en directo, productos western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
     days: "Días",
     internationalArtists: "ARTISTAS\nINTERNACIONALES",
     expectedDancers: "BAILARINES ESPERADOS",
@@ -472,31 +485,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Coreógrafo internacional",
         body:
-          "Referente del line dance catalán. Hijo del músico Greg Ryan, ha firmado decenas de coreografías que se bailan en pistas de toda Europa. Su estilo mezcla energía americana con sabor mediterráneo."
+          "Referente internacional del Line Dance Catalán Style. Es una figura cotizadísima en el mundo country, con actuaciones en todo el mundo. Ha creado decenas de coreografías que se bailan en pistas de toda Europa. Su estilo mezcla energía americana con sabor mediterráneo. Auténtico huracán en la pista."
       },
       {
         name: "Algaly Fofana",
         role: "Coreógrafo & instructor",
         body:
-          "Una de las voces jóvenes más frescas del line dance europeo. Colabora habitualmente con Pol F. Ryan y ha llevado su estilo a Bélgica, España e Italia con coreografías virales."
+          "Una de las figuras jóvenes más frescas del Line Dance europeo. Su presencia es necesaria en los eventos más importantes y ha llevado su estilo a Bélgica, España e Italia con coreografías virales."
       },
       {
         name: "David Villellas",
         role: "Bailarín & coreógrafo",
         body:
-          "Auténtica leyenda del country catalán. Más de 20 años sobre las tablas, sus shows han conquistado festivales internacionales y hasta tiene su propia colección de botas."
+          "Auténtica leyenda del Country Catalán Style. Él ha sido el iniciador de este estilo en Europa. Más de 20 años sobre las tablas, sus coreografías han conquistado festivales internacionales. Un evento importante requiere su presencia y su estilo inconfundible."
       },
       {
         name: "Montse Moscardó",
         role: "Coreógrafa & instructora",
         body:
-          "Nombre imprescindible del circuito Catalan Country Style. Coreografías cuidadas al detalle que se han bailado en el Festival Big Ben de Mollerussa y en El Barn d'en Greg."
+          "Nombre imprescindible del circuito Catalán Country Style. Coreografías cuidadas al detalle, llenas de energía, que se bailan en centenares de eventos en toda Europa."
       },
       {
         name: "Jonathan Jones",
-        role: "Cantautor folk-country",
+        role: "Cantautor folk-country / Singer-songwriter",
         body:
-          "Singer-songwriter de Kingston (Ontario). Guitarra acústica en fingerstyle y letras honestas sobre amor, pérdida y resiliencia. Debut europeo en Barcelona."
+          "Un DJ, auténtica leyenda en Europa, domina la pista con los temas que te propone bailar, vuelve loca la pista con su simpatía y presencia. Imprescindible para nosotros."
       }
     ],
     locationKicker: "UBICACIÓN",
@@ -519,7 +532,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BALL", "MÚSICA", "AMÈRICA"],
     festivalTitle: "El Festival",
     festivalCopy:
-      "Barcelona Country reuneix durant tres dies el millor del line dance internacional, música en directe, mercat western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
+      "Barcelona Country reuneix durant tres dies el millor del line dance internacional, música en directe, productes western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
     days: "Dies",
     internationalArtists: "ARTISTES\nINTERNACIONALS",
     expectedDancers: "BALLARINS ESPERATS",
@@ -576,7 +589,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
     festivalTitle: "Le Festival",
     festivalCopy:
-      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, un marché western et des food trucks avec un authentique barbecue américain. Un événement pour danseurs, familles et amoureux du country.",
+      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour danseurs, familles et amoureux du country.",
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
     expectedDancers: "DANSEURS ATTENDUS",
@@ -633,7 +646,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["DANCE", "MUSIC", "AMERICA"],
     festivalTitle: "The Festival",
     festivalCopy:
-      "Barcelona Country brings together three days of international line dance, live music, a western market and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
+      "Barcelona Country brings together three days of international line dance, live music, quality western products and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
     days: "Days",
     internationalArtists: "INTERNATIONAL\nARTISTS",
     expectedDancers: "EXPECTED DANCERS",
@@ -690,7 +703,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BALLO", "MUSICA", "AMERICA"],
     festivalTitle: "Il Festival",
     festivalCopy:
-      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, mercato western e food truck con autentico barbecue americano. Un evento per ballerini, famiglie e amanti del country.",
+      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento per ballerini, famiglie e amanti del country.",
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
     expectedDancers: "BALLERINI ATTESI",
@@ -739,49 +752,175 @@ const copies: Record<LanguageKey, Copy> = {
   }
 };
 
+const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | "body">[]> = {
+  de: [
+    {
+      name: "Steve Frapolli",
+      role: "Internationaler Country-DJ",
+      body: "Italienischer DJ und feste Größe auf Europas Country-Festivals. Mit jahrzehntelanger Erfahrung hält er die Tanzfläche mit präziser Musikauswahl und unerschöpflicher Energie in Bewegung."
+    },
+    {
+      name: "Johnny",
+      role: "Line-Dance-Coach & Choreograf",
+      body: "Gianmarco Rossato verbindet italienische Wurzeln mit internationaler Erfahrung. Seit 2013 entwickelt er Choreografien mit Musikalität, Struktur und echter Verbindung zur Tanzfläche."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Choreografin & Tänzerin",
+      body: "Eine junge Stimme der europäischen Line-Dance-Szene. Ihre Choreografien verbinden Persönlichkeit, Energie und einen modernen Blick auf den Country Style."
+    }
+  ],
+  es: [
+    {
+      name: "Steve Frapolli",
+      role: "DJ country internacional",
+      body: "DJ italiano y figura habitual de los grandes festivales country europeos. Décadas de experiencia, una selección musical precisa y energía inagotable para mantener la pista en movimiento."
+    },
+    {
+      name: "Johnny",
+      role: "Line Dance Coach & Choreographer",
+      body: "Gianmarco Rossato une ADN italiano y alma internacional. Desde 2013 crea coreografías con musicalidad, estructura y una conexión especial con quienes llenan la pista."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Coreógrafa & bailarina",
+      body: "Una de las jóvenes figuras de la nueva generación del Line Dance europeo. Sus coreografías combinan personalidad, energía y una mirada actual al Country Style."
+    }
+  ],
+  ca: [
+    {
+      name: "Steve Frapolli",
+      role: "DJ country internacional",
+      body: "DJ italià i figura habitual dels grans festivals country europeus. Dècades d'experiència, selecció musical precisa i energia inesgotable per mantenir la pista en moviment."
+    },
+    {
+      name: "Johnny",
+      role: "Line Dance Coach & Choreographer",
+      body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb la pista."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Coreògrafa & ballarina",
+      body: "Una de les joves figures de la nova generació del Line Dance europeu. Les seves coreografies combinen personalitat, energia i una mirada actual al Country Style."
+    }
+  ],
+  fr: [
+    {
+      name: "Steve Frapolli",
+      role: "DJ country international",
+      body: "DJ italien et figure des grands festivals country européens. Des décennies d'expérience, une sélection musicale précise et une énergie inépuisable pour faire vivre la piste."
+    },
+    {
+      name: "Johnny",
+      role: "Coach Line Dance & chorégraphe",
+      body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies musicales, structurées et proches des danseurs."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Chorégraphe & danseuse",
+      body: "Une jeune figure de la nouvelle génération du Line Dance européen. Ses chorégraphies mêlent personnalité, énergie et vision actuelle du Country Style."
+    }
+  ],
+  en: [
+    {
+      name: "Steve Frapolli",
+      role: "International country DJ",
+      body: "An Italian DJ and a familiar face at major European country festivals. Decades of experience, sharp music selection and tireless energy keep every dance floor moving."
+    },
+    {
+      name: "Johnny",
+      role: "Line Dance Coach & Choreographer",
+      body: "Gianmarco Rossato combines Italian DNA with an international soul. Since 2013, he has created dances built on musicality, structure and a real connection with the floor."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Choreographer & dancer",
+      body: "A young figure in the new generation of European Line Dance. Her choreographies bring together personality, energy and a contemporary take on Country Style."
+    }
+  ],
+  it: [
+    {
+      name: "Steve Frapolli",
+      role: "DJ country internazionale",
+      body: "DJ italiano e presenza abituale nei grandi festival country europei. Decenni di esperienza, selezione musicale precisa ed energia inesauribile per tenere viva la pista."
+    },
+    {
+      name: "Johnny",
+      role: "Line Dance Coach & Choreographer",
+      body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame autentico con la pista."
+    },
+    {
+      name: "Sofía Balzano",
+      role: "Coreografa & ballerina",
+      body: "Una giovane figura della nuova generazione del Line Dance europeo. Le sue coreografie uniscono personalità, energia e uno sguardo contemporaneo al Country Style."
+    }
+  ]
+};
+
 const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     instagram: "https://www.instagram.com/polfryann/",
-    x: -31,
-    y: 1920
+    x: 52,
+    y: 1930
   },
   {
     image: "/assets/artist-algaly.png",
     instagram: "https://www.instagram.com/algalyfofana/",
-    x: 239.25,
-    y: 1920,
+    x: 352,
+    y: 1930,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     instagram: "https://www.instagram.com/david.villellas/",
-    x: 509.5,
-    y: 1920
+    x: 652,
+    y: 1930
   },
   {
     image: "/assets/artist-montse.png",
     instagram: "https://www.instagram.com/montse.moscardo/",
-    x: 779.75,
-    y: 1920,
+    x: 952,
+    y: 1930,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     instagram: "https://www.instagram.com/jonathan_jones_music/",
-    x: 1050,
-    y: 1920,
+    x: 52,
+    y: 2790,
     imageFit: "jonathan"
+  },
+  {
+    image: "/assets/artist-steve.jpg",
+    instagram: "https://www.instagram.com/steve_frapolli/",
+    x: 352,
+    y: 2790,
+    imageFit: "steve"
+  },
+  {
+    image: "/assets/artist-johnny.jpg",
+    instagram: "https://www.instagram.com/learnwithjohnny/",
+    x: 652,
+    y: 2790,
+    imageFit: "johnny"
+  },
+  {
+    image: "/assets/artist-sofia.jpg",
+    instagram: "https://www.instagram.com/sofiabalzanoo_/",
+    x: 952,
+    y: 2790,
+    imageFit: "sofia"
   }
 ];
 
 const artistCardMetrics = {
-  width: 262,
+  width: 276,
   photoInset: 5,
-  nameTop: 300,
-  roleTop: 358,
-  bodyTop: 424,
-  bodyWidth: 224
+  nameTop: 312,
+  roleTop: 370,
+  bodyTop: 430,
+  bodyWidth: 244
 };
 
 const getInitialLanguage = (): LanguageKey => {
@@ -797,11 +936,14 @@ const getInitialLanguage = (): LanguageKey => {
   return "es";
 };
 
-const createArtists = (copy: Copy): Artist[] =>
-  artistLayouts.map((layout, index) => ({
+const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
+  const artistCopy = [...copy.artists, ...additionalArtistCopies[language]];
+
+  return artistLayouts.map((layout, index) => ({
     ...layout,
-    ...copy.artists[index]
+    ...artistCopy[index]
   }));
+};
 
 const createMapsSrc = (language: LanguageKey) =>
   `https://www.google.com/maps?q=41.3874,2.1686&z=13&hl=${language}&output=embed`;
@@ -1049,7 +1191,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
         rel="noopener noreferrer"
         aria-label={`Instagram de ${artist.name}`}
       >
-        <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt="" />
+        <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt={artist.name} />
       </a>
       <h3
         className="artist-name abs"
@@ -1097,6 +1239,9 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
   const activeStops = getFindStops(activeCard);
+  const activeStopOffset = copy.cards
+    .slice(0, activeIndex)
+    .reduce((total, card) => total + card.items.length, 0);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -1162,7 +1307,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
             <ol className="find-stop-list">
               {activeStops.map((stop, index) => (
                 <li key={`${activeCard.title}-${stop.heading}`}>
-                  <span className="find-stop-number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="find-stop-number">{String(activeStopOffset + index + 1).padStart(2, "0")}</span>
                   <span className="find-stop-copy">
                     <strong>{stop.heading}</strong>
                     <span>{stop.body}</span>
@@ -1197,7 +1342,7 @@ function App() {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const copy = copies[language];
   const findCopy = findCopies[language];
-  const artists = createArtists(copy);
+  const artists = createArtists(copy, language);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -1343,11 +1488,11 @@ function App() {
               <span data-text-node="stat-label">{copy.days}</span>
             </div>
             <div className="abs stat stat-two" data-scrolljs style={revealStyle({}, 150)}>
-              <strong data-text-node="stat-value">5+</strong>
+              <strong data-text-node="stat-value">{festivalStatValues[language].artists}</strong>
               <span data-text-node="stat-label">{copy.internationalArtists}</span>
             </div>
             <div className="abs stat stat-three" data-scrolljs style={revealStyle({}, 220)}>
-              <strong data-text-node="stat-value">1000</strong>
+              <strong data-text-node="stat-value">{festivalStatValues[language].dancers}</strong>
               <span data-text-node="stat-label">{copy.expectedDancers}</span>
             </div>
             <img className="abs dotted dotted-bottom" src="/assets/line-blue.svg" alt="" />
