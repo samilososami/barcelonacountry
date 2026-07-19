@@ -688,6 +688,10 @@ h3 {
   top: 410px;
   width: 367.54px;
   height: 242.3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: #ffffff;
   border: 1px solid var(--blue);
   box-shadow: 0 11px 0 var(--red);
@@ -719,7 +723,7 @@ h3 {
 
 .stat strong {
   display: block;
-  margin-top: 66px;
+  margin: 0;
   color: var(--red);
   font-family: "Rye", serif;
   font-size: 70px;
@@ -730,7 +734,7 @@ h3 {
 
 .stat span {
   display: block;
-  margin-top: 4px;
+  margin-top: 7px;
   color: var(--blue);
   font-size: 19px;
   line-height: 1.71;
@@ -742,13 +746,6 @@ h3 {
 .stat-three span {
   font-size: 15px;
   line-height: 1.35;
-}
-
-.stat-two strong,
-.stat-three strong {
-  margin-top: 72px;
-  font-size: 48px;
-  letter-spacing: 1.5px;
 }
 
 .red-band {

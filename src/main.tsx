@@ -108,14 +108,7 @@ const nextStopLabels: Record<LanguageKey, string> = {
   it: "Prossima fermata"
 };
 
-const festivalStatValues: Record<LanguageKey, { artists: string; dancers: string }> = {
-  de: { artists: "Mehr als 10", dancers: "Mehr als 3000" },
-  es: { artists: "+ de 10", dancers: "+ de 3000" },
-  ca: { artists: "Més de 10", dancers: "Més de 3000" },
-  fr: { artists: "+ de 10", dancers: "+ de 3000" },
-  en: { artists: "10+", dancers: "3000+" },
-  it: { artists: "Più di 10", dancers: "Più di 3000" }
-};
+const festivalStatValues = { artists: "+10", dancers: "+3000" };
 
 const findIntroLabels: Record<LanguageKey, string> = {
   de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
@@ -1488,11 +1481,11 @@ function App() {
               <span data-text-node="stat-label">{copy.days}</span>
             </div>
             <div className="abs stat stat-two" data-scrolljs style={revealStyle({}, 150)}>
-              <strong data-text-node="stat-value">{festivalStatValues[language].artists}</strong>
+              <strong data-text-node="stat-value">{festivalStatValues.artists}</strong>
               <span data-text-node="stat-label">{copy.internationalArtists}</span>
             </div>
             <div className="abs stat stat-three" data-scrolljs style={revealStyle({}, 220)}>
-              <strong data-text-node="stat-value">{festivalStatValues[language].dancers}</strong>
+              <strong data-text-node="stat-value">{festivalStatValues.dancers}</strong>
               <span data-text-node="stat-label">{copy.expectedDancers}</span>
             </div>
             <img className="abs dotted dotted-bottom" src="/assets/line-blue.svg" alt="" />
