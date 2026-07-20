@@ -1708,13 +1708,13 @@ h3 {
   background-image: var(--location-star-pattern);
   background-repeat: repeat;
   background-size: 112px 224px;
-  opacity: 0.14;
+  opacity: 0.32;
   transform: rotate(7deg);
   animation: stars-drift-left 38s linear infinite;
 }
 
 .location-panel::after {
-  opacity: 0.11;
+  opacity: 0.24;
   animation: stars-drift-right 42s linear infinite;
 }
 
