@@ -1535,7 +1535,11 @@ function App() {
               <span />
               <span />
             </button>
-            <span className={`mobile-current-section ${isMobileNavOpen ? "is-menu-open" : ""}`} aria-live="polite">
+            <span
+              className={`mobile-current-section ${isMobileNavOpen ? "is-menu-open" : ""}`}
+              data-section-index={String(activeNavIndex + 1).padStart(2, "0")}
+              aria-live="polite"
+            >
               {copy.nav[activeNavIndex]}
             </span>
             <nav id="primary-navigation" className={`abs nav ${isMobileNavOpen ? "is-mobile-open" : ""}`} aria-label="Principal">
