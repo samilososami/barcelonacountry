@@ -854,66 +854,66 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
   {
     image: "/assets/artist-pol.png",
     instagram: "https://www.instagram.com/polfryann/",
-    x: 52,
+    x: 20,
     y: 1930
   },
   {
     image: "/assets/artist-algaly.png",
     instagram: "https://www.instagram.com/algalyfofana/",
-    x: 352,
+    x: 334,
     y: 1930,
     imageFit: "stretch"
   },
   {
     image: "/assets/artist-david.png",
     instagram: "https://www.instagram.com/david.villellas/",
-    x: 652,
+    x: 648,
     y: 1930
   },
   {
     image: "/assets/artist-montse.png",
     instagram: "https://www.instagram.com/montse.moscardo/",
-    x: 952,
+    x: 962,
     y: 1930,
     imageFit: "montse"
   },
   {
     image: "/assets/artist-jonathan.png",
     instagram: "https://www.instagram.com/jonathan_jones_music/",
-    x: 52,
-    y: 2790,
+    x: 20,
+    y: 2670,
     imageFit: "jonathan"
   },
   {
     image: "/assets/artist-steve.jpg",
     instagram: "https://www.instagram.com/steve_frapolli/",
-    x: 352,
-    y: 2790,
+    x: 334,
+    y: 2670,
     imageFit: "steve"
   },
   {
     image: "/assets/artist-johnny.jpg",
     instagram: "https://www.instagram.com/learnwithjohnny/",
-    x: 652,
-    y: 2790,
+    x: 648,
+    y: 2670,
     imageFit: "johnny"
   },
   {
     image: "/assets/artist-sofia.jpg",
     instagram: "https://www.instagram.com/sofiabalzanoo_/",
-    x: 952,
-    y: 2790,
+    x: 962,
+    y: 2670,
     imageFit: "sofia"
   }
 ];
 
 const artistCardMetrics = {
-  width: 276,
+  width: 298,
   photoInset: 5,
-  nameTop: 312,
-  roleTop: 370,
+  nameTop: 322,
+  roleTop: 377,
   bodyTop: 430,
-  bodyWidth: 244
+  bodyWidth: 266
 };
 
 const getInitialLanguage = (): LanguageKey => {
