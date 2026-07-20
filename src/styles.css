@@ -1708,16 +1708,14 @@ h3 {
   background-image: var(--location-star-pattern);
   background-repeat: repeat;
   background-size: 112px 224px;
-  opacity: 0.04;
+  opacity: 0.1;
   transform: rotate(7deg);
-  animation: location-stars-down 38s linear infinite;
+  animation: stars-drift-left 38s linear infinite;
 }
 
 .location-panel::after {
-  --location-star-x: 56px;
-  opacity: 0.022;
-  animation-duration: 46s;
-  animation-delay: -17s;
+  opacity: 0.082;
+  animation: stars-drift-right 42s linear infinite;
 }
 
 .location-kicker {
@@ -2222,16 +2220,6 @@ h3 {
 
   to {
     background-position: 1120px 112px;
-  }
-}
-
-@keyframes location-stars-down {
-  from {
-    background-position: var(--location-star-x, 0) -1120px;
-  }
-
-  to {
-    background-position: var(--location-star-x, 0) 0;
   }
 }
 
