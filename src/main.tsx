@@ -1129,7 +1129,9 @@ function scrollToTarget(targetId: string) {
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
   const targetTop = Math.min(maxScroll, Math.max(0, target.getBoundingClientRect().top + window.scrollY));
   const distance = targetTop - start;
-  const duration = Math.min(1500, Math.max(760, Math.abs(distance) * 0.42));
+  const duration = isMobile
+    ? Math.min(900, Math.max(420, Math.abs(distance) * 0.24))
+    : Math.min(1500, Math.max(760, Math.abs(distance) * 0.42));
   const startTime = performance.now();
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1427,6 +1429,7 @@ function App() {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeNavIndex, setActiveNavIndex] = useState(0);
+  const languagePickerRef = useRef<HTMLDivElement | null>(null);
   const copy = copies[language];
   const findCopy = findCopies[language];
   const artists = createArtists(copy, language);
@@ -1498,9 +1501,33 @@ function App() {
     };
   }, [isMobileNavOpen]);
 
+  useEffect(() => {
+    if (!isLanguageOpen) {
+      return;
+    }
+
+    const closeLanguageMenu = (event: PointerEvent) => {
+      if (!languagePickerRef.current?.contains(event.target as Node)) {
+        setIsLanguageOpen(false);
+      }
+    };
+    const closeLanguageMenuOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsLanguageOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", closeLanguageMenu);
+    window.addEventListener("keydown", closeLanguageMenuOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeLanguageMenu);
+      window.removeEventListener("keydown", closeLanguageMenuOnEscape);
+    };
+  }, [isLanguageOpen]);
+
   const handleMobileNavigation = (targetId: string) => {
     setIsMobileNavOpen(false);
-    window.setTimeout(() => scrollToTarget(targetId), 260);
+    scrollToTarget(targetId);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -1564,7 +1591,7 @@ function App() {
                 </button>
               ))}
             </nav>
-            <div className="abs language-picker">
+            <div className="abs language-picker" ref={languagePickerRef}>
               <button
                 className="language-trigger"
                 type="button"
@@ -1716,17 +1743,19 @@ function App() {
             >
               {copy.inBarcelona}
             </p>
-            <div className="abs map-placeholder" aria-label={copy.mapTitle} data-scrolljs style={revealStyle({}, 220)}>
-              <GoogleMap language={language} title={copy.mapTitle} />
+            <div className="abs location-visual-group" data-scrolljs style={revealStyle({}, 180)}>
+              <div className="abs map-placeholder" aria-label={copy.mapTitle}>
+                <GoogleMap language={language} title={copy.mapTitle} />
+              </div>
+              <div id="program" className="abs date-banner">
+                <img className="date-wood" src="/assets/wood-banner.png" alt="" />
+              </div>
+              <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" />
+              <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" />
+              <p className="abs western rustler text-date" data-text-node="location-date">
+                {copy.date}
+              </p>
             </div>
-            <div id="program" className="abs date-banner" data-scrolljs style={revealStyle({}, 120)}>
-              <img className="date-wood" src="/assets/wood-banner.png" alt="" />
-            </div>
-            <img className="abs date-star date-star-left" src="/assets/star-button.png" alt="" data-scrolljs style={revealStyle({}, 180)} />
-            <img className="abs date-star date-star-right" src="/assets/star-button.png" alt="" data-scrolljs style={revealStyle({}, 180)} />
-            <p className="abs western rustler text-date" data-text-node="location-date" data-scrolljs style={revealStyle({}, 240)}>
-              {copy.date}
-            </p>
           </section>
 
           <section id="contact" className="contact" aria-labelledby="contact-title">
