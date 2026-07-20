@@ -91,21 +91,48 @@ const findIconAssets: Record<string, string> = {
 };
 
 const languageOptions: { key: LanguageKey; label: string }[] = [
-  { key: "de", label: "Aleman" },
+  { key: "de", label: "Deutsch" },
   { key: "es", label: "Español" },
-  { key: "ca", label: "Catalan" },
-  { key: "fr", label: "Francés" },
-  { key: "en", label: "Inglés" },
+  { key: "ca", label: "Català" },
+  { key: "fr", label: "Français" },
+  { key: "en", label: "English" },
   { key: "it", label: "Italiano" }
 ];
 
 const nextStopLabels: Record<LanguageKey, string> = {
   de: "Nächster Halt",
   es: "Siguiente parada",
-  ca: "Seguent parada",
+  ca: "Següent parada",
   fr: "Prochain arrêt",
   en: "Next stop",
   it: "Prossima fermata"
+};
+
+const previousStopLabels: Record<LanguageKey, string> = {
+  de: "Vorheriger Halt",
+  es: "Parada anterior",
+  ca: "Parada anterior",
+  fr: "Arrêt précédent",
+  en: "Previous stop",
+  it: "Fermata precedente"
+};
+
+const findQuoteLabels: Record<LanguageKey, [string, string]> = {
+  de: ["Wo Stiefel auf Rhythmus treffen.", "Trag den Look. Lebe den Mythos."],
+  es: ["Donde las botas encuentran el ritmo.", "Viste el estilo. Vive el mito."],
+  ca: ["On les botes troben el ritme.", "Vesteix l'estil. Viu el mite."],
+  fr: ["Là où les bottes rencontrent le rythme.", "Adoptez le style. Vivez le mythe."],
+  en: ["Where boots meet the beat.", "Dress the part. Live the myth."],
+  it: ["Dove gli stivali incontrano il ritmo.", "Indossa lo stile. Vivi il mito."]
+};
+
+const interfaceLabels: Record<LanguageKey, { changeLanguage: string; festivalStops: string; phonePrefix: string; phoneSearch: string; noResults: string; form: string; stop: string }> = {
+  de: { changeLanguage: "Sprache ändern", festivalStops: "Festivalstationen", phonePrefix: "Telefonvorwahl auswählen", phoneSearch: "Land oder Vorwahl", noResults: "Keine Ergebnisse", form: "Informationsformular", stop: "Halt" },
+  es: { changeLanguage: "Cambiar idioma", festivalStops: "Paradas del festival", phonePrefix: "Seleccionar prefijo telefónico", phoneSearch: "País o prefijo", noResults: "Sin resultados", form: "Formulario de información", stop: "Parada" },
+  ca: { changeLanguage: "Canviar d'idioma", festivalStops: "Parades del festival", phonePrefix: "Selecciona el prefix telefònic", phoneSearch: "País o prefix", noResults: "Cap resultat", form: "Formulari d'informació", stop: "Parada" },
+  fr: { changeLanguage: "Changer de langue", festivalStops: "Étapes du festival", phonePrefix: "Choisir l'indicatif téléphonique", phoneSearch: "Pays ou indicatif", noResults: "Aucun résultat", form: "Formulaire d'information", stop: "Étape" },
+  en: { changeLanguage: "Change language", festivalStops: "Festival stops", phonePrefix: "Select phone prefix", phoneSearch: "Country or prefix", noResults: "No results", form: "Information form", stop: "Stop" },
+  it: { changeLanguage: "Cambia lingua", festivalStops: "Tappe del festival", phonePrefix: "Seleziona il prefisso telefonico", phoneSearch: "Paese o prefisso", noResults: "Nessun risultato", form: "Modulo informazioni", stop: "Tappa" }
 };
 
 const festivalStatValues = { artists: "+10", dancers: "+3000" };
@@ -123,49 +150,56 @@ const findVisuals = [
   "/assets/find-catalan.jpg",
   "/assets/find-shopping.jpg",
   "/assets/find-food.jpg",
-  "/assets/find-food.jpg"
+  "/assets/find-community.webp"
 ];
 
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
     kicker: "WAS DICH ERWARTET",
-    title: "Country non stop",
+    title: "DETAILS DES FESTIVALS",
     cards: [
       {
-        title: "Musik, Tanz und Legenden",
+        title: "CATALAN STYLE & MUSIK",
         icon: "US",
         items: [
-          "Das Kreativlabor der Legenden.",
-          "Ununterbrochener Tanz während des gesamten Events.",
-          "Eltern teilen ihre Leidenschaft mit ihren Kindern.",
-          "Verlosung großer Reisen mit deinen Lieblingschoreografen.",
-          "Country non stop!"
+          { heading: "BEREICH FÜR CHOREOGRAFEN UND WORKSHOPS:", body: "Das Kreativlabor der Legenden." },
+          { heading: "LINE-DANCE-HALLEN:", body: "Ununterbrochener Tanz während des gesamten Events." },
+          { heading: "KINDER-WORKSHOP:", body: "Eltern teilen ihre Leidenschaft mit ihren Kindern." },
+          { heading: "VERLOSUNG GROSSER REISEN:", body: "Reise mit deinen Lieblingschoreografen." },
+          { heading: "GROSSE ABENDKONZERTE:", body: "Country nonstop!" }
         ]
       },
       {
-        title: "Western Markt",
+        title: "SHOPPING & LIFESTYLE",
         icon: "SHOP",
         items: [
-          "Das große kommerzielle Schaufenster.",
-          "Mit den legendären Harley-Davidson-Motorrädern.",
-          "Totales Eintauchen in die Kultur.",
-          "Country-High-Fashion-Laufsteg."
+          { heading: "WESTERN-LIFESTYLE- UND SHOPPING-BEREICH:", body: "Das große kommerzielle Schaufenster." },
+          { heading: "AUSSTELLUNG AMERIKANISCHER FAHRZEUGE:", body: "Mit den legendären Harley-Davidson-Motorrädern." },
+          { heading: "ERLEBNIS- UND SHOWBEREICH:", body: "Vollständiges Eintauchen in die Kultur." },
+          { heading: "WESTERN-MODESCHAU:", body: "Ein Laufsteg für exklusive Country-Mode." }
         ]
       },
       {
-        title: "Food Trucks",
+        title: "COUNTRY-GENUSS",
         icon: "BBQ",
-        items: ["Authentischer Western-Geschmack."]
+        items: [
+          { heading: "COUNTRY-GASTRONOMIE:", body: "Barbecue, Rippchen, Pulled Pork, Bourbon und handwerklich gebraute Biere." },
+          { heading: "AMERIKANISCHE FOODTRUCKS:", body: "Vom New Yorker Pretzel bis zum Texas-Chili." }
+        ]
       },
       {
-        title: "Weltrekord",
+        title: "COMMUNITY & FREUNDE",
         icon: "REC",
-        items: ["Der Versuch eines Weltrekords.", "Ein gemeinsamer Big Dance mit Tausenden von Tänzern."]
+        items: [
+          { heading: "EIN MEER AUS COWBOYHÜTEN:", body: "Der Weltrekordversuch: ein Meer aus Hüten erfüllt Barcelona." },
+          { heading: "TREFFEN DER COUNTRY-GRUPPEN:", body: "Clubs aus ganz Europa vereint unter derselben Sonne." },
+          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf zu einem gemeinsamen Massentanz im Herzen des Festivals." }
+        ]
       }
     ]
   },
   es: {
-    kicker: "QUE ENCONTRARÁS",
+    kicker: "QUÉ ENCONTRARÁS",
     title: "DETALLES DEL FESTIVAL",
     cards: [
       {
@@ -173,15 +207,15 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "music",
         items: [
           {
-            heading: "ZONA DE COREÓGRAFOS Y WORKSHOPS:",
+            heading: "ZONA DE COREÓGRAFOS Y TALLERES:",
             body: "El laboratorio de creatividad de las leyendas."
           },
           {
-            heading: "LINE DANCE HALLS:",
+            heading: "SALAS DE LINE DANCE:",
             body: "Baile ininterrumpido durante todo el evento."
           },
           {
-            heading: "WORKSHOP INFANTIL",
+            heading: "TALLER INFANTIL:",
             body: "Padres compartiendo su pasión con sus hijos."
           },
           {
@@ -199,7 +233,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "shopping",
         items: [
           {
-            heading: "ÁREA WESTERN LIFESTYLE & SHOPPING:",
+            heading: "ÁREA DE ESTILO DE VIDA Y COMPRAS WESTERN:",
             body: "El gran escaparate comercial."
           },
           {
@@ -211,7 +245,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
             body: "Inmersión total en la cultura."
           },
           {
-            heading: "WESTERN FASHION SHOW:",
+            heading: "DESFILE DE MODA WESTERN:",
             body: "Pasarela de moda de alta costura country."
           }
         ]
@@ -222,11 +256,11 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         items: [
           {
             heading: "ESPACIOS GASTRONÓMICOS COUNTRY:",
-            body: "BBQ, ribs, pulled pork, bourbon i cerveses artesanes."
+            body: "Barbacoa, costillas, cerdo desmenuzado, bourbon y cervezas artesanas."
           },
           {
-            heading: "FOOD TRUCKS AMERICANS",
-            body: "Del pretzel de Nova York al chili de Texas."
+            heading: "FOOD TRUCKS AMERICANOS:",
+            body: "Del pretzel de Nueva York al chili de Texas."
           }
         ]
       },
@@ -235,15 +269,15 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "cowboy",
         items: [
           {
-            heading: "THE SEA OF COWBOY HATS:",
+            heading: "MAR DE SOMBREROS COWBOY:",
             body: "El intento de récord mundial: un mar de sombreros llenando Barcelona."
           },
           {
-            heading: "TROBADA DE COLLES COUNTRY",
+            heading: "ENCUENTRO DE GRUPOS COUNTRY:",
             body: "Clubs de toda Europa unidos bajo el mismo sol."
           },
           {
-            heading: "BIG DANCE BARCELONA",
+            heading: "BIG DANCE BARCELONA:",
             body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           }
         ]
@@ -252,149 +286,177 @@ const findCopies: Record<LanguageKey, FindCopy> = {
   },
   ca: {
     kicker: "QUÈ HI TROBARÀS",
-    title: "Country non stop",
+    title: "DETALLS DEL FESTIVAL",
     cards: [
       {
-        title: "Música, ball i llegendes",
+        title: "CATALAN STYLE I MÚSICA",
         icon: "US",
         items: [
-          "El laboratori de creativitat de les llegendes.",
-          "Ball ininterromput durant tot l'esdeveniment.",
-          "Pares compartint la passió amb els seus fills.",
-          "Sorteig de grans viatges amb els teus coreògrafs preferits.",
-          "Country non stop!"
+          { heading: "ZONA DE COREÒGRAFS I TALLERS:", body: "El laboratori de creativitat de les llegendes." },
+          { heading: "SALES DE LINE DANCE:", body: "Ball ininterromput durant tot l'esdeveniment." },
+          { heading: "TALLER INFANTIL:", body: "Pares compartint la passió amb els seus fills." },
+          { heading: "SORTEIGS DE GRANS VIATGES:", body: "Viatja amb els teus coreògrafs preferits." },
+          { heading: "GRANS CONCERTS NOCTURNS:", body: "Country nonstop!" }
         ]
       },
       {
-        title: "Market western",
+        title: "COMPRES I ESTIL DE VIDA",
         icon: "SHOP",
         items: [
-          "El gran aparador comercial.",
-          "Incloses les mítiques motos Harley Davidson.",
-          "Immersió total en la cultura.",
-          "Passarel·la de moda d'alta costura country."
+          { heading: "ÀREA D'ESTIL DE VIDA I COMPRES WESTERN:", body: "El gran aparador comercial." },
+          { heading: "EXPOSICIÓ DE VEHICLES AMERICANS:", body: "Incloses les mítiques motos Harley-Davidson." },
+          { heading: "ZONA D'EXPERIÈNCIES I EXHIBICIONS:", body: "Immersió total en la cultura." },
+          { heading: "DESFILADA DE MODA WESTERN:", body: "Passarel·la de moda d'alta costura country." }
         ]
       },
       {
-        title: "Food trucks",
+        title: "SABORS COUNTRY",
         icon: "BBQ",
-        items: ["Sabor western autèntic."]
+        items: [
+          { heading: "ESPAIS GASTRONÒMICS COUNTRY:", body: "Barbacoa, costelles, porc esfilagarsat, bourbon i cerveses artesanes." },
+          { heading: "FOOD TRUCKS AMERICANS:", body: "Del pretzel de Nova York al xili de Texas." }
+        ]
       },
       {
-        title: "Rècord mundial",
+        title: "COMUNITAT I AMICS",
         icon: "REC",
-        items: ["L'intent de rècord mundial.", "Un Big Dance multitudinari al cor del festival."]
+        items: [
+          { heading: "MAR DE BARRETS DE COWBOY:", body: "L'intent de rècord mundial: un mar de barrets omplint Barcelona." },
+          { heading: "TROBADA DE COLLES COUNTRY:", body: "Clubs de tot Europa units sota el mateix sol." },
+          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." }
+        ]
       }
     ]
   },
   fr: {
     kicker: "CE QUE VOUS TROUVEREZ",
-    title: "Country non stop",
+    title: "DÉTAILS DU FESTIVAL",
     cards: [
       {
-        title: "Musique, danse et légendes",
+        title: "STYLE CATALAN & MUSIQUE",
         icon: "US",
         items: [
-          "Le laboratoire créatif des légendes.",
-          "Danse non-stop pendant tout l'événement.",
-          "Des parents partageant leur passion avec leurs enfants.",
-          "Tirages au sort de grands voyages avec vos chorégraphes préférés.",
-          "Country non stop!"
+          { heading: "ESPACE CHORÉGRAPHES ET ATELIERS :", body: "Le laboratoire créatif des légendes." },
+          { heading: "SALLES DE LINE DANCE :", body: "Danse sans interruption pendant tout l'événement." },
+          { heading: "ATELIER POUR ENFANTS :", body: "Des parents partageant leur passion avec leurs enfants." },
+          { heading: "TIRAGES AU SORT DE GRANDS VOYAGES :", body: "Voyagez avec vos chorégraphes préférés." },
+          { heading: "GRANDS CONCERTS NOCTURNES :", body: "Country non-stop !" }
         ]
       },
       {
-        title: "Marché western",
+        title: "SHOPPING & ART DE VIVRE",
         icon: "SHOP",
         items: [
-          "La grande vitrine commerciale.",
-          "Avec les mythiques motos Harley Davidson.",
-          "Immersion totale dans la culture.",
-          "Défilé de mode haute couture country."
+          { heading: "ESPACE ART DE VIVRE ET SHOPPING WESTERN :", body: "La grande vitrine commerciale." },
+          { heading: "EXPOSITION DE VÉHICULES AMÉRICAINS :", body: "Avec les mythiques motos Harley-Davidson." },
+          { heading: "ZONE D'EXPÉRIENCES ET D'EXHIBITIONS :", body: "Immersion totale dans la culture." },
+          { heading: "DÉFILÉ DE MODE WESTERN :", body: "Un défilé de haute couture country." }
         ]
       },
       {
-        title: "Food trucks",
+        title: "SAVEURS COUNTRY",
         icon: "BBQ",
-        items: ["Saveur western authentique."]
+        items: [
+          { heading: "ESPACES GASTRONOMIQUES COUNTRY :", body: "Barbecue, travers de porc, porc effiloché, bourbon et bières artisanales." },
+          { heading: "FOOD TRUCKS AMÉRICAINS :", body: "Du pretzel new-yorkais au chili texan." }
+        ]
       },
       {
-        title: "Record mondial",
+        title: "COMMUNAUTÉ ET AMIS",
         icon: "REC",
-        items: ["La tentative de record mondial.", "Un Big Dance collectif au cœur du festival."]
+        items: [
+          { heading: "MER DE CHAPEAUX DE COWBOY :", body: "La tentative de record mondial : une mer de chapeaux envahit Barcelone." },
+          { heading: "RENCONTRE DES GROUPES COUNTRY :", body: "Des clubs de toute l'Europe réunis sous le même soleil." },
+          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse collective au cœur du festival." }
+        ]
       }
     ]
   },
   en: {
     kicker: "WHAT YOU'LL FIND",
-    title: "Country non stop",
+    title: "FESTIVAL DETAILS",
     cards: [
       {
-        title: "Music, dance and legends",
+        title: "CATALAN STYLE & MUSIC",
         icon: "US",
         items: [
-          "The creative lab of the legends.",
-          "Non-stop dancing throughout the whole event.",
-          "Parents sharing their passion with their children.",
-          "Major travel giveaways with your favorite choreographers.",
-          "Country non stop!"
+          { heading: "CHOREOGRAPHERS AND WORKSHOPS AREA:", body: "The legends' creative laboratory." },
+          { heading: "LINE DANCE HALLS:", body: "Non-stop dancing throughout the event." },
+          { heading: "KIDS' WORKSHOP:", body: "Parents sharing their passion with their children." },
+          { heading: "MAJOR TRAVEL GIVEAWAYS:", body: "Travel with your favorite choreographers." },
+          { heading: "MAJOR NIGHTTIME CONCERTS:", body: "Country nonstop!" }
         ]
       },
       {
-        title: "Western market",
+        title: "SHOPPING & LIFESTYLE",
         icon: "SHOP",
         items: [
-          "The big commercial showcase.",
-          "Including the legendary Harley Davidson motorcycles.",
-          "Full immersion in the culture.",
-          "A high-fashion country runway."
+          { heading: "WESTERN LIFESTYLE AND SHOPPING AREA:", body: "The festival's major retail showcase." },
+          { heading: "AMERICAN VEHICLE EXHIBITION:", body: "Including the legendary Harley-Davidson motorcycles." },
+          { heading: "EXPERIENCE AND EXHIBITION AREA:", body: "A full immersion in the culture." },
+          { heading: "WESTERN FASHION SHOW:", body: "A high-fashion country runway." }
         ]
       },
       {
-        title: "Food trucks",
+        title: "COUNTRY BITES",
         icon: "BBQ",
-        items: ["Authentic western flavor."]
+        items: [
+          { heading: "COUNTRY FOOD AREA:", body: "BBQ, ribs, pulled pork, bourbon and craft beers." },
+          { heading: "AMERICAN FOOD TRUCKS:", body: "From New York pretzels to Texas chili." }
+        ]
       },
       {
-        title: "World record",
+        title: "COMMUNITY & FRIENDS",
         icon: "REC",
-        items: ["The world record attempt.", "A mass Big Dance at the heart of the festival."]
+        items: [
+          { heading: "SEA OF COWBOY HATS:", body: "The world record attempt: a sea of hats filling Barcelona." },
+          { heading: "COUNTRY CLUB GATHERING:", body: "Clubs from across Europe united under the same sun." },
+          { heading: "BIG DANCE BARCELONA:", body: "An open call to share a mass dance at the heart of the festival." }
+        ]
       }
     ]
   },
   it: {
     kicker: "COSA TROVERAI",
-    title: "Country non stop",
+    title: "DETTAGLI DEL FESTIVAL",
     cards: [
       {
-        title: "Musica, ballo e leggende",
+        title: "CATALAN STYLE & MUSICA",
         icon: "US",
         items: [
-          "Il laboratorio creativo delle leggende.",
-          "Ballo ininterrotto durante tutto l'evento.",
-          "Genitori che condividono la passione con i figli.",
-          "Estrazioni di grandi viaggi con i tuoi coreografi preferiti.",
-          "Country non stop!"
+          { heading: "AREA COREOGRAFI E WORKSHOP:", body: "Il laboratorio creativo delle leggende." },
+          { heading: "SALE LINE DANCE:", body: "Ballo ininterrotto durante tutto l'evento." },
+          { heading: "WORKSHOP PER BAMBINI:", body: "Genitori che condividono la passione con i figli." },
+          { heading: "ESTRAZIONE DI GRANDI VIAGGI:", body: "Viaggia con i tuoi coreografi preferiti." },
+          { heading: "GRANDI CONCERTI SERALI:", body: "Country nonstop!" }
         ]
       },
       {
-        title: "Market western",
+        title: "SHOPPING & LIFESTYLE",
         icon: "SHOP",
         items: [
-          "La grande vetrina commerciale.",
-          "Incluse le mitiche moto Harley Davidson.",
-          "Immersione totale nella cultura.",
-          "Passerella di alta moda country."
+          { heading: "AREA WESTERN LIFESTYLE E SHOPPING:", body: "La grande vetrina commerciale." },
+          { heading: "ESPOSIZIONE DI VEICOLI AMERICANI:", body: "Incluse le mitiche moto Harley-Davidson." },
+          { heading: "AREA ESPERIENZE ED ESIBIZIONI:", body: "Immersione totale nella cultura." },
+          { heading: "SFILATA DI MODA WESTERN:", body: "Una passerella di alta moda country." }
         ]
       },
       {
-        title: "Food truck",
+        title: "SAPORI COUNTRY",
         icon: "BBQ",
-        items: ["Autentico sapore western."]
+        items: [
+          { heading: "SPAZI GASTRONOMICI COUNTRY:", body: "Barbecue, costine, pulled pork, bourbon e birre artigianali." },
+          { heading: "FOOD TRUCK AMERICANI:", body: "Dal pretzel di New York al chili del Texas." }
+        ]
       },
       {
-        title: "Record mondiale",
+        title: "COMUNITÀ E AMICI",
         icon: "REC",
-        items: ["Il tentativo di record mondiale.", "Un Big Dance collettivo nel cuore del festival."]
+        items: [
+          { heading: "MARE DI CAPPELLI DA COWBOY:", body: "Il tentativo di record mondiale: un mare di cappelli riempie Barcellona." },
+          { heading: "RADUNO DEI GRUPPI COUNTRY:", body: "Club da tutta Europa uniti sotto lo stesso sole." },
+          { heading: "BIG DANCE BARCELONA:", body: "Una convocazione aperta per condividere un ballo di massa nel cuore del festival." }
+        ]
       }
     ]
   }
@@ -404,7 +466,7 @@ const copies: Record<LanguageKey, Copy> = {
   de: {
     languageName: "Deutsch",
     nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONA - 27. NOVEMBER",
     heroCopy:
       "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit.",
     cta: "Informiert bleiben",
@@ -421,31 +483,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Internationaler Choreograf",
         body:
-          "Referenz des katalanischen Line Dance. Sohn des Musikers Greg Ryan, Autor zahlreicher Choreografien auf Tanzflächen in ganz Europa. Sein Stil verbindet amerikanische Energie mit mediterranem Charakter."
+          "Internationales Aushängeschild des Catalan Style Line Dance und weltweit gefragter Star. Seine europaweit getanzten Choreografien verbinden amerikanische Energie mit mediterranem Flair. Ein Wirbelsturm auf der Tanzfläche."
       },
       {
         name: "Algaly Fofana",
         role: "Choreograf & Trainer",
         body:
-          "Eine der frischesten jungen Stimmen des europäischen Line Dance. Er arbeitet regelmäßig mit Pol F. Ryan zusammen und brachte seinen Stil mit viralen Choreografien nach Belgien, Spanien und Italien."
+          "Eine der spannendsten jungen Persönlichkeiten des europäischen Line Dance. Bei den wichtigsten Events gefragt, hat er seinen Stil mit viralen Choreografien nach Belgien, Spanien und Italien gebracht."
       },
       {
         name: "David Villellas",
         role: "Tänzer & Choreograf",
         body:
-          "Eine echte Legende der katalanischen Country-Szene. Mehr als 20 Jahre auf der Bühne, internationale Festivalshows und sogar eine eigene Stiefelkollektion."
+          "Eine Legende des Catalan Country Style und Wegbereiter dieses Stils in Europa. Seit über 20 Jahren erobern seine Choreografien internationale Festivals. Seine unverwechselbare Präsenz gehört zu jedem großen Event."
       },
       {
         name: "Montse Moscardó",
         role: "Choreografin & Trainerin",
         body:
-          "Ein unverzichtbarer Name im Catalan Country Style. Detailreiche Choreografien, getanzt beim Festival Big Ben in Mollerussa und im Barn d'en Greg."
+          "Ein unverzichtbarer Name im Catalan Country Style. Ihre detailreichen, energiegeladenen Choreografien werden bei Hunderten von Events in ganz Europa getanzt."
       },
       {
         name: "Jonathan Jones",
         role: "Folk-Country-Singer-Songwriter",
         body:
-          "Singer-Songwriter aus Kingston, Ontario. Akustische Fingerstyle-Gitarre und ehrliche Texte über Liebe, Verlust und Widerstandskraft. Europa-Debüt in Barcelona."
+          "Ein DJ und eine echte Legende in Europa. Mit seiner Musikauswahl, seiner Ausstrahlung und seinem Humor bringt er jede Tanzfläche zum Kochen. Für uns unverzichtbar."
       }
     ],
     locationKicker: "STANDORT",
@@ -518,7 +580,7 @@ const copies: Record<LanguageKey, Copy> = {
   ca: {
     languageName: "Català",
     nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONA - 27 NOVEMBRE",
     heroCopy:
       "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà.",
     cta: "Manten-te informat",
@@ -535,31 +597,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Coreògraf internacional",
         body:
-          "Referent del line dance català. Fill del músic Greg Ryan, ha signat desenes de coreografies que es ballen arreu d'Europa. El seu estil barreja energia americana amb sabor mediterrani."
+          "Referent internacional del Line Dance Catalan Style i figura molt cotitzada arreu del món. Les seves coreografies es ballen per tota Europa i combinen energia americana amb sabor mediterrani. Un autèntic huracà a la pista."
       },
       {
         name: "Algaly Fofana",
         role: "Coreògraf & instructor",
         body:
-          "Una de les veus joves més fresques del line dance europeu. Col·labora habitualment amb Pol F. Ryan i ha portat el seu estil a Bèlgica, Espanya i Itàlia amb coreografies virals."
+          "Una de les figures joves més fresques del Line Dance europeu. La seva presència és necessària als esdeveniments més importants i ha portat el seu estil a Bèlgica, Espanya i Itàlia amb coreografies virals."
       },
       {
         name: "David Villellas",
         role: "Ballarí & coreògraf",
         body:
-          "Autèntica llegenda del country català. Més de 20 anys sobre els escenaris, els seus shows han conquerit festivals internacionals i fins i tot té la seva pròpia col·lecció de botes."
+          "Autèntica llegenda del Country Catalan Style i iniciador d'aquest estil a Europa. Més de 20 anys sobre els escenaris i coreografies que han conquerit festivals internacionals. La seva presència és imprescindible."
       },
       {
         name: "Montse Moscardó",
         role: "Coreògrafa & instructora",
         body:
-          "Nom imprescindible del circuit Catalan Country Style. Coreografies cuidades al detall que s'han ballat al Festival Big Ben de Mollerussa i a El Barn d'en Greg."
+          "Nom imprescindible del circuit Catalan Country Style. Coreografies cuidades al detall, plenes d'energia, que es ballen en centenars d'esdeveniments arreu d'Europa."
       },
       {
         name: "Jonathan Jones",
         role: "Cantautor folk-country",
         body:
-          "Singer-songwriter de Kingston (Ontario). Guitarra acústica en fingerstyle i lletres honestes sobre amor, pèrdua i resiliència. Debut europeu a Barcelona."
+          "Un DJ, autèntica llegenda a Europa, que domina la pista amb els temes que proposa. La seva simpatia i presència fan embogir el públic. Imprescindible per a nosaltres."
       }
     ],
     locationKicker: "UBICACIÓ",
@@ -575,7 +637,7 @@ const copies: Record<LanguageKey, Copy> = {
   fr: {
     languageName: "Français",
     nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONE - 27 NOVEMBRE",
     heroCopy:
       "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain.",
     cta: "Restez informé",
@@ -592,31 +654,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Chorégraphe international",
         body:
-          "Référence du line dance catalan. Fils du musicien Greg Ryan, il a signé des dizaines de chorégraphies dansées partout en Europe. Son style mêle énergie américaine et saveur méditerranéenne."
+          "Référence internationale du Line Dance Catalan Style et artiste très demandé dans le monde entier. Ses chorégraphies dansées partout en Europe mêlent énergie américaine et saveur méditerranéenne. Un véritable ouragan sur la piste."
       },
       {
         name: "Algaly Fofana",
         role: "Chorégraphe & instructeur",
         body:
-          "L'une des jeunes voix les plus fraîches du line dance européen. Il collabore régulièrement avec Pol F. Ryan et a porté son style en Belgique, en Espagne et en Italie."
+          "L'une des jeunes figures les plus prometteuses du Line Dance européen. Présent dans les plus grands événements, il a porté son style en Belgique, en Espagne et en Italie grâce à des chorégraphies virales."
       },
       {
         name: "David Villellas",
         role: "Danseur & chorégraphe",
         body:
-          "Véritable légende du country catalan. Plus de 20 ans sur scène, des shows dans des festivals internationaux et même sa propre collection de bottes."
+          "Véritable légende du Country Catalan Style et initiateur de ce style en Europe. Plus de 20 ans sur scène et des chorégraphies qui ont conquis les festivals internationaux. Sa présence est incontournable."
       },
       {
         name: "Montse Moscardó",
         role: "Chorégraphe & instructrice",
         body:
-          "Un nom incontournable du Catalan Country Style. Des chorégraphies travaillées au détail, dansées au Festival Big Ben de Mollerussa et à El Barn d'en Greg."
+          "Un nom incontournable du Catalan Country Style. Ses chorégraphies soignées, pleines d'énergie, sont dansées lors de centaines d'événements partout en Europe."
       },
       {
         name: "Jonathan Jones",
         role: "Auteur-compositeur folk-country",
         body:
-          "Singer-songwriter de Kingston, Ontario. Guitare acoustique fingerstyle et textes sincères sur l'amour, la perte et la résilience. Début européen à Barcelone."
+          "DJ et véritable légende en Europe, il domine la piste avec ses sélections. Sa sympathie et sa présence font vibrer le public. Indispensable pour nous."
       }
     ],
     locationKicker: "LIEU",
@@ -632,7 +694,7 @@ const copies: Record<LanguageKey, Copy> = {
   en: {
     languageName: "English",
     nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONA - NOVEMBER 27",
     heroCopy:
       "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit.",
     cta: "Stay informed",
@@ -649,31 +711,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "International choreographer",
         body:
-          "A reference in Catalan line dance. Son of musician Greg Ryan, he has created dozens of choreographies danced across Europe. His style mixes American energy with Mediterranean character."
+          "An international Catalan Style Line Dance icon and a highly sought-after performer worldwide. His choreographies are danced across Europe, blending American energy with Mediterranean flavor. A true force on the dance floor."
       },
       {
         name: "Algaly Fofana",
         role: "Choreographer & instructor",
         body:
-          "One of the freshest young voices in European line dance. He regularly collaborates with Pol F. Ryan and has taken his style to Belgium, Spain and Italy with viral choreographies."
+          "One of the freshest young figures in European Line Dance. A must at the biggest events, he has taken his style to Belgium, Spain and Italy through viral choreographies."
       },
       {
         name: "David Villellas",
         role: "Dancer & choreographer",
         body:
-          "A true legend of Catalan country. More than 20 years on stage, international festival shows and even his own boot collection."
+          "A true Catalan Country Style legend and the pioneer of this style in Europe. After more than 20 years on stage, his choreographies have conquered international festivals. Every major event needs his unmistakable presence."
       },
       {
         name: "Montse Moscardó",
         role: "Choreographer & instructor",
         body:
-          "An essential name in the Catalan Country Style scene. Carefully crafted choreographies danced at Festival Big Ben in Mollerussa and at El Barn d'en Greg."
+          "An essential name in the Catalan Country Style scene. Her precise, energetic choreographies are danced at hundreds of events throughout Europe."
       },
       {
         name: "Jonathan Jones",
         role: "Folk-country singer-songwriter",
         body:
-          "Singer-songwriter from Kingston, Ontario. Acoustic fingerstyle guitar and honest lyrics about love, loss and resilience. European debut in Barcelona."
+          "A DJ and true European legend who commands the floor with every track he selects. His humor and stage presence drive the crowd wild. Essential to us."
       }
     ],
     locationKicker: "LOCATION",
@@ -689,7 +751,7 @@ const copies: Record<LanguageKey, Copy> = {
   it: {
     languageName: "Italiano",
     nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELLONA - 27 NOVEMBRE",
     heroCopy:
       "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano.",
     cta: "Resta informato",
@@ -706,31 +768,31 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Coreografo internazionale",
         body:
-          "Punto di riferimento del line dance catalano. Figlio del musicista Greg Ryan, ha firmato decine di coreografie ballate in tutta Europa. Il suo stile unisce energia americana e sapore mediterraneo."
+          "Riferimento internazionale del Line Dance Catalan Style e artista richiestissimo in tutto il mondo. Le sue coreografie, ballate in tutta Europa, uniscono energia americana e sapore mediterraneo. Un vero uragano in pista."
       },
       {
         name: "Algaly Fofana",
         role: "Coreografo & istruttore",
         body:
-          "Una delle voci giovani più fresche del line dance europeo. Collabora spesso con Pol F. Ryan e ha portato il suo stile in Belgio, Spagna e Italia con coreografie virali."
+          "Una delle figure giovani più fresche del Line Dance europeo. Presenza necessaria negli eventi più importanti, ha portato il suo stile in Belgio, Spagna e Italia con coreografie virali."
       },
       {
         name: "David Villellas",
         role: "Ballerino & coreografo",
         body:
-          "Autentica leggenda del country catalano. Oltre 20 anni sul palco, show in festival internazionali e persino una propria collezione di stivali."
+          "Autentica leggenda del Country Catalan Style e iniziatore di questo stile in Europa. Oltre 20 anni sul palco e coreografie che hanno conquistato festival internazionali. La sua presenza è imprescindibile."
       },
       {
         name: "Montse Moscardó",
         role: "Coreografa & istruttrice",
         body:
-          "Nome imprescindibile del Catalan Country Style. Coreografie curate nei dettagli, ballate al Festival Big Ben di Mollerussa e a El Barn d'en Greg."
+          "Nome imprescindibile del Catalan Country Style. Le sue coreografie curate, piene di energia, si ballano in centinaia di eventi in tutta Europa."
       },
       {
         name: "Jonathan Jones",
         role: "Cantautore folk-country",
         body:
-          "Singer-songwriter di Kingston, Ontario. Chitarra acustica fingerstyle e testi sinceri su amore, perdita e resilienza. Debutto europeo a Barcellona."
+          "Un DJ e un'autentica leggenda in Europa, domina la pista con i brani che propone. La sua simpatia e presenza fanno impazzire il pubblico. Per noi è imprescindibile."
       }
     ],
     locationKicker: "LUOGO",
@@ -771,7 +833,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Johnny",
-      role: "Line Dance Coach & Choreographer",
+      role: "Entrenador y coreógrafo de Line Dance",
       body: "Gianmarco Rossato une ADN italiano y alma internacional. Desde 2013 crea coreografías con musicalidad, estructura y una conexión especial con quienes llenan la pista."
     },
     {
@@ -788,7 +850,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Johnny",
-      role: "Line Dance Coach & Choreographer",
+      role: "Entrenador i coreògraf de Line Dance",
       body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb la pista."
     },
     {
@@ -805,7 +867,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Johnny",
-      role: "Coach Line Dance & chorégraphe",
+      role: "Coach et chorégraphe de Line Dance",
       body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies musicales, structurées et proches des danseurs."
     },
     {
@@ -839,7 +901,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Johnny",
-      role: "Line Dance Coach & Choreographer",
+      role: "Coach e coreografo di Line Dance",
       body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame autentico con la pista."
     },
     {
@@ -1095,13 +1157,20 @@ function GoogleMap({ language, title }: { language: LanguageKey; title: string }
   );
 }
 
-function PhonePrefixSelect() {
-  const [selectedCountry, setSelectedCountry] = useState(phoneCountries[0]);
+function PhonePrefixSelect({ language }: { language: LanguageKey }) {
+  const regionNames = new Intl.DisplayNames([language], { type: "region" });
+  const localizedCountries = phoneCountries.map((country) => ({
+    ...country,
+    name: regionNames.of(country.iso) ?? country.name
+  }));
+  const [selectedIso, setSelectedIso] = useState(phoneCountries[0].iso);
   const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState("");
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const labels = interfaceLabels[language];
+  const selectedCountry = localizedCountries.find((country) => country.iso === selectedIso) ?? localizedCountries[0];
   const normalizedFilter = filter.trim().toLowerCase();
-  const filteredCountries = phoneCountries.filter((country) => {
+  const filteredCountries = localizedCountries.filter((country) => {
     const haystack = `${country.name} ${country.dial} ${country.iso}`.toLowerCase();
     return haystack.includes(normalizedFilter);
   });
@@ -1122,7 +1191,7 @@ function PhonePrefixSelect() {
   }, [isOpen]);
 
   const selectCountry = (country: PhoneCountry) => {
-    setSelectedCountry(country);
+    setSelectedIso(country.iso);
     setFilter("");
     setIsOpen(false);
   };
@@ -1132,7 +1201,7 @@ function PhonePrefixSelect() {
       <button
         className="phone-prefix"
         type="button"
-        aria-label="Seleccionar prefijo telefónico"
+        aria-label={labels.phonePrefix}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
       >
@@ -1146,7 +1215,7 @@ function PhonePrefixSelect() {
             className="prefix-search"
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
-            placeholder="País o prefijo"
+            placeholder={labels.phoneSearch}
             autoFocus
           />
           <div className="prefix-options">
@@ -1161,7 +1230,7 @@ function PhonePrefixSelect() {
                 <strong>{country.name}</strong>
               </button>
             ))}
-            {!filteredCountries.length && <p className="prefix-empty">Sin resultados</p>}
+            {!filteredCountries.length && <p className="prefix-empty">{labels.noResults}</p>}
           </div>
         </div>
       )}
@@ -1170,8 +1239,6 @@ function PhonePrefixSelect() {
 }
 
 function ArtistCard({ artist }: { artist: Artist }) {
-  const imageX = artist.x + artistCardMetrics.photoInset;
-  const imageY = artist.y + artistCardMetrics.photoInset;
   const bodyLeft = (artistCardMetrics.width - artistCardMetrics.bodyWidth) / 2;
 
   return (
@@ -1182,7 +1249,7 @@ function ArtistCard({ artist }: { artist: Artist }) {
         href={artist.instagram}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Instagram de ${artist.name}`}
+        aria-label={`Instagram: ${artist.name}`}
       >
         <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt={artist.name} />
       </a>
@@ -1207,9 +1274,6 @@ function ArtistCard({ artist }: { artist: Artist }) {
       >
         {artist.body}
       </p>
-      <span className="sr-only">
-        Foto ubicada en {Math.round(imageX)}, {Math.round(imageY)}
-      </span>
     </article>
   );
 }
@@ -1218,12 +1282,12 @@ const getFindItemParts = (item: FindItem) => (typeof item === "string" ? { headi
 
 const getFindIconAsset = (icon: string) => findIconAssets[icon] ?? findIconAssets.music;
 
-const getFindStops = (card: FindCard) =>
+const getFindStops = (card: FindCard, language: LanguageKey) =>
   card.items.map((item, index) => {
     const itemParts = getFindItemParts(item);
 
     return {
-      heading: itemParts.heading || (index === 0 ? card.title : `Parada ${String(index + 1).padStart(2, "0")}`),
+      heading: itemParts.heading || (index === 0 ? card.title : `${interfaceLabels[language].stop} ${String(index + 1).padStart(2, "0")}`),
       body: itemParts.body
     };
   });
@@ -1231,7 +1295,7 @@ const getFindStops = (card: FindCard) =>
 function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
-  const activeStops = getFindStops(activeCard);
+  const activeStops = getFindStops(activeCard, language);
   const activeStopOffset = copy.cards
     .slice(0, activeIndex)
     .reduce((total, card) => total + card.items.length, 0);
@@ -1268,7 +1332,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
       <p className="abs find-intro" data-scrolljs style={revealStyle({}, 130)}>
         {findIntroLabels[language]}
       </p>
-      <div className="abs find-tabs" aria-label="Paradas del festival" data-scrolljs style={revealStyle({}, 155)}>
+      <div className="abs find-tabs" aria-label={interfaceLabels[language].festivalStops} data-scrolljs style={revealStyle({}, 155)}>
         {copy.cards.map((card, index) => (
           <button
             key={`${card.title}-${index}`}
@@ -1280,7 +1344,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
             <span aria-hidden="true">
               <img src={getFindIconAsset(card.icon)} alt="" />
             </span>
-            {card.title.split("&")[0].replace("COUNTRY", "").trim()}
+            {card.title.split("&")[0].replace(/\bCOUNTRY\b[- ]?/i, "").trim()}
             <small>{String(index + 1).padStart(2, "0")}</small>
           </button>
         ))}
@@ -1295,7 +1359,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
           </div>
           <div className="find-slide-copy">
             <h3>{activeCard.title}</h3>
-            <p className="find-quote">«{activeIndex === 0 ? "Where boots meet beat." : "Dress the part. Live the myth."}»</p>
+            <p className="find-quote">«{activeIndex === 0 ? findQuoteLabels[language][0] : findQuoteLabels[language][1]}»</p>
             <div className="find-red-dots" aria-hidden="true" />
             <ol className="find-stop-list">
               {activeStops.map((stop, index) => (
@@ -1313,7 +1377,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
               <span className="find-slide-actions">
                 {activeIndex > 0 && (
                   <button className="find-prev" type="button" onClick={goToPreviousStop}>
-                    <span aria-hidden="true">←</span> Parada anterior
+                    <span aria-hidden="true">←</span> {previousStopLabels[language]}
                   </button>
                 )}
                 <button className="find-next" type="button" onClick={goToNextStop}>
@@ -1378,7 +1442,7 @@ function App() {
               <button
                 className="language-trigger"
                 type="button"
-                aria-label="Cambiar idioma"
+                aria-label={interfaceLabels[language].changeLanguage}
                 aria-expanded={isLanguageOpen}
                 onClick={() => setIsLanguageOpen((open) => !open)}
               >
@@ -1552,7 +1616,7 @@ function App() {
             </h2>
             <form
               className="abs contact-form"
-              aria-label="Formulario de información"
+              aria-label={interfaceLabels[language].form}
               onSubmit={handleSubmit}
               data-scrolljs
               style={revealStyle({}, 100)}
@@ -1565,7 +1629,7 @@ function App() {
               <label className="abs label label-phone" htmlFor="phone" data-text-node="form-label">
                 {copy.formPhone}
               </label>
-              <PhonePrefixSelect />
+              <PhonePrefixSelect language={language} />
 
               <label className="abs label label-email" htmlFor="email" data-text-node="form-label">
                 {copy.formEmail}
