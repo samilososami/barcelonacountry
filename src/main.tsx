@@ -126,13 +126,13 @@ const findQuoteLabels: Record<LanguageKey, [string, string]> = {
   it: ["Dove gli stivali incontrano il ritmo.", "Indossa lo stile. Vivi il mito."]
 };
 
-const interfaceLabels: Record<LanguageKey, { changeLanguage: string; festivalStops: string; phonePrefix: string; phoneSearch: string; noResults: string; form: string; stop: string }> = {
-  de: { changeLanguage: "Sprache ändern", festivalStops: "Festivalstationen", phonePrefix: "Telefonvorwahl auswählen", phoneSearch: "Land oder Vorwahl", noResults: "Keine Ergebnisse", form: "Informationsformular", stop: "Halt" },
-  es: { changeLanguage: "Cambiar idioma", festivalStops: "Paradas del festival", phonePrefix: "Seleccionar prefijo telefónico", phoneSearch: "País o prefijo", noResults: "Sin resultados", form: "Formulario de información", stop: "Parada" },
-  ca: { changeLanguage: "Canviar d'idioma", festivalStops: "Parades del festival", phonePrefix: "Selecciona el prefix telefònic", phoneSearch: "País o prefix", noResults: "Cap resultat", form: "Formulari d'informació", stop: "Parada" },
-  fr: { changeLanguage: "Changer de langue", festivalStops: "Étapes du festival", phonePrefix: "Choisir l'indicatif téléphonique", phoneSearch: "Pays ou indicatif", noResults: "Aucun résultat", form: "Formulaire d'information", stop: "Étape" },
-  en: { changeLanguage: "Change language", festivalStops: "Festival stops", phonePrefix: "Select phone prefix", phoneSearch: "Country or prefix", noResults: "No results", form: "Information form", stop: "Stop" },
-  it: { changeLanguage: "Cambia lingua", festivalStops: "Tappe del festival", phonePrefix: "Seleziona il prefisso telefonico", phoneSearch: "Paese o prefisso", noResults: "Nessun risultato", form: "Modulo informazioni", stop: "Tappa" }
+const interfaceLabels: Record<LanguageKey, { changeLanguage: string; festivalStops: string; phonePrefix: string; phoneSearch: string; noResults: string; form: string; stop: string; menu: string }> = {
+  de: { changeLanguage: "Sprache ändern", festivalStops: "Festivalstationen", phonePrefix: "Telefonvorwahl auswählen", phoneSearch: "Land oder Vorwahl", noResults: "Keine Ergebnisse", form: "Informationsformular", stop: "Halt", menu: "Menü öffnen" },
+  es: { changeLanguage: "Cambiar idioma", festivalStops: "Paradas del festival", phonePrefix: "Seleccionar prefijo telefónico", phoneSearch: "País o prefijo", noResults: "Sin resultados", form: "Formulario de información", stop: "Parada", menu: "Abrir menú" },
+  ca: { changeLanguage: "Canviar d'idioma", festivalStops: "Parades del festival", phonePrefix: "Selecciona el prefix telefònic", phoneSearch: "País o prefix", noResults: "Cap resultat", form: "Formulari d'informació", stop: "Parada", menu: "Obre el menú" },
+  fr: { changeLanguage: "Changer de langue", festivalStops: "Étapes du festival", phonePrefix: "Choisir l'indicatif téléphonique", phoneSearch: "Pays ou indicatif", noResults: "Aucun résultat", form: "Formulaire d'information", stop: "Étape", menu: "Ouvrir le menu" },
+  en: { changeLanguage: "Change language", festivalStops: "Festival stops", phonePrefix: "Select phone prefix", phoneSearch: "Country or prefix", noResults: "No results", form: "Information form", stop: "Stop", menu: "Open menu" },
+  it: { changeLanguage: "Cambia lingua", festivalStops: "Tappe del festival", phonePrefix: "Seleziona il prefisso telefonico", phoneSearch: "Paese o prefisso", noResults: "Nessun risultato", form: "Modulo informazioni", stop: "Tappa", menu: "Apri il menu" }
 };
 
 const festivalStatValues = { artists: "+10", dancers: "+3000" };
@@ -1113,7 +1113,10 @@ const easeInOutCubic = (progress: number) =>
   progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
 function scrollToTarget(targetId: string) {
-  const target = document.querySelector<HTMLElement>(scrollTargetSelectors[targetId]) ?? document.getElementById(targetId);
+  const selector = targetId === "artists" && window.matchMedia("(max-width: 640px)").matches
+    ? ".artists"
+    : scrollTargetSelectors[targetId];
+  const target = document.querySelector<HTMLElement>(selector) ?? document.getElementById(targetId);
   if (!target) {
     return;
   }
@@ -1294,6 +1297,7 @@ const getFindStops = (card: FindCard, language: LanguageKey) =>
 
 function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const tabsRef = useRef<HTMLDivElement | null>(null);
   const activeCard = copy.cards[activeIndex] ?? copy.cards[0];
   const activeStops = getFindStops(activeCard, language);
   const activeStopOffset = copy.cards
@@ -1303,6 +1307,23 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
   useEffect(() => {
     setActiveIndex(0);
   }, [copy]);
+
+  useEffect(() => {
+    if (!window.matchMedia("(max-width: 640px)").matches) {
+      return;
+    }
+
+    const tabs = tabsRef.current;
+    const activeTab = tabs?.querySelector<HTMLElement>(`[data-tab-index="${activeIndex}"]`);
+    if (!tabs || !activeTab) {
+      return;
+    }
+
+    tabs.scrollTo({
+      left: activeTab.offsetLeft - (tabs.clientWidth - activeTab.offsetWidth) / 2,
+      behavior: "smooth"
+    });
+  }, [activeIndex]);
 
   const goToNextStop = () => {
     setActiveIndex((index) => (index + 1) % copy.cards.length);
@@ -1332,11 +1353,12 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
       <p className="abs find-intro" data-scrolljs style={revealStyle({}, 130)}>
         {findIntroLabels[language]}
       </p>
-      <div className="abs find-tabs" aria-label={interfaceLabels[language].festivalStops} data-scrolljs style={revealStyle({}, 155)}>
+      <div ref={tabsRef} className="abs find-tabs" aria-label={interfaceLabels[language].festivalStops} data-scrolljs style={revealStyle({}, 155)}>
         {copy.cards.map((card, index) => (
           <button
             key={`${card.title}-${index}`}
             className={`find-tab ${index === activeIndex ? "is-active" : ""}`}
+            data-tab-index={index}
             type="button"
             aria-current={index === activeIndex}
             onClick={() => setActiveIndex(index)}
@@ -1397,6 +1419,7 @@ function App() {
   useScrollJsReveal();
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const copy = copies[language];
   const findCopy = findCopies[language];
   const artists = createArtists(copy, language);
@@ -1425,14 +1448,28 @@ function App() {
             <div className="top-line top-line-two" />
             <img className="abs nav-star nav-star-left" src="/assets/nav-star.svg" alt="" />
             <img className="abs nav-star nav-star-right" src="/assets/nav-star.svg" alt="" />
-            <nav className="abs nav" aria-label="Principal">
+            <button
+              className={`mobile-menu-trigger ${isMobileNavOpen ? "is-open" : ""}`}
+              type="button"
+              aria-label={interfaceLabels[language].menu}
+              aria-expanded={isMobileNavOpen}
+              onClick={() => setIsMobileNavOpen((open) => !open)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            <nav className={`abs nav ${isMobileNavOpen ? "is-mobile-open" : ""}`} aria-label="Principal">
               {copy.nav.map((item, index) => (
                 <button
                   key={item}
                   className="nav-link"
                   type="button"
                   data-text-node="nav-item"
-                  onClick={() => scrollToTarget(navTargets[index])}
+                  onClick={() => {
+                    setIsMobileNavOpen(false);
+                    scrollToTarget(navTargets[index]);
+                  }}
                 >
                   {item}
                 </button>
