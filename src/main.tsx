@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
+import { StrictMode, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
@@ -1302,9 +1302,11 @@ const getFindStops = (card: FindCard, language: LanguageKey) =>
 function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabsRef = useRef<HTMLDivElement | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setActiveIndex(0);
+    carouselRef.current?.scrollTo({ left: 0 });
   }, [copy]);
 
   useEffect(() => {
@@ -1327,6 +1329,29 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
 
     return () => window.cancelAnimationFrame(animationFrame);
   }, [activeIndex]);
+
+  const selectSlide = (index: number) => {
+    const nextIndex = Math.max(0, Math.min(copy.cards.length - 1, index));
+    setActiveIndex(nextIndex);
+
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      const carousel = carouselRef.current;
+      carousel?.scrollTo({
+        left: nextIndex * carousel.clientWidth,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  const handleCarouselScroll = (event: UIEvent<HTMLDivElement>) => {
+    if (!window.matchMedia("(max-width: 640px)").matches) {
+      return;
+    }
+
+    const carousel = event.currentTarget;
+    const nextIndex = Math.max(0, Math.min(copy.cards.length - 1, Math.round(carousel.scrollLeft / carousel.clientWidth)));
+    setActiveIndex((currentIndex) => currentIndex === nextIndex ? currentIndex : nextIndex);
+  };
 
   const titleParts = copy.title.split(" ");
   const titleAccent = titleParts.length > 1 ? titleParts.pop() : "";
@@ -1358,7 +1383,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
             data-tab-index={index}
             type="button"
             aria-current={index === activeIndex}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => selectSlide(index)}
           >
             <span aria-hidden="true">
               <img src={getFindIconAsset(card.icon)} alt="" />
@@ -1368,7 +1393,14 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
           </button>
         ))}
       </div>
-      <div className="abs find-carousel" aria-label={copy.kicker} data-scrolljs style={revealStyle({}, 190)}>
+      <div
+        ref={carouselRef}
+        className="abs find-carousel"
+        aria-label={copy.kicker}
+        data-scrolljs
+        style={revealStyle({}, 190)}
+        onScroll={handleCarouselScroll}
+      >
         <div className="find-track" style={{ "--find-active-index": activeIndex } as CSSProperties}>
           {copy.cards.map((card, cardIndex) => {
             const stops = getFindStops(card, language);
@@ -1412,7 +1444,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
                             className="find-prev"
                             type="button"
                             tabIndex={cardIndex === activeIndex ? 0 : -1}
-                            onClick={() => setActiveIndex(cardIndex - 1)}
+                            onClick={() => selectSlide(cardIndex - 1)}
                           >
                             <span aria-hidden="true">←</span> {previousStopLabels[language]}
                           </button>
@@ -1421,7 +1453,7 @@ function FindSection({ copy, language }: { copy: FindCopy; language: LanguageKey
                           className="find-next"
                           type="button"
                           tabIndex={cardIndex === activeIndex ? 0 : -1}
-                          onClick={() => setActiveIndex((cardIndex + 1) % copy.cards.length)}
+                          onClick={() => selectSlide((cardIndex + 1) % copy.cards.length)}
                         >
                           {nextStopLabels[language]} <span aria-hidden="true">→</span>
                         </button>
@@ -1502,6 +1534,7 @@ function App() {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("mobile-nav-open");
     setIsLanguageOpen(false);
 
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -1513,6 +1546,7 @@ function App() {
     window.addEventListener("keydown", closeOnEscape);
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.body.classList.remove("mobile-nav-open");
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isMobileNavOpen]);
@@ -1736,9 +1770,11 @@ function App() {
             >
               {copy.artistsTitle}
             </h2>
-            {artists.map((artist) => (
-              <ArtistCard key={artist.name} artist={artist} />
-            ))}
+            <div className="artists-track">
+              {artists.map((artist) => (
+                <ArtistCard key={artist.name} artist={artist} />
+              ))}
+            </div>
           </section>
 
           <FindSection copy={findCopy} language={language} />

@@ -819,6 +819,10 @@ h3 {
   z-index: 2;
 }
 
+.artists-track {
+  display: contents;
+}
+
 .artist-card {
   z-index: 1;
   width: 308px;
@@ -2490,14 +2494,14 @@ h3 {
     gap: 4px;
     padding: 84px 24px 38px;
     isolation: isolate;
-    background: rgba(18, 30, 91, 0.86);
+    background: rgba(18, 30, 91, 0.58);
     border: 0;
     box-shadow: none;
     color: #ffffff;
     font-size: 27px;
     letter-spacing: 0.6px;
-    backdrop-filter: blur(56px) brightness(0.48) saturate(0.8);
-    -webkit-backdrop-filter: blur(56px) brightness(0.48) saturate(0.8);
+    backdrop-filter: blur(30px) brightness(0.72) saturate(0.8);
+    -webkit-backdrop-filter: blur(30px) brightness(0.72) saturate(0.8);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -2513,8 +2517,8 @@ h3 {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: rgba(18, 30, 91, 0.24);
-    box-shadow: inset 0 0 140px rgba(5, 12, 54, 0.42);
+    background: rgba(18, 30, 91, 0.1);
+    box-shadow: inset 0 0 100px rgba(5, 12, 54, 0.25);
     pointer-events: none;
   }
 
@@ -2536,7 +2540,7 @@ h3 {
     margin: 0;
     padding: 0 34px 0 48px;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
     color: rgba(255, 255, 255, 0.88);
     opacity: 0;
     transform: translateY(18px);
@@ -2580,6 +2584,13 @@ h3 {
     text-shadow: 0 4px 0 rgba(255, 65, 71, 0.42), 0 10px 20px rgba(3, 10, 42, 0.42);
   }
 
+  .nav-link:focus-visible {
+    outline: none;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 65, 71, 0.72);
+    text-underline-offset: 8px;
+  }
+
   .nav-link.is-current {
     color: var(--red);
     text-shadow: 0 3px 0 rgba(4, 12, 52, 0.56);
@@ -2619,6 +2630,21 @@ h3 {
   .language-menu {
     top: 54px;
     width: 174px;
+  }
+
+  body.mobile-nav-open .hero > :not(.mobile-menu-trigger):not(.nav),
+  body.mobile-nav-open .festival,
+  body.mobile-nav-open .artists,
+  body.mobile-nav-open .find-section,
+  body.mobile-nav-open .location,
+  body.mobile-nav-open .contact,
+  body.mobile-nav-open .footer {
+    filter: blur(12px);
+  }
+
+  body.mobile-nav-open .language-picker {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .hero-image {
@@ -2847,32 +2873,54 @@ h3 {
   }
 
   .artists {
-    --mobile-artist-pattern: url("data:image/svg+xml,%3Csvg width='92' height='92' viewBox='0 0 112 112' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M56 7 68.8 43.2h38.1L76.1 65.5l11.8 36.2L56 79.4l-31.9 22.3 11.8-36.2L5.1 43.2h38.1Z' fill='none' stroke='white' stroke-opacity='.12' stroke-width='2.9' stroke-linejoin='round'/%3E%3C/svg%3E");
     position: absolute;
     left: 0;
     top: 1410px;
     width: 100%;
     height: 850px;
+    overflow: hidden;
+    background-color: var(--blue);
+  }
+
+  .artists-track {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     display: flex;
     gap: 14px;
     padding: 126px 18px 34px;
     overflow-x: auto;
     overflow-y: hidden;
-    background-color: var(--blue);
-    background-image: var(--mobile-artist-pattern);
-    background-size: 92px 184px;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 18px;
     overscroll-behavior-inline: contain;
     scrollbar-width: none;
   }
 
-  .artists::-webkit-scrollbar {
+  .artists-track::-webkit-scrollbar {
     display: none;
   }
 
   .artists-background {
-    display: none;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .artists-background::before,
+  .artists-background::after {
+    inset: -180px -320px;
+    background-size: 92px 184px;
+    opacity: 0.1;
+    transform: rotate(-7deg);
+    animation: stars-drift-left 30s linear infinite;
+  }
+
+  .artists-background::after {
+    opacity: 0.082;
+    animation: stars-drift-right 34s linear infinite;
   }
 
   .artists-heading {
@@ -3040,7 +3088,8 @@ h3 {
   }
 
   .find-track {
-    transition-duration: 720ms;
+    transform: none;
+    transition: none;
   }
 
   .find-tab.is-active {
@@ -3059,6 +3108,21 @@ h3 {
     top: 350px;
     width: 100%;
     height: 1045px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    touch-action: auto;
+  }
+
+  .find-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .find-slide-shell {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .find-slide {
