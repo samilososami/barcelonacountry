@@ -1,6 +1,9 @@
-import { StrictMode, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
+import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
+import { supabase } from "./lib/supabase";
 import "./styles.css";
+
+const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
 
 type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
 
@@ -135,6 +138,15 @@ const interfaceLabels: Record<LanguageKey, { changeLanguage: string; festivalSto
   fr: { changeLanguage: "Changer de langue", festivalStops: "Étapes du festival", phonePrefix: "Choisir l'indicatif téléphonique", phoneSearch: "Pays ou indicatif", noResults: "Aucun résultat", form: "Formulaire d'information", stop: "Étape", menu: "Ouvrir le menu", closeMenu: "Fermer le menu" },
   en: { changeLanguage: "Change language", festivalStops: "Festival stops", phonePrefix: "Select phone prefix", phoneSearch: "Country or prefix", noResults: "No results", form: "Information form", stop: "Stop", menu: "Open menu", closeMenu: "Close menu" },
   it: { changeLanguage: "Cambia lingua", festivalStops: "Tappe del festival", phonePrefix: "Seleziona il prefisso telefonico", phoneSearch: "Paese o prefisso", noResults: "Nessun risultato", form: "Modulo informazioni", stop: "Tappa", menu: "Apri il menu", closeMenu: "Chiudi il menu" }
+};
+
+const formFeedbackLabels: Record<LanguageKey, { submitting: string; success: string; duplicate: string; error: string }> = {
+  de: { submitting: "Wird gespeichert…", success: "Danke! Deine Daten wurden gespeichert.", duplicate: "Diese E-Mail ist bereits registriert.", error: "Die Daten konnten nicht gespeichert werden. Bitte versuche es erneut." },
+  es: { submitting: "Guardando…", success: "¡Gracias! Tus datos se han guardado correctamente.", duplicate: "Este correo ya está registrado.", error: "No hemos podido guardar tus datos. Inténtalo de nuevo." },
+  ca: { submitting: "Desant…", success: "Gràcies! Les teves dades s'han desat correctament.", duplicate: "Aquest correu ja està registrat.", error: "No hem pogut desar les dades. Torna-ho a provar." },
+  fr: { submitting: "Enregistrement…", success: "Merci ! Vos données ont bien été enregistrées.", duplicate: "Cet e-mail est déjà enregistré.", error: "Impossible d'enregistrer vos données. Réessayez." },
+  en: { submitting: "Saving…", success: "Thank you! Your details have been saved.", duplicate: "This email is already registered.", error: "We could not save your details. Please try again." },
+  it: { submitting: "Salvataggio…", success: "Grazie! I tuoi dati sono stati salvati.", duplicate: "Questa e-mail è già registrata.", error: "Non è stato possibile salvare i dati. Riprova." }
 };
 
 const festivalStatValues = { artists: "+10", dancers: "+3000" };
@@ -831,7 +843,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internacional",
-      body: "DJ italiano y figura habitual de los grandes festivales country europeos. Décadas de experiencia, una selección musical precisa y energía inagotable para mantener la pista en movimiento."
+      body: "DJ italiano y figura necesaria en los grandes festivales country europeos. Décadas de experiencia, un filosofo e intelectual de la música Country, autor de varios libros sobe Musica. Dispone de una selección musical precisa y una energía inagotable para mantener la pista vibrando."
     },
     {
       name: "Johnny",
@@ -980,6 +992,8 @@ const artistCardMetrics = {
   bodyWidth: 278
 };
 
+const artistDisplayOrder = [0, 1, 2, 3, 6, 7, 4, 5] as const;
+
 const getInitialLanguage = (): LanguageKey => {
   try {
     const stored = window.localStorage.getItem("barcelona-country-language");
@@ -996,9 +1010,11 @@ const getInitialLanguage = (): LanguageKey => {
 const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
   const artistCopy = [...copy.artists, ...additionalArtistCopies[language]];
 
-  return artistLayouts.map((layout, index) => ({
-    ...layout,
-    ...artistCopy[index]
+  return artistDisplayOrder.map((artistIndex, positionIndex) => ({
+    ...artistLayouts[artistIndex],
+    x: artistLayouts[positionIndex].x,
+    y: artistLayouts[positionIndex].y,
+    ...artistCopy[artistIndex]
   }));
 };
 
@@ -1215,7 +1231,7 @@ function PhonePrefixSelect({ language }: { language: LanguageKey }) {
         {selectedCountry.dial}
       </button>
       <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
-      <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" />
+      <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" required maxLength={32} />
       {isOpen && (
         <div className="prefix-menu">
           <input
@@ -1477,6 +1493,8 @@ function App() {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeNavIndex, setActiveNavIndex] = useState(0);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const languagePickerRef = useRef<HTMLDivElement | null>(null);
   const copy = copies[language];
   const findCopy = findCopies[language];
@@ -1580,8 +1598,36 @@ function App() {
     scrollToTarget(targetId);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const fullName = String(data.get("name") ?? "").trim();
+    const prefix = String(data.get("phonePrefix") ?? "").trim();
+    const phoneNumber = String(data.get("phone") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim().toLowerCase();
+
+    setIsFormSubmitting(true);
+    setFormFeedback(null);
+
+    const { error } = await supabase.from("registrations").insert({
+      full_name: fullName,
+      phone: `${prefix} ${phoneNumber}`.trim(),
+      email
+    });
+
+    if (error) {
+      setFormFeedback({
+        type: "error",
+        message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error
+      });
+      setIsFormSubmitting(false);
+      return;
+    }
+
+    form.reset();
+    setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
+    setIsFormSubmitting(false);
   };
 
   const handleLanguageChange = (nextLanguage: LanguageKey) => {
@@ -1831,7 +1877,7 @@ function App() {
               <label className="abs label label-name" htmlFor="name" data-text-node="form-label">
                 {copy.formName}
               </label>
-              <input className="abs input input-name" id="name" name="name" type="text" autoComplete="name" />
+              <input className="abs input input-name" id="name" name="name" type="text" autoComplete="name" required maxLength={160} />
 
               <label className="abs label label-phone" htmlFor="phone" data-text-node="form-label">
                 {copy.formPhone}
@@ -1841,13 +1887,18 @@ function App() {
               <label className="abs label label-email" htmlFor="email" data-text-node="form-label">
                 {copy.formEmail}
               </label>
-              <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" />
-              <button className="abs cta bottom-cta" type="submit">
+              <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" required maxLength={320} />
+              <button className="abs cta bottom-cta" type="submit" disabled={isFormSubmitting}>
                 <span className="cta-type" data-text-node="contact-cta">
-                  {copy.cta}
+                  {isFormSubmitting ? formFeedbackLabels[language].submitting : copy.cta}
                 </span>
                 <img className="cta-star" src="/assets/star-button.png" alt="" />
               </button>
+              {formFeedback && (
+                <p className={`contact-form-status is-${formFeedback.type}`} role="status">
+                  {formFeedback.message}
+                </p>
+              )}
             </form>
           </section>
 
@@ -1869,8 +1920,14 @@ function App() {
   );
 }
 
+const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(window.location.pathname.replace(/\/$/, "") || "/");
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    {isAdminRoute ? (
+      <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
+        <AdminPortal />
+      </Suspense>
+    ) : <App />}
   </StrictMode>
 );
