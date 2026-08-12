@@ -133,7 +133,7 @@ function LoginPage({ initialError }: { initialError?: string }) {
               name="email"
               type="email"
               value={email}
-              autoComplete="username"
+              autoComplete="email"
               onChange={(event) => setEmail(event.target.value)}
               required
               autoFocus

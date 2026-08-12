@@ -403,15 +403,16 @@ h3 {
 }
 
 .hero-barcelona {
-  left: 315px;
-  top: 282px;
-  width: 650px;
-  height: 84px;
+  left: 120px;
+  top: 252px;
+  width: 1040px;
+  height: 132px;
   color: var(--red);
   font-family: "Rustler", "Rio Grande", "Rye", serif;
-  font-size: 82px;
+  font-size: 134px;
   font-weight: 400;
   letter-spacing: 2.8px;
+  text-align: center;
   text-shadow:
     -2px -2px 0 #ffffff,
     0 -2px 0 #ffffff,
@@ -434,14 +435,15 @@ h3 {
 }
 
 .hero-country {
-  left: 242px;
-  top: 354px;
-  width: 796px;
-  height: 132px;
+  left: 315px;
+  top: 390px;
+  width: 650px;
+  height: 84px;
   color: #ffffff;
   font-family: "Rio Grande", "Rustler", "Rye", serif;
-  font-size: 134px;
+  font-size: 82px;
   letter-spacing: 3.8px;
+  text-align: center;
   text-transform: uppercase;
   text-shadow:
     -3px -3px 0 #151515,
@@ -2715,22 +2717,22 @@ h3 {
   }
 
   .hero-barcelona {
-    left: 12px;
-    top: 148px;
-    width: calc(100% - 24px);
+    left: 4px;
+    top: 132px;
+    width: calc(100% - 8px);
     height: auto;
-    font-size: 47px;
-    letter-spacing: 1.2px;
+    font-size: 69px;
+    letter-spacing: 0;
     text-align: center;
   }
 
   .hero-country {
-    left: 8px;
-    top: 202px;
-    width: calc(100% - 16px);
+    left: 12px;
+    top: 218px;
+    width: calc(100% - 24px);
     height: auto;
-    font-size: 69px;
-    letter-spacing: 1px;
+    font-size: 47px;
+    letter-spacing: 1.2px;
     text-align: center;
     text-shadow:
       -2px -2px 0 #151515,
