@@ -11,6 +11,7 @@ import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import type { Registration, RegistrationInsert, RegistrationUpdate } from "../lib/database.types";
 import { executeRegistrationSql } from "../lib/sqlConsole";
+import { countryFlag, getPhoneCountry, phoneCountries, phoneDisplayParts } from "../lib/phoneCountries";
 import "./admin.css";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
@@ -30,6 +31,7 @@ const schemaSql = `CREATE TABLE public.registrations (
   full_name text NOT NULL,
   email text NOT NULL,
   phone text NOT NULL,
+  country_iso text,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -323,6 +325,7 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
   notify: (message: string) => void;
 }) {
   const [query, setQuery] = useState("");
+  const [countryFilter, setCountryFilter] = useState("all");
   const [sort, setSort] = useState<SortOption>("date-desc");
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -331,10 +334,14 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
 
   const visibleRegistrations = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("es");
-    const filtered = registrations.filter((registration) =>
-      [registration.full_name, registration.email, registration.phone]
-        .some((value) => value.toLocaleLowerCase("es").includes(normalizedQuery))
-    );
+    const filtered = registrations.filter((registration) => {
+      const country = getPhoneCountry(registration.phone, registration.country_iso);
+      const searchableCountry = country ? `${country.name} ${country.dial} ${country.iso}` : "";
+      const matchesQuery = [registration.full_name, registration.email, registration.phone, searchableCountry]
+        .some((value) => value.toLocaleLowerCase("es").includes(normalizedQuery));
+      const matchesCountry = countryFilter === "all" || country?.iso === countryFilter;
+      return matchesQuery && matchesCountry;
+    });
 
     return [...filtered].sort((left, right) => {
       if (sort === "date-desc") return Date.parse(right.created_at) - Date.parse(left.created_at);
@@ -343,7 +350,9 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
       if (sort === "email-asc") return left.email.localeCompare(right.email, "es");
       return left.full_name.localeCompare(right.full_name, "es");
     });
-  }, [query, registrations, sort]);
+  }, [countryFilter, query, registrations, sort]);
+
+  const availableCountries = phoneCountries;
 
   const saved = async (message: string) => {
     await onReload();
@@ -370,10 +379,20 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar por nombre, correo o teléfono…"
+            placeholder="Buscar por nombre, correo, teléfono, prefijo o país…"
             aria-label="Buscar registros"
           />
           {query && <button type="button" onClick={() => setQuery("")} aria-label="Limpiar búsqueda">×</button>}
+        </label>
+
+        <label className="country-filter">
+          <span>País</span>
+          <select value={countryFilter} onChange={(event) => setCountryFilter(event.target.value)} aria-label="Filtrar por país">
+            <option value="all">Todos los países</option>
+            {availableCountries.map((country) => (
+              <option value={country.iso} key={country.iso}>{countryFlag(country.iso)} {country.name} ({country.dial})</option>
+            ))}
+          </select>
         </label>
 
         <div className="sort-control">
@@ -418,7 +437,18 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
               <tr key={registration.id}>
                 <td data-label="Nombre"><strong>{registration.full_name}</strong></td>
                 <td data-label="Correo"><a href={`mailto:${registration.email}`}>{registration.email}</a></td>
-                <td data-label="Teléfono"><a href={`tel:${registration.phone.replace(/\s/g, "")}`}>{registration.phone}</a></td>
+                <td data-label="Teléfono">
+                  {(() => {
+                    const phone = phoneDisplayParts(registration.phone, registration.country_iso);
+                    return (
+                      <a className="registration-phone" href={`tel:${registration.phone.replace(/\s/g, "")}`}>
+                        {phone.country && <span className="country-flag" title={phone.country.name} aria-label={phone.country.name}>{countryFlag(phone.country.iso)}</span>}
+                        {phone.prefix && <strong>{phone.prefix}</strong>}
+                        <span>{phone.rest}</span>
+                      </a>
+                    );
+                  })()}
+                </td>
                 <td data-label="Registro"><time dateTime={registration.created_at}>{formatDate(registration.created_at)}</time></td>
                 <td className="row-actions">
                   <button
@@ -456,8 +486,8 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
         {!isLoading && !visibleRegistrations.length && (
           <div className="empty-table">
             <span aria-hidden="true">☆</span>
-            <h3>{query ? "No hay coincidencias" : "Todavía no hay registros"}</h3>
-            <p>{query ? "Prueba con otro nombre, correo o teléfono." : "Los nuevos formularios aparecerán aquí."}</p>
+            <h3>{query || countryFilter !== "all" ? "No hay coincidencias" : "Todavía no hay registros"}</h3>
+            <p>{query || countryFilter !== "all" ? "Prueba con otro nombre, correo, teléfono, prefijo o país." : "Los nuevos formularios aparecerán aquí."}</p>
           </div>
         )}
         {isLoading && <div className="table-loading">Actualizando registros…</div>}
@@ -483,7 +513,7 @@ function DatabaseTab({ registrations, onReload }: { registrations: Registration[
 
   const rowsSql = registrations.length
     ? registrations.map((registration) =>
-        `INSERT INTO public.registrations (id, full_name, email, phone, created_at) VALUES ('${registration.id}', '${sqlEscape(registration.full_name)}', '${sqlEscape(registration.email)}', '${sqlEscape(registration.phone)}', '${registration.created_at}');`
+        `INSERT INTO public.registrations (id, full_name, email, phone, country_iso, created_at) VALUES ('${registration.id}', '${sqlEscape(registration.full_name)}', '${sqlEscape(registration.email)}', '${sqlEscape(registration.phone)}', ${registration.country_iso ? `'${sqlEscape(registration.country_iso)}'` : "NULL"}, '${registration.created_at}');`
       ).join("\n")
     : "-- La tabla no contiene filas todavía.";
 
@@ -530,7 +560,7 @@ function DatabaseTab({ registrations, onReload }: { registrations: Registration[
           <div className="sql-examples">
             <button type="button" onClick={() => setSql("SELECT * FROM public.registrations ORDER BY created_at DESC;")}>SELECT</button>
             <button type="button" onClick={() => setSql("SELECT count(*) FROM public.registrations;")}>COUNT</button>
-            <button type="button" onClick={() => setSql("INSERT INTO public.registrations (full_name, email, phone) VALUES ('Nombre Apellidos', 'correo@ejemplo.com', '+34 600 000 000');")}>INSERT</button>
+            <button type="button" onClick={() => setSql("INSERT INTO public.registrations (full_name, email, phone, country_iso) VALUES ('Nombre Apellidos', 'correo@ejemplo.com', '+34 600 000 000', 'ES');")}>INSERT</button>
           </div>
         </header>
         <div className="sql-editor-wrap">

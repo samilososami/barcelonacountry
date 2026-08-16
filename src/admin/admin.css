@@ -670,6 +670,34 @@
   padding: 22px 32px 14px;
 }
 
+.country-filter {
+  display: grid;
+  grid-template-columns: auto minmax(156px, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-height: 47px;
+  color: #718098;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.country-filter select {
+  height: 47px;
+  min-width: 178px;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--admin-ink);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+  padding: 0 10px;
+}
+
+.country-filter select:focus { border-color: var(--admin-blue); outline: 3px solid rgba(30, 84, 185, 0.1); }
+
 .admin-search {
   position: relative;
   display: flex;
@@ -835,6 +863,27 @@
 .registrations-table td a {
   color: var(--admin-blue);
   text-decoration: none;
+}
+
+.registration-phone {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.registration-phone strong { color: var(--admin-navy); font-weight: 700; }
+
+.country-flag {
+  display: inline-grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef3ff;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .registrations-table time { white-space: nowrap; }
@@ -1381,6 +1430,8 @@
   .panel-heading h2 { font-size: 24px; }
   .add-registration { width: 100%; }
   .registry-toolbar { display: grid; padding: 17px 16px 12px; }
+  .country-filter { grid-template-columns: 76px 1fr; }
+  .country-filter select { width: 100%; }
   .sort-trigger { width: 100%; }
   .sort-menu { left: 0; width: 100%; }
   .registry-summary { padding: 0 17px 11px; }

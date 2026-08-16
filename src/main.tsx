@@ -1,6 +1,7 @@
 import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
 import { supabase } from "./lib/supabase";
+import { phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
 import "./styles.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
@@ -41,12 +42,6 @@ type Copy = {
   formPhone: string;
   formEmail: string;
   footer: string;
-};
-
-type PhoneCountry = {
-  name: string;
-  dial: string;
-  iso: string;
 };
 
 type RevealStyle = CSSProperties & {
@@ -1021,28 +1016,6 @@ const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
 const createMapsSrc = (language: LanguageKey) =>
   `https://www.google.com/maps?q=41.3874,2.1686&z=13&hl=${language}&output=embed`;
 
-const phoneCountries: PhoneCountry[] = [
-  { name: "España", dial: "+34", iso: "ES" },
-  { name: "Alemania", dial: "+49", iso: "DE" },
-  { name: "Andorra", dial: "+376", iso: "AD" },
-  { name: "Argentina", dial: "+54", iso: "AR" },
-  { name: "Bélgica", dial: "+32", iso: "BE" },
-  { name: "Brasil", dial: "+55", iso: "BR" },
-  { name: "Canadá", dial: "+1", iso: "CA" },
-  { name: "Chile", dial: "+56", iso: "CL" },
-  { name: "Colombia", dial: "+57", iso: "CO" },
-  { name: "Estados Unidos", dial: "+1", iso: "US" },
-  { name: "Francia", dial: "+33", iso: "FR" },
-  { name: "Irlanda", dial: "+353", iso: "IE" },
-  { name: "Italia", dial: "+39", iso: "IT" },
-  { name: "México", dial: "+52", iso: "MX" },
-  { name: "Países Bajos", dial: "+31", iso: "NL" },
-  { name: "Portugal", dial: "+351", iso: "PT" },
-  { name: "Reino Unido", dial: "+44", iso: "GB" },
-  { name: "Suiza", dial: "+41", iso: "CH" },
-  { name: "Uruguay", dial: "+598", iso: "UY" }
-];
-
 function useFigmaScale() {
   useEffect(() => {
     const update = () => {
@@ -1231,6 +1204,7 @@ function PhonePrefixSelect({ language }: { language: LanguageKey }) {
         {selectedCountry.dial}
       </button>
       <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
+      <input type="hidden" name="countryIso" value={selectedCountry.iso} />
       <input className="input input-phone" id="phone" name="phone" type="tel" autoComplete="tel" required maxLength={32} />
       {isOpen && (
         <div className="prefix-menu">
@@ -1604,6 +1578,7 @@ function App() {
     const data = new FormData(form);
     const fullName = String(data.get("name") ?? "").trim();
     const prefix = String(data.get("phonePrefix") ?? "").trim();
+    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
     const phoneNumber = String(data.get("phone") ?? "").trim();
     const email = String(data.get("email") ?? "").trim().toLowerCase();
 
@@ -1613,6 +1588,7 @@ function App() {
     const { error } = await supabase.from("registrations").insert({
       full_name: fullName,
       phone: `${prefix} ${phoneNumber}`.trim(),
+      country_iso: countryIso || null,
       email
     });
 
@@ -1633,7 +1609,7 @@ function App() {
   const handleLanguageChange = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
     window.localStorage.setItem("barcelona-country-language", nextLanguage);
-    window.location.reload();
+    setIsLanguageOpen(false);
   };
 
   return (
