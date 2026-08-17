@@ -200,9 +200,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FREUNDE",
         icon: "REC",
         items: [
-          { heading: "EIN MEER AUS COWBOYHÜTEN:", body: "Der Weltrekordversuch: ein Meer aus Hüten erfüllt Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf, im Herzen des Festivals einen gemeinsamen Massentanz zu teilen." },
           { heading: "TREFFEN DER COUNTRY-GRUPPEN:", body: "Clubs aus ganz Europa vereint unter derselben Sonne." },
-          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf zu einem gemeinsamen Massentanz im Herzen des Festivals." }
         ]
       }
     ]
@@ -278,16 +277,12 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "cowboy",
         items: [
           {
-            heading: "MAR DE SOMBREROS COWBOY:",
-            body: "El intento de récord mundial: un mar de sombreros llenando Barcelona."
+            heading: "BIG DANCE BARCELONA:",
+            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           },
           {
             heading: "ENCUENTRO DE GRUPOS COUNTRY:",
             body: "Clubs de toda Europa unidos bajo el mismo sol."
-          },
-          {
-            heading: "BIG DANCE BARCELONA:",
-            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           }
         ]
       }
@@ -330,9 +325,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITAT I AMICS",
         icon: "REC",
         items: [
-          { heading: "MAR DE BARRETS DE COWBOY:", body: "L'intent de rècord mundial: un mar de barrets omplint Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." },
           { heading: "TROBADA DE COLLES COUNTRY:", body: "Clubs de tot Europa units sota el mateix sol." },
-          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." }
         ]
       }
     ]
@@ -374,9 +368,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNAUTÉ ET AMIS",
         icon: "REC",
         items: [
-          { heading: "MER DE CHAPEAUX DE COWBOY :", body: "La tentative de record mondial : une mer de chapeaux envahit Barcelone." },
+          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse de masse au cœur du festival." },
           { heading: "RENCONTRE DES GROUPES COUNTRY :", body: "Des clubs de toute l'Europe réunis sous le même soleil." },
-          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse collective au cœur du festival." }
         ]
       }
     ]
@@ -418,9 +411,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FRIENDS",
         icon: "REC",
         items: [
-          { heading: "SEA OF COWBOY HATS:", body: "The world record attempt: a sea of hats filling Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "A call to share a mass dance at the heart of the festival." },
           { heading: "COUNTRY CLUB GATHERING:", body: "Clubs from across Europe united under the same sun." },
-          { heading: "BIG DANCE BARCELONA:", body: "An open call to share a mass dance at the heart of the festival." }
         ]
       }
     ]
@@ -462,9 +454,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITÀ E AMICI",
         icon: "REC",
         items: [
-          { heading: "MARE DI CAPPELLI DA COWBOY:", body: "Il tentativo di record mondiale: un mare di cappelli riempie Barcellona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Un invito a condividere un ballo di massa nel cuore del festival." },
           { heading: "RADUNO DEI GRUPPI COUNTRY:", body: "Club da tutta Europa uniti sotto lo stesso sole." },
-          { heading: "BIG DANCE BARCELONA:", body: "Una convocazione aperta per condividere un ballo di massa nel cuore del festival." }
         ]
       }
     ]
@@ -475,7 +466,7 @@ const copies: Record<LanguageKey, Copy> = {
   de: {
     languageName: "Deutsch",
     nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
-    heroKicker: "BARCELONA - 27. NOVEMBER",
+    heroKicker: "BARCELONA · 19.–21. NOVEMBER 2027",
     heroCopy:
       "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit.",
     cta: "Informiert bleiben",
@@ -522,17 +513,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "STANDORT",
     inBarcelona: "IN BARCELONA!",
     mapTitle: "Karte mit dem Zentrum von Barcelona",
-    date: "BARCELONA - 27. NOV",
+    date: "BARCELONA · 19.–21. NOV. 2027",
     contactTitle: "BLEIB INFORMIERT",
     formName: "Name",
     formPhone: "Telefonnummer",
     formEmail: "E-Mail",
-    footer: "© 2026 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
   },
   es: {
     languageName: "Español",
     nav: ["INICIO", "FESTIVAL", "ARTISTAS", "PROGRAMA", "UBICACIÓN", "CONTACTO"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONA · 19–21 DE NOVIEMBRE DE 2027",
     heroCopy:
       "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano.",
     cta: "Mantente informado",
@@ -579,17 +570,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "UBICACIÓN",
     inBarcelona: "EN BARCELONA!",
     mapTitle: "Mapa del centro de Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · 19–21 NOV 2027",
     contactTitle: "MANTENTE INFORMADO",
     formName: "Nombre",
     formPhone: "Número de teléf.",
     formEmail: "Correo electrónico",
-    footer: "© 2026 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
   },
   ca: {
     languageName: "Català",
     nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
-    heroKicker: "BARCELONA - 27 NOVEMBRE",
+    heroKicker: "BARCELONA · 19–21 DE NOVEMBRE DE 2027",
     heroCopy:
       "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà.",
     cta: "Manten-te informat",
@@ -636,24 +627,24 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "UBICACIÓ",
     inBarcelona: "A BARCELONA!",
     mapTitle: "Mapa del centre de Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · 19–21 NOV 2027",
     contactTitle: "MANTEN-TE INFORMAT",
     formName: "Nom",
     formPhone: "Número de telèf.",
     formEmail: "Correu electrònic",
-    footer: "© 2026 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
   },
   fr: {
     languageName: "Français",
     nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
-    heroKicker: "BARCELONE - 27 NOVEMBRE",
+    heroKicker: "BARCELONE · 19–21 NOVEMBRE 2027",
     heroCopy:
       "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain.",
     cta: "Restez informé",
     triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
     festivalTitle: "Le Festival",
     festivalCopy:
-      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour danseurs, familles et amoureux du country.",
+      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
     expectedDancers: "DANSEURS ATTENDUS",
@@ -693,17 +684,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LIEU",
     inBarcelona: "À BARCELONE!",
     mapTitle: "Carte du centre de Barcelone",
-    date: "BARCELONE - 27 NOV",
+    date: "BARCELONE · 19–21 NOV. 2027",
     contactTitle: "RESTEZ INFORMÉ",
     formName: "Nom",
     formPhone: "Téléphone",
     formEmail: "E-mail",
-    footer: "© 2026 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
   },
   en: {
     languageName: "English",
     nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
-    heroKicker: "BARCELONA - NOVEMBER 27",
+    heroKicker: "BARCELONA · NOVEMBER 19–21, 2027",
     heroCopy:
       "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit.",
     cta: "Stay informed",
@@ -750,24 +741,24 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LOCATION",
     inBarcelona: "IN BARCELONA!",
     mapTitle: "Map of central Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · NOV 19–21, 2027",
     contactTitle: "STAY INFORMED",
     formName: "Name",
     formPhone: "Phone number",
     formEmail: "Email",
-    footer: "© 2026 Barcelona Country Festival · All rights reserved · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · All rights reserved · Yeehaw!"
   },
   it: {
     languageName: "Italiano",
     nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
-    heroKicker: "BARCELLONA - 27 NOVEMBRE",
+    heroKicker: "BARCELLONA · 19–21 NOVEMBRE 2027",
     heroCopy:
       "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano.",
     cta: "Resta informato",
     triad: ["BALLO", "MUSICA", "AMERICA"],
     festivalTitle: "Il Festival",
     festivalCopy:
-      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento per ballerini, famiglie e amanti del country.",
+      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
     expectedDancers: "BALLERINI ATTESI",
@@ -777,7 +768,7 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Coreografo internazionale",
         body:
-          "Riferimento internazionale del Line Dance Catalan Style e artista richiestissimo in tutto il mondo. Le sue coreografie, ballate in tutta Europa, uniscono energia americana e sapore mediterraneo. Un vero uragano in pista."
+          "Riferimento internazionale del Line Dance Catalan Style. È una figura richiestissima nel mondo country, con esibizioni in tutto il mondo. Ha creato decine di coreografie che si ballano sulle piste di tutta Europa. Il suo stile unisce energia americana e sapore mediterraneo. Un autentico uragano in pista."
       },
       {
         name: "Algaly Fofana",
@@ -807,12 +798,12 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LUOGO",
     inBarcelona: "A BARCELLONA!",
     mapTitle: "Mappa del centro di Barcellona",
-    date: "BARCELLONA - 27 NOV",
+    date: "BARCELLONA · 19–21 NOV 2027",
     contactTitle: "RESTA INFORMATO",
     formName: "Nome",
     formPhone: "Telefono",
     formEmail: "Email",
-    footer: "© 2026 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
   }
 };
 
@@ -821,12 +812,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "Internationaler Country-DJ",
-      body: "Italienischer DJ und feste Größe auf Europas Country-Festivals. Mit jahrzehntelanger Erfahrung hält er die Tanzfläche mit präziser Musikauswahl und unerschöpflicher Energie in Bewegung."
+      body: "Italienischer DJ und unverzichtbare Größe bei den großen europäischen Country-Festivals. Jahrzehntelange Erfahrung, Philosoph und Intellektueller der Countrymusik sowie Autor mehrerer Bücher über Musik. Mit präziser Musikauswahl und unerschöpflicher Energie hält er die Tanzfläche in Bewegung."
     },
     {
       name: "Johnny",
       role: "Line-Dance-Coach & Choreograf",
-      body: "Gianmarco Rossato verbindet italienische Wurzeln mit internationaler Erfahrung. Seit 2013 entwickelt er Choreografien mit Musikalität, Struktur und echter Verbindung zur Tanzfläche."
+      body: "Gianmarco Rossato verbindet italienische Wurzeln mit internationaler Erfahrung. Seit 2013 entwickelt er Choreografien mit Musikalität, Struktur und einer besonderen Verbindung zu denen, die die Tanzfläche füllen."
     },
     {
       name: "Sofía Balzano",
@@ -838,7 +829,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internacional",
-      body: "DJ italiano y figura necesaria en los grandes festivales country europeos. Décadas de experiencia, un filosofo e intelectual de la música Country, autor de varios libros sobe Musica. Dispone de una selección musical precisa y una energía inagotable para mantener la pista vibrando."
+      body: "DJ italiano y figura necesaria en los grandes festivales country europeos. Décadas de experiencia, filósofo e intelectual de la música country, autor de varios libros sobre música. Dispone de una selección musical precisa y una energía inagotable para mantener la pista vibrando."
     },
     {
       name: "Johnny",
@@ -855,12 +846,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internacional",
-      body: "DJ italià i figura habitual dels grans festivals country europeus. Dècades d'experiència, selecció musical precisa i energia inesgotable per mantenir la pista en moviment."
+      body: "DJ italià i figura imprescindible als grans festivals country europeus. Dècades d'experiència, filòsof i intel·lectual de la música country, autor de diversos llibres sobre música. Disposa d'una selecció musical precisa i una energia inesgotable per mantenir la pista vibrant."
     },
     {
       name: "Johnny",
       role: "Entrenador i coreògraf de Line Dance",
-      body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb la pista."
+      body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb les persones que omplen la pista."
     },
     {
       name: "Sofía Balzano",
@@ -872,12 +863,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country international",
-      body: "DJ italien et figure des grands festivals country européens. Des décennies d'expérience, une sélection musicale précise et une énergie inépuisable pour faire vivre la piste."
+      body: "DJ italien et figure incontournable des grands festivals country européens. Des décennies d'expérience, philosophe et intellectuel de la musique country, auteur de plusieurs livres sur la musique. Il dispose d'une sélection musicale précise et d'une énergie inépuisable pour faire vibrer la piste."
     },
     {
       name: "Johnny",
       role: "Coach et chorégraphe de Line Dance",
-      body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies musicales, structurées et proches des danseurs."
+      body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies avec musicalité, structure et un lien particulier avec celles et ceux qui remplissent la piste."
     },
     {
       name: "Sofía Balzano",
@@ -889,12 +880,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "International country DJ",
-      body: "An Italian DJ and a familiar face at major European country festivals. Decades of experience, sharp music selection and tireless energy keep every dance floor moving."
+      body: "An Italian DJ and an essential figure at major European country festivals. Decades of experience, a philosopher and intellectual of country music, and the author of several books on music. He brings a precise music selection and tireless energy to keep the dance floor buzzing."
     },
     {
       name: "Johnny",
       role: "Line Dance Coach & Choreographer",
-      body: "Gianmarco Rossato combines Italian DNA with an international soul. Since 2013, he has created dances built on musicality, structure and a real connection with the floor."
+      body: "Gianmarco Rossato combines Italian DNA with an international soul. Since 2013, he has created dances built on musicality, structure and a special connection with the people who fill the dance floor."
     },
     {
       name: "Sofía Balzano",
@@ -906,12 +897,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internazionale",
-      body: "DJ italiano e presenza abituale nei grandi festival country europei. Decenni di esperienza, selezione musicale precisa ed energia inesauribile per tenere viva la pista."
+      body: "DJ italiano e figura imprescindibile nei grandi festival country europei. Decenni di esperienza, filosofo e intellettuale della musica country, autore di vari libri sulla musica. Dispone di una selezione musicale precisa e di un'energia inesauribile per mantenere la pista vibrante."
     },
     {
       name: "Johnny",
       role: "Coach e coreografo di Line Dance",
-      body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame autentico con la pista."
+      body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame speciale con chi riempie la pista."
     },
     {
       name: "Sofía Balzano",
