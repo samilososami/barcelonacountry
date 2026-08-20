@@ -2142,7 +2142,9 @@ function ModernApp() {
   );
 }
 
-const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(window.location.pathname.replace(/\/$/, "") || "/");
+const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(currentPath);
+const isBackupRoute = currentPath === "/backup";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -2150,6 +2152,6 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
         <AdminPortal />
       </Suspense>
-    ) : <ModernApp />}
+    ) : isBackupRoute ? <App /> : <ModernApp />}
   </StrictMode>
 );
