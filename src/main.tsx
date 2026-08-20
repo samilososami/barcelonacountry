@@ -1,8 +1,9 @@
 import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
 import { supabase } from "./lib/supabase";
-import { phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
+import { countryFlag, phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
 import "./styles.css";
+import "./modern.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
 
@@ -1887,6 +1888,233 @@ function App() {
   );
 }
 
+function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
+  const regionNames = new Intl.DisplayNames([language], { type: "region" });
+  const localizedCountries = phoneCountries.map((country) => ({
+    ...country,
+    name: regionNames.of(country.iso) ?? country.name
+  }));
+  const [selectedIso, setSelectedIso] = useState(phoneCountries[0].iso);
+  const selectedCountry = localizedCountries.find((country) => country.iso === selectedIso) ?? localizedCountries[0];
+
+  return (
+    <div className="modern-phone-field">
+      <label htmlFor="phone-prefix">{interfaceLabels[language].phonePrefix}</label>
+      <div className="modern-phone-row">
+        <select id="phone-prefix" value={selectedIso} onChange={(event) => setSelectedIso(event.target.value)}>
+          {localizedCountries.map((country) => (
+            <option key={`${country.iso}-${country.dial}`} value={country.iso}>
+              {countryFlag(country.iso)} {country.name} ({country.dial})
+            </option>
+          ))}
+        </select>
+        <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
+        <input type="hidden" name="countryIso" value={selectedCountry.iso} />
+        <label className="sr-only" htmlFor="phone">{interfaceLabels[language].phonePrefix}</label>
+        <input id="phone" name="phone" type="tel" autoComplete="tel" required maxLength={32} />
+      </div>
+    </div>
+  );
+}
+
+function ModernFindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeCard = copy.cards[activeIndex];
+  const stops = getFindStops(activeCard, language);
+
+  useEffect(() => setActiveIndex(0), [copy]);
+
+  return (
+    <section id="program" className="modern-experience modern-section" aria-labelledby="modern-experience-title">
+      <div className="modern-section-heading">
+        <p>{copy.kicker}</p>
+        <h2 id="modern-experience-title">{copy.title}</h2>
+        <span>{findIntroLabels[language]}</span>
+      </div>
+      <div className="modern-experience-layout">
+        <div className="modern-experience-tabs" role="tablist" aria-label={interfaceLabels[language].festivalStops}>
+          {copy.cards.map((card, index) => (
+            <button
+              key={`${card.title}-${index}`}
+              type="button"
+              role="tab"
+              aria-selected={activeIndex === index}
+              className={activeIndex === index ? "is-active" : ""}
+              onClick={() => setActiveIndex(index)}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {card.title}
+            </button>
+          ))}
+        </div>
+        <article className="modern-experience-card" aria-live="polite">
+          <div className="modern-experience-image">
+            <img src={findVisuals[activeIndex] ?? findVisuals[0]} alt="" />
+            <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
+          </div>
+          <div className="modern-experience-copy">
+            <p className="modern-eyebrow">{String(activeIndex + 1).padStart(2, "0")} / {String(copy.cards.length).padStart(2, "0")}</p>
+            <h3>{activeCard.title}</h3>
+            <p className="modern-quote">«{activeIndex === 0 ? findQuoteLabels[language][0] : findQuoteLabels[language][1]}»</p>
+            <ul>
+              {stops.map((stop, index) => (
+                <li key={`${stop.heading}-${index}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div><strong>{stop.heading}</strong><p>{stop.body}</p></div>
+                </li>
+              ))}
+            </ul>
+            <div className="modern-card-controls">
+              <button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← {previousStopLabels[language]}</button>
+              <button type="button" onClick={() => setActiveIndex((index) => (index + 1) % copy.cards.length)}>{nextStopLabels[language]} →</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ModernApp() {
+  const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const copy = copies[language];
+  const artists = createArtists(copy, language);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const changeLanguage = (nextLanguage: LanguageKey) => {
+    setLanguage(nextLanguage);
+    window.localStorage.setItem("barcelona-country-language", nextLanguage);
+  };
+
+  const moveTo = (targetId: string) => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const fullName = String(data.get("name") ?? "").trim();
+    const prefix = String(data.get("phonePrefix") ?? "").trim();
+    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
+    const phoneNumber = String(data.get("phone") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim().toLowerCase();
+
+    setIsFormSubmitting(true);
+    setFormFeedback(null);
+    const { error } = await supabase.from("registrations").insert({
+      full_name: fullName,
+      phone: `${prefix} ${phoneNumber}`.trim(),
+      country_iso: countryIso || null,
+      email
+    });
+
+    if (error) {
+      setFormFeedback({ type: "error", message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error });
+    } else {
+      form.reset();
+      setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
+    }
+    setIsFormSubmitting(false);
+  };
+
+  return (
+    <div className="modern-page">
+      <header className="modern-nav-wrap">
+        <nav className="modern-nav" aria-label="Principal">
+          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country">
+            <span>BC</span><small>Barcelona Country</small>
+          </button>
+          <div className="modern-nav-links">
+            {copy.nav.map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>{item}</button>)}
+          </div>
+          <label className="modern-language">
+            <span className="sr-only">{interfaceLabels[language].changeLanguage}</span>
+            <select value={language} onChange={(event) => changeLanguage(event.target.value as LanguageKey)}>
+              {languageOptions.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
+            </select>
+          </label>
+        </nav>
+      </header>
+
+      <main>
+        <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
+          <img className="modern-hero-image" src="/assets/hero-bg.png" alt="" />
+          <div className="modern-hero-shade" />
+          <div className="modern-hero-grid" aria-hidden="true" />
+          <div className="modern-hero-content">
+            <p className="modern-eyebrow">{copy.heroKicker}</p>
+            <h1 id="modern-hero-title"><span>Barcelona</span>Country</h1>
+            <p className="modern-hero-copy">{copy.heroCopy}</p>
+            <div className="modern-hero-actions">
+              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>{copy.cta}<span>↘</span></button>
+              <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <span>↓</span></button>
+            </div>
+          </div>
+          <div className="modern-hero-meta">
+            <span>{copy.date}</span>
+            <span>{copy.triad.join(" · ")}</span>
+          </div>
+        </section>
+
+        <section id="festival" className="modern-festival modern-section" aria-labelledby="modern-festival-title">
+          <div className="modern-section-heading modern-festival-heading">
+            <p>{copy.heroKicker}</p>
+            <h2 id="modern-festival-title">{copy.festivalTitle}</h2>
+          </div>
+          <p className="modern-festival-copy">{copy.festivalCopy}</p>
+          <div className="modern-stats">
+            <div><strong>3</strong><span>{copy.days}</span></div>
+            <div><strong>{festivalStatValues.artists}</strong><span>{copy.internationalArtists}</span></div>
+            <div><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers}</span></div>
+          </div>
+        </section>
+
+        <section id="artists" className="modern-artists modern-section" aria-labelledby="modern-artists-title">
+          <div className="modern-section-heading"><p>LINE UP</p><h2 id="modern-artists-title">{copy.artistsTitle}</h2></div>
+          <div className="modern-artists-grid">
+            {artists.map((artist, index) => (
+              <article className="modern-artist-card" key={artist.name}>
+                <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
+                  <img src={artist.image} alt={artist.name} />
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </a>
+                <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <ModernFindSection copy={findCopies[language]} language={language} />
+
+        <section id="location" className="modern-location modern-section" aria-labelledby="modern-location-title">
+          <div className="modern-location-intro">
+            <p className="modern-eyebrow">{copy.locationKicker}</p>
+            <h2 id="modern-location-title">Yeehaw!<br /><span>{copy.inBarcelona}</span></h2>
+            <div className="modern-date-lockup"><img src="/assets/star-button.png" alt="" /><strong>{copy.date}</strong></div>
+          </div>
+          <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
+        </section>
+
+        <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
+          <div className="modern-contact-copy"><p>{copy.heroKicker}</p><h2 id="modern-contact-title">{copy.contactTitle}</h2><span>{copy.triad.join(" · ")}</span></div>
+          <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
+            <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
+            <ModernPhonePrefixSelect language={language} />
+            <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
+            <button className="modern-primary-button" type="submit" disabled={isFormSubmitting}>{isFormSubmitting ? formFeedbackLabels[language].submitting : copy.cta}<span>↗</span></button>
+            {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
+          </form>
+        </section>
+      </main>
+      <footer className="modern-footer"><span>Barcelona Country</span><span>{copy.footer}</span><span>BC / 2027</span></footer>
+    </div>
+  );
+}
+
 const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(window.location.pathname.replace(/\/$/, "") || "/");
 
 createRoot(document.getElementById("root")!).render(
@@ -1895,6 +2123,6 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
         <AdminPortal />
       </Suspense>
-    ) : <App />}
+    ) : <ModernApp />}
   </StrictMode>
 );
