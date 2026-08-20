@@ -932,7 +932,7 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
     y: 1930
   },
   {
-    image: "/assets/artist-algaly.png",
+    image: "/assets/artist-algaly-portrait.webp",
     instagram: "https://www.instagram.com/algalyfofana/",
     x: 326,
     y: 1930,
@@ -952,7 +952,7 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
     imageFit: "montse"
   },
   {
-    image: "/assets/artist-jonathan.png",
+    image: "/assets/artist-jonathan-closeup.webp",
     instagram: "https://www.instagram.com/jonathan_jones_music/",
     x: 6,
     y: 2640,
