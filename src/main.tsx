@@ -145,7 +145,7 @@ const formFeedbackLabels: Record<LanguageKey, { submitting: string; success: str
   it: { submitting: "Salvataggio…", success: "Grazie! I tuoi dati sono stati salvati.", duplicate: "Questa e-mail è già registrata.", error: "Non è stato possibile salvare i dati. Riprova." }
 };
 
-const festivalStatValues = { artists: "+10", dancers: "+3000" };
+const festivalStatValues = { artists: "+12", dancers: "+3000" };
 
 const findIntroLabels: Record<LanguageKey, string> = {
   de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
@@ -162,6 +162,17 @@ const findVisuals = [
   "/assets/find-food.jpg",
   "/assets/find-community.webp"
 ];
+
+const galleryImages = Array.from({ length: 17 }, (_, index) => `/assets/gallery/drive-${String(index + 1).padStart(2, "0")}.jpg`);
+
+const galleryLabels: Record<LanguageKey, { kicker: string; title: string; copy: string }> = {
+  de: { kicker: "IM RAMPENLICHT", title: "GALERIE DER KÜNSTLER", copy: "Momente, Stil und die Energie des Line Dance." },
+  es: { kicker: "EN EL FOCO", title: "GALERÍA DE ARTISTAS", copy: "Momentos, estilo y la energía del line dance." },
+  ca: { kicker: "EN EL FOCUS", title: "GALERIA D'ARTISTES", copy: "Moments, estil i l'energia del line dance." },
+  fr: { kicker: "SOUS LES PROJECTEURS", title: "GALERIE DES ARTISTES", copy: "Des moments, du style et l'énergie du line dance." },
+  en: { kicker: "IN THE SPOTLIGHT", title: "ARTIST GALLERY", copy: "Moments, style and the energy of line dance." },
+  it: { kicker: "SOTTO I RIFLETTORI", title: "GALLERIA DEGLI ARTISTI", copy: "Momenti, stile ed energia del line dance." }
+};
 
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
@@ -477,7 +488,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, hochwertigen Western-Produkten und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
     days: "Tage",
     internationalArtists: "INTERNATIONALE\nKÜNSTLER",
-    expectedDancers: "ERWARTETE TÄNZER",
+    expectedDancers: "TÄNZER",
     artistsTitle: "Internationale Künstler",
     artists: [
       {
@@ -534,7 +545,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en directo, productos western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
     days: "Días",
     internationalArtists: "ARTISTAS\nINTERNACIONALES",
-    expectedDancers: "BAILARINES ESPERADOS",
+    expectedDancers: "BAILARINES",
     artistsTitle: "Artistas internacionales",
     artists: [
       {
@@ -591,7 +602,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country reuneix durant tres dies el millor del line dance internacional, música en directe, productes western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
     days: "Dies",
     internationalArtists: "ARTISTES\nINTERNACIONALS",
-    expectedDancers: "BALLARINS ESPERATS",
+    expectedDancers: "BALLARINS",
     artistsTitle: "Artistes internacionals",
     artists: [
       {
@@ -648,7 +659,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
-    expectedDancers: "DANSEURS ATTENDUS",
+    expectedDancers: "DANSEURS",
     artistsTitle: "Artistes internationaux",
     artists: [
       {
@@ -705,7 +716,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country brings together three days of international line dance, live music, quality western products and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
     days: "Days",
     internationalArtists: "INTERNATIONAL\nARTISTS",
-    expectedDancers: "EXPECTED DANCERS",
+    expectedDancers: "DANCERS",
     artistsTitle: "International Artists",
     artists: [
       {
@@ -762,7 +773,7 @@ const copies: Record<LanguageKey, Copy> = {
       "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
-    expectedDancers: "BALLERINI ATTESI",
+    expectedDancers: "BALLERINI",
     artistsTitle: "Artisti internazionali",
     artists: [
       {
@@ -1981,6 +1992,7 @@ function ModernApp() {
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
   const artists = createArtists(copy, language);
+  const gallery = galleryLabels[language];
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -2025,8 +2037,8 @@ function ModernApp() {
     <div className="modern-page">
       <header className="modern-nav-wrap">
         <nav className="modern-nav" aria-label="Principal">
-          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country">
-            <span>BC</span><small>Barcelona Country</small>
+          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest">
+            <span>BCF</span><small>Barcelona Country Fest</small>
           </button>
           <div className="modern-nav-links">
             {copy.nav.map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>{item}</button>)}
@@ -2042,12 +2054,12 @@ function ModernApp() {
 
       <main>
         <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
-          <img className="modern-hero-image" src="/assets/hero-bg.png" alt="" />
+          <img className="modern-hero-image" src="/assets/header-fest.png" alt="" />
           <div className="modern-hero-shade" />
           <div className="modern-hero-grid" aria-hidden="true" />
           <div className="modern-hero-content">
             <p className="modern-eyebrow">{copy.heroKicker}</p>
-            <h1 id="modern-hero-title"><span>Barcelona</span>Country</h1>
+            <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
             <p className="modern-hero-copy">{copy.heroCopy}</p>
             <div className="modern-hero-actions">
               <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>{copy.cta}<span>↘</span></button>
@@ -2079,11 +2091,26 @@ function ModernApp() {
             {artists.map((artist, index) => (
               <article className="modern-artist-card" key={artist.name}>
                 <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
-                  <img src={artist.image} alt={artist.name} />
+                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.image} alt={artist.name} />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </a>
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="gallery" className="modern-gallery modern-section" aria-labelledby="modern-gallery-title">
+          <div className="modern-section-heading modern-gallery-heading">
+            <p>{gallery.kicker}</p>
+            <h2 id="modern-gallery-title">{gallery.title}</h2>
+            <span>{gallery.copy}</span>
+          </div>
+          <div className="modern-gallery-grid">
+            {galleryImages.map((image, index) => (
+              <figure className={`modern-gallery-item item-${index + 1}`} key={image}>
+                <img src={image} alt="" loading="lazy" />
+              </figure>
             ))}
           </div>
         </section>
@@ -2110,7 +2137,7 @@ function ModernApp() {
           </form>
         </section>
       </main>
-      <footer className="modern-footer"><span>Barcelona Country</span><span>{copy.footer}</span><span>BC / 2027</span></footer>
+      <footer className="modern-footer"><span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span></footer>
     </div>
   );
 }
