@@ -117,7 +117,7 @@ function LoginPage({ initialError }: { initialError?: string }) {
           <p>Gestión privada de asistentes y registros del festival.</p>
           <div className="login-poster-line" aria-hidden="true">
             <span />
-            <strong>BCN · 2026</strong>
+            <strong>BCN · 2027</strong>
           </div>
         </div>
 

@@ -1,8 +1,9 @@
 import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
 import { supabase } from "./lib/supabase";
-import { phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
+import { countryFlag, phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
 import "./styles.css";
+import "./modern.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
 
@@ -200,9 +201,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FREUNDE",
         icon: "REC",
         items: [
-          { heading: "EIN MEER AUS COWBOYHÜTEN:", body: "Der Weltrekordversuch: ein Meer aus Hüten erfüllt Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf, im Herzen des Festivals einen gemeinsamen Massentanz zu teilen." },
           { heading: "TREFFEN DER COUNTRY-GRUPPEN:", body: "Clubs aus ganz Europa vereint unter derselben Sonne." },
-          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf zu einem gemeinsamen Massentanz im Herzen des Festivals." }
         ]
       }
     ]
@@ -278,16 +278,12 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "cowboy",
         items: [
           {
-            heading: "MAR DE SOMBREROS COWBOY:",
-            body: "El intento de récord mundial: un mar de sombreros llenando Barcelona."
+            heading: "BIG DANCE BARCELONA:",
+            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           },
           {
             heading: "ENCUENTRO DE GRUPOS COUNTRY:",
             body: "Clubs de toda Europa unidos bajo el mismo sol."
-          },
-          {
-            heading: "BIG DANCE BARCELONA:",
-            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
           }
         ]
       }
@@ -330,9 +326,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITAT I AMICS",
         icon: "REC",
         items: [
-          { heading: "MAR DE BARRETS DE COWBOY:", body: "L'intent de rècord mundial: un mar de barrets omplint Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." },
           { heading: "TROBADA DE COLLES COUNTRY:", body: "Clubs de tot Europa units sota el mateix sol." },
-          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." }
         ]
       }
     ]
@@ -374,9 +369,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNAUTÉ ET AMIS",
         icon: "REC",
         items: [
-          { heading: "MER DE CHAPEAUX DE COWBOY :", body: "La tentative de record mondial : une mer de chapeaux envahit Barcelone." },
+          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse de masse au cœur du festival." },
           { heading: "RENCONTRE DES GROUPES COUNTRY :", body: "Des clubs de toute l'Europe réunis sous le même soleil." },
-          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse collective au cœur du festival." }
         ]
       }
     ]
@@ -418,9 +412,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FRIENDS",
         icon: "REC",
         items: [
-          { heading: "SEA OF COWBOY HATS:", body: "The world record attempt: a sea of hats filling Barcelona." },
+          { heading: "BIG DANCE BARCELONA:", body: "A call to share a mass dance at the heart of the festival." },
           { heading: "COUNTRY CLUB GATHERING:", body: "Clubs from across Europe united under the same sun." },
-          { heading: "BIG DANCE BARCELONA:", body: "An open call to share a mass dance at the heart of the festival." }
         ]
       }
     ]
@@ -462,9 +455,8 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITÀ E AMICI",
         icon: "REC",
         items: [
-          { heading: "MARE DI CAPPELLI DA COWBOY:", body: "Il tentativo di record mondiale: un mare di cappelli riempie Barcellona." },
+          { heading: "BIG DANCE BARCELONA:", body: "Un invito a condividere un ballo di massa nel cuore del festival." },
           { heading: "RADUNO DEI GRUPPI COUNTRY:", body: "Club da tutta Europa uniti sotto lo stesso sole." },
-          { heading: "BIG DANCE BARCELONA:", body: "Una convocazione aperta per condividere un ballo di massa nel cuore del festival." }
         ]
       }
     ]
@@ -475,7 +467,7 @@ const copies: Record<LanguageKey, Copy> = {
   de: {
     languageName: "Deutsch",
     nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
-    heroKicker: "BARCELONA - 27. NOVEMBER",
+    heroKicker: "BARCELONA · 19.–21. NOVEMBER 2027",
     heroCopy:
       "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit.",
     cta: "Informiert bleiben",
@@ -522,17 +514,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "STANDORT",
     inBarcelona: "IN BARCELONA!",
     mapTitle: "Karte mit dem Zentrum von Barcelona",
-    date: "BARCELONA - 27. NOV",
+    date: "BARCELONA · 19.–21. NOV. 2027",
     contactTitle: "BLEIB INFORMIERT",
     formName: "Name",
     formPhone: "Telefonnummer",
     formEmail: "E-Mail",
-    footer: "© 2026 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
   },
   es: {
     languageName: "Español",
     nav: ["INICIO", "FESTIVAL", "ARTISTAS", "PROGRAMA", "UBICACIÓN", "CONTACTO"],
-    heroKicker: "BARCELONA - NOVIEMBRE 27",
+    heroKicker: "BARCELONA · 19–21 DE NOVIEMBRE DE 2027",
     heroCopy:
       "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano.",
     cta: "Mantente informado",
@@ -579,17 +571,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "UBICACIÓN",
     inBarcelona: "EN BARCELONA!",
     mapTitle: "Mapa del centro de Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · 19–21 NOV 2027",
     contactTitle: "MANTENTE INFORMADO",
     formName: "Nombre",
     formPhone: "Número de teléf.",
     formEmail: "Correo electrónico",
-    footer: "© 2026 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
   },
   ca: {
     languageName: "Català",
     nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
-    heroKicker: "BARCELONA - 27 NOVEMBRE",
+    heroKicker: "BARCELONA · 19–21 DE NOVEMBRE DE 2027",
     heroCopy:
       "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà.",
     cta: "Manten-te informat",
@@ -636,24 +628,24 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "UBICACIÓ",
     inBarcelona: "A BARCELONA!",
     mapTitle: "Mapa del centre de Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · 19–21 NOV 2027",
     contactTitle: "MANTEN-TE INFORMAT",
     formName: "Nom",
     formPhone: "Número de telèf.",
     formEmail: "Correu electrònic",
-    footer: "© 2026 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
   },
   fr: {
     languageName: "Français",
     nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
-    heroKicker: "BARCELONE - 27 NOVEMBRE",
+    heroKicker: "BARCELONE · 19–21 NOVEMBRE 2027",
     heroCopy:
       "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain.",
     cta: "Restez informé",
     triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
     festivalTitle: "Le Festival",
     festivalCopy:
-      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour danseurs, familles et amoureux du country.",
+      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
     expectedDancers: "DANSEURS ATTENDUS",
@@ -693,17 +685,17 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LIEU",
     inBarcelona: "À BARCELONE!",
     mapTitle: "Carte du centre de Barcelone",
-    date: "BARCELONE - 27 NOV",
+    date: "BARCELONE · 19–21 NOV. 2027",
     contactTitle: "RESTEZ INFORMÉ",
     formName: "Nom",
     formPhone: "Téléphone",
     formEmail: "E-mail",
-    footer: "© 2026 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
   },
   en: {
     languageName: "English",
     nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
-    heroKicker: "BARCELONA - NOVEMBER 27",
+    heroKicker: "BARCELONA · NOVEMBER 19–21, 2027",
     heroCopy:
       "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit.",
     cta: "Stay informed",
@@ -750,24 +742,24 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LOCATION",
     inBarcelona: "IN BARCELONA!",
     mapTitle: "Map of central Barcelona",
-    date: "BARCELONA - 27 NOV",
+    date: "BARCELONA · NOV 19–21, 2027",
     contactTitle: "STAY INFORMED",
     formName: "Name",
     formPhone: "Phone number",
     formEmail: "Email",
-    footer: "© 2026 Barcelona Country Festival · All rights reserved · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · All rights reserved · Yeehaw!"
   },
   it: {
     languageName: "Italiano",
     nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
-    heroKicker: "BARCELLONA - 27 NOVEMBRE",
+    heroKicker: "BARCELLONA · 19–21 NOVEMBRE 2027",
     heroCopy:
       "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano.",
     cta: "Resta informato",
     triad: ["BALLO", "MUSICA", "AMERICA"],
     festivalTitle: "Il Festival",
     festivalCopy:
-      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento per ballerini, famiglie e amanti del country.",
+      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
     expectedDancers: "BALLERINI ATTESI",
@@ -777,7 +769,7 @@ const copies: Record<LanguageKey, Copy> = {
         name: "Pol F. Ryan",
         role: "Coreografo internazionale",
         body:
-          "Riferimento internazionale del Line Dance Catalan Style e artista richiestissimo in tutto il mondo. Le sue coreografie, ballate in tutta Europa, uniscono energia americana e sapore mediterraneo. Un vero uragano in pista."
+          "Riferimento internazionale del Line Dance Catalan Style. È una figura richiestissima nel mondo country, con esibizioni in tutto il mondo. Ha creato decine di coreografie che si ballano sulle piste di tutta Europa. Il suo stile unisce energia americana e sapore mediterraneo. Un autentico uragano in pista."
       },
       {
         name: "Algaly Fofana",
@@ -807,12 +799,12 @@ const copies: Record<LanguageKey, Copy> = {
     locationKicker: "LUOGO",
     inBarcelona: "A BARCELLONA!",
     mapTitle: "Mappa del centro di Barcellona",
-    date: "BARCELLONA - 27 NOV",
+    date: "BARCELLONA · 19–21 NOV 2027",
     contactTitle: "RESTA INFORMATO",
     formName: "Nome",
     formPhone: "Telefono",
     formEmail: "Email",
-    footer: "© 2026 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
+    footer: "© 2027 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
   }
 };
 
@@ -821,12 +813,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "Internationaler Country-DJ",
-      body: "Italienischer DJ und feste Größe auf Europas Country-Festivals. Mit jahrzehntelanger Erfahrung hält er die Tanzfläche mit präziser Musikauswahl und unerschöpflicher Energie in Bewegung."
+      body: "Italienischer DJ und unverzichtbare Größe bei den großen europäischen Country-Festivals. Jahrzehntelange Erfahrung, Philosoph und Intellektueller der Countrymusik sowie Autor mehrerer Bücher über Musik. Mit präziser Musikauswahl und unerschöpflicher Energie hält er die Tanzfläche in Bewegung."
     },
     {
       name: "Johnny",
       role: "Line-Dance-Coach & Choreograf",
-      body: "Gianmarco Rossato verbindet italienische Wurzeln mit internationaler Erfahrung. Seit 2013 entwickelt er Choreografien mit Musikalität, Struktur und echter Verbindung zur Tanzfläche."
+      body: "Gianmarco Rossato verbindet italienische Wurzeln mit internationaler Erfahrung. Seit 2013 entwickelt er Choreografien mit Musikalität, Struktur und einer besonderen Verbindung zu denen, die die Tanzfläche füllen."
     },
     {
       name: "Sofía Balzano",
@@ -838,7 +830,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internacional",
-      body: "DJ italiano y figura necesaria en los grandes festivales country europeos. Décadas de experiencia, un filosofo e intelectual de la música Country, autor de varios libros sobe Musica. Dispone de una selección musical precisa y una energía inagotable para mantener la pista vibrando."
+      body: "DJ italiano y figura necesaria en los grandes festivales country europeos. Décadas de experiencia, filósofo e intelectual de la música country, autor de varios libros sobre música. Dispone de una selección musical precisa y una energía inagotable para mantener la pista vibrando."
     },
     {
       name: "Johnny",
@@ -855,12 +847,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internacional",
-      body: "DJ italià i figura habitual dels grans festivals country europeus. Dècades d'experiència, selecció musical precisa i energia inesgotable per mantenir la pista en moviment."
+      body: "DJ italià i figura imprescindible als grans festivals country europeus. Dècades d'experiència, filòsof i intel·lectual de la música country, autor de diversos llibres sobre música. Disposa d'una selecció musical precisa i una energia inesgotable per mantenir la pista vibrant."
     },
     {
       name: "Johnny",
       role: "Entrenador i coreògraf de Line Dance",
-      body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb la pista."
+      body: "Gianmarco Rossato uneix ADN italià i ànima internacional. Des del 2013 crea coreografies amb musicalitat, estructura i una connexió especial amb les persones que omplen la pista."
     },
     {
       name: "Sofía Balzano",
@@ -872,12 +864,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country international",
-      body: "DJ italien et figure des grands festivals country européens. Des décennies d'expérience, une sélection musicale précise et une énergie inépuisable pour faire vivre la piste."
+      body: "DJ italien et figure incontournable des grands festivals country européens. Des décennies d'expérience, philosophe et intellectuel de la musique country, auteur de plusieurs livres sur la musique. Il dispose d'une sélection musicale précise et d'une énergie inépuisable pour faire vibrer la piste."
     },
     {
       name: "Johnny",
       role: "Coach et chorégraphe de Line Dance",
-      body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies musicales, structurées et proches des danseurs."
+      body: "Gianmarco Rossato unit ses racines italiennes à une âme internationale. Depuis 2013, il crée des chorégraphies avec musicalité, structure et un lien particulier avec celles et ceux qui remplissent la piste."
     },
     {
       name: "Sofía Balzano",
@@ -889,12 +881,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "International country DJ",
-      body: "An Italian DJ and a familiar face at major European country festivals. Decades of experience, sharp music selection and tireless energy keep every dance floor moving."
+      body: "An Italian DJ and an essential figure at major European country festivals. Decades of experience, a philosopher and intellectual of country music, and the author of several books on music. He brings a precise music selection and tireless energy to keep the dance floor buzzing."
     },
     {
       name: "Johnny",
       role: "Line Dance Coach & Choreographer",
-      body: "Gianmarco Rossato combines Italian DNA with an international soul. Since 2013, he has created dances built on musicality, structure and a real connection with the floor."
+      body: "Gianmarco Rossato combines Italian DNA with an international soul. Since 2013, he has created dances built on musicality, structure and a special connection with the people who fill the dance floor."
     },
     {
       name: "Sofía Balzano",
@@ -906,12 +898,12 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     {
       name: "Steve Frapolli",
       role: "DJ country internazionale",
-      body: "DJ italiano e presenza abituale nei grandi festival country europei. Decenni di esperienza, selezione musicale precisa ed energia inesauribile per tenere viva la pista."
+      body: "DJ italiano e figura imprescindibile nei grandi festival country europei. Decenni di esperienza, filosofo e intellettuale della musica country, autore di vari libri sulla musica. Dispone di una selezione musicale precisa e di un'energia inesauribile per mantenere la pista vibrante."
     },
     {
       name: "Johnny",
       role: "Coach e coreografo di Line Dance",
-      body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame autentico con la pista."
+      body: "Gianmarco Rossato unisce DNA italiano e anima internazionale. Dal 2013 crea coreografie con musicalità, struttura e un legame speciale con chi riempie la pista."
     },
     {
       name: "Sofía Balzano",
@@ -1896,6 +1888,233 @@ function App() {
   );
 }
 
+function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
+  const regionNames = new Intl.DisplayNames([language], { type: "region" });
+  const localizedCountries = phoneCountries.map((country) => ({
+    ...country,
+    name: regionNames.of(country.iso) ?? country.name
+  }));
+  const [selectedIso, setSelectedIso] = useState(phoneCountries[0].iso);
+  const selectedCountry = localizedCountries.find((country) => country.iso === selectedIso) ?? localizedCountries[0];
+
+  return (
+    <div className="modern-phone-field">
+      <label htmlFor="phone-prefix">{interfaceLabels[language].phonePrefix}</label>
+      <div className="modern-phone-row">
+        <select id="phone-prefix" value={selectedIso} onChange={(event) => setSelectedIso(event.target.value)}>
+          {localizedCountries.map((country) => (
+            <option key={`${country.iso}-${country.dial}`} value={country.iso}>
+              {countryFlag(country.iso)} {country.name} ({country.dial})
+            </option>
+          ))}
+        </select>
+        <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
+        <input type="hidden" name="countryIso" value={selectedCountry.iso} />
+        <label className="sr-only" htmlFor="phone">{interfaceLabels[language].phonePrefix}</label>
+        <input id="phone" name="phone" type="tel" autoComplete="tel" required maxLength={32} />
+      </div>
+    </div>
+  );
+}
+
+function ModernFindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeCard = copy.cards[activeIndex];
+  const stops = getFindStops(activeCard, language);
+
+  useEffect(() => setActiveIndex(0), [copy]);
+
+  return (
+    <section id="program" className="modern-experience modern-section" aria-labelledby="modern-experience-title">
+      <div className="modern-section-heading">
+        <p>{copy.kicker}</p>
+        <h2 id="modern-experience-title">{copy.title}</h2>
+        <span>{findIntroLabels[language]}</span>
+      </div>
+      <div className="modern-experience-layout">
+        <div className="modern-experience-tabs" role="tablist" aria-label={interfaceLabels[language].festivalStops}>
+          {copy.cards.map((card, index) => (
+            <button
+              key={`${card.title}-${index}`}
+              type="button"
+              role="tab"
+              aria-selected={activeIndex === index}
+              className={activeIndex === index ? "is-active" : ""}
+              onClick={() => setActiveIndex(index)}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {card.title}
+            </button>
+          ))}
+        </div>
+        <article className="modern-experience-card" aria-live="polite">
+          <div className="modern-experience-image">
+            <img src={findVisuals[activeIndex] ?? findVisuals[0]} alt="" />
+            <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
+          </div>
+          <div className="modern-experience-copy">
+            <p className="modern-eyebrow">{String(activeIndex + 1).padStart(2, "0")} / {String(copy.cards.length).padStart(2, "0")}</p>
+            <h3>{activeCard.title}</h3>
+            <p className="modern-quote">«{activeIndex === 0 ? findQuoteLabels[language][0] : findQuoteLabels[language][1]}»</p>
+            <ul>
+              {stops.map((stop, index) => (
+                <li key={`${stop.heading}-${index}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div><strong>{stop.heading}</strong><p>{stop.body}</p></div>
+                </li>
+              ))}
+            </ul>
+            <div className="modern-card-controls">
+              <button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← {previousStopLabels[language]}</button>
+              <button type="button" onClick={() => setActiveIndex((index) => (index + 1) % copy.cards.length)}>{nextStopLabels[language]} →</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ModernApp() {
+  const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const copy = copies[language];
+  const artists = createArtists(copy, language);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const changeLanguage = (nextLanguage: LanguageKey) => {
+    setLanguage(nextLanguage);
+    window.localStorage.setItem("barcelona-country-language", nextLanguage);
+  };
+
+  const moveTo = (targetId: string) => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const fullName = String(data.get("name") ?? "").trim();
+    const prefix = String(data.get("phonePrefix") ?? "").trim();
+    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
+    const phoneNumber = String(data.get("phone") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim().toLowerCase();
+
+    setIsFormSubmitting(true);
+    setFormFeedback(null);
+    const { error } = await supabase.from("registrations").insert({
+      full_name: fullName,
+      phone: `${prefix} ${phoneNumber}`.trim(),
+      country_iso: countryIso || null,
+      email
+    });
+
+    if (error) {
+      setFormFeedback({ type: "error", message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error });
+    } else {
+      form.reset();
+      setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
+    }
+    setIsFormSubmitting(false);
+  };
+
+  return (
+    <div className="modern-page">
+      <header className="modern-nav-wrap">
+        <nav className="modern-nav" aria-label="Principal">
+          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country">
+            <span>BC</span><small>Barcelona Country</small>
+          </button>
+          <div className="modern-nav-links">
+            {copy.nav.map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>{item}</button>)}
+          </div>
+          <label className="modern-language">
+            <span className="sr-only">{interfaceLabels[language].changeLanguage}</span>
+            <select value={language} onChange={(event) => changeLanguage(event.target.value as LanguageKey)}>
+              {languageOptions.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
+            </select>
+          </label>
+        </nav>
+      </header>
+
+      <main>
+        <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
+          <img className="modern-hero-image" src="/assets/hero-bg.png" alt="" />
+          <div className="modern-hero-shade" />
+          <div className="modern-hero-grid" aria-hidden="true" />
+          <div className="modern-hero-content">
+            <p className="modern-eyebrow">{copy.heroKicker}</p>
+            <h1 id="modern-hero-title"><span>Barcelona</span>Country</h1>
+            <p className="modern-hero-copy">{copy.heroCopy}</p>
+            <div className="modern-hero-actions">
+              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>{copy.cta}<span>↘</span></button>
+              <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <span>↓</span></button>
+            </div>
+          </div>
+          <div className="modern-hero-meta">
+            <span>{copy.date}</span>
+            <span>{copy.triad.join(" · ")}</span>
+          </div>
+        </section>
+
+        <section id="festival" className="modern-festival modern-section" aria-labelledby="modern-festival-title">
+          <div className="modern-section-heading modern-festival-heading">
+            <p>{copy.heroKicker}</p>
+            <h2 id="modern-festival-title">{copy.festivalTitle}</h2>
+          </div>
+          <p className="modern-festival-copy">{copy.festivalCopy}</p>
+          <div className="modern-stats">
+            <div><strong>3</strong><span>{copy.days}</span></div>
+            <div><strong>{festivalStatValues.artists}</strong><span>{copy.internationalArtists}</span></div>
+            <div><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers}</span></div>
+          </div>
+        </section>
+
+        <section id="artists" className="modern-artists modern-section" aria-labelledby="modern-artists-title">
+          <div className="modern-section-heading"><p>LINE UP</p><h2 id="modern-artists-title">{copy.artistsTitle}</h2></div>
+          <div className="modern-artists-grid">
+            {artists.map((artist, index) => (
+              <article className="modern-artist-card" key={artist.name}>
+                <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
+                  <img src={artist.image} alt={artist.name} />
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </a>
+                <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <ModernFindSection copy={findCopies[language]} language={language} />
+
+        <section id="location" className="modern-location modern-section" aria-labelledby="modern-location-title">
+          <div className="modern-location-intro">
+            <p className="modern-eyebrow">{copy.locationKicker}</p>
+            <h2 id="modern-location-title">Yeehaw!<br /><span>{copy.inBarcelona}</span></h2>
+            <div className="modern-date-lockup"><img src="/assets/star-button.png" alt="" /><strong>{copy.date}</strong></div>
+          </div>
+          <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
+        </section>
+
+        <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
+          <div className="modern-contact-copy"><p>{copy.heroKicker}</p><h2 id="modern-contact-title">{copy.contactTitle}</h2><span>{copy.triad.join(" · ")}</span></div>
+          <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
+            <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
+            <ModernPhonePrefixSelect language={language} />
+            <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
+            <button className="modern-primary-button" type="submit" disabled={isFormSubmitting}>{isFormSubmitting ? formFeedbackLabels[language].submitting : copy.cta}<span>↗</span></button>
+            {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
+          </form>
+        </section>
+      </main>
+      <footer className="modern-footer"><span>Barcelona Country</span><span>{copy.footer}</span><span>BC / 2027</span></footer>
+    </div>
+  );
+}
+
 const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(window.location.pathname.replace(/\/$/, "") || "/");
 
 createRoot(document.getElementById("root")!).render(
@@ -1904,6 +2123,6 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
         <AdminPortal />
       </Suspense>
-    ) : <App />}
+    ) : <ModernApp />}
   </StrictMode>
 );

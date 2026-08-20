@@ -1,0 +1,206 @@
+/* Public redesign: a contemporary editorial system kept separate from the admin portal. */
+:root {
+  --modern-ink: #101727;
+  --modern-paper: #f6f3ed;
+  --modern-orange: #c9422f;
+  --modern-lime: #d8ff3e;
+  --modern-mist: #d9dddb;
+  --modern-line: rgba(16, 23, 39, .16);
+}
+
+.modern-page {
+  overflow: hidden;
+  background: var(--modern-paper);
+  color: var(--modern-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.modern-page *, .modern-page *::before, .modern-page *::after { box-sizing: border-box; }
+.modern-page button, .modern-page input, .modern-page select { font: inherit; }
+.modern-page button { cursor: pointer; }
+.modern-page button:focus-visible, .modern-page input:focus-visible, .modern-page select:focus-visible { outline: 3px solid var(--modern-lime); outline-offset: 3px; }
+
+.modern-nav-wrap {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px clamp(18px, 4vw, 64px);
+}
+
+.modern-nav {
+  max-width: 1380px;
+  margin: auto;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 10px 12px 10px 18px;
+  background: rgba(12, 17, 28, .58);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 17px;
+}
+
+.modern-brand, .modern-nav-links button, .modern-language select {
+  border: 0;
+  color: #fff;
+  background: transparent;
+}
+.modern-brand { display: flex; align-items: center; gap: 11px; padding: 0; white-space: nowrap; text-align: left; }
+.modern-brand span { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 50%; color: var(--modern-ink); background: var(--modern-lime); font-size: 12px; font-weight: 900; letter-spacing: -.08em; }
+.modern-brand small { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+.modern-nav-links { display: flex; flex: 1; justify-content: center; gap: clamp(12px, 2vw, 28px); overflow: auto; }
+.modern-nav-links button { padding: 8px 0; opacity: .87; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.modern-nav-links button:hover { color: var(--modern-lime); }
+.modern-language { display: grid; border-left: 1px solid rgba(255, 255, 255, .25); padding-left: 12px; }
+.modern-language select { max-width: 112px; padding: 6px 20px 6px 4px; font-size: 12px; font-weight: 700; }
+.modern-language option { color: var(--modern-ink); }
+
+.modern-hero { position: relative; isolation: isolate; min-height: min(880px, 100svh); display: flex; align-items: end; padding: 146px clamp(24px, 8vw, 132px) 62px; color: #fff; background: var(--modern-ink); }
+.modern-hero-image, .modern-hero-shade, .modern-hero-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
+.modern-hero-image { z-index: -3; object-fit: cover; object-position: center; }
+.modern-hero-shade { z-index: -2; background: linear-gradient(90deg, rgba(7, 13, 26, .96) 0%, rgba(7, 13, 26, .56) 48%, rgba(7, 13, 26, .27) 100%), linear-gradient(0deg, rgba(7, 13, 26, .75), transparent 52%); }
+.modern-hero-grid { z-index: -1; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size: 62px 62px; mask-image: linear-gradient(90deg, #000, transparent 78%); }
+.modern-hero-content { max-width: 815px; }
+.modern-eyebrow, .modern-section-heading > p, .modern-contact-copy > p { margin: 0 0 14px; color: var(--modern-orange); font-size: 11px; font-weight: 900; letter-spacing: .16em; line-height: 1.3; text-transform: uppercase; }
+.modern-hero h1 { max-width: 810px; margin: 0; font-size: clamp(74px, 12.2vw, 182px); font-weight: 950; letter-spacing: -.105em; line-height: .72; text-transform: uppercase; }
+.modern-hero h1 span { display: block; color: var(--modern-lime); }
+.modern-hero-copy { max-width: 475px; margin: 40px 0 28px; font-size: clamp(16px, 1.6vw, 21px); font-weight: 500; line-height: 1.45; }
+.modern-hero-actions { display: flex; align-items: center; gap: 28px; }
+.modern-primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 26px; min-height: 54px; padding: 13px 17px 13px 20px; border: 1px solid var(--modern-ink); border-radius: 2px; background: var(--modern-lime); color: var(--modern-ink); font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; transition: transform .2s ease, background .2s ease; }
+.modern-primary-button:hover { transform: translate(-3px, -3px); background: #edff89; }
+.modern-primary-button span { font-size: 20px; line-height: .5; }
+.modern-text-button { padding: 10px 0; border: 0; color: #fff; background: transparent; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.modern-text-button:hover { color: var(--modern-lime); }
+.modern-hero-meta { position: absolute; right: clamp(24px, 8vw, 132px); bottom: 64px; display: grid; gap: 8px; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-align: right; text-transform: uppercase; }
+.modern-hero-meta span:first-child { color: var(--modern-lime); }
+
+.modern-section { padding: clamp(76px, 10vw, 150px) clamp(24px, 8vw, 132px); }
+.modern-section-heading h2, .modern-contact h2 { max-width: 800px; margin: 0; font-size: clamp(43px, 6.3vw, 92px); font-weight: 850; letter-spacing: -.07em; line-height: .92; text-transform: uppercase; }
+.modern-section-heading > span { display: block; max-width: 580px; margin-top: 24px; color: #4e5664; font-size: 16px; line-height: 1.55; }
+
+.modern-festival { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr); gap: 56px 7vw; align-items: end; background: var(--modern-paper); }
+.modern-festival-copy { max-width: 440px; margin: 0; color: #4e5664; font-size: 18px; line-height: 1.55; }
+.modern-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--modern-line); border-bottom: 1px solid var(--modern-line); }
+.modern-stats div { min-height: 185px; display: flex; flex-direction: column; justify-content: center; padding: 24px clamp(16px, 3vw, 50px); border-left: 1px solid var(--modern-line); }
+.modern-stats div:first-child { border-left: 0; }
+.modern-stats strong { color: var(--modern-orange); font-size: clamp(61px, 8vw, 116px); font-weight: 900; letter-spacing: -.1em; line-height: .8; }
+.modern-stats span { max-width: 190px; margin-top: 16px; font-size: 11px; font-weight: 800; letter-spacing: .1em; line-height: 1.25; text-transform: uppercase; }
+
+.modern-artists { background: var(--modern-ink); color: #fff; }
+.modern-artists .modern-section-heading h2 { color: #fff; }
+.modern-artists .modern-section-heading > p { color: var(--modern-lime); }
+.modern-artists-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 58px; }
+.modern-artist-card { min-width: 0; }
+.modern-artist-card a { position: relative; display: block; aspect-ratio: .82; overflow: hidden; background: #303b4f; }
+.modern-artist-card a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(16,23,39,.68), transparent 52%); }
+.modern-artist-card a:hover img { transform: scale(1.045); }
+.modern-artist-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.modern-artist-card a span { position: absolute; z-index: 1; right: 13px; bottom: 11px; color: var(--modern-lime); font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.modern-artist-card > div { padding: 18px 6px 18px 0; }
+.modern-artist-card p { margin: 0; color: #abb3c0; font-size: 13px; line-height: 1.45; }
+.modern-artist-card div > p:first-child { color: var(--modern-lime); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.modern-artist-card h3 { margin: 7px 0 10px; font-size: clamp(23px, 2.15vw, 34px); font-weight: 850; letter-spacing: -.06em; line-height: .95; text-transform: uppercase; }
+
+.modern-experience { background: #e4e9e4; }
+.modern-experience-layout { display: grid; grid-template-columns: minmax(235px, .43fr) minmax(0, 1fr); gap: 28px; margin-top: 55px; }
+.modern-experience-tabs { display: flex; flex-direction: column; align-self: start; border-top: 1px solid var(--modern-line); }
+.modern-experience-tabs button { display: flex; gap: 15px; padding: 17px 0; border: 0; border-bottom: 1px solid var(--modern-line); color: var(--modern-ink); background: transparent; font-size: 13px; font-weight: 800; letter-spacing: .04em; line-height: 1.15; text-align: left; text-transform: uppercase; }
+.modern-experience-tabs button span { min-width: 22px; color: #707985; font-size: 10px; padding-top: 2px; }
+.modern-experience-tabs button.is-active { color: var(--modern-orange); }
+.modern-experience-tabs button.is-active span { color: var(--modern-orange); }
+.modern-experience-card { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(330px, 1.2fr); min-height: 465px; background: var(--modern-paper); box-shadow: 9px 9px 0 var(--modern-ink); }
+.modern-experience-image { position: relative; min-height: 100%; overflow: hidden; }
+.modern-experience-image > img:first-child { width: 100%; height: 100%; object-fit: cover; }
+.modern-experience-icon { position: absolute; right: 18px; bottom: 18px; width: 45px; height: 45px; padding: 9px; border-radius: 50%; background: var(--modern-orange); object-fit: contain; }
+.modern-experience-copy { padding: 32px clamp(24px, 4vw, 58px); }
+.modern-experience-copy h3 { max-width: 440px; margin: 5px 0 10px; font-size: clamp(27px, 3vw, 46px); font-weight: 900; letter-spacing: -.07em; line-height: .9; text-transform: uppercase; }
+.modern-quote { margin: 0 0 22px; color: var(--modern-orange); font-size: 14px; }
+.modern-experience-copy ul { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.modern-experience-copy li { display: grid; grid-template-columns: 27px 1fr; gap: 10px; }
+.modern-experience-copy li > span { color: var(--modern-orange); font-size: 11px; font-weight: 900; padding-top: 2px; }
+.modern-experience-copy li strong { display: block; font-size: 11px; font-weight: 900; letter-spacing: .04em; line-height: 1.32; text-transform: uppercase; }
+.modern-experience-copy li p { margin: 3px 0 0; color: #505968; font-size: 13px; line-height: 1.35; }
+.modern-card-controls { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; }
+.modern-card-controls button { padding: 0; border: 0; color: var(--modern-orange); background: transparent; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.modern-card-controls button:disabled { color: #a8adb2; cursor: default; }
+
+.modern-location { display: grid; grid-template-columns: minmax(280px, .7fr) minmax(320px, 1.3fr); gap: 8vw; align-items: center; background: var(--modern-orange); }
+.modern-location h2 { margin: 0; color: var(--modern-paper); font-size: clamp(60px, 8.4vw, 122px); font-weight: 950; letter-spacing: -.09em; line-height: .72; text-transform: uppercase; }
+.modern-location h2 span { color: var(--modern-ink); font-size: .53em; letter-spacing: -.065em; }
+.modern-location .modern-eyebrow { color: var(--modern-ink); }
+.modern-date-lockup { display: inline-flex; align-items: center; gap: 12px; margin-top: 34px; padding: 9px 15px 9px 8px; background: var(--modern-ink); color: var(--modern-lime); font-size: 12px; letter-spacing: .09em; line-height: 1.1; text-transform: uppercase; }
+.modern-date-lockup img { width: 31px; height: 31px; }
+.modern-map-wrap { min-height: 405px; padding: 8px; background: var(--modern-ink); box-shadow: 10px 10px 0 rgba(16,23,39,.28); }
+.modern-map-wrap iframe { display: block; width: 100%; height: 389px; border: 0; filter: grayscale(.7) contrast(1.12); }
+
+.modern-contact { display: grid; grid-template-columns: minmax(240px, .85fr) minmax(340px, 1.15fr); gap: 10vw; padding: clamp(76px, 10vw, 150px) clamp(24px, 8vw, 132px); background: var(--modern-ink); color: #fff; }
+.modern-contact-copy h2 { color: var(--modern-lime); }
+.modern-contact-copy > span { display: block; max-width: 250px; margin-top: 28px; color: #c7cdd6; font-size: 13px; letter-spacing: .06em; line-height: 1.5; text-transform: uppercase; }
+.modern-contact-form { display: grid; gap: 22px; align-self: start; padding: 30px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.055); }
+.modern-contact-form label, .modern-phone-field > label { display: grid; gap: 8px; color: #fff; font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.modern-contact-form input, .modern-contact-form select { width: 100%; min-height: 46px; border: 0; border-bottom: 1px solid rgba(255,255,255,.52); border-radius: 0; padding: 8px 0; color: #fff; background: transparent; font-size: 16px; outline: 0; }
+.modern-contact-form select { color: #fff; background: #1a2438; padding: 8px; border: 1px solid rgba(255,255,255,.35); }
+.modern-contact-form select option { color: var(--modern-ink); background: #fff; }
+.modern-phone-row { display: grid; grid-template-columns: minmax(156px, .8fr) minmax(0, 1fr); gap: 13px; }
+.modern-contact-form .modern-primary-button { justify-self: start; margin-top: 7px; }
+.modern-contact-form .modern-primary-button:disabled { opacity: .65; cursor: wait; }
+.modern-form-status { margin: 0; font-size: 13px; line-height: 1.4; }
+.modern-form-status.is-success { color: var(--modern-lime); }
+.modern-form-status.is-error { color: #ff937f; }
+
+.modern-footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px clamp(24px, 8vw, 132px); background: var(--modern-lime); color: var(--modern-ink); font-size: 10px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+
+@media (max-width: 900px) {
+  .modern-nav { gap: 12px; }
+  .modern-nav-links { justify-content: flex-start; gap: 18px; }
+  .modern-nav-links::-webkit-scrollbar { display: none; }
+  .modern-artists-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 18px; }
+  .modern-experience-card { grid-template-columns: minmax(170px, .68fr) minmax(290px, 1.32fr); }
+}
+
+@media (max-width: 680px) {
+  .modern-nav-wrap { padding: 12px; }
+  .modern-nav { min-height: 52px; padding: 7px 9px 7px 12px; border-radius: 12px; }
+  .modern-brand small { display: none; }
+  .modern-brand span { width: 31px; height: 31px; }
+  .modern-nav-links { gap: 14px; }
+  .modern-nav-links button:nth-child(n + 4) { display: none; }
+  .modern-nav-links button { font-size: 9px; }
+  .modern-language { padding-left: 6px; }
+  .modern-language select { max-width: 71px; padding-right: 0; font-size: 10px; }
+  .modern-hero { min-height: 740px; padding: 136px 24px 35px; }
+  .modern-hero h1 { font-size: clamp(56px, 15.2vw, 72px); }
+  .modern-hero-copy { margin: 30px 0 24px; font-size: 16px; }
+  .modern-hero-actions { align-items: flex-start; flex-direction: column; gap: 14px; }
+  .modern-hero-meta { left: 24px; right: 24px; bottom: 28px; text-align: left; }
+  .modern-section { padding: 78px 24px; }
+  .modern-section-heading h2, .modern-contact h2 { font-size: clamp(34px, 10vw, 42px); overflow-wrap: anywhere; }
+  .modern-festival { display: block; }
+  .modern-festival-copy { margin-top: 26px; }
+  .modern-stats { grid-template-columns: 1fr; margin-top: 45px; }
+  .modern-stats div { min-height: 130px; border-left: 0; border-top: 1px solid var(--modern-line); }
+  .modern-stats div:first-child { border-top: 0; }
+  .modern-artists-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 42px; }
+  .modern-artist-card { display: block; }
+  .modern-artist-card a { min-height: 0; aspect-ratio: 1.15 / 1; }
+  .modern-artist-card > div { min-width: 0; padding-top: 16px; }
+  .modern-artist-card h3 { font-size: 28px; overflow-wrap: anywhere; }
+  .modern-experience-layout { grid-template-columns: 1fr; margin-top: 35px; }
+  .modern-experience-tabs { flex-direction: row; overflow: auto; }
+  .modern-experience-tabs button { min-width: 188px; padding-right: 16px; }
+  .modern-experience-card { grid-template-columns: 1fr; min-height: 0; box-shadow: 6px 6px 0 var(--modern-ink); }
+  .modern-experience-image { min-height: 215px; }
+  .modern-experience-copy { padding: 27px 21px; }
+  .modern-location, .modern-contact { grid-template-columns: 1fr; gap: 48px; }
+  .modern-map-wrap { min-height: 290px; }
+  .modern-map-wrap iframe { height: 274px; }
+  .modern-contact { padding: 78px 24px; }
+  .modern-contact-form { padding: 22px 18px; }
+  .modern-phone-row { grid-template-columns: 1fr; }
+  .modern-footer { flex-direction: column; padding: 20px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .modern-page *, .modern-page *::before, .modern-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
