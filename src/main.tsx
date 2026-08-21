@@ -165,17 +165,6 @@ const findVisuals = [
   "/assets/find-community.webp"
 ];
 
-const galleryImages = Array.from({ length: 17 }, (_, index) => `/assets/gallery/drive-${String(index + 1).padStart(2, "0")}.jpg`);
-
-const galleryLabels: Record<LanguageKey, { kicker: string; title: string; copy: string }> = {
-  de: { kicker: "IM RAMPENLICHT", title: "GALERIE DER KÜNSTLER", copy: "Momente, Stil und die Energie des Line Dance." },
-  es: { kicker: "EN EL FOCO", title: "GALERÍA DE ARTISTAS", copy: "Momentos, estilo y la energía del line dance." },
-  ca: { kicker: "EN EL FOCUS", title: "GALERIA D'ARTISTES", copy: "Moments, estil i l'energia del line dance." },
-  fr: { kicker: "SOUS LES PROJECTEURS", title: "GALERIE DES ARTISTES", copy: "Des moments, du style et l'énergie du line dance." },
-  en: { kicker: "IN THE SPOTLIGHT", title: "ARTIST GALLERY", copy: "Moments, style and the energy of line dance." },
-  it: { kicker: "SOTTO I RIFLETTORI", title: "GALLERIA DEGLI ARTISTI", copy: "Momenti, stile ed energia del line dance." }
-};
-
 const findCopies: Record<LanguageKey, FindCopy> = {
   de: {
     kicker: "WAS DICH ERWARTET",
@@ -934,7 +923,7 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
     y: 1930
   },
   {
-    image: "/assets/artist-algaly-portrait.webp",
+    image: "/assets/artist-algaly-new.webp",
     instagram: "https://www.instagram.com/algalyfofana/",
     x: 326,
     y: 1930,
@@ -1995,7 +1984,6 @@ function ModernApp() {
   const copy = copies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
-  const gallery = galleryLabels[language];
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -2109,21 +2097,6 @@ function ModernApp() {
                 </a>
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
               </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="gallery" className="modern-gallery modern-section" aria-labelledby="modern-gallery-title">
-          <div className="modern-section-heading modern-gallery-heading">
-            <p>{gallery.kicker}</p>
-            <h2 id="modern-gallery-title">{gallery.title}</h2>
-            <span>{gallery.copy}</span>
-          </div>
-          <div className="modern-gallery-grid">
-            {galleryImages.map((image, index) => (
-              <figure className={`modern-gallery-item item-${index + 1}`} key={image}>
-                <img src={image} alt="" loading="lazy" />
-              </figure>
             ))}
           </div>
         </section>
