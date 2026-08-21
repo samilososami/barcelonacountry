@@ -91,13 +91,13 @@ const findIconAssets: Record<string, string> = {
   REC: "/assets/find-icon-cowboy.png"
 };
 
-const languageOptions: { key: LanguageKey; label: string }[] = [
-  { key: "de", label: "Deutsch" },
-  { key: "es", label: "Español" },
-  { key: "ca", label: "Català" },
-  { key: "fr", label: "Français" },
-  { key: "en", label: "English" },
-  { key: "it", label: "Italiano" }
+const languageOptions: { key: LanguageKey; label: string; icon: string }[] = [
+  { key: "de", label: "Deutsch", icon: "🇩🇪" },
+  { key: "es", label: "Español", icon: "🇪🇸" },
+  { key: "ca", label: "Català", icon: "CAT" },
+  { key: "fr", label: "Français", icon: "🇫🇷" },
+  { key: "en", label: "English", icon: "🇬🇧" },
+  { key: "it", label: "Italiano", icon: "🇮🇹" }
 ];
 
 const nextStopLabels: Record<LanguageKey, string> = {
@@ -1991,6 +1991,7 @@ function ModernApp() {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
+  const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
   const gallery = galleryLabels[language];
 
@@ -2045,9 +2046,11 @@ function ModernApp() {
           </div>
           <label className="modern-language">
             <span className="sr-only">{interfaceLabels[language].changeLanguage}</span>
+            <span className="modern-language-icon" aria-hidden="true">{activeLanguage.icon}</span>
             <select value={language} onChange={(event) => changeLanguage(event.target.value as LanguageKey)}>
-              {languageOptions.map((option) => <option key={option.key} value={option.key}>{option.label}</option>)}
+              {languageOptions.map((option) => <option key={option.key} value={option.key}>{option.icon} {option.label}</option>)}
             </select>
+            <span className="modern-language-chevron" aria-hidden="true">⌄</span>
           </label>
         </nav>
       </header>
