@@ -244,9 +244,9 @@
 .modern-primary-button { border-color: rgba(255,255,255,.22); background: rgba(196, 0, 0, .92); color: #080808; }
 .modern-primary-button:hover { background: #df2020; }
 
-.modern-festival, .modern-artists, .modern-experience, .modern-location, .modern-contact { position: relative; isolation: isolate; overflow: hidden; }
+.modern-festival, .modern-artists, .modern-experience, .modern-location, .modern-contact { --section-vignette: linear-gradient(to bottom, rgba(0,0,0,.24), transparent 11%, transparent 84%, rgba(0,0,0,.34)); position: relative; isolation: isolate; overflow: hidden; }
 .modern-festival::before, .modern-artists::before, .modern-experience::before, .modern-location::before, .modern-contact::before { content: ""; position: absolute; z-index: -1; inset: 0; background-position: center; background-size: cover; filter: saturate(1.08) contrast(1.04) brightness(.7); opacity: .66; }
-.modern-festival::after, .modern-artists::after, .modern-experience::after, .modern-location::after, .modern-contact::after { content: ""; position: absolute; z-index: -1; inset: 0; background: rgba(0, 0, 0, .57); }
+.modern-festival::after, .modern-artists::after, .modern-experience::after, .modern-location::after, .modern-contact::after { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--section-vignette), rgba(0, 0, 0, .57); }
 .modern-festival::before { background-image: url("/assets/backgrounds/festival-live.jpg"); }
 .modern-artists::before { background-image: url("/assets/backgrounds/artists-dance.jpg"); background-position: center 32%; }
 .modern-experience::before { background-image: url("/assets/backgrounds/experience-stage.jpg"); }
@@ -263,7 +263,7 @@
 .modern-stat-icon { display: block; margin-bottom: 13px; color: var(--modern-orange) !important; font-size: 16px; line-height: 1; }
 
 .modern-artists { background: #080808; }
-.modern-artists::after { background: rgba(0, 0, 0, .7); }
+.modern-artists::after { background: var(--section-vignette), rgba(0, 0, 0, .7); }
 .modern-artists .modern-section-heading h2 { color: #fff; }
 .modern-artists .modern-section-heading > p, .modern-artist-card div > p:first-child { color: var(--modern-orange); }
 .modern-artist-card { padding: 8px; border: 1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.52); backdrop-filter: blur(8px); }
@@ -276,7 +276,7 @@
 .modern-artist-image.artist-algaly-fofana, .modern-artist-image.artist-jonathan-jones { object-fit: cover; object-position: center; transform: none; }
 
 .modern-experience { background: #111; }
-.modern-experience::after { background: rgba(0,0,0,.58); }
+.modern-experience::after { background: var(--section-vignette), rgba(0,0,0,.58); }
 .modern-experience-tabs { border-color: rgba(255,255,255,.35); background: rgba(0,0,0,.42); backdrop-filter: blur(10px); }
 .modern-experience-tabs button { border-color: rgba(255,255,255,.27); color: #f7f4ee; }
 .modern-experience-tabs button span, .modern-experience-tabs button.is-active, .modern-experience-tabs button.is-active span { color: var(--modern-orange); }
@@ -287,12 +287,12 @@
 .modern-quote, .modern-experience-copy li > span, .modern-card-controls button { color: var(--modern-orange); }
 .modern-experience-copy li p { color: #d4d1cb; }
 
-.modern-location::after { background: rgba(0,0,0,.52); }
+.modern-location::after { background: var(--section-vignette), rgba(0,0,0,.52); }
 .modern-location h2 { color: var(--modern-orange); }
 .modern-date-lockup { background: rgba(0,0,0,.7); color: var(--modern-orange); border: 1px solid rgba(255,255,255,.2); }
 .modern-map-wrap { background: rgba(0,0,0,.65); box-shadow: 10px 10px 0 rgba(196,0,0,.55); }
 .modern-map-wrap iframe { filter: none; }
-.modern-contact::after { background: rgba(0,0,0,.66); }
+.modern-contact::after { background: var(--section-vignette), rgba(0,0,0,.66); }
 .modern-contact-copy h2 { color: #fff; }
 .modern-contact-form { border-color: rgba(255,255,255,.32); background: rgba(0,0,0,.48); backdrop-filter: blur(14px); }
 .modern-footer { flex-wrap: wrap; background: #080808; color: #c7c3bb; border-top: 1px solid rgba(255,255,255,.2); }
