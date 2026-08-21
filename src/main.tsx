@@ -69,6 +69,8 @@ type FindCopy = {
 };
 
 const navTargets = ["home", "festival", "artists", "program", "location", "contact"];
+const modernNavIcons = ["⌂", "✦", "♫", "☷", "⌖", "✉"];
+const festivalStatIcons = ["◫", "♫", "⌁"];
 const scrollTargetSelectors: Record<string, string> = {
   home: ".frame",
   festival: ".festival",
@@ -2042,7 +2044,11 @@ function ModernApp() {
             <span>BCF</span><small>Barcelona Country Fest</small>
           </button>
           <div className="modern-nav-links">
-            {copy.nav.map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>{item}</button>)}
+            {copy.nav.map((item, index) => (
+              <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>
+                <span className="modern-nav-icon" aria-hidden="true">{modernNavIcons[index]}</span>{item}
+              </button>
+            ))}
           </div>
           <label className="modern-language">
             <span className="sr-only">{interfaceLabels[language].changeLanguage}</span>
@@ -2082,9 +2088,13 @@ function ModernApp() {
           </div>
           <p className="modern-festival-copy">{copy.festivalCopy}</p>
           <div className="modern-stats">
-            <div><strong>3</strong><span>{copy.days}</span></div>
-            <div><strong>{festivalStatValues.artists}</strong><span>{copy.internationalArtists}</span></div>
-            <div><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers}</span></div>
+            {[
+              ["3", copy.days],
+              [festivalStatValues.artists, copy.internationalArtists],
+              [festivalStatValues.dancers, copy.expectedDancers]
+            ].map(([value, label], index) => (
+              <div key={label}><span className="modern-stat-icon" aria-hidden="true">{festivalStatIcons[index]}</span><strong>{value}</strong><span>{label}</span></div>
+            ))}
           </div>
         </section>
 
@@ -2140,7 +2150,20 @@ function ModernApp() {
           </form>
         </section>
       </main>
-      <footer className="modern-footer"><span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span></footer>
+      <footer className="modern-footer">
+        <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
+        <details className="modern-photo-credits">
+          <summary>⌘ Créditos fotográficos</summary>
+          <ul>
+            <li><a href="https://commons.wikimedia.org/wiki/File:BUCKLE_N_BOOTS_performing_live_at_The_British_Country_Music_Festival_2025.jpg" target="_blank" rel="noreferrer">BeeMusicUK · CC BY-SA 4.0</a></li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Ballymore_Country_Music_Festival_2014.jpg" target="_blank" rel="noreferrer">Lizheen · CC BY-SA 4.0</a></li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Main_Stage_at_Harvest_Country_Music_Festival_2017_at_Westport_House.jpg" target="_blank" rel="noreferrer">Bambography · CC BY-SA 4.0</a></li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Crowds_going_to_George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Country_Music_Festival_1,_Mirande,_Gers,_France.jpg" target="_blank" rel="noreferrer">Jamiecat · CC BY 2.0</a></li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
+          </ul>
+        </details>
+      </footer>
     </div>
   );
 }
