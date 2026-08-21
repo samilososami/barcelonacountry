@@ -216,17 +216,18 @@
 }
 
 .modern-page { background: #090909; }
-.modern-nav-wrap { padding: 0 clamp(18px, 4vw, 64px); }
-.modern-nav { min-height: 70px; gap: clamp(18px, 3vw, 46px); padding: 0; background: rgba(6, 6, 6, .62); border: 0; border-bottom: 1px solid rgba(255, 255, 255, .3); border-radius: 0; backdrop-filter: blur(18px); }
-.modern-brand { gap: 12px; }
-.modern-brand span { width: 32px; height: 32px; border-radius: 0; color: #fff; background: var(--modern-orange); font-size: 9px; letter-spacing: -.05em; }
-.modern-brand small { letter-spacing: .14em; }
-.modern-nav-links { gap: clamp(14px, 2.35vw, 34px); }
-.modern-nav-links button { position: relative; padding: 27px 0 24px; color: rgba(255, 255, 255, .74); transition: color .2s ease; }
-.modern-nav-links button::after { content: ""; position: absolute; right: 0; bottom: 15px; left: 0; height: 2px; background: var(--modern-orange); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
-.modern-nav-links button:hover, .modern-nav-links button:focus-visible, .modern-text-button:hover { color: #fff; }
+.modern-nav-wrap { top: 18px; padding: 0 clamp(18px, 4vw, 64px); }
+.modern-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; min-height: 0; gap: 10px; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
+.modern-brand { gap: 10px; min-height: 54px; padding: 0 16px; background: rgba(5, 5, 5, .88); border-left: 4px solid var(--modern-orange); }
+.modern-brand span { width: auto; height: auto; color: var(--modern-orange); background: transparent; font-size: 11px; letter-spacing: -.05em; }
+.modern-brand small { padding-left: 10px; border-left: 1px solid rgba(255,255,255,.2); letter-spacing: .14em; }
+.modern-nav-links { gap: 0; justify-content: center; padding: 0 12px; background: rgba(5, 5, 5, .82); border-bottom: 2px solid var(--modern-orange); }
+.modern-nav-links button { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 18px clamp(9px, 1.35vw, 20px) 16px; color: rgba(255, 255, 255, .76); transition: color .2s ease, background .2s ease; }
+.modern-nav-icon { color: var(--modern-orange); font-size: 13px; line-height: 1; }
+.modern-nav-links button::after { content: ""; position: absolute; right: 11px; bottom: -2px; left: 11px; height: 2px; background: #fff; transform: scaleX(0); transform-origin: center; transition: transform .2s ease; }
+.modern-nav-links button:hover, .modern-nav-links button:focus-visible, .modern-text-button:hover { color: #fff; background: rgba(255,255,255,.06); }
 .modern-nav-links button:hover::after, .modern-nav-links button:focus-visible::after { transform: scaleX(1); }
-.modern-language { position: relative; display: flex; align-items: center; min-width: 126px; margin-left: auto; border-left: 1px solid rgba(255,255,255,.22); padding-left: 17px; }
+.modern-language { position: relative; display: flex; align-items: center; min-width: 126px; margin-left: 0; padding: 0 14px; background: rgba(5,5,5,.88); border-bottom: 2px solid var(--modern-orange); }
 .modern-language-icon { display: none; }
 .modern-language select { width: 100%; max-width: none; padding: 7px 18px 7px 0; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .04em; appearance: none; }
 .modern-language-chevron { position: absolute; right: 0; top: 50%; color: var(--modern-orange); font-size: 17px; line-height: 1; pointer-events: none; transform: translateY(-57%); }
@@ -246,11 +247,12 @@
 .modern-festival, .modern-artists, .modern-experience, .modern-gallery, .modern-location, .modern-contact { position: relative; isolation: isolate; overflow: hidden; }
 .modern-festival::before, .modern-artists::before, .modern-experience::before, .modern-gallery::before, .modern-location::before, .modern-contact::before { content: ""; position: absolute; z-index: -1; inset: 0; background-position: center; background-size: cover; filter: saturate(1.08) contrast(1.04) brightness(.7); opacity: .66; }
 .modern-festival::after, .modern-artists::after, .modern-experience::after, .modern-gallery::after, .modern-location::after, .modern-contact::after { content: ""; position: absolute; z-index: -1; inset: 0; background: rgba(0, 0, 0, .57); }
-.modern-festival::before { background-image: url("/assets/hero-bg.png"); }
-.modern-artists::before, .modern-location::before { background-image: url("/assets/header-fest.png"); }
-.modern-experience::before { background-image: url("/assets/find-catalan.jpg"); }
-.modern-gallery::before { background-image: url("/assets/find-community.webp"); }
-.modern-contact::before { background-image: url("/assets/hero-bg.png"); }
+.modern-festival::before { background-image: url("/assets/backgrounds/festival-live.jpg"); }
+.modern-artists::before { background-image: url("/assets/backgrounds/artists-dance.jpg"); background-position: center 32%; }
+.modern-experience::before { background-image: url("/assets/backgrounds/experience-stage.jpg"); }
+.modern-gallery::before { background-image: url("/assets/backgrounds/gallery-crowd.jpg"); }
+.modern-location::before { background-image: url("/assets/backgrounds/location-country.jpg"); background-position: center 45%; }
+.modern-contact::before { background-image: url("/assets/backgrounds/contact-stadium.jpg"); background-position: center 65%; }
 .modern-festival, .modern-experience, .modern-gallery, .modern-location, .modern-contact { background: #101010; color: #f6f4ef; }
 .modern-festival-copy, .modern-section-heading > span { color: #dedbd4; }
 .modern-section-heading h2, .modern-location h2 span { color: #fff; }
@@ -259,6 +261,7 @@
 .modern-stats div { border-color: rgba(255,255,255,.25); }
 .modern-stats strong { color: var(--modern-orange); }
 .modern-stats span { color: #f6f4ef; }
+.modern-stat-icon { display: block; margin-bottom: 13px; color: var(--modern-orange) !important; font-size: 16px; line-height: 1; }
 
 .modern-artists { background: #080808; }
 .modern-artists::after { background: rgba(0, 0, 0, .7); }
@@ -281,7 +284,24 @@
 .modern-gallery-heading { max-width: 700px; }
 .modern-gallery-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: 130px; grid-auto-flow: dense; gap: 10px; margin-top: 56px; }
 .modern-gallery-item { min-width: 0; margin: 0; overflow: hidden; background: #050505; border: 1px solid rgba(255,255,255,.27); }
-.modern-gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.58) saturate(1.12) contrast(1.1); opacity: .9; transition: filter .35s ease, transform .5s ease, opacity .35s ease; }
+.modern-gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.12) contrast(1.06); opacity: .92; transition: filter .35s ease, transform .5s ease, opacity .35s ease; }
+.modern-gallery-item.item-1 img { object-position: 86% 25%; }
+.modern-gallery-item.item-2 img { object-position: 50% 20%; }
+.modern-gallery-item.item-3 img { object-position: 50% 12%; }
+.modern-gallery-item.item-4 img { object-position: 50% 14%; }
+.modern-gallery-item.item-5 img { object-position: 50% 16%; }
+.modern-gallery-item.item-6 img { object-position: 50% 20%; }
+.modern-gallery-item.item-7 img { object-position: 48% 23%; }
+.modern-gallery-item.item-8 img { object-position: 50% 25%; }
+.modern-gallery-item.item-9 img { object-position: 78% 20%; }
+.modern-gallery-item.item-10 img { object-position: 50% 25%; }
+.modern-gallery-item.item-11 img { object-position: 25% 17%; }
+.modern-gallery-item.item-12 img { object-position: 50% 20%; }
+.modern-gallery-item.item-13 img { object-position: 38% 18%; }
+.modern-gallery-item.item-14 img { object-position: 50% 16%; }
+.modern-gallery-item.item-15 img { object-position: 50% 22%; }
+.modern-gallery-item.item-16 img { object-position: 50% 18%; }
+.modern-gallery-item.item-17 img { object-position: 50% 16%; }
 .modern-gallery-item:hover img { filter: grayscale(0) saturate(1.14) contrast(1.04); opacity: 1; transform: scale(1.05); }
 .modern-gallery-item.item-1, .modern-gallery-item.item-7, .modern-gallery-item.item-12 { grid-row: span 3; }
 .modern-gallery-item.item-2, .modern-gallery-item.item-5, .modern-gallery-item.item-10, .modern-gallery-item.item-15 { grid-row: span 2; }
@@ -308,15 +328,23 @@
 .modern-contact::after { background: rgba(0,0,0,.66); }
 .modern-contact-copy h2 { color: #fff; }
 .modern-contact-form { border-color: rgba(255,255,255,.32); background: rgba(0,0,0,.48); backdrop-filter: blur(14px); }
-.modern-footer { background: #080808; color: #c7c3bb; border-top: 1px solid rgba(255,255,255,.2); }
+.modern-footer { flex-wrap: wrap; background: #080808; color: #c7c3bb; border-top: 1px solid rgba(255,255,255,.2); }
 .modern-footer span:first-child, .modern-footer span:last-child { color: var(--modern-orange); }
+.modern-photo-credits { position: relative; width: 100%; margin-top: 8px; color: #c7c3bb; font-size: 9px; letter-spacing: .06em; }
+.modern-photo-credits summary { width: max-content; color: var(--modern-orange); cursor: pointer; list-style: none; }
+.modern-photo-credits summary::-webkit-details-marker { display: none; }
+.modern-photo-credits ul { display: grid; gap: 5px; margin: 12px 0 0; padding: 0; list-style: none; }
+.modern-photo-credits a { color: #c7c3bb; text-decoration-color: rgba(196,0,0,.7); text-underline-offset: 3px; }
 
 @media (max-width: 680px) {
-  .modern-nav-wrap { padding: 0 16px; }
-  .modern-nav { min-height: 58px; gap: 12px; }
-  .modern-nav-links button { padding: 20px 0 18px; }
-  .modern-nav-links button::after { bottom: 9px; }
-  .modern-language { min-width: auto; padding-left: 10px; }
+  .modern-nav-wrap { top: 12px; padding: 0 16px; }
+  .modern-nav { grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px; }
+  .modern-brand { min-height: 46px; padding: 0 10px; }
+  .modern-nav-links { padding: 0 3px; }
+  .modern-nav-links button { gap: 3px; padding: 14px 6px 12px; }
+  .modern-nav-links button::after { right: 5px; bottom: -2px; left: 5px; }
+  .modern-nav-icon { font-size: 10px; }
+  .modern-language { min-width: auto; padding: 0 9px; }
   .modern-language-icon { display: grid; min-width: 21px; place-items: center; font-size: 16px; }
   .modern-language select { position: absolute; inset: 0; width: 30px; min-width: 30px; opacity: 0; }
   .modern-language-chevron { display: none; }
