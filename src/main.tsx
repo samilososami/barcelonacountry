@@ -69,7 +69,6 @@ type FindCopy = {
 };
 
 const navTargets = ["home", "festival", "artists", "program", "location", "contact"];
-const modernNavIcons = ["⌂", "✦", "♫", "☷", "⌖", "✉"];
 const festivalStatIcons = ["◫", "♫", "⌁"];
 const scrollTargetSelectors: Record<string, string> = {
   home: ".frame",
@@ -1979,6 +1978,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
 
 function ModernApp() {
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
@@ -1994,7 +1994,10 @@ function ModernApp() {
     window.localStorage.setItem("barcelona-country-language", nextLanguage);
   };
 
-  const moveTo = (targetId: string) => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const moveTo = (targetId: string) => {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setIsNavigationOpen(false);
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -2031,10 +2034,11 @@ function ModernApp() {
           <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest">
             <span>BCF</span><small>Barcelona Country Fest</small>
           </button>
-          <div className="modern-nav-links">
+          <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
             {copy.nav.map((item, index) => (
               <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>
-                <span className="modern-nav-icon" aria-hidden="true">{modernNavIcons[index]}</span>{item}
+                <span className="modern-nav-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span>{item}</span>
               </button>
             ))}
           </div>
@@ -2046,6 +2050,17 @@ function ModernApp() {
             </select>
             <span className="modern-language-chevron" aria-hidden="true">⌄</span>
           </label>
+          <button
+            className={`modern-menu-toggle ${isNavigationOpen ? "is-open" : ""}`}
+            type="button"
+            aria-controls="modern-navigation-links"
+            aria-expanded={isNavigationOpen}
+            aria-label={isNavigationOpen ? interfaceLabels[language].closeMenu : interfaceLabels[language].menu}
+            onClick={() => setIsNavigationOpen((isOpen) => !isOpen)}
+          >
+            <span className="modern-menu-toggle-lines" aria-hidden="true"><i /><i /></span>
+            <span className="modern-menu-toggle-label" aria-hidden="true">Menu</span>
+          </button>
         </nav>
       </header>
 
