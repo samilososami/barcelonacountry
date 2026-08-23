@@ -225,23 +225,25 @@ html::-webkit-scrollbar-corner { background: #090909; }
 }
 
 .modern-page { background: #090909; }
-.modern-nav-wrap { top: 18px; padding: 0 clamp(18px, 4vw, 64px); }
-.modern-nav { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; min-height: 0; gap: 10px; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
-.modern-brand { gap: 10px; min-height: 54px; padding: 0 16px; background: rgba(5, 5, 5, .88); border-left: 4px solid var(--modern-orange); }
-.modern-brand span { width: auto; height: auto; color: var(--modern-orange); background: transparent; font-size: 11px; letter-spacing: -.05em; }
-.modern-brand small { padding-left: 10px; border-left: 1px solid rgba(255,255,255,.2); letter-spacing: .14em; }
-.modern-nav-links { min-width: 0; gap: 0; justify-content: center; padding: 0 10px; overflow: visible; background: rgba(5, 5, 5, .82); border-bottom: 2px solid var(--modern-orange); }
-.modern-nav-links button { position: relative; display: inline-flex; align-items: center; gap: 9px; padding: 18px clamp(8px, 1.25vw, 18px) 16px; color: rgba(255, 255, 255, .8); font-family: "Arial Narrow", "Roboto Condensed", "Franklin Gothic Condensed", Arial, sans-serif; font-size: 12px; font-stretch: condensed; font-weight: 800; letter-spacing: .12em; line-height: 1; transition: color .2s ease, background .2s ease; }
-.modern-nav-index { color: var(--modern-orange); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 8px; font-weight: 900; letter-spacing: .04em; }
-.modern-nav-links button::after { content: ""; position: absolute; right: 11px; bottom: -2px; left: 11px; height: 2px; background: #fff; transform: scaleX(0); transform-origin: center; transition: transform .2s ease; }
-.modern-nav-links button:hover, .modern-nav-links button:focus-visible, .modern-text-button:hover { color: #fff; background: rgba(255,255,255,.06); }
-.modern-nav-links button:hover::after, .modern-nav-links button:focus-visible::after { transform: scaleX(1); }
-.modern-language { position: relative; display: flex; align-items: center; min-width: 126px; margin-left: 0; padding: 0 14px; background: rgba(5,5,5,.88); border-bottom: 2px solid var(--modern-orange); }
-.modern-language-icon { display: none; }
-.modern-language select { width: 100%; max-width: none; padding: 7px 18px 7px 0; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .04em; appearance: none; }
-.modern-language-chevron { position: absolute; right: 0; top: 50%; color: var(--modern-orange); font-size: 17px; line-height: 1; pointer-events: none; transform: translateY(-57%); }
-.modern-nav-links button:hover, .modern-text-button:hover { color: var(--modern-orange); }
-.modern-menu-toggle { display: none; align-items: center; justify-content: center; gap: 8px; min-height: 54px; padding: 0 14px; border: 0; border-bottom: 2px solid var(--modern-orange); color: #fff; background: rgba(5,5,5,.88); font-family: "Arial Narrow", "Roboto Condensed", "Franklin Gothic Condensed", Arial, sans-serif; font-size: 11px; font-stretch: condensed; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.modern-nav-wrap { top: 20px; padding: 0 clamp(24px, 4vw, 64px); }
+.modern-nav { position: relative; display: flex; align-items: center; justify-content: center; min-height: 72px; max-width: 1440px; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
+.modern-brand { position: absolute; z-index: 3; left: 0; display: grid; width: 82px; height: 82px; place-items: center; padding: 0; overflow: hidden; background: #080808; border: 1px solid rgba(255,255,255,.22); border-radius: 50%; box-shadow: 0 10px 28px rgba(0,0,0,.26); }
+.modern-brand img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.modern-nav-links { flex: 0 1 auto; min-width: 0; gap: 0; justify-content: center; padding: 6px 12px; overflow: visible; background: rgba(8,8,8,.5); border: 1px solid rgba(255,255,255,.28); border-radius: 15px; box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 30px rgba(0,0,0,.18); backdrop-filter: blur(20px) saturate(1.14); }
+.modern-nav-links button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 clamp(11px, 1.55vw, 23px); color: rgba(255,255,255,.84); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-weight: 650; letter-spacing: .035em; line-height: 1; transition: color .2s ease, background .2s ease; }
+.modern-nav-links button::after { content: ""; position: absolute; right: 18px; bottom: 1px; left: 18px; height: 2px; background: var(--modern-orange); opacity: 0; transform: scaleX(.45); transition: transform .2s ease, opacity .2s ease; }
+.modern-nav-links button:hover, .modern-nav-links button:focus-visible, .modern-text-button:hover { color: #fff; background: rgba(255,255,255,.08); }
+.modern-nav-links button:hover::after, .modern-nav-links button:focus-visible::after { opacity: 1; transform: scaleX(1); }
+.modern-language { position: absolute; z-index: 4; right: 0; display: block; }
+.modern-language-trigger { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px) saturate(1.14); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 750; letter-spacing: .05em; }
+.modern-language-icon { display: grid; min-width: 20px; place-items: center; font-size: 15px; }
+.modern-language-code { color: rgba(255,255,255,.92); }
+.modern-language-trigger svg { width: 13px; height: 13px; fill: none; stroke: var(--modern-orange); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; transition: transform .18s ease; }
+.modern-language-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+.modern-language-menu { position: absolute; top: calc(100% + 8px); right: 0; display: grid; min-width: 154px; padding: 6px; border: 1px solid rgba(255,255,255,.25); border-radius: 13px; background: rgba(8,8,8,.88); box-shadow: 0 18px 35px rgba(0,0,0,.32); backdrop-filter: blur(20px); }
+.modern-language-menu button { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; color: rgba(255,255,255,.76); background: transparent; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 600; text-align: left; }
+.modern-language-menu button:hover, .modern-language-menu button.is-active { color: #fff; background: rgba(196,0,0,.2); }
+.modern-menu-toggle { position: absolute; z-index: 4; right: 0; display: none; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
 .modern-menu-toggle-lines { display: grid; width: 16px; gap: 4px; }
 .modern-menu-toggle-lines i { display: block; height: 2px; background: var(--modern-orange); transition: transform .18s ease; }
 .modern-menu-toggle.is-open .modern-menu-toggle-lines i:first-child { transform: translateY(3px) rotate(45deg); }
@@ -269,12 +271,12 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-festival, .modern-experience, .modern-location, .modern-contact { background: #101010; color: #f6f4ef; }
 .modern-festival-copy, .modern-section-heading > span { color: #dedbd4; }
 .modern-section-heading h2, .modern-location h2 span { color: #fff; }
-.modern-festival-copy { padding: 24px; background: rgba(0, 0, 0, .46); border: 1px solid rgba(255,255,255,.19); backdrop-filter: blur(10px); }
-.modern-stats { border-color: rgba(255,255,255,.25); background: rgba(0,0,0,.47); backdrop-filter: blur(10px); }
-.modern-stats div { border-color: rgba(255,255,255,.25); }
+.modern-festival { grid-template-columns: minmax(0, .9fr) minmax(280px, 1.1fr); gap: clamp(30px, 6vw, 92px); align-items: end; }
+.modern-festival-copy { max-width: 540px; margin: 0; padding: 0; color: #e1ded8; background: transparent; border: 0; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.55; }
+.modern-stats { grid-column: 1 / -1; margin-top: 18px; border-color: rgba(255,255,255,.24); background: rgba(0,0,0,.2); backdrop-filter: blur(7px); }
+.modern-stats div { min-height: 150px; border-color: rgba(255,255,255,.24); }
 .modern-stats strong { color: var(--modern-orange); }
 .modern-stats span { color: #f6f4ef; }
-.modern-stat-icon { display: block; margin-bottom: 13px; color: var(--modern-orange) !important; font-size: 16px; line-height: 1; }
 
 .modern-artists { background: #080808; }
 .modern-artists::after { background: var(--section-vignette), rgba(0, 0, 0, .7); }
@@ -295,7 +297,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-experience-tabs button { border-color: rgba(255,255,255,.27); color: #f7f4ee; }
 .modern-experience-tabs button span, .modern-experience-tabs button.is-active, .modern-experience-tabs button.is-active span { color: var(--modern-orange); }
 .modern-experience-card { background: rgba(10,10,10,.76); box-shadow: 9px 9px 0 rgba(196,0,0,.55); }
-.modern-experience-image > img:first-child { filter: grayscale(1) contrast(1.13); }
+.modern-experience-image > img:first-child { filter: none; }
 .modern-experience-icon { background: var(--modern-orange); }
 .modern-experience-copy h3, .modern-experience-copy li strong { color: #fff; }
 .modern-quote, .modern-experience-copy li > span, .modern-card-controls button { color: var(--modern-orange); }
@@ -318,26 +320,26 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-photo-credits a { color: #c7c3bb; text-decoration-color: rgba(196,0,0,.7); text-underline-offset: 3px; }
 
 @media (max-width: 1120px) {
-  .modern-nav { grid-template-columns: auto minmax(0, 1fr) auto auto; }
-  .modern-nav-links { position: absolute; z-index: 2; top: calc(100% + 8px); right: 0; left: 0; display: none; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 8px; border: 1px solid rgba(255,255,255,.18); border-bottom: 2px solid var(--modern-orange); background: rgba(5,5,5,.94); box-shadow: 0 14px 30px rgba(0,0,0,.36); }
+  .modern-nav { justify-content: flex-end; }
+  .modern-brand { width: 72px; height: 72px; }
+  .modern-nav-links { position: absolute; z-index: 2; top: calc(100% + 8px); right: 0; left: 0; display: none; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 8px; border: 1px solid rgba(255,255,255,.22); border-radius: 14px; background: rgba(8,8,8,.9); box-shadow: 0 14px 30px rgba(0,0,0,.36); }
   .modern-nav-links.is-open { display: grid; }
   .modern-nav-links button, .modern-nav-links button:nth-child(n + 4) { display: inline-flex; justify-content: flex-start; min-height: 46px; padding: 13px 14px; border: 1px solid transparent; }
   .modern-nav-links button:hover, .modern-nav-links button:focus-visible { border-color: rgba(196,0,0,.65); background: rgba(196,0,0,.13); }
   .modern-nav-links button::after { display: none; }
+  .modern-language { right: 59px; }
   .modern-menu-toggle { display: inline-flex; }
 }
 
 @media (max-width: 680px) {
   .modern-nav-wrap { top: 12px; padding: 0 16px; }
-  .modern-nav { grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 4px; }
-  .modern-brand { min-height: 46px; padding: 0 10px; }
+  .modern-nav { min-height: 58px; }
+  .modern-brand { width: 58px; height: 58px; }
   .modern-nav-links { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px; }
   .modern-nav-links button, .modern-nav-links button:nth-child(n + 4) { gap: 7px; min-height: 43px; padding: 11px 10px; font-size: 10px; }
-  .modern-nav-index { font-size: 7px; }
-  .modern-language { min-width: auto; padding: 0 9px; }
-  .modern-language-icon { display: grid; min-width: 21px; place-items: center; font-size: 16px; }
-  .modern-language select { position: absolute; inset: 0; width: 30px; min-width: 30px; opacity: 0; }
-  .modern-language-chevron { display: none; }
+  .modern-language { right: 57px; }
+  .modern-language-trigger { min-height: 42px; padding: 0 9px; border-radius: 10px; }
+  .modern-language-code { display: none; }
   .modern-menu-toggle { min-height: 46px; padding: 0 10px; }
   .modern-menu-toggle-label { display: none; }
   .modern-hero { min-height: 710px; }
