@@ -2088,7 +2088,7 @@ function ModernApp() {
 
       <main>
         <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
-          <img className="modern-hero-image" src="/assets/header-fest.png" alt="" />
+          <img className="modern-hero-image" src="/assets/header-fest-bright.png" alt="" />
           <div className="modern-hero-shade" />
           <div className="modern-hero-grid" aria-hidden="true" />
           <div className="modern-hero-content">
