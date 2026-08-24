@@ -228,7 +228,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-nav-wrap { --modern-nav-edge: clamp(12px, 1vw, 20px); top: 20px; padding: 0; transition: top .28s ease; }
 .modern-nav-wrap.is-scrolled { position: fixed; top: 12px; }
 .modern-nav { position: relative; display: flex; width: 100%; max-width: none; min-height: 72px; align-items: center; justify-content: center; margin: 0; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
-.modern-brand { position: absolute; z-index: 3; top: 9px; left: var(--modern-nav-edge); display: block; width: clamp(112px, 9.2vw, 144px); height: clamp(112px, 9.2vw, 144px); padding: 0; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; transform-origin: left center; transition: opacity .24s ease, transform .32s cubic-bezier(.22,.8,.24,1), visibility .24s; }
+.modern-brand { position: absolute; z-index: 3; top: 9px; left: clamp(24px, 8vw, 132px); display: block; width: clamp(112px, 9.2vw, 144px); height: clamp(112px, 9.2vw, 144px); padding: 0; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; transform-origin: left center; transition: opacity .24s ease, transform .32s cubic-bezier(.22,.8,.24,1), visibility .24s; }
 .modern-brand img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .modern-nav-wrap.is-scrolled .modern-brand { visibility: hidden; opacity: 0; transform: translate(-28px, -8px) scale(.62); pointer-events: none; }
 .modern-nav-cluster { display: flex; flex: 0 1 auto; min-width: 0; align-items: center; justify-content: center; padding: 0; overflow: visible; background: rgba(8,8,8,.5); border: 1px solid rgba(255,255,255,.28); border-radius: 15px; box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 30px rgba(0,0,0,.18); backdrop-filter: blur(20px) saturate(1.14); transition: padding .32s cubic-bezier(.22,.8,.24,1), background .25s ease, border-color .25s ease, box-shadow .25s ease; }
@@ -237,27 +237,27 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-nav-star img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .modern-nav-wrap.is-scrolled .modern-nav-star { flex-basis: 48px; width: 48px; margin-right: 3px; visibility: visible; opacity: 1; transform: none; pointer-events: auto; }
 .modern-nav-links { flex: 0 1 auto; min-width: 0; gap: 0; justify-content: center; padding: 6px 12px; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; backdrop-filter: none; }
-.modern-nav-links button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 clamp(11px, 1.55vw, 23px); color: rgba(255,255,255,.84); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-weight: 650; letter-spacing: .035em; line-height: 1; transition: color .2s ease, background .2s ease; }
+.modern-nav-links button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 clamp(11px, 1.55vw, 23px); color: rgba(255,255,255,.88); font-family: "Special Elite", ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .055em; line-height: 1; transition: color .2s ease, background .2s ease; }
 .modern-nav-links button::after { content: ""; position: absolute; right: 18px; bottom: 1px; left: 18px; height: 2px; background: var(--modern-orange); opacity: 0; transform: scaleX(.45); transition: transform .2s ease, opacity .2s ease; }
 .modern-nav-links button:hover, .modern-nav-links button:focus-visible, .modern-text-button:hover { color: #fff; background: rgba(255,255,255,.08); }
 .modern-nav-links button:hover::after, .modern-nav-links button:focus-visible::after { opacity: 1; transform: scaleX(1); }
 .modern-language { position: absolute; z-index: 4; right: var(--modern-nav-edge); display: block; }
-.modern-language-trigger { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px) saturate(1.14); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 750; letter-spacing: .05em; }
+.modern-language .modern-language-trigger { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px) saturate(1.14); font-family: "Special Elite", ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .055em; }
 .modern-language-icon { display: grid; min-width: 20px; place-items: center; font-size: 15px; }
 .modern-language-code { color: rgba(255,255,255,.92); }
 .modern-language-trigger svg { width: 13px; height: 13px; fill: none; stroke: var(--modern-orange); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; transition: transform .18s ease; }
 .modern-language-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
 .modern-language-menu { position: absolute; top: calc(100% + 8px); right: 0; display: grid; min-width: 154px; padding: 6px; border: 1px solid rgba(255,255,255,.25); border-radius: 13px; background: rgba(8,8,8,.88); box-shadow: 0 18px 35px rgba(0,0,0,.32); backdrop-filter: blur(20px); }
-.modern-language-menu button { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; color: rgba(255,255,255,.76); background: transparent; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 600; text-align: left; }
+.modern-language-menu button { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; color: rgba(255,255,255,.76); background: transparent; font-family: "Special Elite", ui-monospace, monospace; font-size: 12px; font-weight: 400; text-align: left; }
 .modern-language-menu button:hover, .modern-language-menu button.is-active { color: #fff; background: rgba(196,0,0,.2); }
-.modern-menu-toggle { position: absolute; z-index: 4; right: var(--modern-nav-edge); display: none; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.modern-nav .modern-menu-toggle { position: absolute; z-index: 4; right: var(--modern-nav-edge); display: none; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.56); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px); font-family: "Special Elite", ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
 .modern-menu-toggle-lines { display: grid; width: 16px; gap: 4px; }
 .modern-menu-toggle-lines i { display: block; height: 2px; background: var(--modern-orange); transition: transform .18s ease; }
 .modern-menu-toggle.is-open .modern-menu-toggle-lines i:first-child { transform: translateY(3px) rotate(45deg); }
 .modern-menu-toggle.is-open .modern-menu-toggle-lines i:last-child { transform: translateY(-3px) rotate(-45deg); }
 .modern-hero { min-height: min(920px, 100svh); background: #050505; }
 .modern-hero-image { filter: saturate(1.06) contrast(1.04) brightness(.86); object-position: center 51%; }
-.modern-hero-shade { background: linear-gradient(90deg, rgba(0, 0, 0, .91), rgba(0, 0, 0, .46) 58%, rgba(0, 0, 0, .36)), linear-gradient(0deg, rgba(0, 0, 0, .78), transparent 60%); }
+.modern-hero-shade { background: linear-gradient(90deg, rgba(0, 0, 0, .82), rgba(0, 0, 0, .36) 58%, rgba(0, 0, 0, .27)), linear-gradient(0deg, rgba(0, 0, 0, .65), transparent 60%); }
 .modern-hero-grid { opacity: .09; }
 .modern-hero h1 { letter-spacing: -.092em; }
 .modern-hero h1 span { color: #fff; }
@@ -345,7 +345,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-nav-wrap { --modern-nav-edge: 14px; top: 12px; padding: 0; }
   .modern-nav-wrap.is-scrolled { top: 8px; }
   .modern-nav { min-height: 58px; }
-  .modern-brand { top: 6px; width: 76px; height: 76px; }
+  .modern-brand { top: 6px; left: 24px; width: 76px; height: 76px; }
   .modern-nav-star { top: 4px; height: 48px; }
   .modern-nav-wrap.is-scrolled .modern-nav-star { width: 48px; }
   .modern-nav-links { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px; }
