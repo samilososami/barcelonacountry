@@ -1979,6 +1979,7 @@ function ModernApp() {
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [isNavigationSticky, setIsNavigationSticky] = useState(false);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
@@ -1988,6 +1989,24 @@ function ModernApp() {
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    let animationFrame = 0;
+    const updateNavigationState = () => {
+      if (animationFrame) return;
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = 0;
+        setIsNavigationSticky(window.scrollY > 32);
+      });
+    };
+
+    updateNavigationState();
+    window.addEventListener("scroll", updateNavigationState, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateNavigationState);
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
 
   const changeLanguage = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
@@ -2031,17 +2050,22 @@ function ModernApp() {
 
   return (
     <div className="modern-page">
-      <header className="modern-nav-wrap">
+      <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
         <nav className="modern-nav" aria-label="Principal">
-          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest">
+          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
             <img src="/assets/logo-primary.png" alt="Barcelona Country" />
           </button>
-          <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
-            {copy.nav.map((item, index) => (
-              <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>
-                <span>{item}</span>
-              </button>
-            ))}
+          <div className="modern-nav-cluster">
+            <button className="modern-nav-star" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={!isNavigationSticky} tabIndex={isNavigationSticky ? 0 : -1}>
+              <img src="/assets/logo-star.png" alt="" />
+            </button>
+            <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
+              {copy.nav.map((item, index) => (
+                <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>
+                  <span>{item}</span>
+                </button>
+              ))}
+            </div>
           </div>
           <div className="modern-language">
             <button
