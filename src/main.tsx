@@ -6,6 +6,7 @@ import "./styles.css";
 import "./modern.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
+const TicketPurchasePage = lazy(() => import("./tickets/TicketPurchasePage").then((module) => ({ default: module.TicketPurchasePage })));
 
 type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
 
@@ -143,6 +144,15 @@ const formFeedbackLabels: Record<LanguageKey, { submitting: string; success: str
   fr: { submitting: "Enregistrement…", success: "Merci ! Vos données ont bien été enregistrées.", duplicate: "Cet e-mail est déjà enregistré.", error: "Impossible d'enregistrer vos données. Réessayez." },
   en: { submitting: "Saving…", success: "Thank you! Your details have been saved.", duplicate: "This email is already registered.", error: "We could not save your details. Please try again." },
   it: { submitting: "Salvataggio…", success: "Grazie! I tuoi dati sono stati salvati.", duplicate: "Questa e-mail è già registrata.", error: "Non è stato possibile salvare i dati. Riprova." }
+};
+
+const ticketCtaCopies: Record<LanguageKey, { date: string; title: string; body: string; action: string }> = {
+  de: { date: "19.–21. NOVEMBER 2027 · BARCELONA", title: "Sichere dir jetzt deine Tickets", body: "Erlebe drei Tage Tanz, Live-Musik und Westernkultur. Allgemeiner Eintritt ab 15 €.", action: "Jetzt kaufen" },
+  es: { date: "19–21 NOVIEMBRE 2027 · BARCELONA", title: "Compra ya tus entradas", body: "Vive tres días de baile, música en directo y cultura western. Entrada general desde 15 €.", action: "Comprar ahora" },
+  ca: { date: "19–21 NOVEMBRE 2027 · BARCELONA", title: "Compra ja les teves entrades", body: "Viu tres dies de ball, música en directe i cultura western. Entrada general des de 15 €.", action: "Comprar ara" },
+  fr: { date: "19–21 NOVEMBRE 2027 · BARCELONE", title: "Achetez vos billets", body: "Vivez trois jours de danse, de musique live et de culture western. Entrée générale à partir de 15 €.", action: "Acheter maintenant" },
+  en: { date: "NOVEMBER 19–21, 2027 · BARCELONA", title: "Buy your tickets now", body: "Experience three days of dancing, live music and western culture. General admission from €15.", action: "Buy now" },
+  it: { date: "19–21 NOVEMBRE 2027 · BARCELLONA", title: "Acquista ora i tuoi biglietti", body: "Vivi tre giorni di ballo, musica dal vivo e cultura western. Ingresso generale da 15 €.", action: "Acquista ora" }
 };
 
 const festivalStatValues = { artists: "+12", dancers: "+3000" };
@@ -1983,6 +1993,7 @@ function ModernApp() {
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
+  const ticketCta = ticketCtaCopies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
 
@@ -2182,6 +2193,15 @@ function ModernApp() {
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>
         </section>
+
+        <section id="tickets" className="modern-tickets-cta" aria-labelledby="modern-tickets-title">
+          <div className="modern-tickets-cta-copy">
+            <p>{ticketCta.date}</p>
+            <h2 id="modern-tickets-title">{ticketCta.title}</h2>
+            <span>{ticketCta.body}</span>
+          </div>
+          <a className="modern-primary-button" href="/entradas">{ticketCta.action} <span>↗</span></a>
+        </section>
       </main>
       <footer className="modern-footer">
         <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
@@ -2204,6 +2224,7 @@ function ModernApp() {
 const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
 const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(currentPath);
 const isBackupRoute = currentPath === "/backup";
+const isTicketRoute = ["/entradas", "/tickets", "/buy"].includes(currentPath);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -2211,6 +2232,10 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
         <AdminPortal />
       </Suspense>
-    ) : isBackupRoute ? <App /> : <ModernApp />}
+    ) : isBackupRoute ? <App /> : isTicketRoute ? (
+      <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando entradas"><span /><span /><span /></div>}>
+        <TicketPurchasePage />
+      </Suspense>
+    ) : <ModernApp />}
   </StrictMode>
 );
