@@ -267,14 +267,15 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-primary-button { border-color: rgba(255,255,255,.22); background: rgba(196, 0, 0, .92); color: #080808; }
 .modern-primary-button:hover { background: #df2020; }
 
-.modern-festival, .modern-artists, .modern-experience, .modern-location, .modern-contact { --section-vignette: linear-gradient(to bottom, rgba(0,0,0,.24), transparent 11%, transparent 84%, rgba(0,0,0,.34)); position: relative; isolation: isolate; overflow: hidden; }
-.modern-festival::before, .modern-artists::before, .modern-experience::before, .modern-location::before, .modern-contact::before { content: ""; position: absolute; z-index: -1; inset: 0; background-position: center; background-size: cover; filter: saturate(1.08) contrast(1.04) brightness(.7); opacity: .66; }
-.modern-festival::after, .modern-artists::after, .modern-experience::after, .modern-location::after, .modern-contact::after { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--section-vignette), rgba(0, 0, 0, .57); }
+.modern-festival, .modern-artists, .modern-experience, .modern-location, .modern-contact, .modern-tickets-cta { --section-vignette: linear-gradient(to bottom, rgba(0,0,0,.24), transparent 11%, transparent 84%, rgba(0,0,0,.34)); position: relative; isolation: isolate; overflow: hidden; }
+.modern-festival::before, .modern-artists::before, .modern-experience::before, .modern-location::before, .modern-contact::before, .modern-tickets-cta::before { content: ""; position: absolute; z-index: -1; inset: 0; background-position: center; background-size: cover; filter: saturate(1.08) contrast(1.04) brightness(.7); opacity: .66; }
+.modern-festival::after, .modern-artists::after, .modern-experience::after, .modern-location::after, .modern-contact::after, .modern-tickets-cta::after { content: ""; position: absolute; z-index: -1; inset: 0; background: var(--section-vignette), rgba(0, 0, 0, .57); }
 .modern-festival::before { background-image: url("/assets/backgrounds/festival-live.jpg"); }
 .modern-artists::before { background-image: url("/assets/backgrounds/artists-dance.jpg"); background-position: center 32%; }
 .modern-experience::before { background-image: url("/assets/backgrounds/experience-stage.jpg"); }
 .modern-location::before { background-image: url("/assets/backgrounds/location-country.jpg"); background-position: center 45%; }
 .modern-contact::before { background-image: url("/assets/backgrounds/contact-stadium.jpg"); background-position: center 65%; }
+.modern-tickets-cta::before { background-image: url("/assets/header-fest-bright.png"); background-position: center 57%; }
 .modern-festival, .modern-experience, .modern-location, .modern-contact { background: #101010; color: #f6f4ef; }
 .modern-festival-copy, .modern-section-heading > span { color: #dedbd4; }
 .modern-section-heading h2, .modern-location h2 span { color: #fff; }
@@ -318,6 +319,13 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-contact::after { background: var(--section-vignette), rgba(0,0,0,.66); }
 .modern-contact-copy h2 { color: #fff; }
 .modern-contact-form { border-color: rgba(255,255,255,.32); background: rgba(0,0,0,.48); backdrop-filter: blur(14px); }
+.modern-tickets-cta { display: flex; align-items: end; justify-content: space-between; gap: 48px; min-height: 520px; padding: clamp(76px, 10vw, 140px) clamp(24px, 8vw, 132px); color: #fff; }
+.modern-tickets-cta::after { background: var(--section-vignette), linear-gradient(90deg, rgba(0,0,0,.87), rgba(0,0,0,.42) 64%, rgba(0,0,0,.57)); }
+.modern-tickets-cta-copy { max-width: 820px; }
+.modern-tickets-cta-copy > p { margin: 0 0 16px; color: var(--modern-orange); font-family: "Special Elite", monospace; font-size: 12px; letter-spacing: .09em; }
+.modern-tickets-cta-copy h2 { margin: 0; font-size: clamp(49px, 8vw, 116px); font-weight: 950; letter-spacing: -.085em; line-height: .82; text-transform: uppercase; }
+.modern-tickets-cta-copy > span { display: block; max-width: 590px; margin-top: 26px; color: #dedbd5; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.5; }
+.modern-tickets-cta > .modern-primary-button { flex: 0 0 auto; min-width: 225px; min-height: 62px; text-decoration: none; }
 .modern-footer { flex-wrap: wrap; background: #080808; color: #c7c3bb; border-top: 1px solid rgba(255,255,255,.2); }
 .modern-footer span:first-child, .modern-footer span:last-child { color: var(--modern-orange); }
 .modern-photo-credits { position: relative; width: 100%; margin-top: 8px; color: #c7c3bb; font-size: 9px; letter-spacing: .06em; }
@@ -359,6 +367,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-hero h1 { font-size: clamp(50px, 13.8vw, 62px); }
   .modern-hero-image { object-position: 58% center; }
   .modern-hero-meta { display: none; }
+  .modern-tickets-cta { align-items: flex-start; flex-direction: column; min-height: 480px; }
   .modern-festival-copy { padding: 18px; }
   .modern-artist-card { padding: 6px; }
   .modern-artist-card a { aspect-ratio: .96; }

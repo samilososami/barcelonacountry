@@ -1,0 +1,150 @@
+@font-face { font-family: "BCF Special"; src: url("/fonts/special-elite.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "BCF Western"; src: url("/fonts/rio-grande.ttf") format("truetype"); font-display: swap; }
+
+.ticket-page { min-height: 100svh; overflow-x: hidden; color: #f8f7f3; background: #070707; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.ticket-page *, .ticket-page *::before, .ticket-page *::after { box-sizing: border-box; }
+.ticket-page button, .ticket-page input, .ticket-page select { font: inherit; }
+.ticket-page-background { position: fixed; z-index: 0; inset: 0; background: linear-gradient(rgba(0,0,0,.68), rgba(0,0,0,.8)), url("/assets/header-fest-bright.png") center / cover no-repeat; filter: saturate(1.03); }
+.ticket-page-background::after { content: ""; position: absolute; inset: 0; opacity: .12; background-image: linear-gradient(rgba(255,255,255,.28) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.28) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, #000, transparent 82%); }
+.ticket-header { position: relative; z-index: 5; display: grid; grid-template-columns: 180px 1fr 180px; align-items: center; width: min(100% - 48px, 1370px); min-height: 118px; margin: 0 auto; }
+.ticket-header-logo { align-self: start; width: 132px; height: 132px; margin-top: 12px; }
+.ticket-header-logo img { width: 100%; height: 100%; object-fit: contain; }
+.ticket-back { display: inline-flex; align-items: center; justify-self: center; gap: 10px; padding: 13px 18px; border: 1px solid rgba(255,255,255,.27); border-radius: 13px; color: #fff; background: rgba(8,8,8,.58); box-shadow: inset 0 1px rgba(255,255,255,.12); backdrop-filter: blur(18px); font-family: "BCF Special", monospace; font-size: 13px; letter-spacing: .04em; text-decoration: none; }
+.ticket-back svg, .ticket-order-summary svg, .ticket-demo-notice svg, .ticket-heading svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.ticket-language { position: relative; justify-self: end; }
+.ticket-language > button { display: flex; align-items: center; gap: 9px; min-height: 46px; padding: 0 13px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; color: #fff; background: rgba(8,8,8,.58); backdrop-filter: blur(18px); font-family: "BCF Special", monospace; font-size: 12px; }
+.ticket-language > button b { color: #c40000; font-size: 18px; font-weight: 400; }
+.ticket-language > div { position: absolute; z-index: 4; top: calc(100% + 8px); right: 0; display: grid; min-width: 165px; padding: 6px; border: 1px solid rgba(255,255,255,.22); border-radius: 13px; background: rgba(8,8,8,.94); box-shadow: 0 18px 40px rgba(0,0,0,.42); backdrop-filter: blur(20px); }
+.ticket-language > div button { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 10px; border: 0; border-radius: 8px; color: rgba(255,255,255,.72); background: transparent; text-align: left; }
+.ticket-language > div button:hover, .ticket-language > div button.is-active { color: #fff; background: rgba(196,0,0,.24); }
+.ticket-main { position: relative; z-index: 1; width: min(100% - 48px, 1280px); margin: 0 auto; padding: 34px 0 92px; }
+.ticket-main.is-processing, .ticket-main.is-printing, .ticket-main.is-complete { padding-top: 0; }
+.ticket-heading { margin-bottom: 32px; }
+.ticket-heading > p { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: #df1c1c; font-family: "BCF Special", monospace; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.ticket-heading h1, .ticket-receipt-heading h1 { max-width: 900px; margin: 0; color: #fff; font-size: clamp(52px, 7vw, 98px); font-weight: 950; letter-spacing: -.075em; line-height: .87; text-transform: uppercase; }
+.ticket-heading > span { display: block; max-width: 680px; margin-top: 18px; color: #d6d3ce; font-size: 16px; line-height: 1.5; }
+.ticket-checkout-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .78fr); gap: 24px; align-items: start; }
+.ticket-form-panel, .ticket-order-summary { border: 1px solid rgba(255,255,255,.23); border-radius: 8px; background: linear-gradient(145deg, rgba(12,12,12,.91), rgba(24,24,24,.82)); box-shadow: inset 0 1px rgba(255,255,255,.08), 0 28px 70px rgba(0,0,0,.3); backdrop-filter: blur(16px); }
+.ticket-form-panel { display: grid; gap: 0; padding: clamp(24px, 3vw, 44px); }
+.ticket-form-section { display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 0 0 34px; border-bottom: 1px solid rgba(255,255,255,.16); }
+.ticket-form-section + .ticket-form-section { padding-top: 34px; }
+.ticket-section-number { color: #c40000; font-family: "BCF Special", monospace; font-size: 13px; }
+.ticket-form-content h2, .ticket-order-summary h2 { margin: 0 0 24px; color: #fff; font-family: "BCF Special", monospace; font-size: clamp(22px, 2.3vw, 30px); font-weight: 400; letter-spacing: .04em; text-transform: uppercase; }
+.ticket-quantity-row { display: flex; align-items: center; gap: 28px; }
+.ticket-quantity-row > span { color: #ddd9d1; font-size: 14px; }
+.ticket-stepper { display: grid; grid-template-columns: 54px 76px 54px; min-height: 60px; overflow: hidden; border: 1px solid rgba(255,255,255,.28); border-radius: 5px; }
+.ticket-stepper button { border: 0; color: #fff; background: rgba(255,255,255,.035); font-size: 28px; }
+.ticket-stepper button:last-child { color: #f11d1d; }
+.ticket-stepper button:disabled { opacity: .25; cursor: not-allowed; }
+.ticket-stepper output { display: grid; place-items: center; border-right: 1px solid rgba(255,255,255,.2); border-left: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 28px; font-weight: 900; }
+.ticket-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
+.ticket-fields label { display: grid; gap: 9px; color: #f6f4ef; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.ticket-fields input, .ticket-fields select { width: 100%; min-height: 52px; padding: 0 14px; border: 1px solid rgba(255,255,255,.27); border-radius: 3px; outline: 0; color: #fff; background: rgba(0,0,0,.32); font-size: 15px; text-transform: none; }
+.ticket-fields input::placeholder { color: rgba(255,255,255,.35); }
+.ticket-fields input:focus, .ticket-fields select:focus { border-color: #e01818; box-shadow: 0 0 0 3px rgba(196,0,0,.18); }
+.ticket-phone-field { grid-column: 1 / -1; }
+.ticket-phone-field > span { display: grid; grid-template-columns: minmax(245px, .85fr) 1fr; gap: 12px; }
+.ticket-demo-notice { display: flex; align-items: center; gap: 14px; margin: 28px 0; padding: 16px 18px; border: 1px solid #c40000; border-radius: 5px; color: #e31c1c; background: rgba(196,0,0,.06); }
+.ticket-demo-notice > span { display: grid; flex: 0 0 30px; width: 30px; height: 30px; place-items: center; border: 1px solid currentColor; border-radius: 50%; font-family: serif; font-size: 18px; }
+.ticket-demo-notice svg { flex: 0 0 27px; width: 27px; height: 27px; }
+.ticket-demo-notice strong { display: block; font-family: "BCF Special", monospace; font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; }
+.ticket-demo-notice p { margin: 5px 0 0; color: #d3d0ca; font-size: 13px; line-height: 1.4; }
+.ticket-action { display: inline-flex; min-height: 60px; align-items: center; justify-content: space-between; gap: 30px; padding: 0 24px; border: 1px solid #ef2222; border-radius: 3px; color: #090909; background: #c40000; box-shadow: 0 10px 30px rgba(196,0,0,.19); font-family: "BCF Special", monospace; font-size: 15px; letter-spacing: .05em; text-decoration: none; text-transform: uppercase; transition: transform .2s ease, background .2s ease; }
+.ticket-action:hover { transform: translate(-3px, -3px); background: #eb1717; }
+.ticket-action span { font-family: sans-serif; font-size: 25px; }
+.ticket-order-summary { position: sticky; top: 24px; padding: 32px; }
+.ticket-order-summary h2 { padding-bottom: 21px; border-bottom: 1px solid rgba(255,255,255,.2); }
+.ticket-order-line { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: start; padding: 4px 0 28px; border-bottom: 1px solid rgba(255,255,255,.2); }
+.ticket-order-line svg { color: #c40000; }
+.ticket-order-line div { display: grid; gap: 7px; }
+.ticket-order-line div strong { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.ticket-order-line div span { color: #e01818; font-family: "BCF Special", monospace; font-size: 12px; text-transform: uppercase; }
+.ticket-order-line div p { margin: 0; color: #d2cfc8; font-size: 14px; }
+.ticket-order-line > b { align-self: end; font-size: 18px; }
+.ticket-order-total { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; border-bottom: 1px solid rgba(255,255,255,.2); font-family: "BCF Special", monospace; text-transform: uppercase; }
+.ticket-order-total strong { color: #e01818; font-size: 31px; }
+.ticket-order-trust { display: flex; align-items: center; gap: 10px; margin-top: 19px; color: #c8c5bf; font-size: 11px; line-height: 1.35; }
+.ticket-order-trust svg { flex: 0 0 18px; color: #c40000; }
+.ticket-payment-panel { gap: 28px; }
+.ticket-payment-card { position: relative; display: grid; width: min(100%, 465px); aspect-ratio: 1.72; align-content: end; padding: 27px; overflow: hidden; border: 1px solid rgba(255,255,255,.22); border-radius: 15px; color: #fff; background: linear-gradient(135deg, #242424, #0a0a0a 62%, #3d0000); box-shadow: 0 24px 60px rgba(0,0,0,.38); }
+.ticket-payment-card::after { content: ""; position: absolute; inset: 0; opacity: .14; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size: 36px 36px; }
+.ticket-payment-card img { position: absolute; z-index: 1; top: 21px; right: 22px; width: 68px; height: 68px; object-fit: contain; }
+.ticket-payment-card span, .ticket-payment-card strong, .ticket-payment-card small { position: relative; z-index: 1; }
+.ticket-payment-card span { position: absolute; top: 28px; left: 27px; color: #e01818; font-family: "BCF Special", monospace; }
+.ticket-payment-card strong { margin-bottom: 15px; font-size: clamp(20px, 3vw, 31px); letter-spacing: .09em; }
+.ticket-payment-card small { color: #cbc7c0; text-transform: uppercase; }
+.ticket-payment-actions { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.ticket-secondary { min-height: 48px; padding: 0; border: 0; color: #fff; background: transparent; font-family: "BCF Special", monospace; text-decoration: underline; text-underline-offset: 5px; }
+.ticket-payment-actions .ticket-action { min-width: min(100%, 310px); }
+.ticket-receipt-stage { display: grid; justify-items: center; min-height: calc(100svh - 160px); }
+.ticket-receipt-heading { position: relative; z-index: 3; text-align: center; }
+.ticket-receipt-heading p { margin: 2px 0 6px; color: #d2cfc9; font-size: 16px; }
+.ticket-receipt-heading h1 { font-family: "BCF Western", "BCF Special", serif; font-size: clamp(45px, 6vw, 82px); letter-spacing: .01em; }
+.receipt-printer { position: relative; width: min(100%, 530px); min-height: 560px; margin-top: 14px; perspective: 900px; }
+.receipt-printer-top { position: relative; z-index: 4; display: grid; grid-template-columns: 12px 12px 1fr 12px 12px; gap: 12px; align-items: center; height: 84px; padding: 13px 30px 19px; border: 1px solid #484848; border-radius: 21px 21px 7px 7px; background: linear-gradient(#343434, #151515); box-shadow: inset 0 2px rgba(255,255,255,.13), 0 20px 34px rgba(0,0,0,.42); transform: perspective(600px) rotateX(15deg); transform-origin: bottom; }
+.receipt-printer-top i { width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ddd, #4c4c4c 44%, #111 46%); }
+.receipt-printer-top img { justify-self: center; width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 1px 0 #c40000); }
+.receipt-printer-front { position: relative; z-index: 4; height: 116px; margin: -11px 8px 0; padding: 36px 46px; border: 1px solid #3e3e3e; border-radius: 7px 7px 18px 18px; background: linear-gradient(110deg, #151515, #292929 48%, #0c0c0c); box-shadow: inset 0 2px rgba(255,255,255,.08), 0 25px 45px rgba(0,0,0,.55); }
+.receipt-slot { height: 42px; padding: 9px 13px; border-radius: 8px; background: #050505; box-shadow: inset 0 5px 12px #000, 0 1px rgba(255,255,255,.12); }
+.receipt-slot span { display: block; height: 6px; margin-top: 9px; background: #1e1e1e; box-shadow: 0 2px 5px #000; }
+.receipt-paper-wrap { position: absolute; z-index: 3; top: 147px; left: 50%; width: min(74%, 390px); height: 0; overflow: hidden; transform: translateX(-50%); transition: height 4.1s steps(32, end); }
+.receipt-printer.is-printing .receipt-paper-wrap { height: 410px; }
+.receipt-paper { position: relative; min-height: 402px; padding: 46px 28px 24px; color: #151515; background: #f4f1e9; box-shadow: 0 20px 45px rgba(0,0,0,.42); font-family: "BCF Special", monospace; }
+.receipt-paper::after { content: ""; position: absolute; right: 0; bottom: -8px; left: 0; height: 10px; background: linear-gradient(135deg, transparent 6px, #f4f1e9 0) 0 0 / 12px 12px repeat-x; }
+.receipt-brand { display: grid; justify-items: center; margin: -2px auto 10px; font-family: "BCF Western", "BCF Special", serif; line-height: .82; text-align: center; text-transform: uppercase; }
+.receipt-brand strong { max-width: 250px; color: #171717; font-size: 24px; font-weight: 400; }
+.receipt-brand span { margin-top: 5px; color: #c40000; font-family: "BCF Special", monospace; font-size: 15px; letter-spacing: .18em; }
+.receipt-date { margin: 0 0 10px; padding: 7px 0; border-top: 1px solid #333; border-bottom: 1px solid #333; color: #c40000; font-size: 13px; font-weight: 800; text-align: center; text-transform: uppercase; }
+.receipt-row { display: flex; justify-content: space-between; gap: 18px; padding: 8px 0; border-bottom: 1px dashed #777; }
+.receipt-row span { font-size: 11px; text-transform: uppercase; }
+.receipt-row strong { font-size: 14px; text-align: right; }
+.receipt-row.receipt-total strong { color: #c40000; font-size: 22px; }
+.receipt-demo { max-width: 60%; margin: 11px 0 0; font-size: 8px; line-height: 1.35; text-transform: uppercase; }
+.receipt-stamp { position: absolute; right: 9px; bottom: 8px; width: 132px; height: 132px; object-fit: contain; opacity: 0; mix-blend-mode: multiply; transform: rotate(-8deg) scale(1.28); }
+.receipt-stamp.is-visible { animation: receipt-stamp-mark .28s cubic-bezier(.1,.9,.26,1) forwards; }
+.receipt-stamper { position: absolute; z-index: 7; right: -42px; top: 300px; width: 130px; height: 180px; opacity: 0; transform: translate(85px, -150px) rotate(17deg); pointer-events: none; }
+.receipt-stamper span { position: absolute; top: 0; left: 53px; width: 28px; height: 118px; border-radius: 12px 12px 4px 4px; background: linear-gradient(90deg, #1b1b1b, #5b5b5b, #141414); box-shadow: 0 12px 24px rgba(0,0,0,.4); }
+.receipt-stamper b { position: absolute; right: 0; bottom: 0; width: 130px; height: 56px; border-radius: 50%; background: linear-gradient(#444, #111); box-shadow: 0 10px 18px rgba(0,0,0,.45); }
+.receipt-stamper.has-stamped { animation: receipt-stamper-hit .55s cubic-bezier(.2,.8,.3,1) forwards; }
+.ticket-return { position: relative; z-index: 8; min-width: 300px; margin-top: 18px; }
+@keyframes receipt-stamp-mark { 0% { opacity: 0; transform: rotate(-8deg) scale(1.28); } 65% { opacity: .95; transform: rotate(-8deg) scale(.94); } 100% { opacity: .88; transform: rotate(-8deg) scale(1); } }
+@keyframes receipt-stamper-hit { 0% { opacity: 0; transform: translate(85px, -150px) rotate(17deg); } 35% { opacity: 1; } 62% { opacity: 1; transform: translate(-30px, 42px) rotate(-9deg); } 74% { opacity: 1; transform: translate(-30px, 42px) rotate(-9deg); } 100% { opacity: 0; transform: translate(55px, -115px) rotate(12deg); } }
+
+@media (max-width: 900px) {
+  .ticket-header { grid-template-columns: 130px 1fr 100px; width: min(100% - 28px, 860px); }
+  .ticket-header-logo { width: 105px; height: 105px; }
+  .ticket-main { width: min(100% - 32px, 820px); }
+  .ticket-checkout-grid { grid-template-columns: 1fr; }
+  .ticket-order-summary { position: static; }
+}
+
+@media (max-width: 620px) {
+  .ticket-header { grid-template-columns: 84px 1fr 56px; min-height: 92px; }
+  .ticket-header-logo { width: 78px; height: 78px; margin-top: 9px; }
+  .ticket-back { padding: 11px 12px; font-size: 11px; }
+  .ticket-back svg { display: none; }
+  .ticket-language > button { min-height: 41px; padding: 0 9px; }
+  .ticket-language > button span:nth-child(2) { display: none; }
+  .ticket-main { width: min(100% - 24px, 590px); padding-top: 22px; }
+  .ticket-heading h1 { font-size: clamp(42px, 14vw, 62px); }
+  .ticket-form-panel, .ticket-order-summary { padding: 22px 18px; }
+  .ticket-form-section { grid-template-columns: 1fr; gap: 8px; }
+  .ticket-fields { grid-template-columns: 1fr; }
+  .ticket-phone-field > span { grid-template-columns: 1fr; }
+  .ticket-quantity-row { align-items: flex-start; flex-direction: column; }
+  .ticket-payment-actions { align-items: stretch; flex-direction: column-reverse; }
+  .ticket-payment-actions .ticket-action { width: 100%; }
+  .ticket-receipt-heading h1 { font-size: clamp(38px, 11vw, 58px); }
+  .receipt-printer { min-height: 535px; transform: scale(.94); transform-origin: top center; }
+  .receipt-printer-top { height: 80px; }
+  .receipt-printer-front { height: 110px; padding: 34px 28px; }
+  .receipt-paper-wrap { top: 140px; width: 82%; }
+  .receipt-stamper { right: -15px; }
+  .ticket-return { margin-top: -45px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .receipt-paper-wrap { transition-duration: .01ms; }
+  .receipt-stamp.is-visible { animation-duration: .01ms; opacity: .88; transform: rotate(-8deg); }
+  .receipt-stamper.has-stamped { display: none; }
+}
