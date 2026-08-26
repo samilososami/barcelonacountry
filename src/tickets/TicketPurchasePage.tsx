@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { preload } from "react-dom";
 import { countryFlag, phoneCountries } from "../lib/phoneCountries";
 import TicketAnimation from "./animation/TicketAnimation";
 import "./tickets.css";
@@ -31,6 +32,14 @@ type TicketCopy = {
 };
 
 const PRICE_PER_TICKET = 15;
+const TICKET_ANIMATION_ASSETS = [
+  "barcelona-country-stamp.png",
+  "curtains.png",
+  "printer-table-v2.png",
+  "printer.png",
+  "stage.png",
+  "stamp-tool-perspective.png"
+];
 
 const ticketLanguages: { key: TicketLanguage; label: string; icon: string }[] = [
   { key: "de", label: "Deutsch", icon: "🇩🇪" },
@@ -112,6 +121,7 @@ function TicketIcon({ name }: { name: "arrow" | "calendar" | "lock" | "ticket" }
 }
 
 export function TicketPurchasePage() {
+  TICKET_ANIMATION_ASSETS.forEach((file) => preload(`/ticket-animation/${file}`, { as: "image" }));
   const [language, setLanguage] = useState<TicketLanguage>(getInitialTicketLanguage);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [quantity, setQuantity] = useState(2);
