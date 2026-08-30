@@ -46,6 +46,13 @@ type Copy = {
   footer: string;
 };
 
+type FestivalDate = {
+  city: string;
+  days: string;
+  month: string;
+  year: string;
+};
+
 type RevealStyle = CSSProperties & {
   "--scrolljs-delay"?: string;
 };
@@ -154,6 +161,35 @@ const ticketCtaCopies: Record<LanguageKey, { date: string; title: string; body: 
   en: { date: "NOVEMBER 19–21, 2027 · BARCELONA", title: "Buy your tickets now", body: "Experience three days of dancing, live music and western culture. General admission from €15.", action: "Buy now" },
   it: { date: "19–21 NOVEMBRE 2027 · BARCELLONA", title: "Acquista ora i tuoi biglietti", body: "Vivi tre giorni di ballo, musica dal vivo e cultura western. Ingresso generale da 15 €.", action: "Acquista ora" }
 };
+
+const festivalDates: Record<LanguageKey, FestivalDate> = {
+  de: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
+  es: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
+  ca: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
+  fr: { city: "Barcelone", days: "19–21", month: "Nov", year: "2027" },
+  en: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
+  it: { city: "Barcellona", days: "19–21", month: "Nov", year: "2027" }
+};
+
+const ctaAccentCopies: Record<LanguageKey, string> = {
+  de: "und reserviere deinen Platz",
+  es: "y reserva tu plaza",
+  ca: "i reserva la teva plaça",
+  fr: "et réservez votre place",
+  en: "and reserve your spot",
+  it: "e prenota il tuo posto"
+};
+
+const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string; card: string }> = {
+  de: { eyebrow: "Demnächst", title: "Und weitere Künstler, die es zu entdecken gilt", card: "Noch zu entdecken" },
+  es: { eyebrow: "Próximamente", title: "Y más artistas por descubrir", card: "Por descubrir" },
+  ca: { eyebrow: "Properament", title: "I més artistes per descobrir", card: "Per descobrir" },
+  fr: { eyebrow: "Prochainement", title: "Et encore plus d’artistes à découvrir", card: "À découvrir" },
+  en: { eyebrow: "Coming soon", title: "And more artists to discover", card: "To be revealed" },
+  it: { eyebrow: "Prossimamente", title: "E altri artisti da scoprire", card: "Da scoprire" }
+};
+
+const SHOW_TICKET_SALES = false;
 
 const festivalStatValues = { artists: "+12", dancers: "+3000" };
 
@@ -1927,6 +1963,17 @@ function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
   );
 }
 
+function FestivalDatePoster({ date, variant = "default" }: { date: FestivalDate; variant?: "hero" | "default" | "contact" }) {
+  return (
+    <div className={`modern-date-poster modern-date-poster--${variant}`} aria-label={`${date.city}, ${date.days} ${date.month} ${date.year}`}>
+      <span className="modern-date-poster-city">{date.city}</span>
+      <strong>{date.days}</strong>
+      <span className="modern-date-poster-month">{date.month}</span>
+      <span className="modern-date-poster-year">{date.year}</span>
+    </div>
+  );
+}
+
 function ModernFindSection({ copy, language }: { copy: FindCopy; language: LanguageKey }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCard = copy.cards[activeIndex];
@@ -1936,8 +1983,8 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
 
   return (
     <section id="program" className="modern-experience modern-section" aria-labelledby="modern-experience-title">
-      <div className="modern-section-heading">
-        <p>{copy.kicker}</p>
+      <div className="modern-section-heading modern-experience-heading">
+        <p><span>{copy.kicker}</span></p>
         <h2 id="modern-experience-title">{copy.title}</h2>
         <span>{findIntroLabels[language]}</span>
       </div>
@@ -1953,14 +2000,18 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
               onClick={() => setActiveIndex(index)}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
-              {card.title}
+              <strong>{card.title}</strong>
+              <i aria-hidden="true">→</i>
             </button>
           ))}
         </div>
         <article className="modern-experience-card" aria-live="polite">
           <div className="modern-experience-image">
             <img src={findVisuals[activeIndex] ?? findVisuals[0]} alt="" />
-            <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
+            <div className="modern-experience-image-mark" aria-hidden="true">
+              <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+              <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
+            </div>
           </div>
           <div className="modern-experience-copy">
             <p className="modern-eyebrow">{String(activeIndex + 1).padStart(2, "0")} / {String(copy.cards.length).padStart(2, "0")}</p>
@@ -1994,6 +2045,9 @@ function ModernApp() {
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const copy = copies[language];
   const ticketCta = ticketCtaCopies[language];
+  const festivalDate = festivalDates[language];
+  const ctaAccent = ctaAccentCopies[language];
+  const mysteryArtists = mysteryArtistCopies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
 
@@ -2127,16 +2181,17 @@ function ModernApp() {
           <div className="modern-hero-shade" />
           <div className="modern-hero-grid" aria-hidden="true" />
           <div className="modern-hero-content">
-            <p className="modern-eyebrow">{copy.heroKicker}</p>
+            <FestivalDatePoster date={festivalDate} variant="hero" />
             <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
             <p className="modern-hero-copy">{copy.heroCopy}</p>
             <div className="modern-hero-actions">
-              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>{copy.cta}<span>↘</span></button>
+              <button className="modern-primary-button modern-primary-button--split" type="button" onClick={() => moveTo("contact")}>
+                <span>{copy.cta}</span><em>{ctaAccent}</em><b aria-hidden="true">↘</b>
+              </button>
               <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <span>↓</span></button>
             </div>
           </div>
           <div className="modern-hero-meta">
-            <span>{copy.date}</span>
             <span>{copy.triad.join(" · ")}</span>
           </div>
         </section>
@@ -2169,6 +2224,19 @@ function ModernApp() {
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
               </article>
             ))}
+            <div className="modern-artists-reveal">
+              <p>{mysteryArtists.eyebrow}</p>
+              <h3>{mysteryArtists.title}</h3>
+            </div>
+            {[9, 10, 11, 12].map((number) => (
+              <article className="modern-artist-card modern-artist-card--mystery" key={number} aria-label={`${mysteryArtists.card} ${number}`}>
+                <div className="modern-mystery-portrait" aria-hidden="true">
+                  <span>?</span>
+                  <small>{String(number).padStart(2, "0")}</small>
+                </div>
+                <div><p>{mysteryArtists.eyebrow}</p><h3>{mysteryArtists.card}</h3></div>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -2178,30 +2246,38 @@ function ModernApp() {
           <div className="modern-location-intro">
             <p className="modern-eyebrow">{copy.locationKicker}</p>
             <h2 id="modern-location-title">Yeehaw!<br /><span>{copy.inBarcelona}</span></h2>
-            <div className="modern-date-lockup"><img src="/assets/star-button.png" alt="" /><strong>{copy.date}</strong></div>
+            <FestivalDatePoster date={festivalDate} />
           </div>
           <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
         </section>
 
         <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
-          <div className="modern-contact-copy"><p>{copy.heroKicker}</p><h2 id="modern-contact-title">{copy.contactTitle}</h2><span>{copy.triad.join(" · ")}</span></div>
+          <div className="modern-contact-copy">
+            <FestivalDatePoster date={festivalDate} variant="contact" />
+            <h2 id="modern-contact-title">{copy.contactTitle}<em>{ctaAccent}</em></h2>
+            <span>{copy.triad.join(" · ")}</span>
+          </div>
           <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
             <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
             <ModernPhonePrefixSelect language={language} />
             <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
-            <button className="modern-primary-button" type="submit" disabled={isFormSubmitting}>{isFormSubmitting ? formFeedbackLabels[language].submitting : copy.cta}<span>↗</span></button>
+            <button className="modern-primary-button modern-primary-button--split" type="submit" disabled={isFormSubmitting}>
+              {isFormSubmitting ? <span>{formFeedbackLabels[language].submitting}</span> : <><span>{copy.cta}</span><em>{ctaAccent}</em></>}<b aria-hidden="true">↗</b>
+            </button>
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>
         </section>
 
-        <section id="tickets" className="modern-tickets-cta" aria-labelledby="modern-tickets-title">
-          <div className="modern-tickets-cta-copy">
-            <p>{ticketCta.date}</p>
-            <h2 id="modern-tickets-title">{ticketCta.title}</h2>
-            <span>{ticketCta.body}</span>
-          </div>
-          <a className="modern-primary-button" href="/entradas">{ticketCta.action} <span>↗</span></a>
-        </section>
+        {SHOW_TICKET_SALES ? (
+          <section id="tickets" className="modern-tickets-cta" aria-labelledby="modern-tickets-title">
+            <div className="modern-tickets-cta-copy">
+              <p>{ticketCta.date}</p>
+              <h2 id="modern-tickets-title">{ticketCta.title}</h2>
+              <span>{ticketCta.body}</span>
+            </div>
+            <a className="modern-primary-button" href="/entradas">{ticketCta.action} <span>↗</span></a>
+          </section>
+        ) : null}
       </main>
       <footer className="modern-footer">
         <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
