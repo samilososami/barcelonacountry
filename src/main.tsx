@@ -1963,7 +1963,7 @@ function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
   );
 }
 
-function FestivalDatePoster({ date, variant = "default" }: { date: FestivalDate; variant?: "hero" | "default" | "contact" }) {
+function FestivalDatePoster({ date, variant = "default" }: { date: FestivalDate; variant?: "hero" | "default" }) {
   return (
     <div className={`modern-date-poster modern-date-poster--${variant}`} aria-label={`${date.city}, ${date.days} ${date.month} ${date.year}`}>
       <span className="modern-date-poster-city">{date.city}</span>
@@ -1995,6 +1995,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
               key={`${card.title}-${index}`}
               type="button"
               role="tab"
+              aria-controls="modern-experience-panel"
               aria-selected={activeIndex === index}
               className={activeIndex === index ? "is-active" : ""}
               onClick={() => setActiveIndex(index)}
@@ -2005,9 +2006,15 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
             </button>
           ))}
         </div>
-        <article className="modern-experience-card" aria-live="polite">
+        <article id="modern-experience-panel" className="modern-experience-card" role="tabpanel" aria-live="polite">
           <div className="modern-experience-image">
-            <img src={findVisuals[activeIndex] ?? findVisuals[0]} alt="" />
+            <img
+              src={findVisuals[activeIndex] ?? findVisuals[0]}
+              alt=""
+              width={960}
+              height={1280}
+              data-visual-index={activeIndex}
+            />
             <div className="modern-experience-image-mark" aria-hidden="true">
               <span>{String(activeIndex + 1).padStart(2, "0")}</span>
               <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
@@ -2253,7 +2260,6 @@ function ModernApp() {
 
         <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
           <div className="modern-contact-copy">
-            <FestivalDatePoster date={festivalDate} variant="contact" />
             <h2 id="modern-contact-title">{copy.contactTitle}<em>{ctaAccent}</em></h2>
             <span>{copy.triad.join(" · ")}</span>
           </div>
