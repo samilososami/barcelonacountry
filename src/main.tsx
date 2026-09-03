@@ -154,21 +154,21 @@ const formFeedbackLabels: Record<LanguageKey, { submitting: string; success: str
 };
 
 const ticketCtaCopies: Record<LanguageKey, { date: string; title: string; body: string; action: string }> = {
-  de: { date: "19.–21. NOVEMBER 2027 · BARCELONA", title: "Sichere dir jetzt deine Tickets", body: "Erlebe drei Tage Tanz, Live-Musik und Westernkultur. Allgemeiner Eintritt ab 15 €.", action: "Jetzt kaufen" },
-  es: { date: "19–21 NOVIEMBRE 2027 · BARCELONA", title: "Compra ya tus entradas", body: "Vive tres días de baile, música en directo y cultura western. Entrada general desde 15 €.", action: "Comprar ahora" },
-  ca: { date: "19–21 NOVEMBRE 2027 · BARCELONA", title: "Compra ja les teves entrades", body: "Viu tres dies de ball, música en directe i cultura western. Entrada general des de 15 €.", action: "Comprar ara" },
-  fr: { date: "19–21 NOVEMBRE 2027 · BARCELONE", title: "Achetez vos billets", body: "Vivez trois jours de danse, de musique live et de culture western. Entrée générale à partir de 15 €.", action: "Acheter maintenant" },
-  en: { date: "NOVEMBER 19–21, 2027 · BARCELONA", title: "Buy your tickets now", body: "Experience three days of dancing, live music and western culture. General admission from €15.", action: "Buy now" },
-  it: { date: "19–21 NOVEMBRE 2027 · BARCELLONA", title: "Acquista ora i tuoi biglietti", body: "Vivi tre giorni di ballo, musica dal vivo e cultura western. Ingresso generale da 15 €.", action: "Acquista ora" }
+  de: { date: "22.–24. OKTOBER 2027 · FIRA CORNELLÀ", title: "Sichere dir jetzt deine Tickets", body: "Erlebe drei Tage Tanz, Live-Musik und Westernkultur. Allgemeiner Eintritt ab 15 €.", action: "Jetzt kaufen" },
+  es: { date: "22–24 OCTUBRE 2027 · FIRA CORNELLÀ", title: "Compra ya tus entradas", body: "Vive tres días de baile, música en directo y cultura western. Entrada general desde 15 €.", action: "Comprar ahora" },
+  ca: { date: "22–24 OCTUBRE 2027 · FIRA CORNELLÀ", title: "Compra ja les teves entrades", body: "Viu tres dies de ball, música en directe i cultura western. Entrada general des de 15 €.", action: "Comprar ara" },
+  fr: { date: "22–24 OCTOBRE 2027 · FIRA CORNELLÀ", title: "Achetez vos billets", body: "Vivez trois jours de danse, de musique live et de culture western. Entrée générale à partir de 15 €.", action: "Acheter maintenant" },
+  en: { date: "OCTOBER 22–24, 2027 · FIRA CORNELLÀ", title: "Buy your tickets now", body: "Experience three days of dancing, live music and western culture. General admission from €15.", action: "Buy now" },
+  it: { date: "22–24 OTTOBRE 2027 · FIRA CORNELLÀ", title: "Acquista ora i tuoi biglietti", body: "Vivi tre giorni di ballo, musica dal vivo e cultura western. Ingresso generale da 15 €.", action: "Acquista ora" }
 };
 
 const festivalDates: Record<LanguageKey, FestivalDate> = {
-  de: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
-  es: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
-  ca: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
-  fr: { city: "Barcelone", days: "19–21", month: "Nov", year: "2027" },
-  en: { city: "Barcelona", days: "19–21", month: "Nov", year: "2027" },
-  it: { city: "Barcellona", days: "19–21", month: "Nov", year: "2027" }
+  de: { city: "Fira Cornellà", days: "22–24", month: "Okt", year: "2027" },
+  es: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
+  ca: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
+  fr: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
+  en: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
+  it: { city: "Fira Cornellà", days: "22–24", month: "Ott", year: "2027" }
 };
 
 const ctaAccentCopies: Record<LanguageKey, string> = {
@@ -204,7 +204,7 @@ const findIntroLabels: Record<LanguageKey, string> = {
 
 const findVisuals = [
   "/assets/find-catalan.jpg",
-  "/assets/find-shopping.jpg",
+  "/assets/find-shopping-harley.webp",
   "/assets/find-food.jpg",
   "/assets/find-community.webp"
 ];
@@ -513,7 +513,7 @@ const copies: Record<LanguageKey, Copy> = {
   de: {
     languageName: "Deutsch",
     nav: ["START", "FESTIVAL", "KÜNSTLER", "PROGRAMM", "ORT", "KONTAKT"],
-    heroKicker: "BARCELONA · 19.–21. NOVEMBER 2027",
+    heroKicker: "FIRA CORNELLÀ · 22.–24. OKTOBER 2027",
     heroCopy:
       "Das internationale Country-Event kommt nach Barcelona. Drei Tage Line Dance, Live-Musik und amerikanischer Spirit.",
     cta: "Informiert bleiben",
@@ -558,9 +558,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "STANDORT",
-    inBarcelona: "IN BARCELONA!",
-    mapTitle: "Karte mit dem Zentrum von Barcelona",
-    date: "BARCELONA · 19.–21. NOV. 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Karte der Fira de Cornellà",
+    date: "FIRA CORNELLÀ · 22.–24. OKT. 2027",
     contactTitle: "BLEIB INFORMIERT",
     formName: "Name",
     formPhone: "Telefonnummer",
@@ -570,7 +570,7 @@ const copies: Record<LanguageKey, Copy> = {
   es: {
     languageName: "Español",
     nav: ["INICIO", "FESTIVAL", "ARTISTAS", "PROGRAMA", "UBICACIÓN", "CONTACTO"],
-    heroKicker: "BARCELONA · 19–21 DE NOVIEMBRE DE 2027",
+    heroKicker: "FIRA CORNELLÀ · 22–24 DE OCTUBRE DE 2027",
     heroCopy:
       "El evento internacional de country llega a Barcelona. Tres días de line dance, música en directo y espíritu americano.",
     cta: "Mantente informado",
@@ -615,9 +615,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "UBICACIÓN",
-    inBarcelona: "EN BARCELONA!",
-    mapTitle: "Mapa del centro de Barcelona",
-    date: "BARCELONA · 19–21 NOV 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Mapa de Fira de Cornellà",
+    date: "FIRA CORNELLÀ · 22–24 OCT 2027",
     contactTitle: "MANTENTE INFORMADO",
     formName: "Nombre",
     formPhone: "Número de teléf.",
@@ -627,7 +627,7 @@ const copies: Record<LanguageKey, Copy> = {
   ca: {
     languageName: "Català",
     nav: ["INICI", "FESTIVAL", "ARTISTES", "PROGRAMA", "UBICACIÓ", "CONTACTE"],
-    heroKicker: "BARCELONA · 19–21 DE NOVEMBRE DE 2027",
+    heroKicker: "FIRA CORNELLÀ · 22–24 D'OCTUBRE DE 2027",
     heroCopy:
       "L'esdeveniment internacional de country arriba a Barcelona. Tres dies de line dance, música en directe i esperit americà.",
     cta: "Manten-te informat",
@@ -672,9 +672,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "UBICACIÓ",
-    inBarcelona: "A BARCELONA!",
-    mapTitle: "Mapa del centre de Barcelona",
-    date: "BARCELONA · 19–21 NOV 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Mapa de Fira de Cornellà",
+    date: "FIRA CORNELLÀ · 22–24 OCT 2027",
     contactTitle: "MANTEN-TE INFORMAT",
     formName: "Nom",
     formPhone: "Número de telèf.",
@@ -684,7 +684,7 @@ const copies: Record<LanguageKey, Copy> = {
   fr: {
     languageName: "Français",
     nav: ["ACCUEIL", "FESTIVAL", "ARTISTES", "PROGRAMME", "LIEU", "CONTACT"],
-    heroKicker: "BARCELONE · 19–21 NOVEMBRE 2027",
+    heroKicker: "FIRA CORNELLÀ · 22–24 OCTOBRE 2027",
     heroCopy:
       "L'événement country international arrive à Barcelone. Trois jours de line dance, de musique live et d'esprit américain.",
     cta: "Restez informé",
@@ -729,9 +729,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "LIEU",
-    inBarcelona: "À BARCELONE!",
-    mapTitle: "Carte du centre de Barcelone",
-    date: "BARCELONE · 19–21 NOV. 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Carte de la Fira de Cornellà",
+    date: "FIRA CORNELLÀ · 22–24 OCT. 2027",
     contactTitle: "RESTEZ INFORMÉ",
     formName: "Nom",
     formPhone: "Téléphone",
@@ -741,7 +741,7 @@ const copies: Record<LanguageKey, Copy> = {
   en: {
     languageName: "English",
     nav: ["HOME", "FESTIVAL", "ARTISTS", "PROGRAM", "LOCATION", "CONTACT"],
-    heroKicker: "BARCELONA · NOVEMBER 19–21, 2027",
+    heroKicker: "FIRA CORNELLÀ · OCTOBER 22–24, 2027",
     heroCopy:
       "The international country event arrives in Barcelona. Three days of line dance, live music and American spirit.",
     cta: "Stay informed",
@@ -786,9 +786,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "LOCATION",
-    inBarcelona: "IN BARCELONA!",
-    mapTitle: "Map of central Barcelona",
-    date: "BARCELONA · NOV 19–21, 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Map of Fira de Cornellà",
+    date: "FIRA CORNELLÀ · OCT 22–24, 2027",
     contactTitle: "STAY INFORMED",
     formName: "Name",
     formPhone: "Phone number",
@@ -798,7 +798,7 @@ const copies: Record<LanguageKey, Copy> = {
   it: {
     languageName: "Italiano",
     nav: ["HOME", "FESTIVAL", "ARTISTI", "PROGRAMMA", "LUOGO", "CONTATTO"],
-    heroKicker: "BARCELLONA · 19–21 NOVEMBRE 2027",
+    heroKicker: "FIRA CORNELLÀ · 22–24 OTTOBRE 2027",
     heroCopy:
       "L'evento country internazionale arriva a Barcellona. Tre giorni di line dance, musica dal vivo e spirito americano.",
     cta: "Resta informato",
@@ -843,9 +843,9 @@ const copies: Record<LanguageKey, Copy> = {
       }
     ],
     locationKicker: "LUOGO",
-    inBarcelona: "A BARCELLONA!",
-    mapTitle: "Mappa del centro di Barcellona",
-    date: "BARCELLONA · 19–21 NOV 2027",
+    inBarcelona: "FIRA CORNELLÀ!",
+    mapTitle: "Mappa della Fira de Cornellà",
+    date: "FIRA CORNELLÀ · 22–24 OTT 2027",
     contactTitle: "RESTA INFORMATO",
     formName: "Nome",
     formPhone: "Telefono",
@@ -1052,7 +1052,7 @@ const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
 };
 
 const createMapsSrc = (language: LanguageKey) =>
-  `https://www.google.com/maps?q=41.3874,2.1686&z=13&hl=${language}&output=embed`;
+  `https://www.google.com/maps?q=Fira+de+Cornell%C3%A0&z=16&hl=${language}&output=embed`;
 
 function useFigmaScale() {
   useEffect(() => {
@@ -1998,6 +1998,10 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
               aria-controls="modern-experience-panel"
               aria-selected={activeIndex === index}
               className={activeIndex === index ? "is-active" : ""}
+              onPointerEnter={(event) => {
+                if (event.pointerType !== "touch") setActiveIndex(index);
+              }}
+              onFocus={() => setActiveIndex(index)}
               onClick={() => setActiveIndex(index)}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>

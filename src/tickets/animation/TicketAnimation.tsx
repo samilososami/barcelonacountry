@@ -149,7 +149,7 @@ export default function TicketAnimation({
         <article className="bct-ticket">
           <div className="bct-ticket-stock" aria-hidden="true" />
           <header className="bct-ticket-logo"><span>BARCELONA</span><span>COUNTRY</span><strong>FEST</strong><i>★</i></header>
-          <p className="bct-ticket-date">{ticket.eventDate || "19—21 NOVIEMBRE 2027"}</p>
+          <p className="bct-ticket-date">{ticket.eventDate || "22—24 OCTUBRE 2027"}</p>
           <div className="bct-ticket-field"><small>ASISTENTE</small><b>{attendeeName}</b></div>
           <div className="bct-ticket-field"><small>ENTRADAS</small><b>{quantity} {quantity === 1 ? "ENTRADA" : "ENTRADAS"}</b></div>
           <div className="bct-ticket-field bct-ticket-total"><small>TOTAL</small><b>{formatMoney(total, currency)}</b></div>

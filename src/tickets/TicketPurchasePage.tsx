@@ -52,7 +52,7 @@ const ticketLanguages: { key: TicketLanguage; label: string; icon: string }[] = 
 
 const ticketCopies: Record<TicketLanguage, TicketCopy> = {
   es: {
-    languageName: "Español", back: "Volver al festival", pageTitle: "Compra tus entradas", eventDate: "19–21 noviembre 2027",
+    languageName: "Español", back: "Volver al festival", pageTitle: "Compra tus entradas", eventDate: "22–24 octubre 2027",
     quantityTitle: "¿Cuántas entradas quieres?", attendeeTitle: "Datos del asistente", quantityLabel: "Entradas",
     name: "Nombre completo", namePlaceholder: "Ej. Juan Pérez", email: "Correo electrónico", emailPlaceholder: "ejemplo@correo.com",
     phone: "Teléfono", prefix: "Prefijo", simulationTitle: "Simulación — no se realizará ningún cargo",
@@ -60,7 +60,7 @@ const ticketCopies: Record<TicketLanguage, TicketCopy> = {
     summary: "Resumen del pedido", generalTicket: "Entrada general", unitPrice: "por entrada", total: "Total", returnHome: "Volver al festival"
   },
   ca: {
-    languageName: "Català", back: "Tornar al festival", pageTitle: "Compra les teves entrades", eventDate: "19–21 novembre 2027",
+    languageName: "Català", back: "Tornar al festival", pageTitle: "Compra les teves entrades", eventDate: "22–24 octubre 2027",
     quantityTitle: "Quantes entrades vols?", attendeeTitle: "Dades de l'assistent", quantityLabel: "Entrades",
     name: "Nom complet", namePlaceholder: "Ex. Joan Pérez", email: "Correu electrònic", emailPlaceholder: "exemple@correu.com",
     phone: "Telèfon", prefix: "Prefix", simulationTitle: "Simulació — no es farà cap càrrec",
@@ -68,7 +68,7 @@ const ticketCopies: Record<TicketLanguage, TicketCopy> = {
     summary: "Resum de la comanda", generalTicket: "Entrada general", unitPrice: "per entrada", total: "Total", returnHome: "Tornar al festival"
   },
   en: {
-    languageName: "English", back: "Back to the festival", pageTitle: "Buy your tickets", eventDate: "November 19–21, 2027",
+    languageName: "English", back: "Back to the festival", pageTitle: "Buy your tickets", eventDate: "October 22–24, 2027",
     quantityTitle: "How many tickets would you like?", attendeeTitle: "Attendee details", quantityLabel: "Tickets",
     name: "Full name", namePlaceholder: "e.g. Jane Smith", email: "Email address", emailPlaceholder: "name@example.com",
     phone: "Phone", prefix: "Prefix", simulationTitle: "Simulation — no charge will be made",
@@ -76,7 +76,7 @@ const ticketCopies: Record<TicketLanguage, TicketCopy> = {
     summary: "Order summary", generalTicket: "General admission", unitPrice: "per ticket", total: "Total", returnHome: "Back to the festival"
   },
   fr: {
-    languageName: "Français", back: "Retour au festival", pageTitle: "Achetez vos billets", eventDate: "19–21 novembre 2027",
+    languageName: "Français", back: "Retour au festival", pageTitle: "Achetez vos billets", eventDate: "22–24 octobre 2027",
     quantityTitle: "Combien de billets souhaitez-vous ?", attendeeTitle: "Coordonnées du participant", quantityLabel: "Billets",
     name: "Nom complet", namePlaceholder: "Ex. Jean Dupont", email: "Adresse e-mail", emailPlaceholder: "exemple@courriel.com",
     phone: "Téléphone", prefix: "Indicatif", simulationTitle: "Simulation — aucun débit ne sera effectué",
@@ -84,7 +84,7 @@ const ticketCopies: Record<TicketLanguage, TicketCopy> = {
     summary: "Récapitulatif", generalTicket: "Entrée générale", unitPrice: "par billet", total: "Total", returnHome: "Retour au festival"
   },
   it: {
-    languageName: "Italiano", back: "Torna al festival", pageTitle: "Acquista i tuoi biglietti", eventDate: "19–21 novembre 2027",
+    languageName: "Italiano", back: "Torna al festival", pageTitle: "Acquista i tuoi biglietti", eventDate: "22–24 ottobre 2027",
     quantityTitle: "Quanti biglietti vuoi?", attendeeTitle: "Dati del partecipante", quantityLabel: "Biglietti",
     name: "Nome completo", namePlaceholder: "Es. Mario Rossi", email: "E-mail", emailPlaceholder: "esempio@email.com",
     phone: "Telefono", prefix: "Prefisso", simulationTitle: "Simulazione — non verrà effettuato alcun addebito",
@@ -92,7 +92,7 @@ const ticketCopies: Record<TicketLanguage, TicketCopy> = {
     summary: "Riepilogo dell'ordine", generalTicket: "Ingresso generale", unitPrice: "per biglietto", total: "Totale", returnHome: "Torna al festival"
   },
   de: {
-    languageName: "Deutsch", back: "Zurück zum Festival", pageTitle: "Tickets kaufen", eventDate: "19.–21. November 2027",
+    languageName: "Deutsch", back: "Zurück zum Festival", pageTitle: "Tickets kaufen", eventDate: "22.–24. Oktober 2027",
     quantityTitle: "Wie viele Tickets möchtest du?", attendeeTitle: "Teilnehmerdaten", quantityLabel: "Tickets",
     name: "Vollständiger Name", namePlaceholder: "z. B. Max Mustermann", email: "E-Mail-Adresse", emailPlaceholder: "name@beispiel.de",
     phone: "Telefon", prefix: "Vorwahl", simulationTitle: "Simulation — es erfolgt keine Abbuchung",

@@ -558,7 +558,8 @@ html::-webkit-scrollbar-corner { background: #090909; }
   min-height: 78px;
   padding: 16px 20px;
   border-bottom-color: rgba(255,255,255,.18);
-  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 .modern-experience-tabs button:last-child { border-bottom: 0; }
 .modern-experience-tabs button > span { min-width: 0; padding: 0; font-size: 13px; }
@@ -568,12 +569,19 @@ html::-webkit-scrollbar-corner { background: #090909; }
   background: linear-gradient(90deg, rgba(196,0,0,.2), rgba(196,0,0,.045));
   box-shadow: inset 4px 0 0 var(--modern-orange);
 }
+.modern-experience-tabs button:hover:not(.is-active),
+.modern-experience-tabs button:focus-visible:not(.is-active) {
+  background: rgba(255,255,255,.07);
+  color: #fff;
+  box-shadow: inset 3px 0 0 rgba(196,0,0,.68);
+}
+.modern-experience-tabs button:focus-visible { outline: 2px solid #fff; outline-offset: -5px; }
 .modern-experience-tabs button.is-active > i { color: var(--modern-orange); }
 .modern-experience-card {
   position: relative;
   z-index: 1;
   grid-template-columns: minmax(300px, .82fr) minmax(390px, 1.18fr);
-  height: clamp(660px, 48vw, 710px);
+  height: clamp(820px, 58vw, 870px);
   min-height: 0;
   overflow: hidden;
   border-top: 2px solid var(--modern-orange);
@@ -617,13 +625,13 @@ html::-webkit-scrollbar-corner { background: #090909; }
   scrollbar-width: thin;
   scrollbar-color: rgba(196,0,0,.75) transparent;
 }
-.modern-experience-copy h3 { max-width: 580px; margin: 8px 0 16px; font-size: clamp(38px, 4.4vw, 68px); line-height: .84; }
-.modern-quote { margin-bottom: 27px; padding-left: 17px; border-left: 4px solid var(--modern-orange); color: #fff; font-size: clamp(14px, 1.2vw, 17px); }
+.modern-experience-copy h3 { max-width: 600px; margin: 8px 0 19px; font-size: clamp(46px, 5.1vw, 82px); line-height: .82; }
+.modern-quote { margin-bottom: 30px; padding-left: 17px; border-left: 4px solid var(--modern-orange); color: #fff; font-size: clamp(17px, 1.4vw, 20px); }
 .modern-experience-copy ul { gap: 0; border-top: 1px solid rgba(255,255,255,.17); }
-.modern-experience-copy li { grid-template-columns: 32px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.17); }
-.modern-experience-copy li > span { font-size: 12px; }
-.modern-experience-copy li strong { font-size: 12px; }
-.modern-experience-copy li p { font-size: 13px; }
+.modern-experience-copy li { grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.17); }
+.modern-experience-copy li > span { font-size: 14px; }
+.modern-experience-copy li strong { font-size: 14px; }
+.modern-experience-copy li p { font-size: 15px; line-height: 1.38; }
 .modern-card-controls { margin-top: 30px; }
 .modern-card-controls button { min-height: 30px; }
 
@@ -643,7 +651,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-experience-tabs button { border: 0; border-right: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(255,255,255,.18); }
   .modern-experience-card {
     grid-template-columns: minmax(250px, .75fr) minmax(340px, 1.25fr);
-    height: 650px;
+    height: 800px;
   }
 }
 
