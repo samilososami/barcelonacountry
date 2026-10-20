@@ -32,6 +32,7 @@ const schemaSql = `CREATE TABLE public.registrations (
   email text NOT NULL,
   phone text NOT NULL,
   country_iso text,
+  dance_location text,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -218,6 +219,7 @@ function RegistrationFormModal({
   const [fullName, setFullName] = useState(registration?.full_name ?? "");
   const [email, setEmail] = useState(registration?.email ?? "");
   const [phone, setPhone] = useState(registration?.phone ?? "");
+  const [danceLocation, setDanceLocation] = useState(registration?.dance_location ?? "");
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -229,7 +231,8 @@ function RegistrationFormModal({
     const payload = {
       full_name: fullName.trim(),
       email: email.trim().toLowerCase(),
-      phone: phone.trim()
+      phone: phone.trim(),
+      dance_location: danceLocation.trim() || null
     };
 
     const result = registration
@@ -266,6 +269,15 @@ function RegistrationFormModal({
             <input id="modal-phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} required maxLength={40} />
           </div>
         </div>
+
+        <label htmlFor="modal-dance-location">¿Dónde suele bailar?</label>
+        <input
+          id="modal-dance-location"
+          value={danceLocation}
+          onChange={(event) => setDanceLocation(event.target.value)}
+          maxLength={180}
+          placeholder="Sala, escuela, asociación o ciudad"
+        />
 
         {error && <p className="modal-form-error" role="alert">{error}</p>}
         <footer>
@@ -337,7 +349,7 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
     const filtered = registrations.filter((registration) => {
       const country = getPhoneCountry(registration.phone, registration.country_iso);
       const searchableCountry = country ? `${country.name} ${country.dial} ${country.iso}` : "";
-      const matchesQuery = [registration.full_name, registration.email, registration.phone, searchableCountry]
+      const matchesQuery = [registration.full_name, registration.email, registration.phone, registration.dance_location ?? "", searchableCountry]
         .some((value) => value.toLocaleLowerCase("es").includes(normalizedQuery));
       const matchesCountry = countryFilter === "all" || country?.iso === countryFilter;
       return matchesQuery && matchesCountry;
@@ -379,7 +391,7 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar por nombre, correo, teléfono, prefijo o país…"
+            placeholder="Buscar por nombre, correo, teléfono, país o lugar de baile…"
             aria-label="Buscar registros"
           />
           {query && <button type="button" onClick={() => setQuery("")} aria-label="Limpiar búsqueda">×</button>}
@@ -428,6 +440,7 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
               <th>Nombre</th>
               <th>Correo electrónico</th>
               <th>Teléfono</th>
+              <th>Dónde suele bailar</th>
               <th>Fecha y hora de registro</th>
               <th><span className="sr-only">Acciones</span></th>
             </tr>
@@ -448,6 +461,9 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
                       </a>
                     );
                   })()}
+                </td>
+                <td className="registration-dance-location" data-label="Dónde baila">
+                  {registration.dance_location || <span>Sin indicar</span>}
                 </td>
                 <td data-label="Registro"><time dateTime={registration.created_at}>{formatDate(registration.created_at)}</time></td>
                 <td className="row-actions">
@@ -487,7 +503,7 @@ function RegistryTab({ registrations, isLoading, onReload, notify }: {
           <div className="empty-table">
             <span aria-hidden="true">☆</span>
             <h3>{query || countryFilter !== "all" ? "No hay coincidencias" : "Todavía no hay registros"}</h3>
-            <p>{query || countryFilter !== "all" ? "Prueba con otro nombre, correo, teléfono, prefijo o país." : "Los nuevos formularios aparecerán aquí."}</p>
+            <p>{query || countryFilter !== "all" ? "Prueba con otro nombre, correo, teléfono, país o lugar de baile." : "Los nuevos formularios aparecerán aquí."}</p>
           </div>
         )}
         {isLoading && <div className="table-loading">Actualizando registros…</div>}
@@ -513,7 +529,7 @@ function DatabaseTab({ registrations, onReload }: { registrations: Registration[
 
   const rowsSql = registrations.length
     ? registrations.map((registration) =>
-        `INSERT INTO public.registrations (id, full_name, email, phone, country_iso, created_at) VALUES ('${registration.id}', '${sqlEscape(registration.full_name)}', '${sqlEscape(registration.email)}', '${sqlEscape(registration.phone)}', ${registration.country_iso ? `'${sqlEscape(registration.country_iso)}'` : "NULL"}, '${registration.created_at}');`
+        `INSERT INTO public.registrations (id, full_name, email, phone, country_iso, dance_location, created_at) VALUES ('${registration.id}', '${sqlEscape(registration.full_name)}', '${sqlEscape(registration.email)}', '${sqlEscape(registration.phone)}', ${registration.country_iso ? `'${sqlEscape(registration.country_iso)}'` : "NULL"}, ${registration.dance_location ? `'${sqlEscape(registration.dance_location)}'` : "NULL"}, '${registration.created_at}');`
       ).join("\n")
     : "-- La tabla no contiene filas todavía.";
 
@@ -560,7 +576,7 @@ function DatabaseTab({ registrations, onReload }: { registrations: Registration[
           <div className="sql-examples">
             <button type="button" onClick={() => setSql("SELECT * FROM public.registrations ORDER BY created_at DESC;")}>SELECT</button>
             <button type="button" onClick={() => setSql("SELECT count(*) FROM public.registrations;")}>COUNT</button>
-            <button type="button" onClick={() => setSql("INSERT INTO public.registrations (full_name, email, phone, country_iso) VALUES ('Nombre Apellidos', 'correo@ejemplo.com', '+34 600 000 000', 'ES');")}>INSERT</button>
+            <button type="button" onClick={() => setSql("INSERT INTO public.registrations (full_name, email, phone, country_iso, dance_location) VALUES ('Nombre Apellidos', 'correo@ejemplo.com', '+34 600 000 000', 'ES', 'Sala o escuela habitual');")}>INSERT</button>
           </div>
         </header>
         <div className="sql-editor-wrap">

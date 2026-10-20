@@ -43,6 +43,7 @@ type Copy = {
   formName: string;
   formPhone: string;
   formEmail: string;
+  formDanceLocation: string;
   footer: string;
 };
 
@@ -565,6 +566,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Name",
     formPhone: "Telefonnummer",
     formEmail: "E-Mail",
+    formDanceLocation: "Wo tanzt du normalerweise?",
     footer: "© 2027 Barcelona Country Festival · Alle Rechte vorbehalten · Yeehaw!"
   },
   es: {
@@ -622,6 +624,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Nombre",
     formPhone: "Número de teléf.",
     formEmail: "Correo electrónico",
+    formDanceLocation: "¿Dónde sueles bailar?",
     footer: "© 2027 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
   },
   ca: {
@@ -679,6 +682,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Nom",
     formPhone: "Número de telèf.",
     formEmail: "Correu electrònic",
+    formDanceLocation: "On acostumes a ballar?",
     footer: "© 2027 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
   },
   fr: {
@@ -736,6 +740,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Nom",
     formPhone: "Téléphone",
     formEmail: "E-mail",
+    formDanceLocation: "Où dansez-vous habituellement ?",
     footer: "© 2027 Barcelona Country Festival · Tous droits réservés · Yeehaw!"
   },
   en: {
@@ -793,6 +798,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Name",
     formPhone: "Phone number",
     formEmail: "Email",
+    formDanceLocation: "Where do you usually dance?",
     footer: "© 2027 Barcelona Country Festival · All rights reserved · Yeehaw!"
   },
   it: {
@@ -850,6 +856,7 @@ const copies: Record<LanguageKey, Copy> = {
     formName: "Nome",
     formPhone: "Telefono",
     formEmail: "Email",
+    formDanceLocation: "Dove balli di solito?",
     footer: "© 2027 Barcelona Country Festival · Tutti i diritti riservati · Yeehaw!"
   }
 };
@@ -2105,6 +2112,7 @@ function ModernApp() {
     const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
     const phoneNumber = String(data.get("phone") ?? "").trim();
     const email = String(data.get("email") ?? "").trim().toLowerCase();
+    const danceLocation = String(data.get("danceLocation") ?? "").trim();
 
     setIsFormSubmitting(true);
     setFormFeedback(null);
@@ -2112,7 +2120,8 @@ function ModernApp() {
       full_name: fullName,
       phone: `${prefix} ${phoneNumber}`.trim(),
       country_iso: countryIso || null,
-      email
+      email,
+      dance_location: danceLocation
     });
 
     if (error) {
@@ -2271,6 +2280,7 @@ function ModernApp() {
             <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
             <ModernPhonePrefixSelect language={language} />
             <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
+            <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
             <button className="modern-primary-button modern-primary-button--split" type="submit" disabled={isFormSubmitting}>
               {isFormSubmitting ? <span>{formFeedbackLabels[language].submitting}</span> : <><span>{copy.cta}</span><em>{ctaAccent}</em></>}<b aria-hidden="true">↗</b>
             </button>

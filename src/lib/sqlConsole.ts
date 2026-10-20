@@ -7,7 +7,7 @@ export type SqlConsoleResult = {
   rows: Registration[];
 };
 
-const allowedColumns = new Set(["full_name", "email", "phone", "country_iso"]);
+const allowedColumns = new Set(["full_name", "email", "phone", "country_iso", "dance_location"]);
 const uuidPattern = "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
 
 const splitSqlList = (value: string) => {
@@ -70,7 +70,7 @@ export async function executeRegistrationSql(
   }
 
   const selectMatch = command.match(
-    /^select\s+\*\s+from\s+(?:public\.)?registrations(?:\s+order\s+by\s+(full_name|email|phone|created_at)\s+(asc|desc))?$/i
+    /^select\s+\*\s+from\s+(?:public\.)?registrations(?:\s+order\s+by\s+(full_name|email|phone|dance_location|created_at)\s+(asc|desc))?$/i
   );
   if (selectMatch) {
     const column = (selectMatch[1]?.toLowerCase() ?? "created_at") as keyof Registration;

@@ -835,11 +835,12 @@
   text-transform: uppercase;
 }
 
-.registrations-table th:nth-child(1) { width: 21%; }
-.registrations-table th:nth-child(2) { width: 24%; }
-.registrations-table th:nth-child(3) { width: 17%; }
-.registrations-table th:nth-child(4) { width: 23%; }
-.registrations-table th:nth-child(5) { width: 15%; }
+.registrations-table th:nth-child(1) { width: 15%; }
+.registrations-table th:nth-child(2) { width: 19%; }
+.registrations-table th:nth-child(3) { width: 15%; }
+.registrations-table th:nth-child(4) { width: 19%; }
+.registrations-table th:nth-child(5) { width: 18%; }
+.registrations-table th:nth-child(6) { width: 14%; }
 
 .registrations-table td {
   height: 78px;
@@ -873,6 +874,16 @@
 }
 
 .registration-phone strong { color: var(--admin-navy); font-weight: 700; }
+
+.registration-dance-location {
+  color: var(--admin-navy);
+  overflow-wrap: anywhere;
+}
+
+.registration-dance-location > span {
+  color: #939cab;
+  font-style: italic;
+}
 
 .country-flag {
   display: inline-grid;

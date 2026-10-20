@@ -13,9 +13,9 @@ export type Database = {
         Relationships: [];
       };
       registrations: {
-        Row: { country_iso: string | null; created_at: string; email: string; full_name: string; id: string; phone: string };
-        Insert: { country_iso?: string | null; created_at?: string; email: string; full_name: string; id?: string; phone: string };
-        Update: { country_iso?: string | null; created_at?: string; email?: string; full_name?: string; id?: string; phone?: string };
+        Row: { country_iso: string | null; created_at: string; dance_location: string | null; email: string; full_name: string; id: string; phone: string };
+        Insert: { country_iso?: string | null; created_at?: string; dance_location?: string | null; email: string; full_name: string; id?: string; phone: string };
+        Update: { country_iso?: string | null; created_at?: string; dance_location?: string | null; email?: string; full_name?: string; id?: string; phone?: string };
         Relationships: [];
       };
     };
