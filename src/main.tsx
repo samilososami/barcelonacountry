@@ -2138,11 +2138,11 @@ function ModernApp() {
       <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
         <nav className="modern-nav" aria-label="Principal">
           <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
-            <img src="/assets/logo-primary.png" alt="Barcelona Country" />
+            <img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" />
           </button>
           <div className="modern-nav-cluster">
             <button className="modern-nav-star" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={!isNavigationSticky} tabIndex={isNavigationSticky ? 0 : -1}>
-              <img src="/assets/logo-star.png" alt="" />
+              <img src="/assets/logo-star-senyera.png" alt="" />
             </button>
             <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
               {copy.nav.map((item, index) => (
@@ -2197,7 +2197,7 @@ function ModernApp() {
 
       <main>
         <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
-          <img className="modern-hero-image" src="/assets/header-fest-bright.png" alt="" />
+          <img className="modern-hero-image" src="/assets/header-fira-crowd-senyera.png" alt="" />
           <div className="modern-hero-shade" />
           <div className="modern-hero-grid" aria-hidden="true" />
           <div className="modern-hero-content">

@@ -187,7 +187,7 @@ export function TicketPurchasePage() {
     <div className="ticket-page">
       <div className="ticket-page-background" aria-hidden="true" />
       <header className="ticket-header">
-        <a className="ticket-header-logo" href="/" aria-label="Barcelona Country Fest"><img src="/assets/logo-primary.png" alt="Barcelona Country" /></a>
+        <a className="ticket-header-logo" href="/" aria-label="Barcelona Country Fest"><img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" /></a>
         <a className="ticket-back" href="/"><TicketIcon name="arrow" />{copy.back}</a>
         <div className="ticket-language">
           <button type="button" aria-expanded={languageOpen} aria-controls="ticket-language-menu" onClick={() => setLanguageOpen((open) => !open)}>
