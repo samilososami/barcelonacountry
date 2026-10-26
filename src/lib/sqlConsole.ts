@@ -8,6 +8,7 @@ export type SqlConsoleResult = {
 };
 
 const allowedColumns = new Set(["full_name", "email", "phone", "country_iso", "dance_location"]);
+type EditableRegistrationTextColumn = "full_name" | "email" | "phone" | "country_iso" | "dance_location";
 const uuidPattern = "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
 
 const splitSqlList = (value: string) => {
@@ -57,7 +58,7 @@ const ensureAllowedColumn = (column: string) => {
   if (!allowedColumns.has(normalized)) {
     throw new Error(`La columna ${column} no se puede modificar desde esta consola.`);
   }
-  return normalized as keyof RegistrationUpdate;
+  return normalized as EditableRegistrationTextColumn;
 };
 
 export async function executeRegistrationSql(
@@ -97,7 +98,7 @@ export async function executeRegistrationSql(
       throw new Error("El número de columnas y valores no coincide.");
     }
 
-    const row = Object.fromEntries(columns.map((column, index) => [column, values[index]])) as RegistrationInsert;
+    const row = Object.fromEntries(columns.map((column, index) => [column, values[index]])) as unknown as RegistrationInsert;
     if (!row.full_name || !row.email || !row.phone) {
       throw new Error("INSERT requiere full_name, email y phone.");
     }
@@ -111,7 +112,7 @@ export async function executeRegistrationSql(
     new RegExp(`^update\\s+(?:public\\.)?registrations\\s+set\\s+(.+)\\s+where\\s+id\\s*=\\s*'(${uuidPattern})'$`, "is")
   );
   if (updateMatch) {
-    const updates: RegistrationUpdate = {};
+    const updates: Partial<Record<EditableRegistrationTextColumn, string>> = {};
     splitSqlList(updateMatch[1]).forEach((assignment) => {
       const match = assignment.match(/^([a-z_]+)\s*=\s*(.+)$/i);
       if (!match) throw new Error(`Asignación no válida: ${assignment}`);
@@ -120,7 +121,7 @@ export async function executeRegistrationSql(
 
     const { data, error } = await client
       .from("registrations")
-      .update(updates)
+      .update(updates as RegistrationUpdate)
       .eq("id", updateMatch[2])
       .select()
       .single();

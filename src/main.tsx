@@ -2,6 +2,7 @@ import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProper
 import { createRoot } from "react-dom/client";
 import { supabase } from "./lib/supabase";
 import { countryFlag, phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
+import { NewsletterSection } from "./newsletters/NewsletterSection";
 import "./styles.css";
 import "./modern.css";
 
@@ -154,6 +155,15 @@ const formFeedbackLabels: Record<LanguageKey, { submitting: string; success: str
   it: { submitting: "Salvataggio…", success: "Grazie! I tuoi dati sono stati salvati.", duplicate: "Questa e-mail è già registrata.", error: "Non è stato possibile salvare i dati. Riprova." }
 };
 
+const legalConsentCopies: Record<LanguageKey, { privacy: string; newsletter: string; details: string; summary: string }> = {
+  de: { privacy: "Ich akzeptiere die Datenschutzhinweise und die Verarbeitung meiner Daten zur Verwaltung meiner Anmeldung.", newsletter: "Ich möchte den Newsletter und Neuigkeiten zum Barcelona Country Fest erhalten.", details: "Verantwortlich: Barcelona Country Fest. Zweck: Verwaltung deiner Informationsanmeldung und Versand von Festival-News. Du kannst deine Einwilligung jederzeit widerrufen. Der vollständige Rechtstext wird hier veröffentlicht, sobald er verfügbar ist.", summary: "Datenschutz und Einwilligung" },
+  es: { privacy: "Acepto la política de privacidad y el tratamiento de mis datos para gestionar mi inscripción.", newsletter: "Autorizo el envío de la newsletter y comunicaciones de Barcelona Country Fest.", details: "Responsable: Barcelona Country Fest. Finalidad: gestionar tu inscripción informativa y enviarte novedades del festival. Podrás retirar el consentimiento en cualquier momento. El texto legal completo se incorporará aquí próximamente.", summary: "Privacidad y consentimiento" },
+  ca: { privacy: "Accepto la política de privacitat i el tractament de les meves dades per gestionar la inscripció.", newsletter: "Autoritzo l'enviament de la newsletter i comunicacions de Barcelona Country Fest.", details: "Responsable: Barcelona Country Fest. Finalitat: gestionar la inscripció informativa i enviar-te novetats del festival. Podràs retirar el consentiment en qualsevol moment. El text legal complet s'incorporarà aquí quan estigui disponible.", summary: "Privacitat i consentiment" },
+  fr: { privacy: "J'accepte la politique de confidentialité et le traitement de mes données pour gérer mon inscription.", newsletter: "J'autorise l'envoi de la newsletter et des communications de Barcelona Country Fest.", details: "Responsable : Barcelona Country Fest. Finalité : gérer votre inscription et vous envoyer les actualités du festival. Vous pourrez retirer votre consentement à tout moment. Le texte juridique complet sera ajouté ici dès qu'il sera disponible.", summary: "Confidentialité et consentement" },
+  en: { privacy: "I accept the privacy policy and the processing of my data to manage my registration.", newsletter: "I agree to receive the Barcelona Country Fest newsletter and related communications.", details: "Controller: Barcelona Country Fest. Purpose: to manage your information registration and send festival news. You may withdraw your consent at any time. The full legal wording will be added here when it is available.", summary: "Privacy and consent" },
+  it: { privacy: "Accetto l'informativa sulla privacy e il trattamento dei miei dati per gestire l'iscrizione.", newsletter: "Autorizzo l'invio della newsletter e delle comunicazioni di Barcelona Country Fest.", details: "Titolare: Barcelona Country Fest. Finalità: gestire l'iscrizione informativa e inviare notizie sul festival. Potrai revocare il consenso in qualsiasi momento. Il testo legale completo sarà inserito qui non appena disponibile.", summary: "Privacy e consenso" }
+};
+
 const ticketCtaCopies: Record<LanguageKey, { date: string; title: string; body: string; action: string }> = {
   de: { date: "22.–24. OKTOBER 2027 · FIRA CORNELLÀ", title: "Sichere dir jetzt deine Tickets", body: "Erlebe drei Tage Tanz, Live-Musik und Westernkultur. Allgemeiner Eintritt ab 15 €.", action: "Jetzt kaufen" },
   es: { date: "22–24 OCTUBRE 2027 · FIRA CORNELLÀ", title: "Compra ya tus entradas", body: "Vive tres días de baile, música en directo y cultura western. Entrada general desde 15 €.", action: "Comprar ahora" },
@@ -170,15 +180,6 @@ const festivalDates: Record<LanguageKey, FestivalDate> = {
   fr: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
   en: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
   it: { city: "Fira Cornellà", days: "22–24", month: "Ott", year: "2027" }
-};
-
-const ctaAccentCopies: Record<LanguageKey, string> = {
-  de: "und reserviere deinen Platz",
-  es: "y reserva tu plaza",
-  ca: "i reserva la teva plaça",
-  fr: "et réservez votre place",
-  en: "and reserve your spot",
-  it: "e prenota il tuo posto"
 };
 
 const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string; card: string }> = {
@@ -2064,8 +2065,8 @@ function ModernApp() {
   const copy = copies[language];
   const ticketCta = ticketCtaCopies[language];
   const festivalDate = festivalDates[language];
-  const ctaAccent = ctaAccentCopies[language];
   const mysteryArtists = mysteryArtistCopies[language];
+  const legalConsent = legalConsentCopies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
 
@@ -2116,16 +2117,27 @@ function ModernApp() {
 
     setIsFormSubmitting(true);
     setFormFeedback(null);
-    const { error } = await supabase.from("registrations").insert({
-      full_name: fullName,
-      phone: `${prefix} ${phoneNumber}`.trim(),
-      country_iso: countryIso || null,
-      email,
-      dance_location: danceLocation
+    const { error } = await supabase.functions.invoke("subscribe-newsletter", {
+      body: {
+        full_name: fullName,
+        phone: `${prefix} ${phoneNumber}`.trim(),
+        country_iso: countryIso || null,
+        email,
+        dance_location: danceLocation,
+        locale: language,
+        privacy_accepted: data.get("privacyConsent") === "on",
+        newsletter_consent: data.get("newsletterConsent") === "on"
+      }
     });
 
     if (error) {
-      setFormFeedback({ type: "error", message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error });
+      let isDuplicate = false;
+      const context = (error as { context?: Response }).context;
+      if (context instanceof Response) {
+        const payload = await context.clone().json().catch(() => null) as { error?: string } | null;
+        isDuplicate = payload?.error === "duplicate";
+      }
+      setFormFeedback({ type: "error", message: isDuplicate ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error });
     } else {
       form.reset();
       setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
@@ -2205,8 +2217,8 @@ function ModernApp() {
             <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
             <p className="modern-hero-copy">{copy.heroCopy}</p>
             <div className="modern-hero-actions">
-              <button className="modern-primary-button modern-primary-button--split" type="button" onClick={() => moveTo("contact")}>
-                <span>{copy.cta}</span><em>{ctaAccent}</em><b aria-hidden="true">↘</b>
+              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>
+                <span>{copy.cta}</span><b aria-hidden="true">↘</b>
               </button>
               <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <span>↓</span></button>
             </div>
@@ -2271,9 +2283,11 @@ function ModernApp() {
           <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
         </section>
 
+        <NewsletterSection language={language} onSubscribe={() => moveTo("contact")} />
+
         <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
           <div className="modern-contact-copy">
-            <h2 id="modern-contact-title">{copy.contactTitle}<em>{ctaAccent}</em></h2>
+            <h2 id="modern-contact-title">{copy.contactTitle}</h2>
             <span>{copy.triad.join(" · ")}</span>
           </div>
           <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
@@ -2281,8 +2295,14 @@ function ModernApp() {
             <ModernPhonePrefixSelect language={language} />
             <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
             <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
-            <button className="modern-primary-button modern-primary-button--split" type="submit" disabled={isFormSubmitting}>
-              {isFormSubmitting ? <span>{formFeedbackLabels[language].submitting}</span> : <><span>{copy.cta}</span><em>{ctaAccent}</em></>}<b aria-hidden="true">↗</b>
+            <fieldset className="modern-consents">
+              <legend>{legalConsent.summary}</legend>
+              <label><input name="privacyConsent" type="checkbox" required /><span>{legalConsent.privacy}</span></label>
+              <label><input name="newsletterConsent" type="checkbox" required /><span>{legalConsent.newsletter}</span></label>
+              <details><summary>{legalConsent.summary}</summary><p>{legalConsent.details}</p></details>
+            </fieldset>
+            <button className="modern-primary-button" type="submit" disabled={isFormSubmitting}>
+              {isFormSubmitting ? <span>{formFeedbackLabels[language].submitting}</span> : <span>{copy.cta}</span>}<b aria-hidden="true">↗</b>
             </button>
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>
