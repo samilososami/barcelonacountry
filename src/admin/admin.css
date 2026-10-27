@@ -446,8 +446,8 @@
   --tab-gap: 4px;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 440px;
+  grid-template-columns: 1fr 1fr;
+  width: 322px;
   padding: var(--tab-gap);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 9px;
@@ -459,7 +459,7 @@
   top: var(--tab-gap);
   bottom: var(--tab-gap);
   left: var(--tab-gap);
-  width: calc((100% - (2 * var(--tab-gap))) / 3);
+  width: calc((100% - (2 * var(--tab-gap))) / 2);
   border-radius: 6px;
   background: #ffffff;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.22);
@@ -619,36 +619,13 @@
 }
 
 .registry-panel,
-.database-panel,
-.newsletter-admin-panel {
+.database-panel {
   min-height: 560px;
   border: 1px solid var(--admin-line);
   border-radius: 10px;
   background: #ffffff;
   box-shadow: 0 18px 45px rgba(8, 22, 48, 0.1);
 }
-
-.newsletter-admin-layout { display: grid; grid-template-columns: minmax(230px, .36fr) minmax(0, 1fr); min-height: 590px; }
-.newsletter-issue-list { display: grid; align-content: start; gap: 8px; padding: 22px; border-right: 1px solid var(--admin-line); background: #f6f8fb; }
-.newsletter-issue-list button { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; width: 100%; border: 1px solid var(--admin-line); border-radius: 7px; padding: 15px; color: var(--admin-ink); background: #fff; cursor: pointer; text-align: left; }
-.newsletter-issue-list button:hover, .newsletter-issue-list button.is-active { border-color: var(--admin-blue); box-shadow: 0 5px 15px rgba(8,22,48,.08); }
-.newsletter-issue-list button > span { color: var(--admin-red); font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-.newsletter-issue-list button strong { grid-column: 1 / -1; font-family: "Rye", serif; font-size: 17px; font-weight: 400; line-height: 1.2; }
-.newsletter-issue-list button small { position: relative; padding-left: 12px; color: #8a94a5; font-size: 10px; text-transform: uppercase; }
-.newsletter-issue-list button small::before { content: ""; position: absolute; top: 4px; left: 0; width: 7px; height: 7px; border-radius: 50%; background: #a6afbc; }
-.newsletter-issue-list button small.is-published { color: #18714b; }
-.newsletter-issue-list button small.is-published::before { background: #27a66c; }
-.newsletter-admin-empty { margin: 0; color: #778398; font-size: 13px; line-height: 1.55; }
-.newsletter-editor { display: grid; align-content: start; gap: 18px; padding: 28px 32px 32px; }
-.newsletter-editor > label, .newsletter-editor-topline > label { display: grid; gap: 7px; color: var(--admin-navy); font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-.newsletter-editor input, .newsletter-editor textarea { width: 100%; border: 1px solid var(--admin-line); border-radius: 7px; padding: 12px 13px; color: var(--admin-ink); background: #fff; font: inherit; font-size: 14px; line-height: 1.5; outline: 0; resize: vertical; }
-.newsletter-editor input:focus, .newsletter-editor textarea:focus { border-color: var(--admin-blue); box-shadow: 0 0 0 3px rgba(30,84,185,.1); }
-.newsletter-editor-topline { display: grid; grid-template-columns: 120px 1fr; gap: 22px; align-items: end; }
-.newsletter-publish-toggle { display: flex !important; flex-direction: row; gap: 10px !important; align-items: center; min-height: 46px; }
-.newsletter-publish-toggle input { width: 18px; height: 18px; accent-color: var(--admin-red); }
-.newsletter-content-editor { min-height: 260px; }
-.newsletter-editor footer { display: flex; justify-content: space-between; gap: 18px; align-items: center; border-top: 1px solid var(--admin-line); padding-top: 19px; }
-.newsletter-editor footer > span { color: #7c8799; font-size: 11px; }
 
 .panel-heading {
   display: flex;
@@ -1408,7 +1385,7 @@
     padding: 0 20px;
   }
 
-  .dashboard-tabs { width: 390px; }
+  .dashboard-tabs { width: 270px; }
   .admin-account > span:nth-child(2) { display: none; }
   .dashboard-content { width: calc(100% - 32px); }
   .dashboard-intro { align-items: center; }
@@ -1458,7 +1435,7 @@
   .dashboard-stats { margin-top: 23px; }
   .dashboard-stats div { min-width: 0; flex: 1; }
   .dashboard-panel-transition { margin-top: 21px; }
-  .registry-panel, .database-panel, .newsletter-admin-panel { border-radius: 8px; }
+  .registry-panel, .database-panel { border-radius: 8px; }
 
   .panel-heading { display: grid; padding: 23px 19px; }
   .panel-heading h2 { font-size: 24px; }
@@ -1505,11 +1482,6 @@
   .row-actions button { min-width: 38px; }
 
   .database-grid { padding: 17px 13px 0; }
-  .newsletter-admin-layout { grid-template-columns: 1fr; }
-  .newsletter-issue-list { grid-template-columns: repeat(2, minmax(0, 1fr)); border-right: 0; border-bottom: 1px solid var(--admin-line); padding: 14px; }
-  .newsletter-editor { padding: 22px 17px; }
-  .newsletter-editor-topline { grid-template-columns: 100px 1fr; }
-  .newsletter-editor footer { align-items: stretch; flex-direction: column; }
   .sql-card pre { height: 210px; font-size: 9px; }
   .sql-console { margin: 13px; }
   .sql-console > header { display: grid; height: auto; padding: 12px; }

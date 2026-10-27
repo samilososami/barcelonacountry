@@ -12,11 +12,10 @@ import { supabase } from "../lib/supabase";
 import type { Registration, RegistrationInsert, RegistrationUpdate } from "../lib/database.types";
 import { executeRegistrationSql } from "../lib/sqlConsole";
 import { countryFlag, getPhoneCountry, phoneCountries, phoneDisplayParts } from "../lib/phoneCountries";
-import { NewsletterManager } from "./NewsletterManager";
 import "./admin.css";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
-type AdminTab = "registry" | "newsletters" | "database";
+type AdminTab = "registry" | "database";
 type SortOption = "date-desc" | "date-asc" | "name-asc" | "name-desc" | "email-asc";
 
 const sortLabels: Record<SortOption, string> = {
@@ -634,9 +633,6 @@ function Dashboard({ session }: { session: Session }) {
     await supabase.auth.signOut();
   };
 
-  const activeTabIndex = activeTab === "registry" ? 0 : activeTab === "newsletters" ? 1 : 2;
-  const activeTabTitle = activeTab === "registry" ? "Registro de asistentes" : activeTab === "newsletters" ? "Edición de newsletters" : "Control de datos";
-
   return (
     <main className="admin-shell dashboard-page">
       <div className="admin-star-field" aria-hidden="true" />
@@ -645,16 +641,13 @@ function Dashboard({ session }: { session: Session }) {
         <div className="dashboard-tabs-shell">
           <div
             className="dashboard-tabs"
-            style={{ "--admin-tab-index": activeTabIndex } as CSSProperties}
+            style={{ "--admin-tab-index": activeTab === "registry" ? 0 : 1 } as CSSProperties}
             role="tablist"
             aria-label="Secciones del panel"
           >
             <span className="dashboard-tab-indicator" aria-hidden="true" />
             <button type="button" role="tab" aria-selected={activeTab === "registry"} onClick={() => setActiveTab("registry")}>
               Registro
-            </button>
-            <button type="button" role="tab" aria-selected={activeTab === "newsletters"} onClick={() => setActiveTab("newsletters")}>
-              Newsletters
             </button>
             <button type="button" role="tab" aria-selected={activeTab === "database"} onClick={() => setActiveTab("database")}>
               Base de datos
@@ -672,7 +665,7 @@ function Dashboard({ session }: { session: Session }) {
         <section className="dashboard-intro">
           <div>
             <span className="dashboard-kicker">BARCELONA COUNTRY · ADMIN</span>
-            <h1>{activeTabTitle}</h1>
+            <h1>{activeTab === "registry" ? "Registro de asistentes" : "Control de datos"}</h1>
           </div>
           <div className="dashboard-stats" aria-label="Resumen">
             <div><strong>{registrations.length}</strong><span>Registros totales</span></div>
@@ -690,8 +683,6 @@ function Dashboard({ session }: { session: Session }) {
               onReload={loadRegistrations}
               notify={setToast}
             />
-          ) : activeTab === "newsletters" ? (
-            <NewsletterManager notify={setToast} />
           ) : (
             <DatabaseTab registrations={registrations} onReload={loadRegistrations} />
           )}
