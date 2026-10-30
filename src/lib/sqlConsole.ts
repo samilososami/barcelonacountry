@@ -57,7 +57,7 @@ const ensureAllowedColumn = (column: string) => {
   if (!allowedColumns.has(normalized)) {
     throw new Error(`La columna ${column} no se puede modificar desde esta consola.`);
   }
-  return normalized as keyof RegistrationUpdate;
+  return normalized as "full_name" | "email" | "phone" | "country_iso" | "dance_location";
 };
 
 export async function executeRegistrationSql(
@@ -97,7 +97,8 @@ export async function executeRegistrationSql(
       throw new Error("El número de columnas y valores no coincide.");
     }
 
-    const row = Object.fromEntries(columns.map((column, index) => [column, values[index]])) as RegistrationInsert;
+    const fields = Object.fromEntries(columns.map((column, index) => [column, values[index]]));
+    const row: RegistrationInsert = { ...fields, full_name: fields.full_name, email: fields.email, phone: fields.phone };
     if (!row.full_name || !row.email || !row.phone) {
       throw new Error("INSERT requiere full_name, email y phone.");
     }

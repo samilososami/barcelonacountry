@@ -73,17 +73,19 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-hero-image { z-index: -3; object-fit: cover; object-position: center; }
 .modern-hero-shade { z-index: -2; background: linear-gradient(90deg, rgba(7, 13, 26, .96) 0%, rgba(7, 13, 26, .56) 48%, rgba(7, 13, 26, .27) 100%), linear-gradient(0deg, rgba(7, 13, 26, .75), transparent 52%); }
 .modern-hero-grid { z-index: -1; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px); background-size: 62px 62px; mask-image: linear-gradient(90deg, #000, transparent 78%); }
-.modern-hero-content { max-width: 815px; }
+.modern-hero-content { min-width: 0; width: 100%; max-width: 815px; }
 .modern-eyebrow, .modern-section-heading > p, .modern-contact-copy > p { margin: 0 0 14px; color: var(--modern-orange); font-size: 11px; font-weight: 900; letter-spacing: .16em; line-height: 1.3; text-transform: uppercase; }
 .modern-hero h1 { max-width: 810px; margin: 0; font-size: clamp(74px, 12.2vw, 182px); font-weight: 950; letter-spacing: -.105em; line-height: .72; text-transform: uppercase; }
 .modern-hero h1 span { display: block; color: var(--modern-lime); }
 .modern-hero-copy { max-width: 475px; margin: 40px 0 28px; font-size: clamp(16px, 1.6vw, 21px); font-weight: 500; line-height: 1.45; }
-.modern-hero-actions { display: flex; align-items: center; gap: 28px; }
+.modern-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; }
 .modern-primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 26px; min-height: 54px; padding: 13px 17px 13px 20px; border: 1px solid var(--modern-ink); border-radius: 2px; background: var(--modern-lime); color: var(--modern-ink); font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; transition: transform .2s ease, background .2s ease; }
 .modern-primary-button:hover { transform: translate(-3px, -3px); background: #edff89; }
-.modern-primary-button span { font-size: 20px; line-height: .5; }
+.modern-primary-button > span { min-width: 0; overflow-wrap: anywhere; }
+.modern-page .modern-primary-button { max-width: 100%; color: #fff; font-size: 12px; font-weight: 800; line-height: 1.45; }
 .modern-text-button { padding: 10px 0; border: 0; color: #fff; background: transparent; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .modern-text-button:hover { color: var(--modern-lime); }
+.modern-page .modern-text-button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 12px; font-weight: 700; line-height: 1.4; }
 .modern-hero-meta { position: absolute; right: clamp(24px, 8vw, 132px); bottom: 64px; display: grid; gap: 8px; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-align: right; text-transform: uppercase; }
 .modern-hero-meta span:first-child { color: var(--modern-lime); }
 
@@ -318,6 +320,22 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-map-wrap iframe { filter: none; }
 .modern-contact::after { background: var(--section-vignette), rgba(0,0,0,.66); }
 .modern-contact-copy h2 { color: #fff; }
+.modern-subscription { gap: clamp(32px,5vw,80px); grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); }
+.modern-subscription .modern-contact-copy h2 { max-width: 560px; font-size: clamp(48px,6vw,84px); line-height: 1.02; letter-spacing: -.035em; }
+.modern-subscription .subscription-intro { margin: 30px 0 0; max-width: 520px; color: #f2efeb; font-size: 17px; line-height: 1.7; letter-spacing: 0; font-weight: 400; text-transform: none; }
+.subscription-intro strong { color: #ff4949; }
+.modern-subscription .modern-contact-form label { font-size: 13px; letter-spacing: .07em; }
+.modern-subscription .modern-contact-form input:focus-visible, .modern-subscription .modern-contact-form select:focus-visible { outline: 2px solid #ed4444; outline-offset: 4px; }
+.subscription-submit-row { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 24px; align-items: start; margin-top: 8px; }
+.subscription-submit-row .modern-primary-button { margin: 0; padding: 18px 22px; min-height: 52px; color: #fff; font-size: 14px; letter-spacing: 0; }
+.subscription-authorization { margin: 0; color: #ddd9d3; font-size: 12px; line-height: 1.6; }
+.subscription-authorization a { color: #ff7070; text-underline-offset: 3px; }
+.subscription-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.footer-legal-links { display: flex; flex-wrap: wrap; flex-basis: 100%; gap: 12px 24px; padding-top: 18px; border-top: 1px solid #ffffff20; }
+.footer-legal-links a { color: #d4cfc8; font-size: 12px; letter-spacing: .02em; text-transform: none; text-underline-offset: 4px; }
+@media(min-width:1081px) { .modern-nav-links button { padding-inline: clamp(9px,1.1vw,17px); } }
+@media(max-width:1100px) { .subscription-submit-row { grid-template-columns: 1fr; gap: 16px; } }
+@media(max-width:760px) { .modern-subscription { grid-template-columns: 1fr; gap: 36px; } .modern-subscription .modern-contact-copy h2 { max-width: 460px; } }
 .modern-contact-form { border-color: rgba(255,255,255,.32); background: rgba(0,0,0,.48); backdrop-filter: blur(14px); }
 .modern-tickets-cta { display: flex; align-items: end; justify-content: space-between; gap: 48px; min-height: 520px; padding: clamp(76px, 10vw, 140px) clamp(24px, 8vw, 132px); color: #fff; }
 .modern-tickets-cta::after { background: var(--section-vignette), linear-gradient(90deg, rgba(0,0,0,.87), rgba(0,0,0,.42) 64%, rgba(0,0,0,.57)); }
@@ -345,7 +363,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-nav-links button, .modern-nav-links button:nth-child(n + 4) { display: inline-flex; justify-content: flex-start; min-height: 46px; padding: 13px 14px; border: 1px solid transparent; }
   .modern-nav-links button:hover, .modern-nav-links button:focus-visible { border-color: rgba(196,0,0,.65); background: rgba(196,0,0,.13); }
   .modern-nav-links button::after { display: none; }
-  .modern-language { right: calc(var(--modern-nav-edge) + 59px); }
+  .modern-language { right: calc(var(--modern-nav-edge) + 108px); }
   .modern-nav .modern-menu-toggle { display: inline-flex; }
 }
 
@@ -564,7 +582,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-experience-tabs button:last-child { border-bottom: 0; }
 .modern-experience-tabs button > span { min-width: 0; padding: 0; font-size: 13px; }
 .modern-experience-tabs button > strong { font-size: 12px; letter-spacing: .045em; line-height: 1.2; }
-.modern-experience-tabs button > i { color: rgba(255,255,255,.55); font-size: 17px; font-style: normal; text-align: right; }
+.modern-experience-tabs button > .ui-arrow { width: 18px; height: 18px; color: rgba(255,255,255,.55); }
 .modern-experience-tabs button.is-active {
   background: linear-gradient(90deg, rgba(196,0,0,.2), rgba(196,0,0,.045));
   box-shadow: inset 4px 0 0 var(--modern-orange);
@@ -576,7 +594,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   box-shadow: inset 3px 0 0 rgba(196,0,0,.68);
 }
 .modern-experience-tabs button:focus-visible { outline: 2px solid #fff; outline-offset: -5px; }
-.modern-experience-tabs button.is-active > i { color: var(--modern-orange); }
+.modern-experience-tabs button.is-active > .ui-arrow { color: var(--modern-orange); }
 .modern-experience-card {
   position: relative;
   z-index: 1;
@@ -633,7 +651,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-experience-copy li strong { font-size: 14px; }
 .modern-experience-copy li p { font-size: 15px; line-height: 1.38; }
 .modern-card-controls { margin-top: 30px; }
-.modern-card-controls button { min-height: 30px; }
+.modern-card-controls button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 
 .modern-contact-copy h2 em {
   display: block;
@@ -645,17 +663,28 @@ html::-webkit-scrollbar-corner { background: #090909; }
   line-height: .92;
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1280px) {
   .modern-experience-layout { grid-template-columns: 1fr; gap: 22px; }
-  .modern-experience-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; }
+  .modern-experience-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; margin-top: 0; }
   .modern-experience-tabs button { border: 0; border-right: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(255,255,255,.18); }
   .modern-experience-card {
-    grid-template-columns: minmax(250px, .75fr) minmax(340px, 1.25fr);
+    grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
     height: 800px;
   }
 }
 
+@media (max-width: 1120px) {
+  .modern-nav-links.is-open, .modern-language-menu { max-height: calc(100dvh - 100px); overflow-y: auto; overscroll-behavior: contain; }
+  .modern-language-menu button { min-height: 44px; }
+}
+
+@media (max-width: 760px) {
+  .modern-location { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+}
+
 @media (max-width: 680px) {
+  .modern-hero-actions { width: 100%; }
+  .modern-hero-actions .modern-primary-button { justify-content: space-between; gap: 16px; width: 100%; text-align: left; }
   .modern-date-poster { padding: 12px 14px 11px; box-shadow: 5px 5px 0 rgba(196,0,0,.3); }
   .modern-date-poster strong, .modern-date-poster--hero strong { font-size: 40px; }
   .modern-date-poster-month, .modern-date-poster-year { font-size: 12px; }

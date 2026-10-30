@@ -13,9 +13,10 @@ import type { Registration, RegistrationInsert, RegistrationUpdate } from "../li
 import { executeRegistrationSql } from "../lib/sqlConsole";
 import { countryFlag, getPhoneCountry, phoneCountries, phoneDisplayParts } from "../lib/phoneCountries";
 import "./admin.css";
+import { NewsletterManager } from "./NewsletterManager";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";
-type AdminTab = "registry" | "database";
+type AdminTab = "registry" | "database" | "newsletters";
 type SortOption = "date-desc" | "date-asc" | "name-asc" | "name-desc" | "email-asc";
 
 const sortLabels: Record<SortOption, string> = {
@@ -41,13 +42,13 @@ CREATE UNIQUE INDEX registrations_email_unique_idx
   ON public.registrations (lower(btrim(email)));`;
 
 const routeFromLocation = () => {
-  if (window.location.pathname === "/dashboard" || window.location.pathname === "/dashbord") {
+  if (["/dashboard", "/dashbord", "/admin/newsletters"].includes(window.location.pathname)) {
     return "dashboard" as const;
   }
   return "login" as const;
 };
 
-const navigate = (path: "/login" | "/dashboard", replace = true) => {
+const navigate = (path: "/login" | "/dashboard" | "/dashboard#newsletters", replace = true) => {
   window.history[replace ? "replaceState" : "pushState"]({}, "", path);
   window.dispatchEvent(new PopStateEvent("popstate"));
 };
@@ -599,7 +600,7 @@ function DatabaseTab({ registrations, onReload }: { registrations: Registration[
 }
 
 function Dashboard({ session }: { session: Session }) {
-  const [activeTab, setActiveTab] = useState<AdminTab>("registry");
+  const [activeTab, setActiveTab] = useState<AdminTab>(window.location.pathname === "/admin/newsletters" || window.location.hash === "#newsletters" ? "newsletters" : "registry");
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -641,7 +642,7 @@ function Dashboard({ session }: { session: Session }) {
         <div className="dashboard-tabs-shell">
           <div
             className="dashboard-tabs"
-            style={{ "--admin-tab-index": activeTab === "registry" ? 0 : 1 } as CSSProperties}
+            style={{ "--admin-tab-index": activeTab === "registry" ? 0 : activeTab === "database" ? 1 : 2 } as CSSProperties}
             role="tablist"
             aria-label="Secciones del panel"
           >
@@ -652,6 +653,7 @@ function Dashboard({ session }: { session: Session }) {
             <button type="button" role="tab" aria-selected={activeTab === "database"} onClick={() => setActiveTab("database")}>
               Base de datos
             </button>
+            <button type="button" role="tab" aria-selected={activeTab === "newsletters"} onClick={() => setActiveTab("newsletters")}>Newsletters</button>
           </div>
         </div>
         <div className="admin-account">
@@ -665,7 +667,7 @@ function Dashboard({ session }: { session: Session }) {
         <section className="dashboard-intro">
           <div>
             <span className="dashboard-kicker">BARCELONA COUNTRY · ADMIN</span>
-            <h1>{activeTab === "registry" ? "Registro de asistentes" : "Control de datos"}</h1>
+            <h1>{activeTab === "registry" ? "Registro de asistentes" : activeTab === "database" ? "Control de datos" : "Publicaciones del festival"}</h1>
           </div>
           <div className="dashboard-stats" aria-label="Resumen">
             <div><strong>{registrations.length}</strong><span>Registros totales</span></div>
@@ -683,7 +685,7 @@ function Dashboard({ session }: { session: Session }) {
               onReload={loadRegistrations}
               notify={setToast}
             />
-          ) : (
+          ) : activeTab === "newsletters" ? <NewsletterManager notify={setToast} /> : (
             <DatabaseTab registrations={registrations} onReload={loadRegistrations} />
           )}
         </div>
@@ -695,6 +697,7 @@ function Dashboard({ session }: { session: Session }) {
 }
 
 export function AdminPortal() {
+  const requestedNewsletters = useRef(window.location.pathname === "/admin/newsletters" || window.location.hash === "#newsletters");
   const [route, setRoute] = useState(routeFromLocation);
   const [session, setSession] = useState<Session | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("loading");
@@ -754,7 +757,7 @@ export function AdminPortal() {
   }, []);
 
   useEffect(() => {
-    if (authStatus === "authenticated" && route === "login") navigate("/dashboard");
+    if (authStatus === "authenticated" && route === "login") navigate(requestedNewsletters.current ? "/dashboard#newsletters" : "/dashboard");
     if (authStatus === "unauthenticated" && route === "dashboard") navigate("/login");
   }, [authStatus, route]);
 

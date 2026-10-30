@@ -2,11 +2,15 @@ import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProper
 import { createRoot } from "react-dom/client";
 import { supabase } from "./lib/supabase";
 import { countryFlag, phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
+import { newsCopy } from "./newsletters/copy";
+import { ArrowIcon } from "./components/ArrowIcon";
 import "./styles.css";
 import "./modern.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
 const TicketPurchasePage = lazy(() => import("./tickets/TicketPurchasePage").then((module) => ({ default: module.TicketPurchasePage })));
+const NewsPage = lazy(() => import("./newsletters/NewsPage").then((module) => ({ default: module.NewsPage })));
+const LegalPage = lazy(() => import("./newsletters/LegalPage").then((module) => ({ default: module.LegalPage })));
 
 type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
 
@@ -170,15 +174,6 @@ const festivalDates: Record<LanguageKey, FestivalDate> = {
   fr: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
   en: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
   it: { city: "Fira Cornellà", days: "22–24", month: "Ott", year: "2027" }
-};
-
-const ctaAccentCopies: Record<LanguageKey, string> = {
-  de: "und reserviere deinen Platz",
-  es: "y reserva tu plaza",
-  ca: "i reserva la teva plaça",
-  fr: "et réservez votre place",
-  en: "and reserve your spot",
-  it: "e prenota il tuo posto"
 };
 
 const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string; card: string }> = {
@@ -1942,6 +1937,7 @@ function App() {
 }
 
 function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
+  const prefixLabels = { es: "Prefijo telefónico", ca: "Prefix telefònic", en: "Phone prefix", fr: "Indicatif téléphonique", it: "Prefisso telefonico", de: "Telefonvorwahl" };
   const regionNames = new Intl.DisplayNames([language], { type: "region" });
   const localizedCountries = phoneCountries.map((country) => ({
     ...country,
@@ -1952,8 +1948,8 @@ function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
 
   return (
     <div className="modern-phone-field">
-      <label htmlFor="phone-prefix">{interfaceLabels[language].phonePrefix}</label>
       <div className="modern-phone-row">
+        <label htmlFor="phone-prefix"><span>{prefixLabels[language]}</span>
         <select id="phone-prefix" value={selectedIso} onChange={(event) => setSelectedIso(event.target.value)}>
           {localizedCountries.map((country) => (
             <option key={`${country.iso}-${country.dial}`} value={country.iso}>
@@ -1961,10 +1957,12 @@ function ModernPhonePrefixSelect({ language }: { language: LanguageKey }) {
             </option>
           ))}
         </select>
+        </label>
         <input type="hidden" name="phonePrefix" value={selectedCountry.dial} />
         <input type="hidden" name="countryIso" value={selectedCountry.iso} />
-        <label className="sr-only" htmlFor="phone">{interfaceLabels[language].phonePrefix}</label>
+        <label htmlFor="phone"><span>{copies[language].formPhone}</span>
         <input id="phone" name="phone" type="tel" autoComplete="tel" required maxLength={32} />
+        </label>
       </div>
     </div>
   );
@@ -2013,7 +2011,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{card.title}</strong>
-              <i aria-hidden="true">→</i>
+              <ArrowIcon />
             </button>
           ))}
         </div>
@@ -2044,8 +2042,8 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
               ))}
             </ul>
             <div className="modern-card-controls">
-              <button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}>← {previousStopLabels[language]}</button>
-              <button type="button" onClick={() => setActiveIndex((index) => (index + 1) % copy.cards.length)}>{nextStopLabels[language]} →</button>
+              <button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}><ArrowIcon direction="left" /> {previousStopLabels[language]}</button>
+              <button type="button" onClick={() => setActiveIndex((index) => (index + 1) % copy.cards.length)}>{nextStopLabels[language]} <ArrowIcon /></button>
             </div>
           </div>
         </article>
@@ -2064,10 +2062,17 @@ function ModernApp() {
   const copy = copies[language];
   const ticketCta = ticketCtaCopies[language];
   const festivalDate = festivalDates[language];
-  const ctaAccent = ctaAccentCopies[language];
+  const newsletter = newsCopy[language];
   const mysteryArtists = mysteryArtistCopies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
+
+  useEffect(() => {
+    const target = window.location.hash.slice(1);
+    if (!navTargets.includes(target)) return;
+    const frame = window.requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ block: "start" }));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -2114,23 +2119,26 @@ function ModernApp() {
     const email = String(data.get("email") ?? "").trim().toLowerCase();
     const danceLocation = String(data.get("danceLocation") ?? "").trim();
 
+    if (isFormSubmitting) return;
     setIsFormSubmitting(true);
     setFormFeedback(null);
-    const { error } = await supabase.from("registrations").insert({
-      full_name: fullName,
-      phone: `${prefix} ${phoneNumber}`.trim(),
-      country_iso: countryIso || null,
-      email,
-      dance_location: danceLocation
-    });
-
-    if (error) {
-      setFormFeedback({ type: "error", message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error });
-    } else {
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: true, website: data.get("website") })
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setFormFeedback({ type: "error", message: result.error === "duplicate" ? newsletter.duplicate : formFeedbackLabels[language].error });
+        return;
+      }
       form.reset();
-      setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
+      setFormFeedback({ type: "success", message: `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` });
+    } catch {
+      setFormFeedback({ type: "error", message: formFeedbackLabels[language].error });
+    } finally {
+      setIsFormSubmitting(false);
     }
-    setIsFormSubmitting(false);
   };
 
   return (
@@ -2150,6 +2158,7 @@ function ModernApp() {
                   <span>{item}</span>
                 </button>
               ))}
+              <button type="button" onClick={() => { window.location.href = "/newsletters"; }}><span>Blog</span></button>
             </div>
           </div>
           <div className="modern-language">
@@ -2159,7 +2168,7 @@ function ModernApp() {
               aria-label={interfaceLabels[language].changeLanguage}
               aria-expanded={isLanguageMenuOpen}
               aria-controls="modern-language-options"
-              onClick={() => setIsLanguageMenuOpen((isOpen) => !isOpen)}
+              onClick={() => { setIsLanguageMenuOpen((isOpen) => !isOpen); setIsNavigationOpen(false); }}
             >
               <span className="modern-language-icon" aria-hidden="true">{activeLanguage.icon}</span>
               <span className="modern-language-code">{language.toUpperCase()}</span>
@@ -2187,7 +2196,7 @@ function ModernApp() {
             aria-controls="modern-navigation-links"
             aria-expanded={isNavigationOpen}
             aria-label={isNavigationOpen ? interfaceLabels[language].closeMenu : interfaceLabels[language].menu}
-            onClick={() => setIsNavigationOpen((isOpen) => !isOpen)}
+            onClick={() => { setIsNavigationOpen((isOpen) => !isOpen); setIsLanguageMenuOpen(false); }}
           >
             <span className="modern-menu-toggle-lines" aria-hidden="true"><i /><i /></span>
             <span className="modern-menu-toggle-label" aria-hidden="true">Menu</span>
@@ -2205,10 +2214,10 @@ function ModernApp() {
             <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
             <p className="modern-hero-copy">{copy.heroCopy}</p>
             <div className="modern-hero-actions">
-              <button className="modern-primary-button modern-primary-button--split" type="button" onClick={() => moveTo("contact")}>
-                <span>{copy.cta}</span><em>{ctaAccent}</em><b aria-hidden="true">↘</b>
+              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>
+                <span>{copy.cta}</span><ArrowIcon direction="down-right" />
               </button>
-              <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <span>↓</span></button>
+              <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <ArrowIcon direction="down" /></button>
             </div>
           </div>
           <div className="modern-hero-meta">
@@ -2271,19 +2280,24 @@ function ModernApp() {
           <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
         </section>
 
-        <section id="contact" className="modern-contact" aria-labelledby="modern-contact-title">
+        <section id="contact" className="modern-contact modern-subscription" aria-labelledby="modern-contact-title">
           <div className="modern-contact-copy">
-            <h2 id="modern-contact-title">{copy.contactTitle}<em>{ctaAccent}</em></h2>
+            <h2 id="modern-contact-title">{newsletter.title}</h2>
             <span>{copy.triad.join(" · ")}</span>
+            <p className="subscription-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p>
           </div>
           <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
             <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
             <ModernPhonePrefixSelect language={language} />
             <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
             <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
-            <button className="modern-primary-button modern-primary-button--split" type="submit" disabled={isFormSubmitting}>
-              {isFormSubmitting ? <span>{formFeedbackLabels[language].submitting}</span> : <><span>{copy.cta}</span><em>{ctaAccent}</em></>}<b aria-hidden="true">↗</b>
-            </button>
+            <div className="subscription-honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
+            <div className="subscription-submit-row">
+              <button className="modern-primary-button" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization">
+                {isFormSubmitting ? formFeedbackLabels[language].submitting : newsletter.subscribe}
+              </button>
+              <p id="subscription-authorization" className="subscription-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
+            </div>
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>
         </section>
@@ -2295,12 +2309,13 @@ function ModernApp() {
               <h2 id="modern-tickets-title">{ticketCta.title}</h2>
               <span>{ticketCta.body}</span>
             </div>
-            <a className="modern-primary-button" href="/entradas">{ticketCta.action} <span>↗</span></a>
+            <a className="modern-primary-button" href="/entradas">{ticketCta.action} <ArrowIcon direction="up-right" /></a>
           </section>
         ) : null}
       </main>
       <footer className="modern-footer">
         <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
+        <nav className="footer-legal-links" aria-label={newsletter.legal}><a href="/newsletters">Barcelona Country News</a><a href="/privacidad">{newsletter.privacy}</a><a href="/aviso-legal">{newsletter.legal}</a><a href="/cookies">{newsletter.cookies}</a></nav>
         <details className="modern-photo-credits">
           <summary>⌘ Créditos fotográficos</summary>
           <ul>
@@ -2318,7 +2333,9 @@ function ModernApp() {
 }
 
 const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
-const isAdminRoute = ["/login", "/dashboard", "/dashbord"].includes(currentPath);
+const isAdminRoute = ["/login", "/dashboard", "/dashbord", "/admin/newsletters"].includes(currentPath);
+const isNewsRoute = currentPath === "/blog" || currentPath === "/newsletters" || currentPath.startsWith("/newsletters/");
+const isLegalRoute = ["/privacidad", "/aviso-legal", "/cookies", "/baja"].includes(currentPath);
 const isBackupRoute = currentPath === "/backup";
 const isTicketRoute = ["/entradas", "/tickets", "/buy"].includes(currentPath);
 
@@ -2332,6 +2349,6 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando entradas"><span /><span /><span /></div>}>
         <TicketPurchasePage />
       </Suspense>
-    ) : <ModernApp />}
+    ) : isNewsRoute || isLegalRoute ? <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense> : <ModernApp />}
   </StrictMode>
 );
