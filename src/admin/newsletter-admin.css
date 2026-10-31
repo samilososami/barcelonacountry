@@ -30,4 +30,21 @@
 .newsletter-editor footer button { padding-inline: 24px; }
 .newsletter-preview-toggle { justify-self: start; padding: 0 0 6px; border: 0; border-bottom: 1px solid #1e54b9; background: transparent; color: #1e54b9; font: inherit; cursor: pointer; }
 .newsletter-preview { width: 100%; font-family: Inter,ui-sans-serif,system-ui,sans-serif; }
+.newsletter-media-tools { min-width: 0; padding: 22px; background: #f5f7fb; border: 1px solid var(--admin-line); }
+.newsletter-media-tools header { display: flex; gap: 20px; align-items: start; flex-wrap: wrap; }
+.newsletter-media-tools h3 { margin: 0 0 8px; font-size: 21px; }
+.newsletter-media-tools header p { margin: 0 0 20px; max-width: 580px; line-height: 1.6; font-size: 14px; color: #536176; }
+.newsletter-media-tools header > span { font-size: 10px; letter-spacing: .08em; color: #a40000; }
+.newsletter-editor .newsletter-upload input { padding: 10px; background: #fff; }
+.newsletter-upload input::file-selector-button { padding: 10px 14px; margin-right: 12px; border: 0; background: #a40000; color: #fff; font: inherit; cursor: pointer; }
+.newsletter-media-help { font-size: 12px; line-height: 1.6; color: #536176; }
+.newsletter-upload-status { font-size: 13px; font-weight: 650; color: #24563a; overflow-wrap: anywhere; }
+.newsletter-media-list { display: grid; gap: 12px; list-style: none; padding: 0; margin: 22px 0 0; }
+.newsletter-media-list li { display: grid; grid-template-columns: 64px minmax(0,1fr) auto auto; gap: 14px; align-items: center; padding: 12px; border: 1px solid var(--admin-line); background: #fff; }
+.newsletter-media-list img, .newsletter-media-type { width: 64px; height: 64px; object-fit: contain; background: #edeae4; }
+.newsletter-media-type { display: grid; place-items: center; font-size: 10px; font-weight: 750; }
+.newsletter-media-list a, .newsletter-media-list button { font: inherit; font-size: 12px; color: #9b0000; }
+.newsletter-media-list button { border: 1px solid #b4becf; padding: 8px; background: #fff; cursor: pointer; }
+.newsletter-media-list button:disabled, .newsletter-upload input:disabled { opacity: .55; cursor: wait; }
+@media(max-width:600px) { .newsletter-media-tools { padding: 15px; } .newsletter-media-list li { grid-template-columns: 48px minmax(0,1fr); gap: 10px; } .newsletter-media-list img, .newsletter-media-type { width: 48px; height: 48px; } .newsletter-media-list a { text-align: center; } .newsletter-media-list button { justify-self: end; } }
 @media(max-width:760px) { .newsletter-admin-layout { grid-template-columns: 1fr; } .newsletter-delivery-status { align-items: stretch; flex-direction: column; } .newsletter-issue-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); } }

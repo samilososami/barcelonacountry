@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { supabase } from "../lib/supabase";
 import type { NewsletterIssue, NewsletterIssueInsert } from "../lib/database.types";
 import { IssueBody } from "../newsletters/IssueBody";
+import { NewsletterMediaTools } from "./NewsletterMediaTools";
 import "../newsletters/news.css";
 import "./newsletter-admin.css";
 
@@ -40,6 +41,10 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
   const [draft, setDraft] = useState<Draft>(emptyDraft(1));
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [newDraftKey, setNewDraftKey] = useState(0);
+  const mediaPosition = useRef(0);
+  const editorBusy = isSaving || isUploading;
   const [error, setError] = useState("");
   const [preview, setPreview] = useState(false);
   const [delivery, setDelivery] = useState<{ configured: boolean; issue_one_published: boolean; pending: number } | null>(null);
@@ -77,10 +82,13 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
 
   const startNew = () => {
     setDraft(emptyDraft(nextIssueNumber));
+    setNewDraftKey(value => value + 1);
+    mediaPosition.current = 0;
     setError("");
   };
 
   const editIssue = (issue: NewsletterIssue) => {
+    mediaPosition.current = issue.content.length;
     setDraft({
       id: issue.id,
       issueNumber: String(issue.issue_number),
@@ -96,6 +104,7 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
 
   const saveIssue = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (editorBusy) return;
     const issueNumber = Number(draft.issueNumber);
     if (!Number.isInteger(issueNumber) || issueNumber < 1) {
       setError("El número debe ser un entero mayor que cero.");
@@ -140,7 +149,7 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
           <h2 id="newsletter-admin-title">Barcelona Country News</h2>
           <p>Cada número se publica en el blog. El nº 1 se envía a las nuevas suscripciones cuando el correo esté configurado.</p>
         </div>
-        <button className="admin-primary-button add-registration" type="button" disabled={isSaving} onClick={startNew}><span aria-hidden="true">+</span> Nuevo número</button>
+        <button className="admin-primary-button add-registration" type="button" disabled={editorBusy} onClick={startNew}><span aria-hidden="true">+</span> Nuevo número</button>
       </header>
 
       <div className="newsletter-delivery-status" role="status">
@@ -153,7 +162,7 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
           {isLoading && <p className="newsletter-admin-empty">Cargando publicaciones…</p>}
           {!isLoading && !issues.length && <p className="newsletter-admin-empty">Todavía no hay números. Empieza por la newsletter nº 1.</p>}
           {issues.map((issue) => (
-            <button disabled={isSaving} className={draft.id === issue.id ? "is-active" : ""} type="button" key={issue.id} onClick={() => editIssue(issue)}>
+            <button disabled={editorBusy} className={draft.id === issue.id ? "is-active" : ""} type="button" key={issue.id} onClick={() => editIssue(issue)}>
               <span>Nº {String(issue.issue_number).padStart(2, "0")}</span>
               <strong>{issue.title}</strong>
               <small className={issue.is_published ? "is-published" : ""}>{issue.is_published ? "Publicada" : "Borrador"}</small>
@@ -162,21 +171,22 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
         </aside>
 
         <form className="newsletter-editor" onSubmit={saveIssue}>
-          <fieldset disabled={isSaving} className="newsletter-editor-fields">
+          <fieldset disabled={editorBusy} className="newsletter-editor-fields">
           <div className="newsletter-editor-topline">
             <label>Número<input type="number" min="1" value={draft.issueNumber} onChange={(event) => setDraft((current) => ({ ...current, issueNumber: event.target.value }))} required /></label>
             <label className="newsletter-publish-toggle"><input type="checkbox" checked={draft.isPublished} onChange={(event) => setDraft((current) => ({ ...current, isPublished: event.target.checked }))} /><span>Publicar en la web</span></label>
           </div>
           <label>Título<input value={draft.title} onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))} maxLength={180} required placeholder="Título del número" /></label>
           <label>Resumen<textarea value={draft.excerpt} onChange={(event) => setDraft((current) => ({ ...current, excerpt: event.target.value }))} maxLength={420} rows={3} placeholder="Una introducción breve para la tarjeta pública" /></label>
-          <label>Contenido<textarea className="newsletter-content-editor" value={draft.content} onChange={(event) => setDraft((current) => ({ ...current, content: event.target.value }))} maxLength={30000} rows={12} required placeholder="Párrafos separados por una línea en blanco. Usa ## para un subtítulo y - para una lista." /></label>
+          <label>Contenido<textarea className="newsletter-content-editor" value={draft.content} onSelect={event => { mediaPosition.current = event.currentTarget.selectionStart; }} onChange={(event) => { mediaPosition.current = event.target.selectionStart; setDraft((current) => ({ ...current, content: event.target.value })); }} maxLength={30000} rows={12} required placeholder="Párrafos separados por una línea en blanco. Usa ## para un subtítulo y - para una lista. Los archivos se insertan con el apartado Multimedia." /></label>
           </fieldset>
+          <NewsletterMediaTools key={draft.id ?? `new-${newDraftKey}`} content={draft.content} onChange={content => setDraft(current => ({ ...current, content }))} position={mediaPosition} disabled={editorBusy} onBusy={setIsUploading} />
           <button className="newsletter-preview-toggle" type="button" aria-expanded={preview} onClick={() => setPreview(value => !value)}>{preview ? "Ocultar vista previa" : "Ver diseño antes de publicar"}</button>
           {preview && <article className="news-article newsletter-preview"><p className="news-number">Nº {draft.issueNumber}</p><h2>{draft.title || "Título de la publicación"}</h2><p className="news-excerpt">{draft.excerpt}</p><IssueBody content={draft.content} /></article>}
           {error && <p className="modal-form-error" role="alert">{error}</p>}
           <footer>
             <span>{draft.slug && draft.isPublished ? <a href={`/newsletters/${draft.slug}`} target="_blank" rel="noreferrer">Ver en el blog ↗</a> : "Borrador privado"}</span>
-            <button className="admin-primary-button" type="submit" disabled={isSaving}>{isSaving ? "Guardando…" : draft.isPublished ? "Guardar y publicar" : "Guardar borrador"}</button>
+            <button className="admin-primary-button" type="submit" disabled={editorBusy}>{isUploading ? "Subiendo archivos…" : isSaving ? "Guardando…" : draft.isPublished ? "Guardar y publicar" : "Guardar borrador"}</button>
           </footer>
         </form>
       </div>

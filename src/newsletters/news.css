@@ -30,6 +30,13 @@
 .news-article-body p { white-space: pre-line; margin: 1.4em 0; }
 .news-article-body h2 { font-family: inherit; font-size: 29px; line-height: 1.3; margin-top: 1.7em; }
 .news-article-body li { margin: .4em 0; }
+.news-media { margin: 32px 0; min-width: 0; }
+.news-media img, .news-media video { display: block; width: 100%; height: auto; max-height: 740px; object-fit: contain; background: #201d190a; }
+.news-media audio { display: block; width: 100%; }
+.news-media figcaption { margin-top: 10px; font: 13px/1.6 Inter,ui-sans-serif,system-ui,sans-serif; color: #625c54; }
+.news-media figcaption a { color: #a40000; margin-left: 10px; }
+.news-file-link { display: flex; align-items: center; gap: 16px; padding: 20px; border: 1px solid #201d1933; color: #a40000; font: 600 16px/1.6 Inter,ui-sans-serif,system-ui,sans-serif; }
+.news-file-link span { padding: 8px; background: #a40000; color: #fff; font-size: 12px; }
 .news-state { padding: 40px; border: 1px solid #ffffff30; }
 .news-state a, .news-state button { color: inherit; }
 .news-state button { padding: 12px 18px; background: #c40000; border: 0; color: #fff; font: inherit; cursor: pointer; }

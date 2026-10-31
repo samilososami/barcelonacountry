@@ -1,5 +1,6 @@
 import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
+import { contentEmailHtml, contentPlainText } from '../shared/newsletter-content.mjs';
 
 const site = 'https://bcncountryfest.com';
 const origins = new Set([site, 'https://www.bcncountryfest.com', 'https://barcelonacountry.com', 'https://www.barcelonacountry.com']);
@@ -31,13 +32,11 @@ export function welcomeEmail(registration, issue, secret, from) {
   const issueUrl = `${site}/newsletters/${encodeURIComponent(issue.slug)}`;
   const token = unsubscribeToken(registration.id, secret);
   const unsubscribeUrl = `${site}/baja?token=${token}`;
-  const content = issue.content.split(/\n\s*\n/).filter(Boolean).map(block => block.startsWith('## ')
-    ? `<h2 style="font:700 26px Georgia,serif">${escapeHtml(block.slice(3))}</h2>`
-    : `<p style="margin:0 0 20px;white-space:pre-line">${escapeHtml(block).replaceAll('\n', '<br>')}</p>`).join('');
+  const content = contentEmailHtml(issue.content);
   return {
     from: `Barcelona Country News <${from}>`, to: [registration.email], subject: `${t[0]} · Nº 1`,
     headers: { 'List-Unsubscribe': `<${site}/api/newsletter?action=unsubscribe&token=${token}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
-    text: `${t[0]}\n${registration.full_name}\n\n${t[1]}\n\n${issue.title}\n${issue.content}\n\n${t[2]}: ${issueUrl}\n${t[3]}: ${site}/newsletters\n${t[4]}: ${unsubscribeUrl}`,
+    text: `${t[0]}\n${registration.full_name}\n\n${t[1]}\n\n${issue.title}\n${contentPlainText(issue.content)}\n\n${t[2]}: ${issueUrl}\n${t[3]}: ${site}/newsletters\n${t[4]}: ${unsubscribeUrl}`,
     html: `<!doctype html><html><body style="margin:0;background:#151515;padding:24px 12px;font-family:Arial,sans-serif"><div style="max-width:640px;margin:auto;background:#f4efe5;color:#201d19"><div style="background:#101010;padding:30px;border-bottom:5px solid #c40000"><img src="${site}/assets/logo-primary-senyera.png" width="100" alt="Barcelona Country Fest"><p style="color:#fff;font-size:28px;font-weight:bold;margin-bottom:0">Barcelona Country <span style="color:#ff4949">News</span></p></div><div style="padding:32px;line-height:1.75"><p>${escapeHtml(registration.full_name)},</p><p>${t[1]}</p><p style="color:#a40000;font-weight:bold">Nº 01</p><h1 style="font:700 34px/1.15 Georgia,serif">${escapeHtml(issue.title)}</h1>${content}<p><a style="display:inline-block;padding:13px 22px;background:#c40000;color:#fff;text-decoration:none" href="${issueUrl}">${t[2]} →</a></p><p><a style="color:#a40000" href="${site}/newsletters">${t[3]}</a></p><hr style="border:0;border-top:1px solid #ccc"><p style="font-size:12px">Barcelona Country Fest · 22–24 OCT 2027 · Fira Cornellà<br><a href="${unsubscribeUrl}" style="color:#555">${t[4]}</a></p></div></div></body></html>`
   };
 }

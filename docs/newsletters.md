@@ -65,3 +65,25 @@ Para retirar esta implementación, usar `git revert <commit-de-estos-cambios>` y
 La publicación incluye flechas SVG en los controles públicos para evitar su representación como emoji, interlineado y ancho adaptables en el CTA, separación entre menú e idiomas en tablet y correcciones de ancho en el mapa y los detalles del festival. Los menús se cierran mutuamente y pueden desplazarse en pantallas de poca altura. Se han revisado los seis idiomas en tamaños móviles y también el diseño de escritorio.
 
 `deliverables/` y `generated/` conservan las propuestas gráficas preparadas durante el proyecto. Son archivos de revisión, no se importan ni se copian automáticamente a la web: esta publicación mantiene el logo y las fotografías actualmente integrados.
+
+## Archivos multimedia
+
+El editor permite subir varios archivos desde el apartado **Multimedia**, insertarlos en la posición del cursor, editar su descripción, quitarlos del contenido y previsualizarlos antes de guardar o publicar. El formato de los números anteriores sigue siendo compatible.
+
+- Imágenes: JPG, PNG, GIF animado y WebP; hasta 5 MB. Se conserva el original, sin recortar ni aplanar los GIF.
+- Vídeo: MP4 y WebM; hasta 25 MB, con controles y sin reproducción automática.
+- Audio: MP3, M4A, OGG y WAV; hasta 25 MB, con controles.
+- Documentos: PDF hasta 5 MB, con enlace para abrirlos.
+- Se pueden seleccionar hasta ocho archivos por tanda. El contenido completo conserva el límite de 30.000 caracteres; las subidas no cuentan como texto binario, solo como enlaces.
+
+Las imágenes y los GIF se insertan también en el HTML del correo. Vídeos, audio y PDF se representan como enlaces, sin depender de reproductores de correo. La alternativa de texto plano incluye las URLs. Esto prepara la plantilla; no activa Resend ni demuestra la entrega en clientes de correo reales.
+
+Los archivos se almacenan en el bucket público `newsletter-media`, creado por `20261031115508_add_newsletter_media_storage.sql`. **Cualquier persona con el enlace puede ver un archivo desde que se sube, incluso si el número es un borrador. No subir datos privados.** El editor muestra este aviso. Solo los usuarios de `admin_users` pueden subir o listar objetos; cada subida utiliza una ruta de usuario y UUID nuevo. No se permite sobrescribir archivos. La eliminación técnica queda limitada a administradores sobre sus propios objetos. Quitar un bloque del editor no elimina físicamente el archivo, para no romper números o correos anteriores; los archivos sin uso deben revisarse antes de eliminarlos desde Storage.
+
+La subida valida tipo, tamaño y cabecera del archivo en el cliente; Storage impone una lista de MIME permitidos y un máximo de 25 MB. SVG, HTML y ejecutables quedan excluidos. El lector web y la plantilla de correo comparten `shared/newsletter-content.mjs`: solo reconocen bloques de medios con URLs HTTPS y escapan texto/HTML. No se interpreta HTML editorial arbitrario. Esta validación no sustituye un análisis antivirus de archivos.
+
+Los bloques guardados son `![Descripción](https://...)`, `@video[Descripción](https://...)`, `@audio[Descripción](https://...)` y `@file[Descripción](https://...)`, separados por líneas en blanco. El panel los crea automáticamente y mantiene las descripciones editables. `npm test` cubre el formato compartido, URLs inseguras, límites, cabeceras, inserción y plantilla multimedia de correo.
+
+Revertir el commit retira el editor y el renderizado multimedia; no borra el bucket ni sus archivos. Los números que ya incluyan medios conservarán los enlaces en su contenido. La protección de contraseñas filtradas de Supabase estaba desactivada antes de este cambio; no se ha modificado la configuración de Auth.
+
+Verificación del 31 de octubre: 16 pruebas automatizadas y compilación correctas; subida real desde el panel de PNG, GIF, MP4, WAV y PDF, edición de descripción, retirada de un bloque, guardado y recarga. Se comprobó que la subida anónima se rechaza, que el borrador no se puede leer anónimamente y que el GIF servido coincide byte por byte con el original. Revisión visual del editor a 1440 y 390 píxeles, sin desbordamiento horizontal. Las pruebas utilizan el número técnico 900002, nunca el número 1, y no disparan envíos.
