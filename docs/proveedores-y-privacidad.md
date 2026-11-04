@@ -6,14 +6,16 @@ Revisión: 4 de noviembre de 2026. Esta ficha documenta la implementación técn
 
 La base es el documento `TEXTOS LEGALES BARCELONA COUNTRY FEST.docx`, enviado por Javier González desde `xavierglez@msn.com` el 2 de noviembre de 2026, a las 12:22 (Europe/Madrid), en «RV: HOLA SAMI: CAMBIOS PARA BARCELONA CF». Contiene privacidad, cookies, aviso legal y un bloque separado para el futuro pie de newsletter. Se preservan las secciones y las disposiciones generales de las tres políticas. El bloque de correo no se integra en esta tarea y no se activa el autoreply.
 
-El usuario facilita y autoriza incorporar el dato registral: «Inscrita en el Registro Mercantil de Barcelona, Sección 8.ª, Hoja B-663513, Inscripción 1.ª.» También autoriza la newsletter opcional, los controles de cookies, reflejar dónde se suele bailar y completar los proveedores reales.
+El usuario facilita y autoriza incorporar el dato registral: «Inscrita en el Registro Mercantil de Barcelona, Sección 8.ª, Hoja B-663513, Inscripción 1.ª.» También autoriza los controles de cookies y reflejar dónde se suele bailar.
+
+La primera implementación permitía registrarse sin newsletter y añadía proveedores al texto público. El 04/11/2026 el usuario confirma que prevalecen las correcciones de Xavi y Javier: el formulario es exclusivamente de suscripción, se conserva la primera casilla de privacidad y se retira la segunda. Se restauran el párrafo de presentación, el texto de autorización y el botón «Suscribirme». Las secciones públicas de proveedores y transferencias recuperan los párrafos del documento de Javier; el inventario técnico y sus fuentes quedan en este archivo interno. No añadir contenido público no solicitado.
 
 Cambios respecto del documento de Javier:
 
 - Ambos dominios del festival, manteniendo el buzón `privacidad@barcelonacountry.com`.
 - Datos del lugar de baile y país asociado al prefijo, con finalidad limitada a conocer la comunidad de baile y organizar los contactos; no geolocalización ni nacionalidad inferida.
-- Consentimiento de newsletter opcional, desmarcado, independiente de la aceptación del tratamiento del registro.
-- Inventario de proveedores y transferencias posibles, sin afirmar acuerdos privados no comprobados.
+- Suscripción mediante «Suscribirme» y una única casilla de privacidad requerida, desmarcada de inicio; no existe un registro independiente de la newsletter.
+- Inventario interno de proveedores y transferencias posibles, sin afirmar acuerdos privados no comprobados ni añadirlo al documento público.
 - Política de cookies adaptada a tecnologías reales: almacenamiento local y Google Maps opcional. Se retiran categorías genéricas que insinuaban herramientas propias de publicidad/analítica inexistentes.
 - Se corrige la repetición «modificar o modificar parcialmente» del aviso legal sin cambiar su sentido.
 
@@ -23,7 +25,7 @@ Los documentos públicos viven en `src/privacy/legal-content.ts`; no se sirven d
 
 | Servicio | Uso en este proyecto | Datos relevantes y alcance | Estado |
 | --- | --- | --- | --- |
-| Vercel | Web, distribución de recursos y API del formulario | Solicitudes HTTP y datos enviados al endpoint de registro | En uso |
+| Vercel | Web, distribución de recursos y API del formulario | Solicitudes HTTP y datos enviados al endpoint de suscripción | En uso |
 | Supabase | PostgreSQL, autenticación administrativa y archivos del blog | Inscripciones, consentimiento, sesión administrativa y medios públicos del blog | En uso; proyecto `barcelona-country-admin`, región `eu-west-3` (París), comprobada con el proveedor el 04/11/2026 |
 | Arsys | Dominios, DNS y buzón de privacidad | Datos de dominio/operación y mensajes dirigidos al buzón | En uso, según configuración del proyecto y confirmación del usuario |
 | Google Maps | Mapa de Fira Cornellà | Conexión del navegador al proveedor, IP, navegador y cookies según su sesión/ajustes | Opcional; bloquear iframe hasta consentimiento y retirarlo al revocar |
@@ -59,7 +61,7 @@ Cada integración, cambio de dominio, formulario, embed, script, recurso remoto,
 1. Identificar proveedor y entidad, finalidad, datos realmente recibidos y momento de la conexión. Comprobar también imágenes, fuentes, vídeos y URLs multimedia editoriales, no solo dependencias npm.
 2. Distinguir servicio activo, previsto, retirado y herramienta de desarrollo. No publicar un proveedor futuro como si ya recibiera los datos.
 3. Consultar documentación oficial vigente, cuenta/plan, regiones y acuerdo aplicable. No completar garantías con suposiciones. Registrar lo que deba validar Events Mayaan SL.
-4. Actualizar este inventario, las secciones afectadas de `src/privacy/legal-content.ts` y su fecha, y pedir validación al responsable si cambia la finalidad o una condición jurídica.
+4. Actualizar este inventario y contrastar las secciones afectadas de `src/privacy/legal-content.ts` con lo aprobado por Javier. Preparar para su validación cualquier cambio necesario en lo informado antes de activar una nueva integración; no incorporar automáticamente listados ni enlaces técnicos a las páginas públicas.
 5. Para servicios no necesarios, bloquear todas sus solicitudes antes del consentimiento; incorporar controles reales, rechazo, retirada, persistencia y pruebas. No basta ocultar un iframe con CSS.
 6. Si cambia el alcance de las preferencias, incrementar la versión del consentimiento y solicitar nueva elección. No reutilizar un consentimiento de Maps para analítica/publicidad.
 7. Verificar en un navegador limpio que no se contacta al tercero al rechazar, que aceptar lo carga y que retirar lo descarga. Revisar móvil, teclado, expiración y almacenamiento bloqueado.
@@ -71,10 +73,14 @@ No existe monitorización automática de servicios añadidos por otras personas 
 
 Events Mayaan SL debe validar el texto final y conservar la documentación contractual y de protección de datos que corresponda. Esta implementación identifica los servicios, controles y fuentes, pero no acredita por sí sola la formalización de encargos, evaluaciones de transferencias, plazos internos concretos de conservación, atención de derechos ni decisiones sobre menores. Tampoco es una certificación de cumplimiento jurídico. No eliminar estas comprobaciones del proceso solo porque las páginas ya estén publicadas.
 
-## Verificación técnica de esta entrega
+## Verificación de la primera implementación (histórica)
 
 El 04/11/2026 pasan 22 pruebas automatizadas (`npm test`), la compilación de producción (`npm run build`) y `git diff --check`. Las pruebas cubren consentimiento explícito, ausencia de correo para altas sin newsletter, validación de privacidad en servidor, caducidad y datos de preferencias inválidos.
 
 En Chromium se comprueban primera visita, rechazo persistente, aceptación de Maps con petición real a Google, retirada del iframe y ausencia de peticiones a Google tras recargar con rechazo; cierre con Escape y recuperación del foco; registro con y sin newsletter contra una API simulada; tres documentos legales y los seis idiomas, sin desbordamiento a 320 y 390 px. Se inspeccionan capturas a 1440 px y móvil. También se prueban almacenamiento bloqueado, consentimiento corrupto/caducado y acceso al panel desde la demo de entradas. No se detectan errores JavaScript no controlados.
 
 Una inserción de prueba en Supabase, dentro de una transacción revertida, confirma que se conservan `newsletter_consent: false` y la fecha de privacidad sin marca de envío. Se comprueba después que no queda ese registro. No se altera el esquema ni se envían correos. Las verificaciones del navegador local no equivalen por sí solas a una prueba real de entrega de correo.
+
+Estas comprobaciones describen la versión anterior con newsletter opcional. En la corrección actual, el servidor exige `consent: true` y `privacy_accepted: true`; rechaza solicitudes sin ambos valores antes de guardar o enviar. Los registros históricos no se convierten en suscripciones. El aviso de cookies se hace compacto conservando sus controles y bloqueo previo de Google Maps. El autoreply no se activa con esta corrección.
+
+La corrección supera las 22 pruebas, compilación y revisión de diferencias. Se verifica en Chromium la única casilla de privacidad, validación antes del envío, cuerpo de suscripción contra una API simulada, confirmación y reinicio del formulario. Los seis idiomas caben a 320, 390 y 1440 px; el encuadre de Johnny y el formulario se revisan también a 768 px. El aviso de cookies ocupa 420 × 198 px en escritorio y 300 × 225 px a 320 px de ancho; se comprueban rechazo persistente, carga de Google Maps solo tras aceptar, retirada del iframe, Escape y recuperación del foco. No se envían correos ni se crean inscripciones reales durante estas comprobaciones.

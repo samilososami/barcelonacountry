@@ -43,7 +43,7 @@ function harness({ configured = true, published = true, mailFails = false, throw
 }
 
 test('subscription persists consent and sends issue 1 with blog and unsubscribe links', async () => {
-  const h = harness(); const before = Date.now(); const response = await h.request(input);
+  const h = harness(); const before = Date.now(); const response = await h.request({ ...input, privacy_accepted_at: '1900-01-01T00:00:00.000Z' });
   assert.equal(response.status, 201); assert.equal((await response.json()).welcome_email, 'sent');
   assert.equal(h.rows[0].newsletter_consent, true);
   assert.ok(Date.parse(h.rows[0].privacy_accepted_at) >= before);
@@ -54,27 +54,15 @@ test('subscription persists consent and sends issue 1 with blog and unsubscribe 
   assert.match(mail.html, /\/baja\?token=/); assert.deepEqual(mail.to, [input.email]);
   assert.match(h.emails[0].headers['Idempotency-Key'], /^welcome-v1-/);
 });
-test('registration without newsletter consent persists privacy acceptance and never looks up or sends an issue', async () => {
+test('subscription without explicit consent is rejected before persistence or email delivery', async () => {
   for (const configured of [true, false]) {
-    const h = harness({ configured, admin: true });
-    const before = Date.now();
-    const result = await h.request({ ...input, consent: false, privacy_accepted_at: '1900-01-01T00:00:00.000Z' });
-    assert.equal(result.status, 201);
-    assert.deepEqual(await result.json(), { ok: true, welcome_email: 'skipped' });
-    assert.equal(h.rows.length, 1);
-    assert.equal(h.rows[0].newsletter_consent, false);
-    assert.ok(Date.parse(h.rows[0].privacy_accepted_at) >= before);
-    assert.ok(Date.parse(h.rows[0].privacy_accepted_at) <= Date.now());
-    assert.equal(h.rows[0].welcome_newsletter_sent_at, null);
-    assert.deepEqual(h.tables, ['registrations']);
-    assert.equal(h.emails.length, 0);
-    const status = await h.request({ action: 'status' }, { Authorization: 'Bearer admin-token' });
-    assert.equal((await status.json()).pending, 0);
-    if (configured) {
-      const dispatch = await h.request({ action: 'dispatch' }, { Authorization: 'Bearer admin-token' });
-      assert.deepEqual(await dispatch.json(), { sent: 0, pending: 0 });
-      assert.equal(h.emails.length, 0);
-    }
+    const h = harness({ configured });
+    const result = await h.request({ ...input, consent: false });
+    assert.equal(result.status, 400);
+    assert.deepEqual(await result.json(), { error: 'invalid_fields' });
+    assert.deepEqual(h.rows, []);
+    assert.deepEqual(h.tables, []);
+    assert.deepEqual(h.emails, []);
   }
 });
 test('privacy acceptance is mandatory and consent values are never coerced', async () => {

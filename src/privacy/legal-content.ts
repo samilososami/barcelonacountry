@@ -33,14 +33,14 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
     sections: [
       {
         id: "responsable", title: "1. Responsable del tratamiento",
-        paragraphs: ["Esta política informa sobre el tratamiento de los datos de las personas interesadas en Barcelona Country Fest y de quienes se suscriben a Barcelona Country News."],
+        paragraphs: ["Esta política informa sobre el tratamiento de los datos de quienes se suscriben a Barcelona Country News y contactan con Barcelona Country Fest."],
         items: controller, links: [contact]
       },
       {
         id: "datos", title: "2. ¿Qué datos personales recogemos?",
         paragraphs: [
-          "A través del formulario de registro de personas interesadas en Barcelona Country Fest, podemos recoger los datos que se indican a continuación.",
-          "También conservamos información relacionada con el registro y la suscripción, como la fecha de alta, el idioma del formulario, la constancia de aceptación de la política de privacidad y el estado del consentimiento para recibir la newsletter. Cuando se habiliten los envíos, podrá registrarse su estado.",
+          "A través del formulario de suscripción a Barcelona Country News, podemos recoger los datos que se indican a continuación.",
+          "También conservamos información relacionada con la suscripción, como la fecha de alta, el idioma del formulario, la constancia de aceptación de la política de privacidad y el estado del consentimiento para recibir la newsletter. Cuando se habiliten los envíos, podrá registrarse su estado.",
           "Los proveedores técnicos pueden tratar datos de conexión, como la dirección IP y la información del navegador, para servir y proteger la web. Si nos escribes, trataremos el contenido de tu consulta y los datos que nos facilites. No incluyas datos sensibles ni datos de otras personas en los campos de texto.",
           "Solicitamos únicamente los datos necesarios para las finalidades descritas en esta Política de Privacidad."
         ],
@@ -50,13 +50,13 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           "Número de teléfono, incluido su prefijo.",
           "País asociado al prefijo telefónico seleccionado. No es una geolocalización ni acredita tu nacionalidad o residencia.",
           "Lugar o lugares donde sueles bailar, que indiques en el formulario.",
-          "Tu elección, independiente y opcional, de suscribirte a la newsletter."
+          "Tu consentimiento para suscribirte a la newsletter."
         ]
       },
       {
         id: "finalidades", title: "3. ¿Para qué utilizamos tus datos?",
         paragraphs: [
-          "a) Gestionar tu registro como persona interesada en Barcelona Country Fest. Utilizaremos los datos facilitados para gestionar tu inscripción en nuestra base de personas interesadas y atender las solicitudes relacionadas con el festival. El país asociado al prefijo permite organizar los contactos; el dato sobre dónde sueles bailar permite conocer los lugares y comunidades de baile de las personas interesadas en el evento.",
+          "a) Gestionar tu suscripción a Barcelona Country News. Utilizaremos los datos facilitados para gestionar el alta y las solicitudes relacionadas con tu suscripción. El país asociado al prefijo permite organizar los contactos; el dato sobre dónde sueles bailar permite conocer los lugares y comunidades de baile de las personas interesadas en el evento.",
           "b) Enviar la newsletter y comunicaciones informativas y promocionales. Cuando hayas prestado tu consentimiento, utilizaremos tu dirección de correo electrónico para enviarte novedades sobre Barcelona Country Fest, información sobre artistas, actuaciones, actividades, programación, entradas, promociones y futuras ediciones del festival. Podrás retirar tu consentimiento en cualquier momento mediante el enlace de baja incluido en cada comunicación o escribiendo al correo de privacidad.",
           "c) Gestionar consultas y solicitudes. Si nos contactas, podremos utilizar tus datos para responder a tus preguntas y atender las gestiones que nos hayas solicitado.",
           "d) Cumplir las obligaciones legales aplicables. En aquellos casos en los que resulte necesario, trataremos los datos para cumplir las obligaciones legales que correspondan al Responsable.",
@@ -67,10 +67,9 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
         id: "bases-juridicas", title: "4. ¿Cuál es la base jurídica del tratamiento?",
         paragraphs: [
           "El tratamiento de los datos se realizará sobre las siguientes bases jurídicas, según la finalidad correspondiente.",
-          "El consentimiento para recibir la newsletter es independiente del resto de finalidades. La casilla de newsletter es opcional y no está marcada de antemano. No marcarla no impide enviar el formulario de registro. La aceptación del tratamiento necesario para gestionar el registro se solicita por separado, junto al enlace a esta política."
+          "El formulario tiene como finalidad la suscripción a Barcelona Country News. La suscripción se solicita al pulsar «Suscribirme», tras marcar la casilla de lectura y aceptación de esta política, desmarcada de inicio. Puedes darte de baja en cualquier momento."
         ],
         items: [
-          "Gestión del registro y de la solicitud de información: las medidas solicitadas por la persona interesada y, cuando corresponda, su consentimiento para gestionar el alta en la base de interesados.",
           "Envío de la newsletter y comunicaciones comerciales por correo electrónico: el consentimiento libre, específico, informado e inequívoco de la persona interesada.",
           "Atención de consultas: la gestión de la solicitud recibida y, cuando corresponda, el interés legítimo en atender las comunicaciones dirigidas al Responsable.",
           "Cumplimiento de obligaciones legales: el cumplimiento de las obligaciones legales aplicables."
@@ -84,7 +83,6 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           "La retirada del consentimiento para recibir la newsletter no implica necesariamente la eliminación inmediata de toda evidencia de la suscripción o de su baja, cuando sea necesario conservarla para acreditar el cumplimiento legal."
         ],
         items: [
-          "Base de personas interesadas: mientras sea necesario gestionar la solicitud y mantener la relación informativa solicitada, de acuerdo con los criterios de conservación establecidos por el Responsable.",
           "Newsletter: mientras mantengas tu suscripción y no retires el consentimiento.",
           "Prueba del consentimiento y de la baja: durante el tiempo necesario para acreditar el cumplimiento de las obligaciones legales y atender posibles reclamaciones.",
           "Consultas: durante el tiempo necesario para resolverlas y realizar las actuaciones posteriores que correspondan."
@@ -93,41 +91,18 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
       {
         id: "proveedores", title: "6. ¿Quién puede recibir tus datos?",
         paragraphs: [
-          "Los datos personales podrán ser tratados por proveedores que presten servicios al Responsable y que necesiten acceder a ellos para desarrollar sus funciones. Estos proveedores actuarán bajo las instrucciones del Responsable cuando tengan la condición de encargados del tratamiento y deberán ofrecer las garantías exigidas por la normativa de protección de datos.",
-          "No venderemos tus datos personales a terceros. Tampoco cederemos tus datos a patrocinadores, colaboradores u otras empresas para que te envíen sus propias comunicaciones comerciales, salvo que exista una base jurídica válida para hacerlo y se te haya informado adecuadamente. Cuando sea necesario, solicitaremos un consentimiento específico e independiente.",
-          "Los datos podrán comunicarse a las autoridades u organismos públicos cuando exista una obligación legal que así lo requiera.",
-          "Estos son los servicios de la web y el uso previsto para cada uno. Activar un mapa externo no comparte con Google los datos que hayas escrito en nuestro formulario."
-        ],
-        items: [
-          "Vercel: alojamiento y distribución de la web y ejecución de la API que recibe el formulario. Trata las solicitudes de conexión y los datos que envías a través de esa API para prestar el servicio.",
-          "Supabase: almacenamiento de los registros, gestión de acceso del personal administrador y alojamiento de los archivos publicados en el blog. La base de datos del proyecto está configurada en la región eu-west-3, París. El listado de personas inscritas no es público.",
-          "Arsys Internet S.L.U.: gestión de dominios y DNS y servicio del buzón privacidad@barcelonacountry.com. Cuando escribes a ese buzón, el servicio de correo trata el mensaje y sus datos asociados.",
-          "Google Maps: mapa externo de la ubicación del festival, solo si autorizas su carga. Google recibe datos de conexión y del navegador y puede utilizar sus propias cookies conforme a tus ajustes. Puedes rechazarlo y seguir utilizando el resto de la web.",
-          "Resend (Plus Five Five, Inc.): proveedor preparado para el futuro envío de newsletters. El envío automático de bienvenida está pendiente de activación. Cuando se habilite, se utilizarán el nombre, el correo de quienes hayan consentido y el contenido del mensaje; no se necesita enviar el teléfono ni el lugar donde bailas."
-        ],
-        links: [
-          { label: "Información de privacidad de Vercel", href: "https://vercel.com/legal/privacy-notice" },
-          { label: "Información legal y de privacidad de Supabase", href: "https://supabase.com/legal" },
-          { label: "Información legal de Arsys", href: "https://www.arsys.es/legal/politica-de-privacidad" },
-          { label: "Política de Privacidad de Google", href: "https://policies.google.com/privacy?hl=es" },
-          { label: "Información de privacidad de Resend", href: "https://resend.com/legal/privacy-policy" }
+          "Los datos personales podrán ser tratados por proveedores que presten servicios al Responsable y que necesiten acceder a ellos para desarrollar sus funciones, por ejemplo, proveedores de alojamiento web, mantenimiento tecnológico o plataformas de gestión y envío de newsletters.",
+          "Estos proveedores actuarán bajo las instrucciones del Responsable cuando tengan la condición de encargados del tratamiento y deberán ofrecer las garantías exigidas por la normativa de protección de datos.",
+          "No venderemos tus datos personales a terceros.",
+          "Tampoco cederemos tus datos a patrocinadores, colaboradores u otras empresas para que te envíen sus propias comunicaciones comerciales, salvo que exista una base jurídica válida para hacerlo y se te haya informado adecuadamente. Cuando sea necesario, solicitaremos un consentimiento específico e independiente.",
+          "Los datos podrán comunicarse a las autoridades u organismos públicos cuando exista una obligación legal que así lo requiera."
         ]
       },
       {
         id: "transferencias", title: "7. ¿Se realizarán transferencias internacionales de datos?",
         paragraphs: [
-          "Algunos proveedores operan internacionalmente. La ubicación europea de la base de datos no implica que todos los servicios, accesos de soporte o redes de distribución de contenido se limiten al Espacio Económico Europeo (EEE).",
-          "Vercel utiliza infraestructura distribuida y contempla tratamiento en Estados Unidos y otros países. Supabase Pte. Ltd. está establecida en Singapur y cuenta con una filial de soporte y operaciones en Estados Unidos; su documentación distingue el alojamiento regional de la base de datos de los accesos de soporte y la distribución global de archivos. Google también puede tratar datos fuera del EEE al utilizar el mapa autorizado. Resend prevé tratamiento principal en Estados Unidos cuando se active el servicio de envío.",
-          "Para las transferencias que lo requieran, deberán aplicarse los mecanismos previstos por la normativa, como decisiones de adecuación o cláusulas contractuales tipo. La documentación pública de los proveedores describe sus marcos y garantías: Supabase y Resend incluyen cláusulas contractuales tipo en sus acuerdos de tratamiento; Vercel y Google publican información sobre los mecanismos de transferencia que utilizan.",
-          "Puedes solicitar al Responsable más información sobre las garantías aplicables a tus datos y una copia de las que corresponda facilitar, a través de privacidad@barcelonacountry.com. La incorporación o sustitución de servicios se reflejará en esta política cuando afecte al tratamiento de tus datos."
-        ],
-        links: [
-          { label: "Vercel: transferencias de información", href: "https://vercel.com/legal/privacy-notice" },
-          { label: "Supabase: residencia y transferencias", href: "https://supabase.com/legal/privacy-resources/data-residency-and-transfers-faq" },
-          { label: "Supabase: acuerdo de tratamiento", href: "https://supabase.com/legal/customer-resources/data-processing-addendum" },
-          { label: "Google: marcos de transferencia de datos", href: "https://policies.google.com/privacy/frameworks?hl=es" },
-          { label: "Resend: acuerdo de tratamiento", href: "https://resend.com/legal/dpa" },
-          contact
+          "Si alguno de los proveedores utilizados para gestionar la web, almacenar los datos o enviar la newsletter se encuentra fuera del Espacio Económico Europeo, o accede a los datos desde un país tercero, el Responsable verificará si existe una transferencia internacional de datos y garantizará que se cumplen los requisitos establecidos por el RGPD.",
+          "Cuando corresponda, se utilizarán los mecanismos legalmente previstos, como una decisión de adecuación o las garantías adecuadas exigidas por la normativa."
         ]
       },
       {
@@ -164,7 +139,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
       {
         id: "menores", title: "11. Datos de menores",
         paragraphs: [
-          "El formulario de personas interesadas está dirigido a personas que puedan facilitar válidamente sus datos personales conforme a la legislación aplicable.",
+          "El formulario de suscripción está dirigido a personas que puedan facilitar válidamente sus datos personales conforme a la legislación aplicable.",
           "Si se prevé captar datos de menores, el Responsable deberá revisar las condiciones del formulario y aplicar las garantías que correspondan según la edad de las personas interesadas y la normativa vigente."
         ]
       },

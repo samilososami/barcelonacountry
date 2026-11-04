@@ -2,7 +2,9 @@
 
 ## Estado al 4 de noviembre de 2026
 
-El formulario admite registros sin suscripción: `newsletter_consent` refleja una casilla opcional, desmarcada de inicio. La aceptación de privacidad es independiente y obligatoria; el servidor exige `privacy_accepted: true` y guarda su propia fecha en `privacy_accepted_at`. Un registro con `consent: false` no busca el número 1 ni llama al proveedor de correo y devuelve `welcome_email: "skipped"`. Los registros históricos no se modifican ni se les atribuye una aceptación que no dieron.
+Tras la aclaración de Xavi del 4 de noviembre, el formulario sirve exclusivamente para suscribirse a Barcelona Country News. Se conserva la primera casilla de privacidad, obligatoria y desmarcada de inicio, y se retira la segunda casilla de newsletter. El botón indica siempre «Suscribirme» y el párrafo de presentación vuelve al texto facilitado por Javier. El envío explícito solicita la suscripción: el cliente manda `consent: true` y el servidor exige ese valor junto con `privacy_accepted: true`; una petición sin cualquiera de esas aceptaciones se rechaza antes de guardar o enviar. El servidor guarda su propia fecha en `privacy_accepted_at`.
+
+Esta corrección sustituye el registro de interesados con newsletter opcional introducido anteriormente el mismo día. Los registros históricos no se modifican ni se les atribuye una aceptación que no dieron; quien tenga `newsletter_consent: false` sigue excluido de los envíos.
 
 Las tres páginas legales ya incorporan los textos de Javier del 2 de noviembre, los datos registrales facilitados por el cliente, el lugar donde se suele bailar y los proveedores revisados. Fuentes, límites y mantenimiento: [proveedores-y-privacidad.md](proveedores-y-privacidad.md). Google Maps queda bloqueado hasta aceptar en el nuevo panel; rechazar y retirar el permiso son opciones disponibles, también desde el pie. La elección dura 180 días y es propia de cada dominio y navegador. El formulario de `/backup` conserva su aspecto como archivo, pero está deshabilitado y remite al formulario actual.
 

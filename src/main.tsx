@@ -2025,7 +2025,6 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
 
 function ModernApp() {
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
-  const [wantsNewsletter, setWantsNewsletter] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isNavigationSticky, setIsNavigationSticky] = useState(false);
@@ -2098,7 +2097,7 @@ function ModernApp() {
     try {
       const response = await fetch("/api/newsletter", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: data.get("newsletterConsent") === "on", privacy_accepted: data.get("privacyAccepted") === "on", website: data.get("website") })
+        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: true, privacy_accepted: data.get("privacyAccepted") === "on", website: data.get("website") })
       });
       const result = await response.json();
       if (!response.ok) {
@@ -2106,8 +2105,7 @@ function ModernApp() {
         return;
       }
       form.reset();
-      setWantsNewsletter(false);
-      setFormFeedback({ type: "success", message: data.get("newsletterConsent") === "on" ? `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` : registration.registered });
+      setFormFeedback({ type: "success", message: `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` });
     } catch {
       setFormFeedback({ type: "error", message: formFeedbackLabels[language].error });
     } finally {
@@ -2222,7 +2220,7 @@ function ModernApp() {
             {artists.map((artist, index) => (
               <article className="modern-artist-card" key={artist.name}>
                 <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
-                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.image} alt={artist.name} />
+                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait.png" : artist.image} alt={artist.name} />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </a>
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
@@ -2259,7 +2257,7 @@ function ModernApp() {
           <div className="modern-contact-copy">
             <h2 id="modern-contact-title">{newsletter.title}</h2>
             <span>{copy.triad.join(" · ")}</span>
-            <p className="subscription-intro">{registration.intro}</p>
+            <p className="subscription-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p>
           </div>
           <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
             <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
@@ -2272,17 +2270,13 @@ function ModernApp() {
                 <input id="privacy-accepted" name="privacyAccepted" type="checkbox" required />
                 <span>{registration.privacyBefore} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a> {registration.privacyAfter}</span>
               </label>
-              <label className="registration-consent" htmlFor="newsletter-consent">
-                <input id="newsletter-consent" name="newsletterConsent" type="checkbox" checked={wantsNewsletter} onChange={(event) => setWantsNewsletter(event.currentTarget.checked)} aria-describedby="newsletter-optional-help" />
-                <span>{registration.newsletter}</span>
-              </label>
-              <p id="newsletter-optional-help" className="registration-help">{registration.optionalHelp}</p>
             </div>
             <div className="subscription-submit-row">
-              <button className="modern-primary-button" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization">
-                {isFormSubmitting ? formFeedbackLabels[language].submitting : wantsNewsletter ? newsletter.subscribe : registration.submit}
+              <button className="modern-primary-button subscription-button" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization">
+                <span>{isFormSubmitting ? formFeedbackLabels[language].submitting : newsletter.subscribe}</span>
+                <span className="subscription-button-arrow" aria-hidden="true"><ArrowIcon /></span>
               </button>
-              <p id="subscription-authorization" className="subscription-authorization">{registration.information} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
+              <p id="subscription-authorization" className="subscription-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
             </div>
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>

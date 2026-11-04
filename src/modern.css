@@ -300,6 +300,9 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-artist-card p { color: #ccc9c2; }
 .modern-artist-card h3 { color: #fff; }
 .modern-artist-image.artist-algaly-fofana, .modern-artist-image.artist-jonathan-jones { object-fit: cover; object-position: center; transform: none; }
+/* Keep Johnny's original pixels; the card frames his hat, face and shoulders. */
+.modern-artist-card .modern-artist-image.artist-johnny { position: absolute; top: 0; left: 50%; width: 245%; max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); transform-origin: 50% 0; }
+.modern-artist-card a:hover .modern-artist-image.artist-johnny { transform: translateX(-50%) scale(1.025); }
 
 .modern-experience { background: #111; }
 .modern-experience::after { background: var(--section-vignette), rgba(0,0,0,.58); }
@@ -322,13 +325,22 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-contact-copy h2 { color: #fff; }
 .modern-subscription { gap: clamp(32px,5vw,80px); grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); }
 .modern-subscription .modern-contact-copy h2 { max-width: 560px; font-size: clamp(48px,6vw,84px); line-height: 1.02; letter-spacing: -.035em; }
-.modern-subscription .subscription-intro { margin: 30px 0 0; max-width: 520px; color: #f2efeb; font-size: 17px; line-height: 1.7; letter-spacing: 0; font-weight: 400; text-transform: none; }
+.modern-subscription .subscription-intro { margin: 30px 0 0; max-width: 520px; color: #f2efeb; font-size: 18px; line-height: 1.7; letter-spacing: 0; font-weight: 400; text-transform: none; }
 .subscription-intro strong { color: #ff4949; }
-.modern-subscription .modern-contact-form label { font-size: 13px; letter-spacing: .07em; }
+.modern-subscription .modern-contact-form label { font-size: 15px; letter-spacing: .055em; }
+.modern-subscription .modern-contact-form input:not([type="checkbox"]), .modern-subscription .modern-contact-form select { font-size: 18px; min-height: 50px; }
 .modern-subscription .modern-contact-form input:focus-visible, .modern-subscription .modern-contact-form select:focus-visible { outline: 2px solid #ed4444; outline-offset: 4px; }
 .subscription-submit-row { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 24px; align-items: start; margin-top: 8px; }
 .subscription-submit-row .modern-primary-button { margin: 0; padding: 18px 22px; min-height: 52px; color: #fff; font-size: 14px; letter-spacing: 0; }
-.subscription-authorization { margin: 0; color: #ddd9d3; font-size: 12px; line-height: 1.6; }
+.subscription-submit-row .subscription-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; padding: 18px 20px 18px 24px; min-height: 62px; max-width: 100%; border: 1px solid #ff5e5e; background: #c40000; box-shadow: 0 4px 0 #650000; font-size: 15px; font-weight: 800; text-align: left; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.subscription-button > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.subscription-button-arrow { display: grid; place-items: center; flex: 0 0 36px; min-height: 28px; padding-left: 15px; border-left: 1px solid #ffffff55; }
+.subscription-button-arrow .ui-arrow { transition: transform .2s ease; }
+@media(hover:hover) { .subscription-submit-row .subscription-button:not(:disabled):hover { background: #df1010; transform: translateY(-2px); box-shadow: 0 6px 0 #650000, 0 10px 24px #0004; } .subscription-button:not(:disabled):hover .ui-arrow { transform: translateX(4px); } }
+.subscription-submit-row .subscription-button:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #650000; }
+.subscription-submit-row .subscription-button:focus-visible { outline: 3px solid #f5e7cf; outline-offset: 5px; }
+@media(prefers-reduced-motion:reduce) { .subscription-submit-row .subscription-button, .subscription-button-arrow .ui-arrow { transition: none; } }
+.subscription-authorization { margin: 0; color: #ddd9d3; font-size: 13px; line-height: 1.65; }
 .subscription-authorization a { color: #ff7070; text-underline-offset: 3px; }
 .subscription-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .registration-consents { display: grid; gap: 20px; padding-top: 8px; }
