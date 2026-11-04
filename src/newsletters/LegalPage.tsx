@@ -6,6 +6,19 @@ import { CookiePreferencesButton } from "../privacy/CookieConsent";
 import { registrationCopy } from "../privacy/registration-copy";
 import "./news.css";
 
+// Link existing words without adding or rewriting the approved document text.
+function LegalText({ text }: { text: string }) {
+  const links: Record<string, string> = {
+    "privacidad@barcelonacountry.com": "mailto:privacidad@barcelonacountry.com",
+    "https://www.barcelonacountry.com/": "https://www.barcelonacountry.com/",
+    "Política de Privacidad": "/privacidad",
+    "Política de Cookies": "/cookies"
+  };
+  return text.split(/(privacidad@barcelonacountry\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
+    links[part] ? <a key={index} href={links[part]}>{part}</a> : part
+  );
+}
+
 export function LegalPage({ language }: { language: NewsLanguage }) {
   const t = newsCopy[language];
   const key = window.location.pathname.replace(/^\/|\/$/g, "");
@@ -34,17 +47,20 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
         <a href="/cookies" aria-current={key === "cookies" ? "page" : undefined}>{t.cookies}</a>
       </nav>}
       <article className="news-article legal-document" lang={isUnsubscribe ? language : "es"}>
-        <p className="news-number">Barcelona Country Fest</p><h1>{title}</h1>
+        {isUnsubscribe && <p className="news-number">Barcelona Country Fest</p>}<h1 data-legal-source={document ? "" : undefined}>{title}</h1>
         {isUnsubscribe ? <><p role="status">{status}</p>{!done && <button className="news-subscribe-link" disabled={busy} onClick={unsubscribe}>{busy ? "…" : t.unsubscribe}</button>}</> : document ? <>
-          <p className="legal-updated">Última actualización: <time dateTime={document.updatedAt}>{new Intl.DateTimeFormat("es", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${document.updatedAt}T12:00:00Z`))}</time></p>
+          <p className="legal-updated" data-legal-source><time dateTime={document.updatedAt}>{document.updatedLabel}</time></p>
           {language !== "es" && <p className="legal-language-note" lang={language}>{registrationCopy[language].spanishDocument}</p>}
           {key === "cookies" && <div className="legal-preferences"><CookiePreferencesButton language={language} /></div>}
           <nav className="legal-index" aria-label="Contenido del documento"><ol>{document.sections.map(section => <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>)}</ol></nav>
           {document.sections.map(section => <section className="legal-section" key={section.id} id={section.id}>
-            <h2>{section.title}</h2>
-            {section.paragraphs?.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-            {section.items && <ul>{section.items.map((item, index) => <li key={index}>{item}</li>)}</ul>}
-            {section.links && <ul className="legal-links">{section.links.map(link => <li key={link.href}><a href={link.href} {...(link.href.startsWith("https:") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{link.label}</a></li>)}</ul>}
+            <h2 data-legal-source>{section.title}</h2>
+            {section.blocks.map((block, index) => block.type === "list"
+              ? <ul key={index}>{block.items.map((item, itemIndex) => <li key={itemIndex} data-legal-source><LegalText text={item} /></li>)}</ul>
+              : block.type === "heading"
+                ? <h3 key={index} data-legal-source>{block.text}</h3>
+                : <p key={index} data-legal-source><LegalText text={block.text} /></p>
+            )}
           </section>)}
         </> : <p>{t.pending}</p>}
       </article>

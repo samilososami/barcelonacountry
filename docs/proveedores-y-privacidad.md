@@ -4,22 +4,19 @@ Revisión: 4 de noviembre de 2026. Esta ficha documenta la implementación técn
 
 ## Fuente y cambios autorizados
 
-La base es el documento `TEXTOS LEGALES BARCELONA COUNTRY FEST.docx`, enviado por Javier González desde `xavierglez@msn.com` el 2 de noviembre de 2026, a las 12:22 (Europe/Madrid), en «RV: HOLA SAMI: CAMBIOS PARA BARCELONA CF». Contiene privacidad, cookies, aviso legal y un bloque separado para el futuro pie de newsletter. Se preservan las secciones y las disposiciones generales de las tres políticas. El bloque de correo no se integra en esta tarea y no se activa el autoreply.
+La fuente es el documento `TEXTOS LEGALES BARCELONA COUNTRY FEST.docx`, enviado por Javier González desde `xavierglez@msn.com` el 2 de noviembre de 2026, a las 12:22 (Europe/Madrid), en «RV: HOLA SAMI: CAMBIOS PARA BARCELONA CF». Contiene privacidad, cookies, aviso legal y un bloque separado para el futuro pie de newsletter. El adjunto se ha vuelto a descargar y su SHA-256 coincide con la copia utilizada: `e956dad2040c37f5adb6ebbf2955058a03d0f0127135aa710775f37feebcc903`. El bloque de correo no se integra en esta tarea y no se activa el autoreply.
 
-El usuario facilita y autoriza incorporar el dato registral: «Inscrita en el Registro Mercantil de Barcelona, Sección 8.ª, Hoja B-663513, Inscripción 1.ª.» También autoriza los controles de cookies y reflejar dónde se suele bailar.
+La instrucción vigente del usuario es restaurar los tres documentos completos, tal cual los originales de Javier, sin añadir contenido. Se conservan sus títulos, fechas del 2 de noviembre, dominio original, puntuación, párrafos, listas y orden. La única sustitución es el marcador registral del aviso legal por el dato facilitado posteriormente por el usuario: «Inscrita en el Registro Mercantil de Barcelona, Sección 8.ª, Hoja B-663513, Inscripción 1.ª.»
 
-La primera implementación permitía registrarse sin newsletter y añadía proveedores al texto público. El 04/11/2026 el usuario confirma que prevalecen las correcciones de Xavi y Javier: el formulario es exclusivamente de suscripción, se conserva la primera casilla de privacidad y se retira la segunda. Se restauran el párrafo de presentación, el texto de autorización y el botón «Suscribirme». Las secciones públicas de proveedores y transferencias recuperan los párrafos del documento de Javier; el inventario técnico y sus fuentes quedan en este archivo interno. No añadir contenido público no solicitado.
+El cotejo debe comparar los 82 párrafos de privacidad, 32 de cookies y 49 del aviso legal, incluidos títulos y fechas, con 18, 8 y 6 elementos de lista respectivamente. Solo se normalizan espacios de maquetación; los saltos internos del contacto final de privacidad se conservan. Los enlaces se aplican a palabras ya existentes, sin agregar texto visible. La portada del conjunto y las instrucciones del bloque de correo no forman parte de estas tres páginas.
 
-Cambios respecto del documento de Javier:
+Esta restauración reemplaza las adaptaciones anteriores sobre dominios, formulario, proveedores y cookies. También devuelve las frases que el original mantiene sobre registro de interesados, casilla opcional y datos de proveedores por completar, así como la repetición «actualizar, modificar o modificar parcialmente». No corregirlas ni omitirlas por iniciativa propia: cualquier revisión del contenido corresponde a Javier. La fidelidad documental no implica que esas descripciones se hayan contrastado jurídicamente con el funcionamiento actual.
 
-- Ambos dominios del festival, manteniendo el buzón `privacidad@barcelonacountry.com`.
-- Datos del lugar de baile y país asociado al prefijo, con finalidad limitada a conocer la comunidad de baile y organizar los contactos; no geolocalización ni nacionalidad inferida.
-- Suscripción mediante «Suscribirme» y una única casilla de privacidad requerida, desmarcada de inicio; no existe un registro independiente de la newsletter.
-- Inventario interno de proveedores y transferencias posibles, sin afirmar acuerdos privados no comprobados ni añadirlo al documento público.
-- Política de cookies adaptada a tecnologías reales: almacenamiento local y Google Maps opcional. Se retiran categorías genéricas que insinuaban herramientas propias de publicidad/analítica inexistentes.
-- Se corrige la repetición «modificar o modificar parcialmente» del aviso legal sin cambiar su sentido.
+El formulario sigue siendo exclusivamente de suscripción, con el botón «Suscribirme» y una única casilla requerida de privacidad, desmarcada de inicio, según la corrección anterior de Xavi. Se conservan los controles de cookies, el bloqueo de Google Maps y el inventario técnico interno. Restaurar los textos no modifica esos comportamientos.
 
 Los documentos públicos viven en `src/privacy/legal-content.ts`; no se sirven desde el DOCX ni contienen HTML arbitrario. Son textos en castellano facilitados por la organización. No generar traducciones legales como si fueran textos aprobados.
+
+La restauración supera un cotejo independiente contra el XML del DOCX y una comparación de los 163 párrafos renderizados en Chromium, con la única sustitución registral documentada. Se comprueban las 32 viñetas, enlaces del índice, apertura de preferencias de cookies y ausencia de desbordamientos a 320, 390, 768, 1024 y 1440 px. La etiqueta telefónica se muestra completa en castellano y catalán. Compilación y 22 pruebas existentes correctas; no se envían correos ni se crean suscripciones durante la verificación.
 
 ## Inventario técnico
 
@@ -52,7 +49,7 @@ Consultadas el 04/11/2026. Son información pública del proveedor, no prueba de
 | Claves de Supabase Auth (`sb-…-auth-token`) | Panel administrativo | Mantener la sesión solicitada del administrador | Depende de sesión, renovación/expiración/revocación; cierre de sesión o borrado local retira la sesión local |
 | Cookies de Google | Google Maps, únicamente tras autorizarlo | Según servicio, sesión y ajustes del visitante | Variable, fijada por Google; la web no puede borrarlas desde su dominio |
 
-La política incluye NID (6 meses desde último uso) y `_Secure-ENID` (13 meses) **como ejemplos del catálogo oficial de Google**, no como resultados de una auditoría de todas las sesiones. No copiar una tabla de cookies de otra web como si fueran cookies detectadas aquí. Las cookies efectivamente entregadas deben contrastarse en navegador limpio, con y sin cuenta de Google, al revisar cambios en el embed. Revocar consentimiento impide nuevas cargas desde esta web, pero no deshace transmisiones anteriores ni elimina cookies de dominios externos.
+La adaptación pública anterior incluía NID (6 meses desde último uso) y `_Secure-ENID` (13 meses) como ejemplos del catálogo oficial de Google; la restauración literal elimina esas adiciones. Este inventario interno no debe copiarse a los textos públicos sin validación. Las cookies efectivamente entregadas deben contrastarse en navegador limpio, con y sin cuenta de Google, al revisar cambios en el embed. Revocar consentimiento impide nuevas cargas desde esta web, pero no deshace transmisiones anteriores ni elimina cookies de dominios externos.
 
 ## Revisión obligatoria al cambiar servicios
 

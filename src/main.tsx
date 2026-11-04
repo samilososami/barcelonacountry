@@ -627,7 +627,7 @@ const copies: Record<LanguageKey, Copy> = {
     date: "FIRA CORNELLÀ · 22–24 OCT 2027",
     contactTitle: "MANTENTE INFORMADO",
     formName: "Nombre",
-    formPhone: "Número de teléf.",
+    formPhone: "Número de teléfono",
     formEmail: "Correo electrónico",
     formDanceLocation: "¿Dónde sueles bailar?",
     footer: "© 2027 Barcelona Country Festival · Todos los derechos reservados · Yeehaw!"
@@ -685,7 +685,7 @@ const copies: Record<LanguageKey, Copy> = {
     date: "FIRA CORNELLÀ · 22–24 OCT 2027",
     contactTitle: "MANTEN-TE INFORMAT",
     formName: "Nom",
-    formPhone: "Número de telèf.",
+    formPhone: "Número de telèfon",
     formEmail: "Correu electrònic",
     formDanceLocation: "On acostumes a ballar?",
     footer: "© 2027 Barcelona Country Festival · Tots els drets reservats · Yeehaw!"
