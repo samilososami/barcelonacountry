@@ -90,3 +90,4 @@
   .ticket-phone-field > span { grid-template-columns: 1fr; }
   .ticket-quantity-row { align-items: flex-start; flex-direction: column; }
 }
+.ticket-privacy-footer { position: relative; z-index: 6; padding: 24px; text-align: center; color: #eee7dd; font-size: 13px; }

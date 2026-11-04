@@ -1,9 +1,10 @@
 import { StrictMode, Suspense, lazy, useEffect, useRef, useState, type CSSProperties, type FormEvent, type UIEvent } from "react";
 import { createRoot } from "react-dom/client";
-import { supabase } from "./lib/supabase";
 import { countryFlag, phoneCountries, type PhoneCountry } from "./lib/phoneCountries";
 import { newsCopy } from "./newsletters/copy";
 import { ArrowIcon } from "./components/ArrowIcon";
+import { CookieConsentProvider, CookiePreferencesButton, useCookieConsent } from "./privacy/CookieConsent";
+import { registrationCopy } from "./privacy/registration-copy";
 import "./styles.css";
 import "./modern.css";
 
@@ -1181,6 +1182,14 @@ function scrollToTarget(targetId: string) {
 }
 
 function GoogleMap({ language, title }: { language: LanguageKey; title: string }) {
+  const { mapsAllowed, openPreferences } = useCookieConsent();
+  const text = registrationCopy[language];
+  if (!mapsAllowed) return <section className="map-consent-placeholder" aria-label={title}>
+    <p className="map-consent-eyebrow">Fira Cornellà · Barcelona</p>
+    <h3>{text.mapTitle}</h3>
+    <p>{text.mapDescription}</p>
+    <button type="button" onClick={openPreferences}>{text.mapAction}</button>
+  </section>;
   return (
     <iframe
       className="google-map-embed"
@@ -1507,8 +1516,6 @@ function App() {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [activeNavIndex, setActiveNavIndex] = useState(0);
-  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const languagePickerRef = useRef<HTMLDivElement | null>(null);
   const copy = copies[language];
   const findCopy = findCopies[language];
@@ -1612,43 +1619,9 @@ function App() {
     scrollToTarget(targetId);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const fullName = String(data.get("name") ?? "").trim();
-    const prefix = String(data.get("phonePrefix") ?? "").trim();
-    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
-    const phoneNumber = String(data.get("phone") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim().toLowerCase();
-
-    setIsFormSubmitting(true);
-    setFormFeedback(null);
-
-    const { error } = await supabase.from("registrations").insert({
-      full_name: fullName,
-      phone: `${prefix} ${phoneNumber}`.trim(),
-      country_iso: countryIso || null,
-      email
-    });
-
-    if (error) {
-      setFormFeedback({
-        type: "error",
-        message: error.code === "23505" ? formFeedbackLabels[language].duplicate : formFeedbackLabels[language].error
-      });
-      setIsFormSubmitting(false);
-      return;
-    }
-
-    form.reset();
-    setFormFeedback({ type: "success", message: formFeedbackLabels[language].success });
-    setIsFormSubmitting(false);
-  };
-
   const handleLanguageChange = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
-    window.localStorage.setItem("barcelona-country-language", nextLanguage);
+    try { window.localStorage.setItem("barcelona-country-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
     setIsLanguageOpen(false);
   };
 
@@ -1883,13 +1856,13 @@ function App() {
             >
               {copy.contactTitle}
             </h2>
-            <form
+            <div
               className="abs contact-form"
               aria-label={interfaceLabels[language].form}
-              onSubmit={handleSubmit}
               data-scrolljs
               style={revealStyle({}, 100)}
             >
+              <fieldset disabled className="archive-form-fields">
               <label className="abs label label-name" htmlFor="name" data-text-node="form-label">
                 {copy.formName}
               </label>
@@ -1904,18 +1877,15 @@ function App() {
                 {copy.formEmail}
               </label>
               <input className="abs input input-email" id="email" name="email" type="email" autoComplete="email" required maxLength={320} />
-              <button className="abs cta bottom-cta" type="submit" disabled={isFormSubmitting}>
+              </fieldset>
+              <a className="abs cta bottom-cta" href="/#contact">
                 <span className="cta-type" data-text-node="contact-cta">
-                  {isFormSubmitting ? formFeedbackLabels[language].submitting : copy.cta}
+                  {newsCopy[language].back}
                 </span>
                 <img className="cta-star" src="/assets/star-button.png" alt="" />
-              </button>
-              {formFeedback && (
-                <p className={`contact-form-status is-${formFeedback.type}`} role="status">
-                  {formFeedback.message}
-                </p>
-              )}
-            </form>
+              </a>
+              <p className="contact-form-status archive-form-notice">{({ es: "Formulario de archivo. Regístrate en la web actual.", ca: "Formulari d'arxiu. Registra't al web actual.", en: "Archived form. Register on the current website.", fr: "Formulaire archivé. Inscrivez-vous sur le site actuel.", it: "Modulo archiviato. Registrati sul sito attuale.", de: "Archiviertes Formular. Registriere dich auf der aktuellen Website." })[language]}</p>
+            </div>
           </section>
 
           <footer className="abs footer" data-scrolljs style={revealStyle({}, 0)}>
@@ -1932,6 +1902,7 @@ function App() {
           </footer>
         </main>
       </div>
+      <footer className="archive-privacy-links"><a href="/privacidad">{newsCopy[language].privacy}</a><a href="/aviso-legal">{newsCopy[language].legal}</a><a href="/cookies">{newsCopy[language].cookies}</a><CookiePreferencesButton language={language} /></footer>
     </div>
   );
 }
@@ -2054,6 +2025,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
 
 function ModernApp() {
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
+  const [wantsNewsletter, setWantsNewsletter] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isNavigationSticky, setIsNavigationSticky] = useState(false);
@@ -2063,6 +2035,7 @@ function ModernApp() {
   const ticketCta = ticketCtaCopies[language];
   const festivalDate = festivalDates[language];
   const newsletter = newsCopy[language];
+  const registration = registrationCopy[language];
   const mysteryArtists = mysteryArtistCopies[language];
   const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
   const artists = createArtists(copy, language);
@@ -2098,7 +2071,7 @@ function ModernApp() {
 
   const changeLanguage = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
-    window.localStorage.setItem("barcelona-country-language", nextLanguage);
+    try { window.localStorage.setItem("barcelona-country-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
     setIsLanguageMenuOpen(false);
   };
 
@@ -2125,7 +2098,7 @@ function ModernApp() {
     try {
       const response = await fetch("/api/newsletter", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: true, website: data.get("website") })
+        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: data.get("newsletterConsent") === "on", privacy_accepted: data.get("privacyAccepted") === "on", website: data.get("website") })
       });
       const result = await response.json();
       if (!response.ok) {
@@ -2133,7 +2106,8 @@ function ModernApp() {
         return;
       }
       form.reset();
-      setFormFeedback({ type: "success", message: `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` });
+      setWantsNewsletter(false);
+      setFormFeedback({ type: "success", message: data.get("newsletterConsent") === "on" ? `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` : registration.registered });
     } catch {
       setFormFeedback({ type: "error", message: formFeedbackLabels[language].error });
     } finally {
@@ -2142,6 +2116,7 @@ function ModernApp() {
   };
 
   return (
+    <CookieConsentProvider language={language}>
     <div className="modern-page">
       <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
         <nav className="modern-nav" aria-label="Principal">
@@ -2284,7 +2259,7 @@ function ModernApp() {
           <div className="modern-contact-copy">
             <h2 id="modern-contact-title">{newsletter.title}</h2>
             <span>{copy.triad.join(" · ")}</span>
-            <p className="subscription-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p>
+            <p className="subscription-intro">{registration.intro}</p>
           </div>
           <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
             <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
@@ -2292,11 +2267,22 @@ function ModernApp() {
             <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
             <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
             <div className="subscription-honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
+            <div className="registration-consents">
+              <label className="registration-consent" htmlFor="privacy-accepted">
+                <input id="privacy-accepted" name="privacyAccepted" type="checkbox" required />
+                <span>{registration.privacyBefore} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a> {registration.privacyAfter}</span>
+              </label>
+              <label className="registration-consent" htmlFor="newsletter-consent">
+                <input id="newsletter-consent" name="newsletterConsent" type="checkbox" checked={wantsNewsletter} onChange={(event) => setWantsNewsletter(event.currentTarget.checked)} aria-describedby="newsletter-optional-help" />
+                <span>{registration.newsletter}</span>
+              </label>
+              <p id="newsletter-optional-help" className="registration-help">{registration.optionalHelp}</p>
+            </div>
             <div className="subscription-submit-row">
               <button className="modern-primary-button" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization">
-                {isFormSubmitting ? formFeedbackLabels[language].submitting : newsletter.subscribe}
+                {isFormSubmitting ? formFeedbackLabels[language].submitting : wantsNewsletter ? newsletter.subscribe : registration.submit}
               </button>
-              <p id="subscription-authorization" className="subscription-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
+              <p id="subscription-authorization" className="subscription-authorization">{registration.information} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
             </div>
             {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
           </form>
@@ -2315,7 +2301,7 @@ function ModernApp() {
       </main>
       <footer className="modern-footer">
         <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
-        <nav className="footer-legal-links" aria-label={newsletter.legal}><a href="/newsletters">Barcelona Country News</a><a href="/privacidad">{newsletter.privacy}</a><a href="/aviso-legal">{newsletter.legal}</a><a href="/cookies">{newsletter.cookies}</a></nav>
+        <nav className="footer-legal-links" aria-label={newsletter.legal}><a href="/newsletters">Barcelona Country News</a><a href="/privacidad">{newsletter.privacy}</a><a href="/aviso-legal">{newsletter.legal}</a><a href="/cookies">{newsletter.cookies}</a><CookiePreferencesButton /></nav>
         <details className="modern-photo-credits">
           <summary>⌘ Créditos fotográficos</summary>
           <ul>
@@ -2329,6 +2315,7 @@ function ModernApp() {
         </details>
       </footer>
     </div>
+    </CookieConsentProvider>
   );
 }
 
@@ -2345,10 +2332,12 @@ createRoot(document.getElementById("root")!).render(
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
         <AdminPortal />
       </Suspense>
-    ) : isBackupRoute ? <App /> : isTicketRoute ? (
+    ) : isBackupRoute ? <CookieConsentProvider language={getInitialLanguage()}><App /></CookieConsentProvider> : isTicketRoute ? (
+      <CookieConsentProvider language={getInitialLanguage()}>
       <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando entradas"><span /><span /><span /></div>}>
         <TicketPurchasePage />
       </Suspense>
-    ) : isNewsRoute || isLegalRoute ? <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense> : <ModernApp />}
+      </CookieConsentProvider>
+    ) : isNewsRoute || isLegalRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense></CookieConsentProvider> : <ModernApp />}
   </StrictMode>
 );

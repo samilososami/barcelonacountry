@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import { createNewsletterHandler, unsubscribeToken, verifyUnsubscribe, welcomeEmail } from '../server/newsletter.mjs';
 
 const env = { SUPABASE_URL: 'https://test.supabase.co', SUPABASE_PUBLISHABLE_KEY: 'public', SUPABASE_SERVICE_ROLE_KEY: 'test-secret', NEWSLETTER_SIGNING_SECRET: 'test-signature', RESEND_API_KEY: 'test-mail', NEWSLETTER_FROM_EMAIL: 'news@example.com', NODE_ENV: 'production' };
-const input = { action: 'subscribe', full_name: 'Test Dancer', email: 'dancer@example.com', phone: '+34 600000000', country_iso: 'ES', dance_location: 'Test dance hall', consent: true, locale: 'es' };
+const input = { action: 'subscribe', full_name: 'Test Dancer', email: 'dancer@example.com', phone: '+34 600000000', country_iso: 'ES', dance_location: 'Test dance hall', consent: true, privacy_accepted: true, locale: 'es' };
 const issue = { issue_number: 1, is_published: true, slug: 'primer-numero', title: 'Primer número', content: 'Contenido aprobado\n\n## Artistas\n\nNos vemos en Barcelona.' };
 function harness({ configured = true, published = true, mailFails = false, throws = false, admin = false } = {}) {
-  const rows = []; const emails = [];
+  const rows = []; const emails = []; const tables = [];
   const client = {
     auth: { getUser: async token => ({ data: { user: token === 'admin-token' ? { id: 'admin' } : null } }) },
     from(table) {
+      tables.push(table);
       let op = 'select', data, count = false, head = false; const filters = [];
       const query = {
         insert(value) { op = 'insert'; data = value; return query; },
@@ -38,18 +39,59 @@ function harness({ configured = true, published = true, mailFails = false, throw
     return Response.json(mailFails ? { error: 'fail' } : { id: 'mail-1' }, { status: mailFails ? 503 : 200 });
   } });
   const request = (body, headers = {}) => handler(new Request('https://bcncountryfest.com/api/newsletter', { method: 'POST', headers: { origin: 'https://bcncountryfest.com', 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body) }));
-  return { rows, emails, request, handler };
+  return { rows, emails, tables, request, handler };
 }
 
 test('subscription persists consent and sends issue 1 with blog and unsubscribe links', async () => {
-  const h = harness(); const response = await h.request(input);
+  const h = harness(); const before = Date.now(); const response = await h.request(input);
   assert.equal(response.status, 201); assert.equal((await response.json()).welcome_email, 'sent');
-  assert.equal(h.rows[0].newsletter_consent, true); assert.equal(h.rows[0].privacy_accepted_at, undefined);
+  assert.equal(h.rows[0].newsletter_consent, true);
+  assert.ok(Date.parse(h.rows[0].privacy_accepted_at) >= before);
+  assert.ok(Date.parse(h.rows[0].privacy_accepted_at) <= Date.now());
   assert.ok(h.rows[0].welcome_newsletter_sent_at);
   const mail = JSON.parse(h.emails[0].body);
   assert.match(mail.html, /https:\/\/bcncountryfest.com\/newsletters\/primer-numero/);
   assert.match(mail.html, /\/baja\?token=/); assert.deepEqual(mail.to, [input.email]);
   assert.match(h.emails[0].headers['Idempotency-Key'], /^welcome-v1-/);
+});
+test('registration without newsletter consent persists privacy acceptance and never looks up or sends an issue', async () => {
+  for (const configured of [true, false]) {
+    const h = harness({ configured, admin: true });
+    const before = Date.now();
+    const result = await h.request({ ...input, consent: false, privacy_accepted_at: '1900-01-01T00:00:00.000Z' });
+    assert.equal(result.status, 201);
+    assert.deepEqual(await result.json(), { ok: true, welcome_email: 'skipped' });
+    assert.equal(h.rows.length, 1);
+    assert.equal(h.rows[0].newsletter_consent, false);
+    assert.ok(Date.parse(h.rows[0].privacy_accepted_at) >= before);
+    assert.ok(Date.parse(h.rows[0].privacy_accepted_at) <= Date.now());
+    assert.equal(h.rows[0].welcome_newsletter_sent_at, null);
+    assert.deepEqual(h.tables, ['registrations']);
+    assert.equal(h.emails.length, 0);
+    const status = await h.request({ action: 'status' }, { Authorization: 'Bearer admin-token' });
+    assert.equal((await status.json()).pending, 0);
+    if (configured) {
+      const dispatch = await h.request({ action: 'dispatch' }, { Authorization: 'Bearer admin-token' });
+      assert.deepEqual(await dispatch.json(), { sent: 0, pending: 0 });
+      assert.equal(h.emails.length, 0);
+    }
+  }
+});
+test('privacy acceptance is mandatory and consent values are never coerced', async () => {
+  for (const consent of [true, false]) {
+    for (const privacy_accepted of [undefined, false, null, 'true', 1]) {
+      const h = harness();
+      assert.equal((await h.request({ ...input, consent, privacy_accepted })).status, 400);
+      assert.deepEqual(h.rows, []);
+      assert.deepEqual(h.emails, []);
+    }
+  }
+  for (const consent of [undefined, null, 'true', 'false', 0, 1, {}, []]) {
+    const h = harness();
+    assert.equal((await h.request({ ...input, consent })).status, 400);
+    assert.deepEqual(h.rows, []);
+    assert.deepEqual(h.emails, []);
+  }
 });
 test('missing configuration, missing first issue, provider error and timeout preserve signup as pending', async () => {
   for (const options of [{ configured: false }, { published: false }, { mailFails: true }, { throws: true }]) {
@@ -64,7 +106,7 @@ test('duplicates never produce a second email', async () => {
 });
 test('validation, honeypot and unknown origins reject or discard without storing', async () => {
   const h = harness();
-  for (const override of [{ consent: false }, { email: 'bad' }, { phone: '<script>' }, { dance_location: '' }, { full_name: 'x'.repeat(161) }]) assert.equal((await h.request({ ...input, ...override })).status, 400);
+  for (const override of [{ privacy_accepted: false }, { email: 'bad' }, { phone: '<script>' }, { dance_location: '' }, { full_name: 'x'.repeat(161) }]) assert.equal((await h.request({ ...input, ...override })).status, 400);
   assert.equal((await h.request(input, { origin: 'https://untrusted.example' })).status, 403);
   assert.equal((await h.request({ ...input, website: 'bot' })).status, 201); assert.equal(h.rows.length, 0);
 });

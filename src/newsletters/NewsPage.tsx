@@ -4,6 +4,7 @@ import type { NewsletterIssue } from "../lib/database.types";
 import { newsCopy, type NewsLanguage } from "./copy";
 import { IssueBody } from "./IssueBody";
 import { ArrowIcon } from "../components/ArrowIcon";
+import { CookiePreferencesButton } from "../privacy/CookieConsent";
 import "./news.css";
 
 export function NewsPage({ language }: { language: NewsLanguage }) {
@@ -35,6 +36,6 @@ export function NewsPage({ language }: { language: NewsLanguage }) {
         : <div className="news-state"><p>{t.error}</p><a href="/newsletters"><ArrowIcon direction="left" /> Barcelona Country News</a></div> : issues.length ?
         <div className="news-grid">{issues.map(item => <article key={item.id} className="news-card"><p className="news-number">{t.issue} {String(item.issue_number).padStart(2, "0")}</p><h2>{item.title}</h2><p>{item.excerpt}</p><a href={`/newsletters/${item.slug}`}>{t.read} <ArrowIcon direction="up-right" /></a></article>)}</div> :
         <section className="news-coming"><span className="news-coming-number" aria-hidden="true">01</span><div><p className="news-number">Barcelona Country News</p><h2>{t.empty}</h2><p>{t.emptyBody}</p><a className="news-subscribe-link" href="/#contact">{t.subscribe} <ArrowIcon direction="up-right" /></a></div></section>}
-    </main><footer className="news-footer"><span>Barcelona Country Fest · 22–24 OCT 2027</span><a href="/privacidad">{t.privacy}</a></footer>
+    </main><footer className="news-footer"><span>Barcelona Country Fest · 22–24 OCT 2027</span><a href="/privacidad">{t.privacy}</a><a href="/aviso-legal">{t.legal}</a><a href="/cookies">{t.cookies}</a><CookiePreferencesButton /></footer>
   </div>;
 }

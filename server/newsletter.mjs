@@ -119,11 +119,12 @@ export function createNewsletterHandler({ env = process.env, clientFactory = cre
       if (body.website) return json({ ok: true, welcome_email: 'pending' }, 201);
       const trim = key => typeof body[key] === 'string' ? body[key].trim() : '';
       const fullName = trim('full_name'); const phone = trim('phone'); const email = trim('email').toLowerCase(); const danceLocation = trim('dance_location');
-      if (body.consent !== true || !fullName || fullName.length > 160 || !/^\+?[\d\s().-]{5,40}$/.test(phone) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320 || !danceLocation || danceLocation.length > 180) return json({ error: 'invalid_fields' }, 400);
-      const registration = { id: randomUUID(), full_name: fullName, email, phone, country_iso: /^[A-Z]{2}$/.test(trim('country_iso')) ? trim('country_iso') : null, dance_location: danceLocation, newsletter_consent: true, subscription_locale: languages.includes(body.locale) ? body.locale : 'es' };
-      // Privacy acceptance remains null until the organisation supplies its policy.
+      if (typeof body.consent !== 'boolean' || body.privacy_accepted !== true || !fullName || fullName.length > 160 || !/^\+?[\d\s().-]{5,40}$/.test(phone) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320 || !danceLocation || danceLocation.length > 180) return json({ error: 'invalid_fields' }, 400);
+      const registration = { id: randomUUID(), full_name: fullName, email, phone, country_iso: /^[A-Z]{2}$/.test(trim('country_iso')) ? trim('country_iso') : null, dance_location: danceLocation, newsletter_consent: body.consent, privacy_accepted_at: new Date().toISOString(), subscription_locale: languages.includes(body.locale) ? body.locale : 'es' };
       const { error } = await db.from('registrations').insert(registration);
       if (error) return json({ error: error.code === '23505' ? 'duplicate' : 'registration_failed' }, error.code === '23505' ? 409 : 500);
+      // Registering interest does not imply permission to send newsletters.
+      if (!registration.newsletter_consent) return json({ ok: true, welcome_email: 'skipped' }, 201);
       if (!mailReady) return json({ ok: true, welcome_email: 'pending' }, 201);
       // After persistence, delivery failures must never turn a successful signup into an error.
       let delivery = 'pending';

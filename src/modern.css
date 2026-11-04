@@ -160,7 +160,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-contact-form .modern-primary-button { justify-self: start; margin-top: 7px; }
 .modern-contact-form .modern-primary-button:disabled { opacity: .65; cursor: wait; }
 .modern-form-status { margin: 0; font-size: 13px; line-height: 1.4; }
-.modern-form-status.is-success { color: var(--modern-lime); }
+.modern-form-status.is-success { color: #f1e7d4; }
 .modern-form-status.is-error { color: #ff937f; }
 
 .modern-footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px clamp(24px, 8vw, 132px); background: var(--modern-lime); color: var(--modern-ink); font-size: 10px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
@@ -331,6 +331,24 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .subscription-authorization { margin: 0; color: #ddd9d3; font-size: 12px; line-height: 1.6; }
 .subscription-authorization a { color: #ff7070; text-underline-offset: 3px; }
 .subscription-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.registration-consents { display: grid; gap: 20px; padding-top: 8px; }
+.modern-subscription .modern-contact-form .registration-consent { display: flex; gap: 13px; align-items: flex-start; font-size: 14px; line-height: 1.6; letter-spacing: 0; text-transform: none; font-weight: 400; cursor: pointer; }
+.modern-subscription .modern-contact-form .registration-consent input { flex: 0 0 20px; width: 20px; height: 20px; min-height: 20px; margin: 2px 0 0; padding: 0; accent-color: #c40000; cursor: pointer; }
+.registration-consent a { color: #ff9898; text-underline-offset: 3px; }
+.registration-help { margin: -8px 0 0 33px; color: #d9d3cb; font-size: 13px; line-height: 1.6; }
+.map-consent-placeholder { min-height: 389px; padding: clamp(24px,5vw,48px); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; color: #f4efe5; background: #171615; }
+.map-consent-placeholder .map-consent-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #e9b4a8; }
+.map-consent-placeholder h3 { margin: 12px 0; font: 500 clamp(25px,3vw,36px)/1.18 Georgia,serif; }
+.map-consent-placeholder p { max-width: 48ch; margin: 0 0 20px; font-size: 15px; line-height: 1.7; }
+.map-consent-placeholder button { padding: 13px 18px; border: 1px solid #f4efe580; background: transparent; color: inherit; font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.4; cursor: pointer; }
+.map-consent-placeholder button:hover { background: #f4efe515; }
+.map-consent-placeholder button:focus-visible { outline: 3px solid #f4efe5; outline-offset: 4px; }
+@media(max-width:640px) { .map-consent-placeholder { min-height: 274px; } }
+.archive-form-fields { border: 0; padding: 0; margin: 0; }
+.archive-form-fields input, .archive-form-fields button { cursor: not-allowed; opacity: .6; }
+.archive-form-notice { color: inherit; }
+.archive-privacy-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; padding: 28px; background: #101010; color: #f4efe5; font-size: 14px; }
+.archive-privacy-links a { color: inherit; }
 .footer-legal-links { display: flex; flex-wrap: wrap; flex-basis: 100%; gap: 12px 24px; padding-top: 18px; border-top: 1px solid #ffffff20; }
 .footer-legal-links a { color: #d4cfc8; font-size: 12px; letter-spacing: .02em; text-transform: none; text-underline-offset: 4px; }
 @media(min-width:1081px) { .modern-nav-links button { padding-inline: clamp(9px,1.1vw,17px); } }

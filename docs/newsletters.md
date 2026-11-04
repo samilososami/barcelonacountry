@@ -1,5 +1,15 @@
 # Barcelona Country News
 
+## Estado al 4 de noviembre de 2026
+
+El formulario admite registros sin suscripción: `newsletter_consent` refleja una casilla opcional, desmarcada de inicio. La aceptación de privacidad es independiente y obligatoria; el servidor exige `privacy_accepted: true` y guarda su propia fecha en `privacy_accepted_at`. Un registro con `consent: false` no busca el número 1 ni llama al proveedor de correo y devuelve `welcome_email: "skipped"`. Los registros históricos no se modifican ni se les atribuye una aceptación que no dieron.
+
+Las tres páginas legales ya incorporan los textos de Javier del 2 de noviembre, los datos registrales facilitados por el cliente, el lugar donde se suele bailar y los proveedores revisados. Fuentes, límites y mantenimiento: [proveedores-y-privacidad.md](proveedores-y-privacidad.md). Google Maps queda bloqueado hasta aceptar en el nuevo panel; rechazar y retirar el permiso son opciones disponibles, también desde el pie. La elección dura 180 días y es propia de cada dominio y navegador. El formulario de `/backup` conserva su aspecto como archivo, pero está deshabilitado y remite al formulario actual.
+
+La configuración de servidor de Resend ya existe de trabajos anteriores, pero esta tarea no cambia sus variables, publica el número 1 ni activa o prueba el autoreply. El contenido aprobado del primer número y la autorización de activación siguen pendientes. Las pruebas de correo usan un proveedor simulado; no se envían mensajes reales.
+
+La documentación histórica siguiente conserva el contexto de las primeras entregas; el estado actual es el indicado en este apartado.
+
 ## Cambios del 30 de octubre de 2026
 
 Se sigue el correo de Javier del 29 de octubre: título «¡No te pierdas nada!», texto de suscripción, botón «Suscribirme», autorización facilitada por el cliente, prefijo telefónico sin «Selecciona» y una pestaña Blog. Se mantiene el diseño general del festival y se retira «Reserva tu plaza» del CTA público.
@@ -29,11 +39,11 @@ Sin configuración, sin nº 1 o si falla el proveedor, el registro se conserva c
 
 `welcome_newsletter_sent_at` indica aceptación por el proveedor, no entrega confirmada en la bandeja de entrada. Se usa una clave de idempotencia por registro y se excluyen los ya marcados; no es una garantía de entrega exactamente una vez si el proveedor acepta un envío, falla la escritura en la base y se reintenta fuera de la ventana de idempotencia del proveedor. La baja firmada requiere POST y confirma antes de ejecutarse en la página web; GET no modifica datos.
 
-## Textos legales
+## Textos legales en la entrega del 30 de octubre
 
-El párrafo de autorización es el facilitado por Javier. Los documentos completos están pendientes y las páginas `/privacidad`, `/aviso-legal` y `/cookies` lo indican expresamente. Los espacios se rellenan en `src/newsletters/LegalPage.tsx` cuando lleguen los textos aprobados. No son políticas legales redactadas por el desarrollador.
+El párrafo de autorización era el facilitado por Javier. En esa entrega los documentos completos estaban pendientes y las páginas `/privacidad`, `/aviso-legal` y `/cookies` lo indicaban. Este estado queda sustituido por la integración de los documentos descrita arriba.
 
-La autorización de newsletter queda registrada en `newsletter_consent`, con el instante de alta en `created_at` y el idioma en `subscription_locale`. No se marca `privacy_accepted_at`: no se ha presentado una política completa que el usuario pueda aceptar.
+La autorización de newsletter se registraba en `newsletter_consent`, con el instante de alta en `created_at` y el idioma en `subscription_locale`. Entonces no se marcaba `privacy_accepted_at` porque aún no se presentaba una política completa. Desde el cambio del 4 de noviembre sí se registra la aceptación en las nuevas altas, sin completar retrospectivamente las antiguas.
 
 ## Respuestas técnicas para Javier
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { preload } from "react-dom";
 import { countryFlag, phoneCountries } from "../lib/phoneCountries";
 import TicketAnimation from "./animation/TicketAnimation";
+import { CookiePreferencesButton } from "../privacy/CookieConsent";
 import "./tickets.css";
 
 type TicketLanguage = "de" | "es" | "ca" | "fr" | "en" | "it";
@@ -179,6 +180,7 @@ export function TicketPurchasePage() {
           onComplete={() => setAnimationComplete(true)}
         />
         {animationComplete && <a className="ticket-action ticket-animation-return" href="/">{copy.returnHome}<span>→</span></a>}
+        <footer className="ticket-privacy-footer"><CookiePreferencesButton language={language} /></footer>
       </div>
     );
   }
@@ -237,6 +239,7 @@ export function TicketPurchasePage() {
           <OrderSummary copy={copy} quantity={quantity} total={total} currency={currency} />
         </div>
       </main>
+      <footer className="ticket-privacy-footer"><CookiePreferencesButton language={language} /></footer>
     </div>
   );
 }
