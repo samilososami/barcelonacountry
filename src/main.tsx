@@ -2229,7 +2229,7 @@ function ModernApp() {
             {artists.map((artist, index) => (
               <article className="modern-artist-card" key={artist.name}>
                 <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
-                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait.png" : artist.image} alt={artist.name} />
+                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image} alt={artist.name} />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </a>
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>

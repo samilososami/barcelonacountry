@@ -301,8 +301,8 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-artist-card p { color: #ccc9c2; }
 .modern-artist-card h3 { color: #fff; }
 .modern-artist-image.artist-algaly-fofana, .modern-artist-image.artist-jonathan-jones { object-fit: cover; object-position: center; transform: none; }
-/* Keep Johnny's original pixels; the card frames his hat, face and shoulders. */
-.modern-artist-card .modern-artist-image.artist-johnny { position: absolute; top: 0; left: 50%; width: 245%; max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); transform-origin: 50% 0; }
+/* Johnny_5.jpg from Drive (865 × 1078): keep the original and limit enlargement. */
+.modern-artist-card .modern-artist-image.artist-johnny { position: absolute; top: 0; left: 50%; width: min(200%, 865px); max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); transform-origin: 50% 0; }
 .modern-artist-card a:hover .modern-artist-image.artist-johnny { transform: translateX(-50%) scale(1.025); }
 .modern-artist-image.artist-silvia-calsina, .modern-artist-image.artist-neus-lloveras { object-position: center top; }
 .modern-artist-image.artist-neus-lloveras { transform: scale(1.7); transform-origin: center top; }
