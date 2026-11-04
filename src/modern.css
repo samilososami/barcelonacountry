@@ -106,11 +106,12 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-artists .modern-section-heading > p { color: var(--modern-lime); }
 .modern-artists-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 58px; }
 .modern-artist-card { min-width: 0; }
-.modern-artist-card a { position: relative; display: block; aspect-ratio: .82; overflow: hidden; background: #303b4f; }
-.modern-artist-card a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(16,23,39,.68), transparent 52%); }
+.modern-artist-card a, .modern-artist-portrait { position: relative; display: block; aspect-ratio: .82; overflow: hidden; background: #303b4f; }
+.modern-artist-portrait { margin: 0; }
+.modern-artist-card a::after, .modern-artist-portrait::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(16,23,39,.68), transparent 52%); }
 .modern-artist-card a:hover img { transform: scale(1.045); }
 .modern-artist-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-.modern-artist-card a span { position: absolute; z-index: 1; right: 13px; bottom: 11px; color: var(--modern-lime); font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.modern-artist-card a span, .modern-artist-portrait span { position: absolute; z-index: 1; right: 13px; bottom: 11px; color: var(--modern-lime); font-size: 11px; font-weight: 900; letter-spacing: .1em; }
 .modern-artist-card > div { padding: 18px 6px 18px 0; }
 .modern-artist-card p { margin: 0; color: #abb3c0; font-size: 13px; line-height: 1.45; }
 .modern-artist-card div > p:first-child { color: var(--modern-lime); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
@@ -196,7 +197,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-stats div:first-child { border-top: 0; }
   .modern-artists-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 42px; }
   .modern-artist-card { display: block; }
-  .modern-artist-card a { min-height: 0; aspect-ratio: 1.15 / 1; }
+  .modern-artist-card a, .modern-artist-portrait { min-height: 0; aspect-ratio: 1.15 / 1; }
   .modern-artist-card > div { min-width: 0; padding-top: 16px; }
   .modern-artist-card h3 { font-size: 28px; overflow-wrap: anywhere; }
   .modern-experience-layout { grid-template-columns: 1fr; margin-top: 35px; }
@@ -293,9 +294,9 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-artists .modern-section-heading h2 { color: #fff; }
 .modern-artists .modern-section-heading > p, .modern-artist-card div > p:first-child { color: var(--modern-orange); }
 .modern-artist-card { padding: 8px; border: 1px solid rgba(255,255,255,.18); background: rgba(0,0,0,.52); backdrop-filter: blur(8px); }
-.modern-artist-card a { aspect-ratio: .78; background: #111; }
-.modern-artist-card a::after { background: linear-gradient(0deg, rgba(0,0,0,.58), transparent 52%); }
-.modern-artist-card a span { color: var(--modern-orange); }
+.modern-artist-card a, .modern-artist-portrait { aspect-ratio: .78; background: #111; }
+.modern-artist-card a::after, .modern-artist-portrait::after { background: linear-gradient(0deg, rgba(0,0,0,.58), transparent 52%); }
+.modern-artist-card a span, .modern-artist-portrait span { color: var(--modern-orange); }
 .modern-artist-card > div { padding: 19px 4px 12px; }
 .modern-artist-card p { color: #ccc9c2; }
 .modern-artist-card h3 { color: #fff; }
@@ -303,6 +304,8 @@ html::-webkit-scrollbar-corner { background: #090909; }
 /* Keep Johnny's original pixels; the card frames his hat, face and shoulders. */
 .modern-artist-card .modern-artist-image.artist-johnny { position: absolute; top: 0; left: 50%; width: 245%; max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); transform-origin: 50% 0; }
 .modern-artist-card a:hover .modern-artist-image.artist-johnny { transform: translateX(-50%) scale(1.025); }
+.modern-artist-image.artist-silvia-calsina, .modern-artist-image.artist-neus-lloveras { object-position: center top; }
+.modern-artist-image.artist-neus-lloveras { transform: scale(1.7); transform-origin: center top; }
 
 .modern-experience { background: #111; }
 .modern-experience::after { background: var(--section-vignette), rgba(0,0,0,.58); }
@@ -418,7 +421,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-tickets-cta { align-items: flex-start; flex-direction: column; min-height: 480px; }
   .modern-festival-copy { padding: 18px; }
   .modern-artist-card { padding: 6px; }
-  .modern-artist-card a { aspect-ratio: .96; }
+  .modern-artist-card a, .modern-artist-portrait { aspect-ratio: .96; }
 }
 
 /* 2027 release: poster dates, unrevealed line-up and rebuilt festival details. */

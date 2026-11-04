@@ -186,6 +186,15 @@ const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string;
   it: { eyebrow: "Prossimamente", title: "E altri artisti da scoprire", card: "Da scoprire" }
 };
 
+const dancerRoleLabels: Record<LanguageKey, string> = {
+  de: "Tänzerin", es: "Bailarina", ca: "Ballarina", fr: "Danseuse", en: "Dancer", it: "Ballerina"
+};
+
+const newFestivalArtists = [
+  { name: "Silvia Calsina", image: "/assets/artist-silvia-calsina.jpg", imageClass: "artist-silvia-calsina" },
+  { name: "Neus Lloveras", image: "/assets/artist-neus-lloveras.jpg", imageClass: "artist-neus-lloveras" }
+] as const;
+
 const SHOW_TICKET_SALES = false;
 
 const festivalStatValues = { artists: "+12", dancers: "+3000" };
@@ -2226,11 +2235,16 @@ function ModernApp() {
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
               </article>
             ))}
-            <div className="modern-artists-reveal">
-              <p>{mysteryArtists.eyebrow}</p>
-              <h3>{mysteryArtists.title}</h3>
-            </div>
-            {[9, 10, 11, 12].map((number) => (
+            {newFestivalArtists.map((artist, index) => (
+              <article className="modern-artist-card" key={artist.name}>
+                <figure className="modern-artist-portrait">
+                  <img className={`modern-artist-image ${artist.imageClass}`} src={artist.image} alt={artist.name} loading="lazy" />
+                  <span>{String(artists.length + index + 1).padStart(2, "0")}</span>
+                </figure>
+                <div><p>{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></div>
+              </article>
+            ))}
+            {[11, 12].map((number) => (
               <article className="modern-artist-card modern-artist-card--mystery" key={number} aria-label={`${mysteryArtists.card} ${number}`}>
                 <div className="modern-mystery-portrait" aria-hidden="true">
                   <span>?</span>
@@ -2239,6 +2253,10 @@ function ModernApp() {
                 <div><p>{mysteryArtists.eyebrow}</p><h3>{mysteryArtists.card}</h3></div>
               </article>
             ))}
+            <div className="modern-artists-reveal">
+              <p>{mysteryArtists.eyebrow}</p>
+              <h3>{mysteryArtists.title}</h3>
+            </div>
           </div>
         </section>
 
