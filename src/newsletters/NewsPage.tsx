@@ -28,7 +28,7 @@ export function NewsPage({ language }: { language: NewsLanguage }) {
     document.title = `${issue?.title ?? "Barcelona Country News"} | Barcelona Country Fest`;
   }, [issue?.title, language]);
   return <div className="modern-page news-page">
-    <header className="news-header"><a href="/" aria-label="Barcelona Country Fest"><img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" /></a><a href="/"><ArrowIcon direction="left" /> {t.back}</a></header>
+    <header className="news-header"><a href="/" aria-label="Barcelona Country Festival"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" /></a><a href="/"><ArrowIcon direction="left" /> {t.back}</a></header>
     <main className="news-main">
       <div className="news-masthead"><p>{t.archive}</p><h1>Barcelona Country <em>News</em></h1><span>{t.archiveIntro}</span></div>
       {state === "loading" ? <p role="status" className="news-state">{t.loading}</p> : state === "error" ? <div className="news-state" role="alert"><p>{t.error}</p><button onClick={() => setAttempt(n => n + 1)}>{t.retry}</button></div> : slug ? issue ?

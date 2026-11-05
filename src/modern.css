@@ -68,7 +68,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-language select { max-width: 112px; padding: 6px 20px 6px 4px; font-size: 12px; font-weight: 700; }
 .modern-language option { color: var(--modern-ink); }
 
-.modern-hero { position: relative; isolation: isolate; min-height: min(880px, 100svh); display: flex; align-items: end; padding: 146px clamp(24px, 8vw, 132px) 62px; color: #fff; background: var(--modern-ink); }
+.modern-hero { position: relative; isolation: isolate; min-height: min(880px, 100svh); display: flex; align-items: end; padding: 196px clamp(24px, 8vw, 132px) 62px; color: #fff; background: var(--modern-ink); }
 .modern-hero-image, .modern-hero-shade, .modern-hero-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
 .modern-hero-image { z-index: -3; object-fit: cover; object-position: center; }
 .modern-hero-shade { z-index: -2; background: linear-gradient(90deg, rgba(7, 13, 26, .96) 0%, rgba(7, 13, 26, .56) 48%, rgba(7, 13, 26, .27) 100%), linear-gradient(0deg, rgba(7, 13, 26, .75), transparent 52%); }
@@ -231,13 +231,13 @@ html::-webkit-scrollbar-corner { background: #090909; }
 .modern-nav-wrap { --modern-nav-edge: clamp(12px, 1vw, 20px); top: 20px; padding: 0; transition: top .28s ease; }
 .modern-nav-wrap.is-scrolled { position: fixed; top: 12px; }
 .modern-nav { position: relative; display: flex; width: 100%; max-width: none; min-height: 72px; align-items: center; justify-content: center; margin: 0; padding: 0; background: transparent; border: 0; border-radius: 0; backdrop-filter: none; }
-.modern-brand { position: absolute; z-index: 3; top: 9px; left: clamp(24px, 8vw, 132px); display: block; width: clamp(112px, 9.2vw, 144px); height: clamp(112px, 9.2vw, 144px); padding: 0; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; transform-origin: left center; transition: opacity .24s ease, transform .32s cubic-bezier(.22,.8,.24,1), visibility .24s; }
+.modern-brand { position: absolute; z-index: 3; top: 9px; left: clamp(24px, 8vw, 132px); display: block; width: clamp(174px, 15vw, 226px); height: auto; aspect-ratio: 3 / 2; padding: 0; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; transform-origin: left center; transition: opacity .24s ease, transform .32s cubic-bezier(.22,.8,.24,1), visibility .24s; }
 .modern-brand img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .modern-nav-wrap.is-scrolled .modern-brand { visibility: hidden; opacity: 0; transform: translate(-28px, -8px) scale(.62); pointer-events: none; }
 .modern-nav-cluster { display: flex; flex: 0 1 auto; min-width: 0; align-items: center; justify-content: center; padding: 0; overflow: visible; background: rgba(8,8,8,.5); border: 1px solid rgba(255,255,255,.28); border-radius: 15px; box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 30px rgba(0,0,0,.18); backdrop-filter: blur(20px) saturate(1.14); transition: padding .32s cubic-bezier(.22,.8,.24,1), background .25s ease, border-color .25s ease, box-shadow .25s ease; }
 .modern-nav-wrap.is-scrolled .modern-nav-cluster { padding-left: 6px; background: rgba(8,8,8,.76); border-color: rgba(255,255,255,.34); box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 15px 36px rgba(0,0,0,.32); }
 .modern-nav-star { display: block; flex: 0 0 0; width: 0; height: 48px; padding: 0; overflow: hidden; visibility: hidden; opacity: 0; border: 0; background: transparent; transform: translateX(-14px) scale(.74); pointer-events: none; transition: flex-basis .34s cubic-bezier(.22,.8,.24,1), width .34s cubic-bezier(.22,.8,.24,1), margin .34s cubic-bezier(.22,.8,.24,1), opacity .2s ease, transform .34s cubic-bezier(.22,.8,.24,1), visibility .2s; }
-.modern-nav-star img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.modern-nav-star img { display: block; width: 100%; height: 100%; object-fit: contain; transform: scale(1.4); }
 .modern-nav-wrap.is-scrolled .modern-nav-star { flex-basis: 48px; width: 48px; margin-right: 3px; visibility: visible; opacity: 1; transform: none; pointer-events: auto; }
 .modern-nav-links { flex: 0 1 auto; min-width: 0; gap: 0; justify-content: center; padding: 6px 12px; overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; backdrop-filter: none; }
 .modern-nav-links button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 clamp(11px, 1.55vw, 23px); color: rgba(255,255,255,.88); font-family: "Special Elite", ui-monospace, monospace; font-size: 12px; font-weight: 400; letter-spacing: .055em; line-height: 1; transition: color .2s ease, background .2s ease; }
@@ -387,7 +387,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
 
 @media (max-width: 1120px) {
   .modern-nav { justify-content: flex-end; }
-  .modern-brand { top: 7px; width: clamp(82px, 9vw, 104px); height: clamp(82px, 9vw, 104px); }
+  .modern-brand { top: 7px; width: clamp(150px, 20vw, 190px); height: auto; }
   .modern-nav-cluster { display: contents; }
   .modern-nav-star { position: absolute; z-index: 4; top: 4px; left: var(--modern-nav-edge); height: 58px; }
   .modern-nav-wrap.is-scrolled .modern-nav-star { width: 58px; margin: 0; padding: 5px; border: 1px solid rgba(255,255,255,.27); border-radius: 12px; background: rgba(8,8,8,.68); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 28px rgba(0,0,0,.2); backdrop-filter: blur(20px) saturate(1.14); }
@@ -404,7 +404,7 @@ html::-webkit-scrollbar-corner { background: #090909; }
   .modern-nav-wrap { --modern-nav-edge: 14px; top: 12px; padding: 0; }
   .modern-nav-wrap.is-scrolled { top: 8px; }
   .modern-nav { min-height: 58px; }
-  .modern-brand { top: 6px; left: 24px; width: 76px; height: 76px; }
+  .modern-brand { top: 6px; left: 24px; width: clamp(116px, 37vw, 154px); height: auto; }
   .modern-nav-star { top: 4px; height: 48px; }
   .modern-nav-wrap.is-scrolled .modern-nav-star { width: 48px; }
   .modern-nav-links { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 6px; }

@@ -148,14 +148,14 @@ export default function TicketAnimation({
       <div className="bct-ticket-stage">
         <article className="bct-ticket">
           <div className="bct-ticket-stock" aria-hidden="true" />
-          <header className="bct-ticket-logo"><span>BARCELONA</span><span>COUNTRY</span><strong>FEST</strong><i>★</i></header>
+          <header className="bct-ticket-logo"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" draggable={false} /></header>
           <p className="bct-ticket-date">{ticket.eventDate || "22—24 OCTUBRE 2027"}</p>
           <div className="bct-ticket-field"><small>ASISTENTE</small><b>{attendeeName}</b></div>
           <div className="bct-ticket-field"><small>ENTRADAS</small><b>{quantity} {quantity === 1 ? "ENTRADA" : "ENTRADAS"}</b></div>
           <div className="bct-ticket-field bct-ticket-total"><small>TOTAL</small><b>{formatMoney(total, currency)}</b></div>
           <div className="bct-ticket-field bct-ticket-ref"><small>REFERENCIA</small><b>{reference}</b></div>
           <p className="bct-ticket-note">ACCESO PERSONAL · CONSERVA ESTE TICKET</p>
-          <img className={`bct-ticket-stamp ${stamped ? "bct-visible" : ""}`} src={asset("barcelona-country-stamp.png")} alt="Sello Barcelona Country" draggable={false} />
+          <span className={`bct-ticket-stamp ${stamped ? "bct-visible" : ""}`} role="img" aria-label="Sello Barcelona Country Festival" />
         </article>
       </div>
 

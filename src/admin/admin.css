@@ -43,52 +43,30 @@
   text-transform: uppercase;
 }
 
-.admin-brand span {
-  margin-left: 5px;
-  color: var(--admin-red);
-  font-family: "Rustler", "Rye", serif;
-  font-size: 40px;
-  line-height: 0.9;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 0 #ffffff;
-}
-
-.admin-brand strong {
-  font-family: "Rio Grande", "Rye", serif;
-  font-size: 92px;
-  font-weight: 400;
-  line-height: 0.82;
-  letter-spacing: 2px;
-  text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
+.admin-brand img {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  object-fit: contain;
 }
 
 .admin-brand small {
-  position: absolute;
-  right: 20px;
-  bottom: -10px;
+  justify-self: end;
+  margin-top: 16px;
   padding: 9px 16px 7px;
   background: var(--admin-red);
   color: #ffffff;
   font-size: 15px;
   letter-spacing: 2.4px;
-  transform: rotate(-2deg);
 }
 
 .admin-brand.is-compact {
-  min-width: 184px;
+  width: 154px;
 }
 
-.admin-brand.is-compact span {
-  margin-left: 2px;
-  font-size: 14px;
-  text-shadow: 1px 1px 0 #ffffff;
-}
-
-.admin-brand.is-compact strong {
-  font-size: 35px;
-  line-height: 0.9;
-  letter-spacing: 0.5px;
-  text-shadow: none;
+.admin-brand.is-compact img {
+  width: 100%;
+  max-height: 90px;
 }
 
 .admin-primary-button,
@@ -1375,8 +1353,7 @@
   .login-page { padding: 20px; }
   .login-layout { grid-template-columns: 0.85fr 1fr; min-height: calc(100svh - 40px); }
   .login-poster { padding: 46px; }
-  .login-poster .admin-brand span { font-size: 27px; }
-  .login-poster .admin-brand strong { font-size: 63px; }
+  .login-poster .admin-brand img { max-width: 270px; }
   .login-panel { padding: 48px 42px; }
 
   .dashboard-topbar {
@@ -1403,9 +1380,7 @@
     background: #ffffff;
   }
   .login-poster { min-height: 300px; padding: 88px 30px 50px; }
-  .login-poster .admin-brand span { font-size: 22px; }
-  .login-poster .admin-brand strong { font-size: 52px; }
-  .login-poster .admin-brand small { right: 14px; bottom: -4px; }
+  .login-poster .admin-brand img { max-width: 240px; }
   .login-poster > p { display: none; }
   .login-poster-line { right: 25px; bottom: 26px; left: 25px; }
   .back-to-site { top: 24px; left: 25px; }
@@ -1419,7 +1394,8 @@
     min-height: 125px;
     padding: 10px 15px 58px;
   }
-  .dashboard-topbar .admin-brand { min-width: 150px; }
+  .dashboard-topbar .admin-brand { width: 130px; }
+  .dashboard-topbar .admin-brand img { max-height: 62px; }
   .dashboard-tabs-shell {
     position: absolute;
     right: 15px;

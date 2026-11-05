@@ -39,7 +39,7 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
     finally { setBusy(false); }
   }
   return <div className="modern-page news-page">
-    <header className="news-header"><a href="/" aria-label="Barcelona Country Fest"><img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" /></a><a href="/"><ArrowIcon direction="left" /> {t.back}</a></header>
+    <header className="news-header"><a href="/" aria-label="Barcelona Country Festival"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" /></a><a href="/"><ArrowIcon direction="left" /> {t.back}</a></header>
     <main className="news-main legal-main">
       {!isUnsubscribe && <nav className="legal-navigation" aria-label={t.legal}>
         <a href="/privacidad" aria-current={key === "privacidad" ? "page" : undefined}>{t.privacy}</a>

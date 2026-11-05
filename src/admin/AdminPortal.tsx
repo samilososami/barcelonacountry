@@ -64,9 +64,8 @@ const sqlEscape = (value: string) => value.replaceAll("'", "''");
 
 function BrandLockup({ compact = false }: { compact?: boolean }) {
   return (
-    <div className={`admin-brand ${compact ? "is-compact" : ""}`} aria-label="Barcelona Country">
-      <span>BARCELONA</span>
-      <strong>COUNTRY</strong>
+    <div className={`admin-brand ${compact ? "is-compact" : ""}`} aria-label="Barcelona Country Festival">
+      <img src="/assets/brand-logo.png" alt="Barcelona Country Festival" />
       {!compact && <small>ADMIN</small>}
     </div>
   );

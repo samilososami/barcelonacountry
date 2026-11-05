@@ -34,7 +34,6 @@ type TicketCopy = {
 
 const PRICE_PER_TICKET = 15;
 const TICKET_ANIMATION_ASSETS = [
-  "barcelona-country-stamp.png",
   "curtains.png",
   "printer-table-v2.png",
   "printer.png",
@@ -123,6 +122,8 @@ function TicketIcon({ name }: { name: "arrow" | "calendar" | "lock" | "ticket" }
 
 export function TicketPurchasePage() {
   TICKET_ANIMATION_ASSETS.forEach((file) => preload(`/ticket-animation/${file}`, { as: "image" }));
+  preload("/assets/brand-isotype.png", { as: "image" });
+  preload("/assets/brand-logo.png", { as: "image" });
   const [language, setLanguage] = useState<TicketLanguage>(getInitialTicketLanguage);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [quantity, setQuantity] = useState(2);
@@ -189,7 +190,7 @@ export function TicketPurchasePage() {
     <div className="ticket-page">
       <div className="ticket-page-background" aria-hidden="true" />
       <header className="ticket-header">
-        <a className="ticket-header-logo" href="/" aria-label="Barcelona Country Fest"><img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" /></a>
+        <a className="ticket-header-logo" href="/" aria-label="Barcelona Country Festival"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" /></a>
         <a className="ticket-back" href="/"><TicketIcon name="arrow" />{copy.back}</a>
         <div className="ticket-language">
           <button type="button" aria-expanded={languageOpen} aria-controls="ticket-language-menu" onClick={() => setLanguageOpen((open) => !open)}>

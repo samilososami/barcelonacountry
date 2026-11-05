@@ -2127,12 +2127,12 @@ function ModernApp() {
     <div className="modern-page">
       <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
         <nav className="modern-nav" aria-label="Principal">
-          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
-            <img src="/assets/logo-primary-senyera.png" alt="Barcelona Country Fest" />
+          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Festival" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
+            <img src="/assets/brand-logo.png" alt="Barcelona Country Festival" />
           </button>
           <div className="modern-nav-cluster">
-            <button className="modern-nav-star" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Fest" aria-hidden={!isNavigationSticky} tabIndex={isNavigationSticky ? 0 : -1}>
-              <img src="/assets/logo-star-senyera.png" alt="" />
+            <button className="modern-nav-star" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Festival" aria-hidden={!isNavigationSticky} tabIndex={isNavigationSticky ? 0 : -1}>
+              <img src="/assets/brand-isotype.png" alt="" />
             </button>
             <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
               {copy.nav.map((item, index) => (
