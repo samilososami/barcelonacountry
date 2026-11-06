@@ -1,6 +1,6 @@
 # Barcelona Country News
 
-## Estado al 4 de noviembre de 2026
+## Estado al 6 de noviembre de 2026
 
 Tras la aclaración de Xavi del 4 de noviembre, el formulario sirve exclusivamente para suscribirse a Barcelona Country News. Se conserva la primera casilla de privacidad, obligatoria y desmarcada de inicio, y se retira la segunda casilla de newsletter. El botón indica siempre «Suscribirme» y el párrafo de presentación vuelve al texto facilitado por Javier. El envío explícito solicita la suscripción: el cliente manda `consent: true` y el servidor exige ese valor junto con `privacy_accepted: true`; una petición sin cualquiera de esas aceptaciones se rechaza antes de guardar o enviar. El servidor guarda su propia fecha en `privacy_accepted_at`.
 
@@ -8,7 +8,7 @@ Esta corrección sustituye el registro de interesados con newsletter opcional in
 
 Las tres páginas legales ya incorporan los textos de Javier del 2 de noviembre, los datos registrales facilitados por el cliente, el lugar donde se suele bailar y los proveedores revisados. Fuentes, límites y mantenimiento: [proveedores-y-privacidad.md](proveedores-y-privacidad.md). Google Maps queda bloqueado hasta aceptar en el nuevo panel; rechazar y retirar el permiso son opciones disponibles, también desde el pie. La elección dura 180 días y es propia de cada dominio y navegador. El formulario de `/backup` conserva su aspecto como archivo, pero está deshabilitado y remite al formulario actual.
 
-La configuración de servidor de Resend ya existe de trabajos anteriores, pero esta tarea no cambia sus variables, publica el número 1 ni activa o prueba el autoreply. El contenido aprobado del primer número y la autorización de activación siguen pendientes. Las pruebas de correo usan un proveedor simulado; no se envían mensajes reales.
+Resend está configurado para producción. El dominio `news.bcncountryfest.com` figura como verificado, la clave queda limitada al envío desde ese dominio y Vercel contiene las variables privadas de Resend, Supabase y firma de bajas. El panel confirma «Remitente configurado». No se ha enviado ningún correo real: la tabla `newsletter_issues` todavía no contiene el número 1 y los registros que esperan la bienvenida permanecen pendientes.
 
 La documentación histórica siguiente conserva el contexto de las primeras entregas; el estado actual es el indicado en este apartado.
 
@@ -18,13 +18,14 @@ Se sigue el correo de Javier del 29 de octubre: título «¡No te pierdas nada!�
 
 El blog está en `/newsletters` y `/blog`. Solo muestra números publicados; no se ha inventado ni publicado el contenido del primer número. La pestaña Newsletters del dashboard permite crear borradores, previsualizar, publicar y retirar números. Los enlaces de un número se conservan al editar su título.
 
-## Qué falta para activar el correo
+## Activación del correo
 
-La API necesita `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` en el entorno de Vercel para guardar las suscripciones, aunque Resend siga sin configurar. El 31 de octubre se configuraron ambas variables públicas en el entorno de producción del proyecto existente. No se añadieron claves privadas de envío ni se modificó el proyecto de Supabase.
+La API dispone en producción de la configuración pública de Supabase y de las variables privadas necesarias para enviar, actualizar el estado de entrega y firmar las bajas. Los valores secretos permanecen en Vercel y no se guardan en GitHub.
 
 1. El cliente debe proporcionar el contenido definitivo del número 1.
-2. Configurar un dominio/remitente verificado en Resend.
-3. Añadir estas variables solo al servidor de Vercel y redesplegar:
+2. Un administrador debe guardar y publicar ese número desde el panel.
+
+La configuración ya instalada usa estas variables:
 
 | Variable | Uso |
 | --- | --- |
