@@ -2051,13 +2051,16 @@ function ModernApp() {
     </header>
     <main>
       <section id="home" className="c-hero" aria-labelledby="c-hero-title">
-        <img className="c-hero-photo" src={assetPath("/assets/header-fira-crowd-senyera.png")} alt="" fetchPriority="high" />
+        <img className="c-hero-photo" src={assetPath("/assets/hero-festival-1672.webp")} srcSet={`${assetPath("/assets/hero-festival-840.webp")} 840w, ${assetPath("/assets/hero-festival-1672.webp")} 1672w`} sizes="(max-aspect-ratio: 16/9) 192svh, 100vw" width="1672" height="941" alt="" fetchPriority="high" />
         <div className="c-hero-shade" />
+        <div className="c-hero-light" aria-hidden="true" />
+        <div className="c-hero-curtain c-hero-curtain-left" aria-hidden="true" /><div className="c-hero-curtain c-hero-curtain-right" aria-hidden="true" />
         <div className="c-hero-content">
-          <h1 className="c-hero-title" id="c-hero-title"><span>Barcelona</span><span><em>Country Fest</em></span></h1>
-          <p className="c-hero-date">{date.days} <span>{date.month} {date.year}</span><i />{date.city}</p>
+          <p className="c-hero-eyebrow">{copy.triad.join(" · ")}</p>
+          <h1 className="c-hero-title" id="c-hero-title"><span className="c-title-line"><span>Barcelona</span></span><span className="c-title-line"><em>Country Fest</em></span></h1>
+          <p className="c-hero-date"><strong>{date.days}</strong><span>{date.month}<br />{date.year}</span><i /><span>{date.city}</span></p>
         </div>
-        <div className="c-hero-actions"><button type="button" className="c-text-link" onClick={() => moveTo("contact")}>{copy.cta}<ArrowIcon direction="up-right" /></button><span>{copy.triad.join(" · ")}</span><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><ArrowIcon direction="down" /></button></div>
+        <div className="c-hero-actions"><button type="button" className="c-primary-action" onClick={() => moveTo("contact")}><span>{copy.cta}</span><i><ArrowIcon direction="up-right" /></i></button><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><span>{copy.festivalTitle}</span><i><ArrowIcon direction="down" /></i></button></div>
       </section>
 
       <section id="festival" className="c-festival c-section" aria-labelledby="c-festival-title">
@@ -2111,6 +2114,12 @@ function ModernApp() {
           <p id="subscription-authorization" className="c-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href={sitePath("/privacidad")} target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
           {formFeedback && <p className="c-form-feedback" role="status">{formFeedback}</p>}
         </form>
+      </section>
+      <section id="sponsors" className="c-sponsors c-section" aria-labelledby="c-sponsors-title">
+        <div className="c-sponsor-heading" data-reveal><h2 id="c-sponsors-title">{ui.sponsors}</h2><span aria-hidden="true">2027</span></div>
+        <a className="c-sponsor-brand" href="https://wowmycity.com/" target="_blank" rel="noopener noreferrer" aria-label="Wow My City" data-reveal>
+          <img src={assetPath("/assets/sponsors/wowmycity-white.svg")} width="320" height="86" alt="Wow My City" loading="lazy" /><ArrowIcon direction="up-right" />
+        </a>
       </section>
     </main>
     <footer className="c-footer"><a className="c-footer-logo" href="#home"><img src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /></a><div className="c-footer-main"><p>{copy.footer}</p><nav aria-label={newsletter.legal}><a href={sitePath("/newsletters")}>Barcelona Country News</a><a href={sitePath("/privacidad")}>{newsletter.privacy}</a><a href={sitePath("/aviso-legal")}>{newsletter.legal}</a><a href={sitePath("/cookies")}>{newsletter.cookies}</a><CookiePreferencesButton /></nav></div>

@@ -21,3 +21,9 @@ Cinco conceptos generados y revisados antes de implementar: portada, festival, a
 ## Comprobación
 
 Revisar escritorio y móvil, todas las biografías, cuatro capítulos, idiomas, formulario simulado, cookies, enlaces bajo `/BCN/`, rutas legales y movimiento reducido. Confirmar que los dominios del festival siguen sirviendo el CSS de v0 y que la portada del portfolio no cambia.
+
+## Portada y patrocinadores
+
+Apertura finita en dos hojas, título revelado por líneas y luz de entrada sobre la fotografía aprobada. Botones con mayor contraste, controles visibles y logo oficial de Wow My City en SVG local. La fotografía conserva el encuadre y se distribuye en WebP de 840 y 1672 píxeles (115 y 293 KB).
+
+Tres niveles de movimiento: completo en escritorio con capacidad suficiente; ligero en móvil, ahorro de datos, hasta 4 núcleos o hasta 4 GB cuando el navegador ofrece esas señales; sin movimiento si se solicita reducirlo. Una muestra de 90 frames reduce la profundidad y retira Lenis si supera 28 ms de media. La entrada no se repite en bucle; no hay vídeo, canvas ni WebGL. Una pestaña oculta pausa el desplazamiento y la entrada. /BCN y /bcn sirven la misma propuesta, incluidas las rutas interiores.

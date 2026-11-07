@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+type DeviceNavigator = Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
 
 export function useFestivalMotion(language: string) {
   const scope = useRef<HTMLDivElement>(null);
@@ -14,37 +15,83 @@ export function useFestivalMotion(language: string) {
     const root = scope.current;
     if (!root) return;
     const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      const lenis = new Lenis({ duration: 1.05, smoothWheel: true, anchors: true });
-      smoothScroll.current = lenis;
-      const tick = (time: number) => lenis.raf(time * 1000);
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add(tick);
+    media.add({ reduced: "(prefers-reduced-motion: reduce)", desktop: "(min-width: 761px) and (pointer: fine)", all: "all" }, context => {
+      const { reduced, desktop } = context.conditions!;
+      const device = navigator as DeviceNavigator;
+      const constrained = device.connection?.saveData || (device.hardwareConcurrency > 0 && device.hardwareConcurrency <= 4) || (device.deviceMemory !== undefined && device.deviceMemory <= 4);
+      let full = Boolean(desktop && !reduced && !constrained);
+      root.dataset.motion = reduced ? "reduced" : full ? "full" : "light";
+      if (reduced) return;
+
+      // Entrance is finite. Content is visible by default if JS/motion is unavailable.
       const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-      intro.from(".c-hero-title > span", { yPercent: 110, opacity: 0, duration: 1.25, stagger: .16 })
-        .from(".c-hero-date, .c-hero-actions", { y: 16, opacity: 0, duration: .8, stagger: .1 }, "-=.7");
-      gsap.to(".c-hero-photo", { yPercent: 16, scale: 1.06, ease: "none", scrollTrigger: { trigger: ".c-hero", start: "top top", end: "bottom top", scrub: true } });
-      gsap.to(".c-hero-content", { yPercent: 18, opacity: .12, ease: "none", scrollTrigger: { trigger: ".c-hero", start: "35% top", end: "bottom top", scrub: true } });
+      if (full) {
+        intro.fromTo(".c-hero-curtain", { scaleX: 1 }, { scaleX: 0, duration: 1.25, ease: "power3.inOut", stagger: .06 }, 0)
+          .fromTo(".c-hero-photo", { scale: 1.12 }, { scale: 1, duration: 1.9, ease: "power2.out" }, 0)
+          .fromTo(".c-hero-light", { xPercent: -20, opacity: 0 }, { xPercent: 15, opacity: 1, duration: 1.8 }, .3)
+          .to(".c-hero-light", { opacity: 0, duration: .7 }, 2);
+      }
+      intro.from(".c-title-line > *", { yPercent: full ? 115 : 20, opacity: 0, rotation: full ? 2 : 0, duration: full ? 1.25 : .7, stagger: .13 }, full ? .4 : 0)
+        .from(".c-hero-eyebrow, .c-hero-date, .c-hero-actions", { y: 16, opacity: 0, duration: .7, stagger: .08 }, full ? 1 : .25);
+
       gsap.utils.toArray<HTMLElement>("[data-reveal]", root).forEach(element => {
-        gsap.from(element, { y: 42, opacity: 0, duration: .95, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 92%", once: true } });
+        gsap.from(element, { y: full ? 36 : 14, opacity: 0, duration: full ? .85 : .5, scrollTrigger: { trigger: element, start: "top 94%", once: true } });
       });
-      gsap.utils.toArray<HTMLElement>(".c-parallax", root).forEach(element => {
-        gsap.fromTo(element, { yPercent: -6 }, { yPercent: 6, ease: "none", scrollTrigger: { trigger: element.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
-      });
-      const update = () => ScrollTrigger.refresh();
+      gsap.from(".c-stats > div", { y: full ? 35 : 12, opacity: 0, duration: .7, stagger: .12, scrollTrigger: { trigger: ".c-stats", start: "top 92%", once: true } });
+
+      let lenis: Lenis | null = null;
+      const tick = (time: number) => lenis?.raf(time * 1000);
+      const depth = gsap.context(() => {
+        if (!full) return;
+        lenis = new Lenis({ duration: 1, smoothWheel: true, anchors: true });
+        smoothScroll.current = lenis;
+        lenis.on("scroll", ScrollTrigger.update);
+        gsap.ticker.add(tick);
+        gsap.to(".c-hero-photo", { yPercent: 14, ease: "none", scrollTrigger: { trigger: ".c-hero", start: "top top", end: "bottom top", scrub: true } });
+        gsap.to(".c-hero-content", { yPercent: 14, opacity: .1, ease: "none", scrollTrigger: { trigger: ".c-hero", start: "35% top", end: "bottom top", scrub: true } });
+        gsap.utils.toArray<HTMLElement>(".c-parallax", root).forEach(element => {
+          gsap.fromTo(element, { yPercent: -5 }, { yPercent: 5, ease: "none", scrollTrigger: { trigger: element.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
+        });
+      }, root);
+      const stopDepth = () => {
+        full = false;
+        depth.revert();
+        gsap.ticker.remove(tick);
+        lenis?.destroy(); lenis = null; smoothScroll.current = null;
+        root.dataset.motion = "light";
+      };
+      // A bounded real-frame sample also catches older machines with missing hardware hints.
+      // No permanent performance loop, fingerprint, storage or telemetry.
+      let frame = 0, last = 0, samples = 0, elapsed = 0;
+      const sample = (now: number) => {
+        if (!full || document.hidden) { frame = 0; last = 0; return; }
+        if (last) { const dt = now - last; elapsed += Math.min(dt, 100); samples++; }
+        last = now;
+        if (samples < 90) frame = requestAnimationFrame(sample);
+        else { frame = 0; if (elapsed / samples > 28) stopDepth(); }
+      };
+      if (full) frame = requestAnimationFrame(sample);
+      const onVisibility = () => {
+        if (document.hidden) { lenis?.stop(); intro.pause(); cancelAnimationFrame(frame); frame = 0; last = 0; }
+        else { lenis?.start(); intro.resume(); if (full && samples < 90) frame = requestAnimationFrame(sample); }
+      };
+      document.addEventListener("visibilitychange", onVisibility);
+
+      let refreshFrame = 0, active = true;
+      const update = () => { cancelAnimationFrame(refreshFrame); refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh()); };
       const images = Array.from(root.querySelectorAll("img"));
-      images.forEach(img => img.addEventListener("load", update, { once: true }));
-      // Native disclosures change height. Refresh only after a layout change, not every frame.
+      images.forEach(img => { if (!img.complete) img.addEventListener("load", update, { once: true }); });
       root.addEventListener("toggle", update, true);
-      let active = true;
       document.fonts.ready.then(() => { if (active) update(); });
       return () => {
         active = false;
+        cancelAnimationFrame(frame); cancelAnimationFrame(refreshFrame);
+        document.removeEventListener("visibilitychange", onVisibility);
         images.forEach(img => img.removeEventListener("load", update));
         root.removeEventListener("toggle", update, true);
+        depth.revert();
         gsap.ticker.remove(tick);
-        lenis.destroy();
-        smoothScroll.current = null;
+        lenis?.destroy(); smoothScroll.current = null;
       };
     });
     return () => media.revert();

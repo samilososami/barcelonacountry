@@ -13,6 +13,26 @@
   ],
   "rewrites": [
     {
+      "source": "/bcn",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bcn/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/bcn/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/bcn/fonts/:path*",
+      "destination": "/fonts/:path*"
+    },
+    {
+      "source": "/bcn/:path*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/BCN/",
       "destination": "/index.html"
     },
