@@ -7,9 +7,10 @@ import { CookieConsentProvider, CookiePreferencesButton, useCookieConsent } from
 import { registrationCopy } from "./privacy/registration-copy";
 import "./styles.css";
 import "./modern.css";
+import "./cinematic.css";
+import { assetPath, sitePath, currentSitePath, previewCopy } from "./lib/site";
+import { useFestivalMotion } from "./useFestivalMotion";
 
-const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
-const TicketPurchasePage = lazy(() => import("./tickets/TicketPurchasePage").then((module) => ({ default: module.TicketPurchasePage })));
 const NewsPage = lazy(() => import("./newsletters/NewsPage").then((module) => ({ default: module.NewsPage })));
 const LegalPage = lazy(() => import("./newsletters/LegalPage").then((module) => ({ default: module.LegalPage })));
 
@@ -1041,7 +1042,7 @@ const artistDisplayOrder = [0, 1, 2, 3, 6, 7, 4, 5] as const;
 
 const getInitialLanguage = (): LanguageKey => {
   try {
-    const stored = window.localStorage.getItem("barcelona-country-language");
+    const stored = window.localStorage.getItem("bcf-preview-language");
     if (stored && stored in copies) {
       return stored as LanguageKey;
     }
@@ -1630,7 +1631,7 @@ function App() {
 
   const handleLanguageChange = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
-    try { window.localStorage.setItem("barcelona-country-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
+    try { window.localStorage.setItem("bcf-preview-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
     setIsLanguageOpen(false);
   };
 
@@ -1963,73 +1964,26 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCard = copy.cards[activeIndex];
   const stops = getFindStops(activeCard, language);
-
-  useEffect(() => setActiveIndex(0), [copy]);
-
-  return (
-    <section id="program" className="modern-experience modern-section" aria-labelledby="modern-experience-title">
-      <div className="modern-section-heading modern-experience-heading">
-        <p><span>{copy.kicker}</span></p>
-        <h2 id="modern-experience-title">{copy.title}</h2>
-        <span>{findIntroLabels[language]}</span>
+  return <section id="program" className="c-experiences c-section" aria-labelledby="c-experiences-title">
+    <div className="c-section-head" data-reveal><div><p className="c-kicker">{copy.kicker}</p><h2 id="c-experiences-title">{copy.title.toLocaleLowerCase(language)}</h2></div><p className="c-section-note">{findIntroLabels[language]}</p></div>
+    <div className="c-tabs" role="tablist" aria-label={interfaceLabels[language].festivalStops}>
+      {copy.cards.map((card, index) => <button key={card.title} id={`experience-tab-${index}`} type="button" role="tab" aria-controls="c-experience-panel" aria-selected={index === activeIndex}
+        onPointerEnter={event => { if (event.pointerType === "mouse") setActiveIndex(index); }} onFocus={() => setActiveIndex(index)} onClick={() => setActiveIndex(index)}>
+        <small>{String(index + 1).padStart(2, "0")}</small><span>{card.title.toLocaleLowerCase(language)}</span>
+      </button>)}
+    </div>
+    <article id="c-experience-panel" className="c-experience-panel" role="tabpanel" aria-labelledby={`experience-tab-${activeIndex}`}>
+      <div className="c-experience-photo"><img key={activeIndex} src={assetPath(findVisuals[activeIndex])} alt="" loading="lazy" /></div>
+      <div className="c-experience-copy" key={`${activeIndex}-${language}`}>
+        <p className="c-quote">«{findQuoteLabels[language][activeIndex === 0 ? 0 : 1]}»</p>
+        <div className="c-stops">{stops.map((stop, index) => <details key={stop.heading} open={index === 0}>
+          <summary><small>{String(index + 1).padStart(2, "0")}</small><span>{stop.heading.replace(/:$/, "").toLocaleLowerCase(language)}</span><i aria-hidden="true" /></summary>
+          <p>{stop.body}</p>
+        </details>)}</div>
+        <div className="c-chapter-controls"><button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex(i => i - 1)}><ArrowIcon direction="left" />{previousStopLabels[language]}</button><button type="button" onClick={() => setActiveIndex(i => (i + 1) % copy.cards.length)}>{nextStopLabels[language]}<ArrowIcon /></button></div>
       </div>
-      <div className="modern-experience-layout">
-        <div className="modern-experience-tabs" role="tablist" aria-label={interfaceLabels[language].festivalStops}>
-          {copy.cards.map((card, index) => (
-            <button
-              key={`${card.title}-${index}`}
-              type="button"
-              role="tab"
-              aria-controls="modern-experience-panel"
-              aria-selected={activeIndex === index}
-              className={activeIndex === index ? "is-active" : ""}
-              onPointerEnter={(event) => {
-                if (event.pointerType !== "touch") setActiveIndex(index);
-              }}
-              onFocus={() => setActiveIndex(index)}
-              onClick={() => setActiveIndex(index)}
-            >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{card.title}</strong>
-              <ArrowIcon />
-            </button>
-          ))}
-        </div>
-        <article id="modern-experience-panel" className="modern-experience-card" role="tabpanel" aria-live="polite">
-          <div className="modern-experience-image">
-            <img
-              src={findVisuals[activeIndex] ?? findVisuals[0]}
-              alt=""
-              width={960}
-              height={1280}
-              data-visual-index={activeIndex}
-            />
-            <div className="modern-experience-image-mark" aria-hidden="true">
-              <span>{String(activeIndex + 1).padStart(2, "0")}</span>
-              <img className="modern-experience-icon" src={getFindIconAsset(activeCard.icon)} alt="" />
-            </div>
-          </div>
-          <div className="modern-experience-copy">
-            <p className="modern-eyebrow">{String(activeIndex + 1).padStart(2, "0")} / {String(copy.cards.length).padStart(2, "0")}</p>
-            <h3>{activeCard.title}</h3>
-            <p className="modern-quote">«{activeIndex === 0 ? findQuoteLabels[language][0] : findQuoteLabels[language][1]}»</p>
-            <ul>
-              {stops.map((stop, index) => (
-                <li key={`${stop.heading}-${index}`}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div><strong>{stop.heading}</strong><p>{stop.body}</p></div>
-                </li>
-              ))}
-            </ul>
-            <div className="modern-card-controls">
-              <button type="button" disabled={activeIndex === 0} onClick={() => setActiveIndex((index) => index - 1)}><ArrowIcon direction="left" /> {previousStopLabels[language]}</button>
-              <button type="button" onClick={() => setActiveIndex((index) => (index + 1) % copy.cards.length)}>{nextStopLabels[language]} <ArrowIcon /></button>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-  );
+    </article>
+  </section>;
 }
 
 function ModernApp() {
@@ -2037,319 +1991,141 @@ function ModernApp() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isNavigationSticky, setIsNavigationSticky] = useState(false);
-  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [formFeedback, setFormFeedback] = useState<string | null>(null);
+  const [railProgress, setRailProgress] = useState(0);
+  const rail = useRef<HTMLDivElement>(null);
+  const { scope, scrollTo } = useFestivalMotion(language);
   const copy = copies[language];
-  const ticketCta = ticketCtaCopies[language];
-  const festivalDate = festivalDates[language];
+  const date = festivalDates[language];
   const newsletter = newsCopy[language];
   const registration = registrationCopy[language];
-  const mysteryArtists = mysteryArtistCopies[language];
-  const activeLanguage = languageOptions.find((option) => option.key === language) ?? languageOptions[1];
+  const ui = previewCopy[language];
+  const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
+  const sentenceEnd = copy.heroCopy.indexOf(". ");
 
+  useEffect(() => { document.documentElement.lang = language; }, [language]);
   useEffect(() => {
-    const target = window.location.hash.slice(1);
-    if (!navTargets.includes(target)) return;
-    const frame = window.requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ block: "start" }));
-    return () => window.cancelAnimationFrame(frame);
+    const update = () => setIsNavigationSticky(window.scrollY > 64);
+    update(); window.addEventListener("scroll", update, { passive: true });
+    const escape = (event: KeyboardEvent) => { if (event.key === "Escape") { setIsNavigationOpen(false); setIsLanguageMenuOpen(false); } };
+    window.addEventListener("keydown", escape);
+    return () => { window.removeEventListener("scroll", update); window.removeEventListener("keydown", escape); };
   }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
-
-  useEffect(() => {
-    let animationFrame = 0;
-    const updateNavigationState = () => {
-      if (animationFrame) return;
-      animationFrame = window.requestAnimationFrame(() => {
-        animationFrame = 0;
-        setIsNavigationSticky(window.scrollY > 32);
-      });
-    };
-
-    updateNavigationState();
-    window.addEventListener("scroll", updateNavigationState, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", updateNavigationState);
-      window.cancelAnimationFrame(animationFrame);
-    };
-  }, []);
-
-  const changeLanguage = (nextLanguage: LanguageKey) => {
-    setLanguage(nextLanguage);
-    try { window.localStorage.setItem("barcelona-country-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
-    setIsLanguageMenuOpen(false);
+  const moveTo = (target: string) => {
+    scrollTo(target);
+    setIsNavigationOpen(false); setIsLanguageMenuOpen(false);
   };
-
-  const moveTo = (targetId: string) => {
-    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setIsNavigationOpen(false);
-    setIsLanguageMenuOpen(false);
+  const changeLanguage = (next: LanguageKey) => {
+    setLanguage(next); setFormFeedback(null); setIsLanguageMenuOpen(false);
+    try { localStorage.setItem("bcf-preview-language", next); } catch { /* Session choice remains available. */ }
   };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const slideArtists = (direction: number) => {
+    const element = rail.current;
+    if (element) element.scrollBy({ left: direction * element.clientWidth * .8, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  };
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const fullName = String(data.get("name") ?? "").trim();
-    const prefix = String(data.get("phonePrefix") ?? "").trim();
-    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
-    const phoneNumber = String(data.get("phone") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim().toLowerCase();
-    const danceLocation = String(data.get("danceLocation") ?? "").trim();
-
-    if (isFormSubmitting) return;
-    setIsFormSubmitting(true);
-    setFormFeedback(null);
-    try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "subscribe", full_name: fullName, phone: `${prefix} ${phoneNumber}`.trim(), country_iso: countryIso, email, dance_location: danceLocation, locale: language, consent: true, privacy_accepted: data.get("privacyAccepted") === "on", website: data.get("website") })
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        setFormFeedback({ type: "error", message: result.error === "duplicate" ? newsletter.duplicate : formFeedbackLabels[language].error });
-        return;
-      }
-      form.reset();
-      setFormFeedback({ type: "success", message: `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` });
-    } catch {
-      setFormFeedback({ type: "error", message: formFeedbackLabels[language].error });
-    } finally {
-      setIsFormSubmitting(false);
-    }
+    // This proposal has no mail/database credentials and never sends personal data.
+    event.currentTarget.reset(); setFormFeedback(ui.done);
   };
 
-  return (
-    <CookieConsentProvider language={language}>
-    <div className="modern-page">
-      <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
-        <nav className="modern-nav" aria-label="Principal">
-          <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Festival" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
-            <img src="/assets/brand-logo.png" alt="Barcelona Country Festival" />
+  return <CookieConsentProvider language={language}><div ref={scope} className="cinematic">
+    <a className="c-skip" href="#festival">{copy.festivalTitle}</a>
+    <header className={`c-header ${isNavigationSticky ? "is-scrolled" : ""}`}>
+      <nav className="c-nav" aria-label="Principal">
+        <a className="c-logo" href="#home" aria-label="Barcelona Country Festival"><img className="c-logo-full" src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /><img className="c-logo-mark" src={assetPath("/assets/brand-isotype.png")} alt="" /></a>
+        <div id="c-navigation" className={`c-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
+          {copy.nav.slice(1).map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index + 1])}>{item.toLocaleLowerCase(language)}</button>)}
+          <a href={sitePath("/newsletters")}>News</a>
+        </div>
+        <div className="c-language">
+          <button className="c-language-trigger" type="button" aria-label={interfaceLabels[language].changeLanguage} aria-expanded={isLanguageMenuOpen} aria-controls="c-language-options" onClick={() => { setIsLanguageMenuOpen(!isLanguageMenuOpen); setIsNavigationOpen(false); }}>
+            {language.toUpperCase()}<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5" /></svg>
           </button>
-          <div className="modern-nav-cluster">
-            <button className="modern-nav-star" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Festival" aria-hidden={!isNavigationSticky} tabIndex={isNavigationSticky ? 0 : -1}>
-              <img src="/assets/brand-isotype.png" alt="" />
-            </button>
-            <div id="modern-navigation-links" className={`modern-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
-              {copy.nav.map((item, index) => (
-                <button type="button" key={item} onClick={() => moveTo(navTargets[index])}>
-                  <span>{item}</span>
-                </button>
-              ))}
-              <button type="button" onClick={() => { window.location.href = "/newsletters"; }}><span>Blog</span></button>
-            </div>
-          </div>
-          <div className="modern-language">
-            <button
-              className="modern-language-trigger"
-              type="button"
-              aria-label={interfaceLabels[language].changeLanguage}
-              aria-expanded={isLanguageMenuOpen}
-              aria-controls="modern-language-options"
-              onClick={() => { setIsLanguageMenuOpen((isOpen) => !isOpen); setIsNavigationOpen(false); }}
-            >
-              <span className="modern-language-icon" aria-hidden="true">{activeLanguage.icon}</span>
-              <span className="modern-language-code">{language.toUpperCase()}</span>
-              <svg aria-hidden="true" viewBox="0 0 16 16"><path d="m3 6 5 5 5-5" /></svg>
-            </button>
-            {isLanguageMenuOpen && (
-              <div id="modern-language-options" className="modern-language-menu" role="menu">
-                {languageOptions.map((option) => (
-                  <button
-                    type="button"
-                    role="menuitem"
-                    className={option.key === language ? "is-active" : ""}
-                    key={option.key}
-                    onClick={() => changeLanguage(option.key)}
-                  >
-                    <span aria-hidden="true">{option.icon}</span><span>{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <button
-            className={`modern-menu-toggle ${isNavigationOpen ? "is-open" : ""}`}
-            type="button"
-            aria-controls="modern-navigation-links"
-            aria-expanded={isNavigationOpen}
-            aria-label={isNavigationOpen ? interfaceLabels[language].closeMenu : interfaceLabels[language].menu}
-            onClick={() => { setIsNavigationOpen((isOpen) => !isOpen); setIsLanguageMenuOpen(false); }}
-          >
-            <span className="modern-menu-toggle-lines" aria-hidden="true"><i /><i /></span>
-            <span className="modern-menu-toggle-label" aria-hidden="true">Menu</span>
-          </button>
-        </nav>
-      </header>
+          {isLanguageMenuOpen && <div className="c-language-menu" id="c-language-options">{languageOptions.map(option => <button type="button" key={option.key} aria-pressed={option.key === language} onClick={() => changeLanguage(option.key)}><span aria-hidden="true">{option.icon}</span>{option.label}</button>)}</div>}
+        </div>
+        <button className={`c-menu-toggle ${isNavigationOpen ? "is-open" : ""}`} type="button" aria-label={isNavigationOpen ? interfaceLabels[language].closeMenu : interfaceLabels[language].menu} aria-controls="c-navigation" aria-expanded={isNavigationOpen} onClick={() => { setIsNavigationOpen(!isNavigationOpen); setIsLanguageMenuOpen(false); }}><span /><span /></button>
+      </nav>
+    </header>
+    <main>
+      <section id="home" className="c-hero" aria-labelledby="c-hero-title">
+        <img className="c-hero-photo" src={assetPath("/assets/header-fira-crowd-senyera.png")} alt="" fetchPriority="high" />
+        <div className="c-hero-shade" />
+        <div className="c-hero-content">
+          <h1 className="c-hero-title" id="c-hero-title"><span>Barcelona</span><span><em>Country Fest</em></span></h1>
+          <p className="c-hero-date">{date.days} <span>{date.month} {date.year}</span><i />{date.city}</p>
+        </div>
+        <div className="c-hero-actions"><button type="button" className="c-text-link" onClick={() => moveTo("contact")}>{copy.cta}<ArrowIcon direction="up-right" /></button><span>{copy.triad.join(" · ")}</span><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><ArrowIcon direction="down" /></button></div>
+      </section>
 
-      <main>
-        <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
-          <img className="modern-hero-image" src="/assets/header-fira-crowd-senyera.png" alt="" />
-          <div className="modern-hero-shade" />
-          <div className="modern-hero-grid" aria-hidden="true" />
-          <div className="modern-hero-content">
-            <FestivalDatePoster date={festivalDate} variant="hero" />
-            <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
-            <p className="modern-hero-copy">{copy.heroCopy}</p>
-            <div className="modern-hero-actions">
-              <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>
-                <span>{copy.cta}</span><ArrowIcon direction="down-right" />
-              </button>
-              <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <ArrowIcon direction="down" /></button>
-            </div>
-          </div>
-          <div className="modern-hero-meta">
-            <span>{copy.triad.join(" · ")}</span>
-          </div>
-        </section>
+      <section id="festival" className="c-festival c-section" aria-labelledby="c-festival-title">
+        <p className="c-kicker" data-reveal>{copy.festivalTitle}</p>
+        <p className="c-intro-line" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(0, sentenceEnd + 1) : ""}</p>
+        <h2 className="c-statement" id="c-festival-title" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(sentenceEnd + 2) : copy.heroCopy}</h2>
+        <div className="c-festival-story"><p data-reveal>{copy.festivalCopy}</p><figure><img className="c-parallax" src={assetPath("/assets/backgrounds/festival-live.jpg")} alt="" loading="lazy" /></figure></div>
+        <div className="c-stats" data-reveal>{[["3", copy.days], [festivalStatValues.artists, copy.internationalArtists], [festivalStatValues.dancers, copy.expectedDancers]].map(([number, text]) => <div key={number}><strong>{number}</strong><span>{text.toLocaleLowerCase(language)}</span></div>)}</div>
+      </section>
 
-        <section id="festival" className="modern-festival modern-section" aria-labelledby="modern-festival-title">
-          <div className="modern-section-heading modern-festival-heading">
-            <h2 id="modern-festival-title">{copy.festivalTitle}</h2>
-          </div>
-          <p className="modern-festival-copy">{copy.festivalCopy}</p>
-          <div className="modern-stats">
-            {[
-              ["3", copy.days],
-              [festivalStatValues.artists, copy.internationalArtists],
-              [festivalStatValues.dancers, copy.expectedDancers]
-            ].map(([value, label], index) => (
-              <div key={label}><strong>{value}</strong><span>{label}</span></div>
-            ))}
-          </div>
-        </section>
+      <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
+        <div className="c-section-head" data-reveal><div><p className="c-kicker">Line up · 2027</p><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-rail-controls"><button type="button" disabled={railProgress < .01} aria-label={ui.previous} onClick={() => slideArtists(-1)}><ArrowIcon direction="left" /></button><span>{String(Math.min(12, Math.floor(railProgress * 9) + 1)).padStart(2, "0")} <i>/ 12</i></span><button type="button" disabled={railProgress > .99} aria-label={ui.next} onClick={() => slideArtists(1)}><ArrowIcon /></button></div></div>
+        <div ref={rail} className="c-artists-rail" tabIndex={0} aria-label={copy.artistsTitle} onScroll={event => { const element = event.currentTarget; setRailProgress(element.scrollLeft / Math.max(1, element.scrollWidth - element.clientWidth)); }}>
+          {artists.map((artist, index) => <article className="c-artist" key={artist.name}>
+            <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a>
+            <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
+            <details className="c-biography"><summary>{ui.bio}<i aria-hidden="true" /></summary><p>{artist.body}</p></details>
+          </article>)}
+          {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(9 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></article>)}
+          {[11,12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
+        </div>
+        <div className="c-rail-progress" aria-hidden="true"><span style={{ transform: `translateX(${railProgress * 300}%)` }} /></div>
+        <p className="c-more-artists">{mystery.title}<span aria-hidden="true">✳</span></p>
+      </section>
 
-        <section id="artists" className="modern-artists modern-section" aria-labelledby="modern-artists-title">
-          <div className="modern-section-heading"><p>LINE UP</p><h2 id="modern-artists-title">{copy.artistsTitle}</h2></div>
-          <div className="modern-artists-grid">
-            {artists.map((artist, index) => (
-              <article className="modern-artist-card" key={artist.name}>
-                <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
-                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image} alt={artist.name} />
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                </a>
-                <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
-              </article>
-            ))}
-            {newFestivalArtists.map((artist, index) => (
-              <article className="modern-artist-card" key={artist.name}>
-                <figure className="modern-artist-portrait">
-                  <img className={`modern-artist-image ${artist.imageClass}`} src={artist.image} alt={artist.name} loading="lazy" />
-                  <span>{String(artists.length + index + 1).padStart(2, "0")}</span>
-                </figure>
-                <div><p>{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></div>
-              </article>
-            ))}
-            {[11, 12].map((number) => (
-              <article className="modern-artist-card modern-artist-card--mystery" key={number} aria-label={`${mysteryArtists.card} ${number}`}>
-                <div className="modern-mystery-portrait" aria-hidden="true">
-                  <span>?</span>
-                  <small>{String(number).padStart(2, "0")}</small>
-                </div>
-                <div><p>{mysteryArtists.eyebrow}</p><h3>{mysteryArtists.card}</h3></div>
-              </article>
-            ))}
-            <div className="modern-artists-reveal">
-              <p>{mysteryArtists.eyebrow}</p>
-              <h3>{mysteryArtists.title}</h3>
-            </div>
-          </div>
-        </section>
+      <ModernFindSection key={language} copy={findCopies[language]} language={language} />
 
-        <ModernFindSection copy={findCopies[language]} language={language} />
+      <section id="location" className="c-location" aria-labelledby="c-location-title">
+        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/location-country.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><p className="c-kicker">{copy.locationKicker}</p><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p><span>Yeehaw!</span></div></div>
+        <details className="c-map-disclosure"><summary><span>{ui.map}</span><span>Fira Cornellà · Barcelona</span><ArrowIcon direction="down" /></summary><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></details>
+      </section>
 
-        <section id="location" className="modern-location modern-section" aria-labelledby="modern-location-title">
-          <div className="modern-location-intro">
-            <p className="modern-eyebrow">{copy.locationKicker}</p>
-            <h2 id="modern-location-title">Yeehaw!<br /><span>{copy.inBarcelona}</span></h2>
-            <FestivalDatePoster date={festivalDate} />
-          </div>
-          <div className="modern-map-wrap"><GoogleMap language={language} title={copy.mapTitle} /></div>
-        </section>
-
-        <section id="contact" className="modern-contact modern-subscription" aria-labelledby="modern-contact-title">
-          <div className="modern-contact-copy">
-            <h2 id="modern-contact-title">{newsletter.title}</h2>
-            <span>{copy.triad.join(" · ")}</span>
-            <p className="subscription-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p>
-          </div>
-          <form className="modern-contact-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
-            <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
-            <ModernPhonePrefixSelect language={language} />
-            <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
-            <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
-            <div className="subscription-honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
-            <div className="registration-consents">
-              <label className="registration-consent" htmlFor="privacy-accepted">
-                <input id="privacy-accepted" name="privacyAccepted" type="checkbox" required />
-                <span>{registration.privacyBefore} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a> {registration.privacyAfter}</span>
-              </label>
-            </div>
-            <div className="subscription-submit-row">
-              <button className="modern-primary-button subscription-button" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization">
-                <span>{isFormSubmitting ? formFeedbackLabels[language].submitting : newsletter.subscribe}</span>
-                <span className="subscription-button-arrow" aria-hidden="true"><ArrowIcon /></span>
-              </button>
-              <p id="subscription-authorization" className="subscription-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href="/privacidad" target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
-            </div>
-            {formFeedback && <p className={`modern-form-status is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
-          </form>
-        </section>
-
-        {SHOW_TICKET_SALES ? (
-          <section id="tickets" className="modern-tickets-cta" aria-labelledby="modern-tickets-title">
-            <div className="modern-tickets-cta-copy">
-              <p>{ticketCta.date}</p>
-              <h2 id="modern-tickets-title">{ticketCta.title}</h2>
-              <span>{ticketCta.body}</span>
-            </div>
-            <a className="modern-primary-button" href="/entradas">{ticketCta.action} <ArrowIcon direction="up-right" /></a>
-          </section>
-        ) : null}
-      </main>
-      <footer className="modern-footer">
-        <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
-        <nav className="footer-legal-links" aria-label={newsletter.legal}><a href="/newsletters">Barcelona Country News</a><a href="/privacidad">{newsletter.privacy}</a><a href="/aviso-legal">{newsletter.legal}</a><a href="/cookies">{newsletter.cookies}</a><CookiePreferencesButton /></nav>
-        <details className="modern-photo-credits">
-          <summary>⌘ Créditos fotográficos</summary>
-          <ul>
-            <li><a href="https://commons.wikimedia.org/wiki/File:BUCKLE_N_BOOTS_performing_live_at_The_British_Country_Music_Festival_2025.jpg" target="_blank" rel="noreferrer">BeeMusicUK · CC BY-SA 4.0</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Ballymore_Country_Music_Festival_2014.jpg" target="_blank" rel="noreferrer">Lizheen · CC BY-SA 4.0</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Main_Stage_at_Harvest_Country_Music_Festival_2017_at_Westport_House.jpg" target="_blank" rel="noreferrer">Bambography · CC BY-SA 4.0</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Crowds_going_to_George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Country_Music_Festival_1,_Mirande,_Gers,_France.jpg" target="_blank" rel="noreferrer">Jamiecat · CC BY 2.0</a></li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
-          </ul>
-        </details>
-      </footer>
-    </div>
-    </CookieConsentProvider>
-  );
+      <section id="contact" className="c-contact c-section" aria-labelledby="c-contact-title">
+        <div className="c-contact-copy" data-reveal><p className="c-kicker">Barcelona Country News</p><h2 id="c-contact-title">{newsletter.title}</h2><p className="c-contact-triad">{copy.triad.join(" · ")}</p><p className="c-contact-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p></div>
+        <form className="c-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
+          <p className="c-preview-note">{ui.note}</p>
+          <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
+          <ModernPhonePrefixSelect language={language} />
+          <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
+          <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
+          <label className="c-consent" htmlFor="privacy-accepted"><input id="privacy-accepted" name="privacyAccepted" type="checkbox" required /><span>{registration.privacyBefore} <a href={sitePath("/privacidad")} target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a> {registration.privacyAfter}</span></label>
+          <button className="c-submit" type="submit" aria-describedby="subscription-authorization"><span>{newsletter.subscribe}</span><ArrowIcon /></button>
+          <p id="subscription-authorization" className="c-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href={sitePath("/privacidad")} target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
+          {formFeedback && <p className="c-form-feedback" role="status">{formFeedback}</p>}
+        </form>
+      </section>
+    </main>
+    <footer className="c-footer"><a className="c-footer-logo" href="#home"><img src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /></a><div className="c-footer-main"><p>{copy.footer}</p><nav aria-label={newsletter.legal}><a href={sitePath("/newsletters")}>Barcelona Country News</a><a href={sitePath("/privacidad")}>{newsletter.privacy}</a><a href={sitePath("/aviso-legal")}>{newsletter.legal}</a><a href={sitePath("/cookies")}>{newsletter.cookies}</a><CookiePreferencesButton /></nav></div>
+      <details className="c-credits"><summary>Créditos fotográficos</summary><ul>
+        <li><a href="https://commons.wikimedia.org/wiki/File:BUCKLE_N_BOOTS_performing_live_at_The_British_Country_Music_Festival_2025.jpg" target="_blank" rel="noreferrer">BeeMusicUK · CC BY-SA 4.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Ballymore_Country_Music_Festival_2014.jpg" target="_blank" rel="noreferrer">Lizheen · CC BY-SA 4.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Main_Stage_at_Harvest_Country_Music_Festival_2017_at_Westport_House.jpg" target="_blank" rel="noreferrer">Bambography · CC BY-SA 4.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Crowds_going_to_George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Country_Music_Festival_1,_Mirande,_Gers,_France.jpg" target="_blank" rel="noreferrer">Jamiecat · CC BY 2.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
+      </ul></details>
+    </footer>
+  </div></CookieConsentProvider>;
 }
 
-const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
-const isAdminRoute = ["/login", "/dashboard", "/dashbord", "/admin/newsletters"].includes(currentPath);
+
+const currentPath = currentSitePath();
 const isNewsRoute = currentPath === "/blog" || currentPath === "/newsletters" || currentPath.startsWith("/newsletters/");
 const isLegalRoute = ["/privacidad", "/aviso-legal", "/cookies", "/baja"].includes(currentPath);
-const isBackupRoute = currentPath === "/backup";
-const isTicketRoute = ["/entradas", "/tickets", "/buy"].includes(currentPath);
 
-createRoot(document.getElementById("root")!).render(
+const root = createRoot(document.getElementById("root")!);
+root.render(
   <StrictMode>
-    {isAdminRoute ? (
-      <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}>
-        <AdminPortal />
-      </Suspense>
-    ) : isBackupRoute ? <CookieConsentProvider language={getInitialLanguage()}><App /></CookieConsentProvider> : isTicketRoute ? (
-      <CookieConsentProvider language={getInitialLanguage()}>
-      <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando entradas"><span /><span /><span /></div>}>
-        <TicketPurchasePage />
-      </Suspense>
-      </CookieConsentProvider>
-    ) : isNewsRoute || isLegalRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense></CookieConsentProvider> : <ModernApp />}
+    {isNewsRoute || isLegalRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense></CookieConsentProvider> : <ModernApp />}
   </StrictMode>
 );
+if (import.meta.hot) import.meta.hot.dispose(() => root.unmount());

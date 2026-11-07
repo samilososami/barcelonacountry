@@ -4,6 +4,7 @@ import { ArrowIcon } from "../components/ArrowIcon";
 import { legalDocuments } from "../privacy/legal-content";
 import { CookiePreferencesButton } from "../privacy/CookieConsent";
 import { registrationCopy } from "../privacy/registration-copy";
+import { assetPath, sitePath, currentSitePath, previewCopy } from "../lib/site";
 import "./news.css";
 
 // Link existing words without adding or rewriting the approved document text.
@@ -11,8 +12,8 @@ function LegalText({ text }: { text: string }) {
   const links: Record<string, string> = {
     "privacidad@barcelonacountry.com": "mailto:privacidad@barcelonacountry.com",
     "https://www.barcelonacountry.com/": "https://www.barcelonacountry.com/",
-    "Política de Privacidad": "/privacidad",
-    "Política de Cookies": "/cookies"
+    "Política de Privacidad": sitePath("/privacidad"),
+    "Política de Cookies": sitePath("/cookies")
   };
   return text.split(/(privacidad@barcelonacountry\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
     links[part] ? <a key={index} href={links[part]}>{part}</a> : part
@@ -21,7 +22,7 @@ function LegalText({ text }: { text: string }) {
 
 export function LegalPage({ language }: { language: NewsLanguage }) {
   const t = newsCopy[language];
-  const key = window.location.pathname.replace(/^\/|\/$/g, "");
+  const key = currentSitePath().replace(/^\/|\/$/g, "");
   const isUnsubscribe = key === "baja";
   const document = legalDocuments[key as keyof typeof legalDocuments];
   const title = isUnsubscribe ? t.unsubscribe : document?.title ?? t.legal;
@@ -30,21 +31,15 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
   const [done, setDone] = useState(false);
   useEffect(() => { window.document.title = `${title} | Barcelona Country Fest`; window.document.documentElement.lang = language; }, [title, language]);
   async function unsubscribe() {
-    setBusy(true);
-    try {
-      const response = await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "unsubscribe", token: new URLSearchParams(window.location.search).get("token") }) });
-      if (!response.ok) throw new Error();
-      setStatus(t.unsubscribed); setDone(true);
-    } catch { setStatus(t.retry); }
-    finally { setBusy(false); }
+    setStatus(previewCopy[language].note); setDone(true);
   }
   return <div className="modern-page news-page">
-    <header className="news-header"><a href="/" aria-label="Barcelona Country Festival"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" /></a><a href="/"><ArrowIcon direction="left" /> {t.back}</a></header>
+    <header className="news-header"><a href={sitePath("/")} aria-label="Barcelona Country Festival"><img src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /></a><a href={sitePath("/")}><ArrowIcon direction="left" /> {t.back}</a></header>
     <main className="news-main legal-main">
       {!isUnsubscribe && <nav className="legal-navigation" aria-label={t.legal}>
-        <a href="/privacidad" aria-current={key === "privacidad" ? "page" : undefined}>{t.privacy}</a>
-        <a href="/aviso-legal" aria-current={key === "aviso-legal" ? "page" : undefined}>{t.legal}</a>
-        <a href="/cookies" aria-current={key === "cookies" ? "page" : undefined}>{t.cookies}</a>
+        <a href={sitePath("/privacidad")} aria-current={key === "privacidad" ? "page" : undefined}>{t.privacy}</a>
+        <a href={sitePath("/aviso-legal")} aria-current={key === "aviso-legal" ? "page" : undefined}>{t.legal}</a>
+        <a href={sitePath("/cookies")} aria-current={key === "cookies" ? "page" : undefined}>{t.cookies}</a>
       </nav>}
       <article className="news-article legal-document" lang={isUnsubscribe ? language : "es"}>
         {isUnsubscribe && <p className="news-number">Barcelona Country Fest</p>}<h1 data-legal-source={document ? "" : undefined}>{title}</h1>
@@ -65,6 +60,6 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
         </> : <p>{t.pending}</p>}
       </article>
     </main>
-    <footer className="news-footer"><a href="/">Barcelona Country Fest</a><a href="mailto:privacidad@barcelonacountry.com">privacidad@barcelonacountry.com</a><CookiePreferencesButton /></footer>
+    <footer className="news-footer"><a href={sitePath("/")}>Barcelona Country Fest</a><a href="mailto:privacidad@barcelonacountry.com">privacidad@barcelonacountry.com</a><CookiePreferencesButton /></footer>
   </div>;
 }

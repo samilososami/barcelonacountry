@@ -1,10 +1,10 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { newsletterDevApi } from "./server/dev-api.mjs";
 
-export default defineConfig(({ mode }) => ({
-  plugins: [react(), newsletterDevApi(loadEnv(mode, process.cwd(), ""))],
+export default defineConfig({
+  base: "/BCN/",
+  plugins: [react()],
   build: {
     assetsInlineLimit: 0
   }
-}));
+});

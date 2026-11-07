@@ -1,5 +1,5 @@
 // Only explicitly chosen Google Maps consent enables third-party embeds.
-export const COOKIE_CONSENT_KEY = 'bcf-cookie-consent';
+export const COOKIE_CONSENT_KEY = 'bcf-preview-cookie-consent';
 export const COOKIE_CONSENT_VERSION = 1;
 export const COOKIE_CONSENT_TTL_MS = 180 * 24 * 60 * 60 * 1000;
 

@@ -1,0 +1,10 @@
+.git
+.env*
+api
+server
+supabase
+backup
+gallery-backup
+deliverables
+tests
+node_modules

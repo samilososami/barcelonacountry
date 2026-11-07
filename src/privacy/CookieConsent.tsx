@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { COOKIE_CONSENT_KEY, createCookieConsent, parseCookieConsent, type CookieConsent } from "../../shared/cookie-consent.mjs";
 import type { NewsLanguage } from "../newsletters/copy";
+import { sitePath } from "../lib/site";
 import "./cookie-consent.css";
 
 type CookieCopy = {
@@ -138,7 +139,7 @@ export function CookieConsentProvider({ language, children }: { language: NewsLa
         <button type="button" onClick={() => save(false)}>{t.reject}</button>
         <button type="button" onClick={() => save(true)}>{t.accept}</button>
       </div>
-      <div className="bcf-cookie-banner-footer"><button type="button" className="bcf-cookie-configure" onClick={openPreferences}>{t.configure}</button><a href="/cookies">{t.policy}</a></div>
+      <div className="bcf-cookie-banner-footer"><button type="button" className="bcf-cookie-configure" onClick={openPreferences}>{t.configure}</button><a href={sitePath("/cookies")}>{t.policy}</a></div>
     </section>}
     {storageUnavailable && consent && <div className="bcf-cookie-storage-notice" role="status">{t.storage} <button type="button" onClick={openPreferences}>{t.configure}</button></div>}
     <dialog ref={dialogRef} className="bcf-cookie-dialog" aria-labelledby="bcf-cookie-title" aria-describedby="bcf-cookie-details" onCancel={(event) => { event.preventDefault(); closePreferences(); }} onClose={closePreferences}>
@@ -148,7 +149,7 @@ export function CookieConsentProvider({ language, children }: { language: NewsLa
       <section className="bcf-cookie-category"><label className="bcf-cookie-maps-label"><span>{t.maps}</span><input type="checkbox" checked={draftMaps} onChange={event => setDraftMaps(event.target.checked)} aria-describedby="bcf-cookie-maps-description" /></label><p id="bcf-cookie-maps-description">{t.mapsText}</p><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google · {t.privacy}</a></section>
       {storageUnavailable && <p className="bcf-cookie-storage-inline" role="status">{t.storage}</p>}
       <div className="bcf-cookie-dialog-actions"><button type="button" onClick={() => save(false)}>{consent?.maps ? t.revoke : t.reject}</button><button type="button" onClick={() => save(draftMaps)}>{t.save}</button></div>
-      <nav className="bcf-cookie-policy-links" aria-label={t.preferences}><a href="/cookies">{t.policy}</a><a href="/privacidad">{t.privacy}</a></nav>
+      <nav className="bcf-cookie-policy-links" aria-label={t.preferences}><a href={sitePath("/cookies")}>{t.policy}</a><a href={sitePath("/privacidad")}>{t.privacy}</a></nav>
     </dialog>
   </Context.Provider>;
 }
