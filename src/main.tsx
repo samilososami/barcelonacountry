@@ -7,6 +7,7 @@ import { CookieConsentProvider, CookiePreferencesButton, useCookieConsent } from
 import { registrationCopy } from "./privacy/registration-copy";
 import "./styles.css";
 import "./modern.css";
+import "./editorial.css";
 
 const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
 const TicketPurchasePage = lazy(() => import("./tickets/TicketPurchasePage").then((module) => ({ default: module.TicketPurchasePage })));
@@ -2124,7 +2125,7 @@ function ModernApp() {
 
   return (
     <CookieConsentProvider language={language}>
-    <div className="modern-page">
+    <div className="modern-page editorial">
       <header className={`modern-nav-wrap ${isNavigationSticky ? "is-scrolled" : ""}`}>
         <nav className="modern-nav" aria-label="Principal">
           <button className="modern-brand" type="button" onClick={() => moveTo("home")} aria-label="Barcelona Country Festival" aria-hidden={isNavigationSticky} tabIndex={isNavigationSticky ? -1 : 0}>
@@ -2188,12 +2189,11 @@ function ModernApp() {
 
       <main>
         <section id="home" className="modern-hero" aria-labelledby="modern-hero-title">
-          <img className="modern-hero-image" src="/assets/header-fira-crowd-senyera.png" alt="" />
+          <img className="modern-hero-image" src="/assets/header-fira-crowd-senyera.png" alt="" fetchPriority="high" />
           <div className="modern-hero-shade" />
           <div className="modern-hero-grid" aria-hidden="true" />
           <div className="modern-hero-content">
-            <FestivalDatePoster date={festivalDate} variant="hero" />
-            <h1 id="modern-hero-title"><span>Barcelona</span>Country <em>Fest</em></h1>
+            <h1 id="modern-hero-title"><span>Barcelona</span><span>Country <em>Fest</em></span></h1>
             <p className="modern-hero-copy">{copy.heroCopy}</p>
             <div className="modern-hero-actions">
               <button className="modern-primary-button" type="button" onClick={() => moveTo("contact")}>
@@ -2202,6 +2202,7 @@ function ModernApp() {
               <button className="modern-text-button" type="button" onClick={() => moveTo("festival")}>{copy.nav[1]} <ArrowIcon direction="down" /></button>
             </div>
           </div>
+          <div className="modern-hero-date"><FestivalDatePoster date={festivalDate} variant="hero" /></div>
           <div className="modern-hero-meta">
             <span>{copy.triad.join(" · ")}</span>
           </div>
@@ -2221,6 +2222,7 @@ function ModernApp() {
               <div key={label}><strong>{value}</strong><span>{label}</span></div>
             ))}
           </div>
+          <figure className="modern-festival-photo"><img src="/assets/backgrounds/festival-live.jpg" alt="" loading="lazy" /></figure>
         </section>
 
         <section id="artists" className="modern-artists modern-section" aria-labelledby="modern-artists-title">
@@ -2229,7 +2231,7 @@ function ModernApp() {
             {artists.map((artist, index) => (
               <article className="modern-artist-card" key={artist.name}>
                 <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>
-                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image} alt={artist.name} />
+                  <img className={`modern-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image} alt={artist.name} loading="lazy" />
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </a>
                 <div><p>{artist.role}</p><h3>{artist.name}</h3><p>{artist.body}</p></div>
@@ -2312,6 +2314,7 @@ function ModernApp() {
         ) : null}
       </main>
       <footer className="modern-footer">
+        <a className="modern-footer-brand" href="#home" aria-label="Barcelona Country Festival"><img src="/assets/brand-logo.png" alt="Barcelona Country Festival" loading="lazy" /></a>
         <span>Barcelona Country Fest</span><span>{copy.footer}</span><span>BCF / 2027</span>
         <nav className="footer-legal-links" aria-label={newsletter.legal}><a href="/newsletters">Barcelona Country News</a><a href="/privacidad">{newsletter.privacy}</a><a href="/aviso-legal">{newsletter.legal}</a><a href="/cookies">{newsletter.cookies}</a><CookiePreferencesButton /></nav>
         <details className="modern-photo-credits">
