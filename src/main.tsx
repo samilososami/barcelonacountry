@@ -1992,7 +1992,8 @@ function ModernApp() {
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isNavigationSticky, setIsNavigationSticky] = useState(false);
   const [formFeedback, setFormFeedback] = useState<string | null>(null);
-  const [railProgress, setRailProgress] = useState(0);
+  const [railState, setRailState] = useState({ first: 1, start: true, end: false });
+  const railIndicator = useRef<HTMLSpanElement>(null);
   const rail = useRef<HTMLDivElement>(null);
   const { scope, scrollTo } = useFestivalMotion(language);
   const copy = copies[language];
@@ -2068,8 +2069,16 @@ function ModernApp() {
       </section>
 
       <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
-        <div className="c-section-head" data-reveal><div><p className="c-kicker">Line up · 2027</p><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-rail-controls"><button type="button" disabled={railProgress < .01} aria-label={ui.previous} onClick={() => slideArtists(-1)}><ArrowIcon direction="left" /></button><span>{String(Math.min(12, Math.floor(railProgress * 9) + 1)).padStart(2, "0")} <i>/ 12</i></span><button type="button" disabled={railProgress > .99} aria-label={ui.next} onClick={() => slideArtists(1)}><ArrowIcon /></button></div></div>
-        <div ref={rail} className="c-artists-rail" tabIndex={0} aria-label={copy.artistsTitle} onScroll={event => { const element = event.currentTarget; setRailProgress(element.scrollLeft / Math.max(1, element.scrollWidth - element.clientWidth)); }}>
+        <div className="c-section-head" data-reveal><div><p className="c-kicker">Line up · 2027</p><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-rail-controls"><button type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => slideArtists(-1)}><ArrowIcon direction="left" /></button><span>{String(railState.first).padStart(2, "0")} <i>/ 12</i></span><button type="button" disabled={railState.end} aria-label={ui.next} onClick={() => slideArtists(1)}><ArrowIcon /></button></div></div>
+        <div ref={rail} className="c-artists-rail" tabIndex={0} aria-label={copy.artistsTitle} onScroll={event => {
+          const element = event.currentTarget;
+          const maximum = Math.max(1, element.scrollWidth - element.clientWidth);
+          const progress = element.scrollLeft / maximum;
+          if (railIndicator.current) railIndicator.current.style.transform = `translateX(${progress * 300}%)`;
+          const first = element.children[0] as HTMLElement, second = element.children[1] as HTMLElement;
+          const next = { first: Math.floor((element.scrollLeft + 1) / (second.offsetLeft - first.offsetLeft)) + 1, start: element.scrollLeft < 2, end: maximum - element.scrollLeft < 2 };
+          setRailState(previous => previous.first === next.first && previous.start === next.start && previous.end === next.end ? previous : next);
+        }}>
           {artists.map((artist, index) => <article className="c-artist" key={artist.name}>
             <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a>
             <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
@@ -2078,8 +2087,8 @@ function ModernApp() {
           {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(9 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></article>)}
           {[11,12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
         </div>
-        <div className="c-rail-progress" aria-hidden="true"><span style={{ transform: `translateX(${railProgress * 300}%)` }} /></div>
-        <p className="c-more-artists">{mystery.title}<span aria-hidden="true">✳</span></p>
+        <div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div>
+        <p className="c-more-artists">{mystery.title}<img src={assetPath("/assets/brand-isotype.png")} alt="" /></p>
       </section>
 
       <ModernFindSection key={language} copy={findCopies[language]} language={language} />
