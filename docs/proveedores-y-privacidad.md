@@ -30,8 +30,6 @@ La restauración supera un cotejo independiente contra el XML del DOCX y una com
 
 No confundir proveedores operativos con herramientas de desarrollo. GitHub guarda el código, no debe recibir la base de inscritos ni secretos. Las fotografías y tipografías de la página inicial se sirven localmente; los enlaces a Instagram y créditos externos no son embeds. El contenido editorial puede añadir medios HTTPS externos: antes de publicar uno nuevo, revisar si introduce un proveedor adicional que recibe datos del visitante.
 
-Restyling del 7 de noviembre de 2026: Bodoni Moda y Manrope se distribuyen desde `public/fonts`, junto con sus licencias OFL. Se descargaron del repositorio oficial de Google Fonts durante el desarrollo; el visitante no realiza peticiones a Google Fonts. No se añaden proveedores ni categorías de cookies.
-
 ## Fuentes oficiales y transferencias
 
 Consultadas el 04/11/2026. Son información pública del proveedor, no prueba de que un contrato particular esté formalizado o de que una certificación cubra cada tratamiento de esta web.
