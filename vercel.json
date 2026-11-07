@@ -13,6 +13,10 @@
   ],
   "rewrites": [
     {
+      "source": "/BCN/",
+      "destination": "/index.html"
+    },
+    {
       "source": "/BCN/assets/:path*",
       "destination": "/assets/:path*"
     },
