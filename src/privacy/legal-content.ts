@@ -46,7 +46,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           },
           {
             "type": "paragraph",
-            "text": "Correo electrónico de contacto en materia de privacidad: privacidad@barcelonacountry.com"
+            "text": "Correo electrónico de contacto en materia de privacidad: privacidad@barcelonacountryfest.com"
           },
           {
             "type": "paragraph",
@@ -262,7 +262,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           },
           {
             "type": "paragraph",
-            "text": "Correo electrónico: privacidad@barcelonacountry.com"
+            "text": "Correo electrónico: privacidad@barcelonacountryfest.com"
           },
           {
             "type": "paragraph",
@@ -334,7 +334,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           },
           {
             "type": "paragraph",
-            "text": "Responsable del tratamiento: Events Mayaan SL.\nCorreo electrónico de contacto: privacidad@barcelonacountry.com\nWeb: https://www.barcelonacountry.com/"
+            "text": "Responsable del tratamiento: Events Mayaan SL.\nCorreo electrónico de contacto: privacidad@barcelonacountryfest.com\nWeb: https://www.barcelonacountry.com/"
           }
         ]
       }
@@ -359,7 +359,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
               "Responsable: Events Mayaan SL",
               "NIF: B93978757",
               "Domicilio social: Ronda Maiols, 1, Edificio BMC, 08172 - Sant Quirze del Vallès.",
-              "Correo electrónico de contacto en materia de privacidad: privacidad@barcelonacountry.com"
+              "Correo electrónico de contacto en materia de privacidad: privacidad@barcelonacountryfest.com"
             ]
           }
         ]
@@ -489,7 +489,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
               "NIF: B93978757",
               "Nombre comercial: Barcelona Country Fest",
               "Domicilio social: Ronda Maiols, 1, Edificio BMC, 08172 - Sant Quirze del Vallès.",
-              "Correo electrónico de contacto: privacidad@barcelonacountry.com",
+              "Correo electrónico de contacto: privacidad@barcelonacountryfest.com",
               "Sitio web: https://www.barcelonacountry.com/"
             ]
           },
@@ -663,7 +663,7 @@ export const legalDocuments: Record<LegalDocumentKey, LegalDocument> = {
           },
           {
             "type": "paragraph",
-            "text": "Correo electrónico: privacidad@barcelonacountry.com"
+            "text": "Correo electrónico: privacidad@barcelonacountryfest.com"
           },
           {
             "type": "paragraph",

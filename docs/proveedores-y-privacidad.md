@@ -87,3 +87,11 @@ La corrección supera las 22 pruebas, compilación y revisión de diferencias. S
 El logotipo SVG de Wow My City se descarga de su web oficial (https://wowmycity.com/assets/images/logo-wow-white-DkS6nYbu.svg) y se sirve desde el propio proyecto. Solo contiene trazados; no carga scripts, recursos remotos, cookies ni analítica. El enlace al patrocinador se abre únicamente al pulsarlo, sin enviar el referrer. La visualización en blanco se aplica por CSS, conservando el archivo original.
 
 La adaptación de movimiento usa preferencias locales de accesibilidad, ahorro de datos y señales de capacidad cuando están disponibles, además de una muestra acotada de tiempos de frame. Estas señales se procesan en memoria; no se almacenan ni se transmiten. GSAP, Lenis y las fuentes se sirven localmente. La propuesta sigue sin conectar formularios o newsletters a producción. No se modifica el documento legal público.
+
+## Ajustes de la propuesta /BCN — 8 de noviembre de 2026
+
+Por instrucción expresa del cliente se sustituye únicamente el correo de los documentos públicos por `privacidad@barcelonacountryfest.com`. Se conservan literalmente los demás textos legales, incluido el nombre abreviado que aparece en los originales y la autorización del formulario.
+
+El nuevo formulario de contacto es una vista de prueba local, independiente de la newsletter. Muestra nombre, correo y mensaje, sin petición HTTP, almacenamiento, destinatario ni servicio de correo. El usuario ha pedido dejar el buzón de consultas pendiente. Antes de activar el envío real habrá que confirmar el destinatario y validar su información de privacidad. No se reutiliza la autorización de newsletter para consultas.
+
+La cuenta atrás se calcula en memoria hasta el inicio del día 22/10/2027 en Barcelona (no afirma una hora de apertura), y se detiene fuera de pantalla o al ocultar la pestaña. El mapa permanece visible en su sección, pero continúa bloqueado hasta que el visitante autoriza Google Maps. El enlace de indicaciones solo conecta con Google al pulsarlo. No se añade ningún proveedor ni cookie.

@@ -32,7 +32,7 @@ export function useFestivalMotion(language: string) {
           .to(".c-hero-light", { opacity: 0, duration: .7 }, 2);
       }
       intro.from(".c-title-line > *", { yPercent: full ? 115 : 20, opacity: 0, rotation: full ? 2 : 0, duration: full ? 1.25 : .7, stagger: .13 }, full ? .4 : 0)
-        .from(".c-hero-eyebrow, .c-hero-date, .c-hero-actions", { y: 16, opacity: 0, duration: .7, stagger: .08 }, full ? 1 : .25);
+        .from(".c-hero-date, .c-countdown, .c-hero-actions", { y: 16, opacity: 0, duration: .7, stagger: .08 }, full ? 1 : .25);
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]", root).forEach(element => {
         gsap.from(element, { y: full ? 36 : 14, opacity: 0, duration: full ? .85 : .5, scrollTrigger: { trigger: element, start: "top 94%", once: true } });

@@ -10,12 +10,12 @@ import "./news.css";
 // Link existing words without adding or rewriting the approved document text.
 function LegalText({ text }: { text: string }) {
   const links: Record<string, string> = {
-    "privacidad@barcelonacountry.com": "mailto:privacidad@barcelonacountry.com",
+    "privacidad@barcelonacountryfest.com": "mailto:privacidad@barcelonacountryfest.com",
     "https://www.barcelonacountry.com/": "https://www.barcelonacountry.com/",
     "Política de Privacidad": sitePath("/privacidad"),
     "Política de Cookies": sitePath("/cookies")
   };
-  return text.split(/(privacidad@barcelonacountry\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
+  return text.split(/(privacidad@barcelonacountryfest\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
     links[part] ? <a key={index} href={links[part]}>{part}</a> : part
   );
 }
@@ -29,12 +29,12 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
-  useEffect(() => { window.document.title = `${title} | Barcelona Country Fest`; window.document.documentElement.lang = language; }, [title, language]);
+  useEffect(() => { window.document.title = `${title} | Barcelona Country Festival`; window.document.documentElement.lang = language; }, [title, language]);
   async function unsubscribe() {
     setStatus(previewCopy[language].note); setDone(true);
   }
   return <div className="modern-page news-page">
-    <header className="news-header"><a href={sitePath("/")} aria-label="Barcelona Country Festival"><img src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /></a><a href={sitePath("/")}><ArrowIcon direction="left" /> {t.back}</a></header>
+    <header className="news-header"><a href={sitePath("/")} aria-label="Barcelona Country Festival"><img src={assetPath("/assets/brand-logo-nav.png")} alt="Barcelona Country Festival" /></a><a href={sitePath("/")}><ArrowIcon direction="left" /> {t.back}</a></header>
     <main className="news-main legal-main">
       {!isUnsubscribe && <nav className="legal-navigation" aria-label={t.legal}>
         <a href={sitePath("/privacidad")} aria-current={key === "privacidad" ? "page" : undefined}>{t.privacy}</a>
@@ -42,7 +42,7 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
         <a href={sitePath("/cookies")} aria-current={key === "cookies" ? "page" : undefined}>{t.cookies}</a>
       </nav>}
       <article className="news-article legal-document" lang={isUnsubscribe ? language : "es"}>
-        {isUnsubscribe && <p className="news-number">Barcelona Country Fest</p>}<h1 data-legal-source={document ? "" : undefined}>{title}</h1>
+        {isUnsubscribe && <p className="news-number">Barcelona Country Festival</p>}<h1 data-legal-source={document ? "" : undefined}>{title}</h1>
         {isUnsubscribe ? <><p role="status">{status}</p>{!done && <button className="news-subscribe-link" disabled={busy} onClick={unsubscribe}>{busy ? "…" : t.unsubscribe}</button>}</> : document ? <>
           <p className="legal-updated" data-legal-source><time dateTime={document.updatedAt}>{document.updatedLabel}</time></p>
           {language !== "es" && <p className="legal-language-note" lang={language}>{registrationCopy[language].spanishDocument}</p>}
@@ -60,6 +60,6 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
         </> : <p>{t.pending}</p>}
       </article>
     </main>
-    <footer className="news-footer"><a href={sitePath("/")}>Barcelona Country Fest</a><a href="mailto:privacidad@barcelonacountry.com">privacidad@barcelonacountry.com</a><CookiePreferencesButton /></footer>
+    <footer className="news-footer"><a href={sitePath("/")}>Barcelona Country Festival</a><a href="mailto:privacidad@barcelonacountryfest.com">privacidad@barcelonacountryfest.com</a><CookiePreferencesButton /></footer>
   </div>;
 }

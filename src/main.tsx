@@ -10,6 +10,9 @@ import "./modern.css";
 import "./cinematic.css";
 import { assetPath, sitePath, currentSitePath, previewCopy } from "./lib/site";
 import { useFestivalMotion } from "./useFestivalMotion";
+import { FestivalCountdown } from "./components/FestivalCountdown";
+import { ContactDialog } from "./components/ContactDialog";
+import { refinementCopy } from "./lib/refinement-copy";
 
 const NewsPage = lazy(() => import("./newsletters/NewsPage").then((module) => ({ default: module.NewsPage })));
 const LegalPage = lazy(() => import("./newsletters/LegalPage").then((module) => ({ default: module.LegalPage })));
@@ -170,12 +173,12 @@ const ticketCtaCopies: Record<LanguageKey, { date: string; title: string; body: 
 };
 
 const festivalDates: Record<LanguageKey, FestivalDate> = {
-  de: { city: "Fira Cornellà", days: "22–24", month: "Okt", year: "2027" },
-  es: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
-  ca: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
-  fr: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
-  en: { city: "Fira Cornellà", days: "22–24", month: "Oct", year: "2027" },
-  it: { city: "Fira Cornellà", days: "22–24", month: "Ott", year: "2027" }
+  de: { city: "Fira Cornellà", days: "22-23-24", month: "Okt", year: "2027" },
+  es: { city: "Fira Cornellà", days: "22-23-24", month: "Oct", year: "2027" },
+  ca: { city: "Fira Cornellà", days: "22-23-24", month: "Oct", year: "2027" },
+  fr: { city: "Fira Cornellà", days: "22-23-24", month: "Oct", year: "2027" },
+  en: { city: "Fira Cornellà", days: "22-23-24", month: "Oct", year: "2027" },
+  it: { city: "Fira Cornellà", days: "22-23-24", month: "Ott", year: "2027" }
 };
 
 const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string; card: string }> = {
@@ -211,7 +214,7 @@ const findIntroLabels: Record<LanguageKey, string> = {
 
 const findVisuals = [
   "/assets/find-catalan.jpg",
-  "/assets/find-shopping-harley.webp",
+  "/assets/backgrounds/artists-dance.jpg",
   "/assets/find-food.jpg",
   "/assets/find-community.webp"
 ];
@@ -527,7 +530,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["TANZ", "MUSIK", "AMERIKA"],
     festivalTitle: "Das Festival",
     festivalCopy:
-      "Barcelona Country vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, hochwertigen Western-Produkten und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
+      "Barcelona Country Festival vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, hochwertigen Western-Produkten und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
     days: "Tage",
     internationalArtists: "INTERNATIONALE\nKÜNSTLER",
     expectedDancers: "TÄNZER",
@@ -585,7 +588,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BAILE", "MÚSICA", "AMÉRICA"],
     festivalTitle: "El Festival",
     festivalCopy:
-      "Barcelona Country reúne durante tres días a lo mejor del line dance internacional, música en directo, productos western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
+      "Barcelona Country Festival reúne durante tres días a lo mejor del line dance internacional, música en directo, productos western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
     days: "Días",
     internationalArtists: "ARTISTAS\nINTERNACIONALES",
     expectedDancers: "BAILARINES",
@@ -643,7 +646,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BALL", "MÚSICA", "AMÈRICA"],
     festivalTitle: "El Festival",
     festivalCopy:
-      "Barcelona Country reuneix durant tres dies el millor del line dance internacional, música en directe, productes western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
+      "Barcelona Country Festival reuneix durant tres dies el millor del line dance internacional, música en directe, productes western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
     days: "Dies",
     internationalArtists: "ARTISTES\nINTERNACIONALS",
     expectedDancers: "BALLARINS",
@@ -701,7 +704,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["DANSE", "MUSIQUE", "AMÉRIQUE"],
     festivalTitle: "Le Festival",
     festivalCopy:
-      "Barcelona Country réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
+      "Barcelona Country Festival réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
     days: "Jours",
     internationalArtists: "ARTISTES\nINTERNATIONAUX",
     expectedDancers: "DANSEURS",
@@ -759,7 +762,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["DANCE", "MUSIC", "AMERICA"],
     festivalTitle: "The Festival",
     festivalCopy:
-      "Barcelona Country brings together three days of international line dance, live music, quality western products and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
+      "Barcelona Country Festival brings together three days of international line dance, live music, quality western products and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
     days: "Days",
     internationalArtists: "INTERNATIONAL\nARTISTS",
     expectedDancers: "DANCERS",
@@ -817,7 +820,7 @@ const copies: Record<LanguageKey, Copy> = {
     triad: ["BALLO", "MUSICA", "AMERICA"],
     festivalTitle: "Il Festival",
     festivalCopy:
-      "Barcelona Country riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
+      "Barcelona Country Festival riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
     days: "Giorni",
     internationalArtists: "ARTISTI\nINTERNAZIONALI",
     expectedDancers: "BALLERINI",
@@ -1965,7 +1968,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
   const activeCard = copy.cards[activeIndex];
   const stops = getFindStops(activeCard, language);
   return <section id="program" className="c-experiences c-section" aria-labelledby="c-experiences-title">
-    <div className="c-section-head" data-reveal><div><p className="c-kicker">{copy.kicker}</p><h2 id="c-experiences-title">{copy.title.toLocaleLowerCase(language)}</h2></div><p className="c-section-note">{findIntroLabels[language]}</p></div>
+    <div className="c-section-head" data-reveal><div><h2 id="c-experiences-title">{copy.title.toLocaleLowerCase(language)}</h2></div></div>
     <div className="c-tabs" role="tablist" aria-label={interfaceLabels[language].festivalStops}>
       {copy.cards.map((card, index) => <button key={card.title} id={`experience-tab-${index}`} type="button" role="tab" aria-controls="c-experience-panel" aria-selected={index === activeIndex}
         onPointerEnter={event => { if (event.pointerType === "mouse") setActiveIndex(index); }} onFocus={() => setActiveIndex(index)} onClick={() => setActiveIndex(index)}>
@@ -1975,7 +1978,7 @@ function ModernFindSection({ copy, language }: { copy: FindCopy; language: Langu
     <article id="c-experience-panel" className="c-experience-panel" role="tabpanel" aria-labelledby={`experience-tab-${activeIndex}`}>
       <div className="c-experience-photo"><img key={activeIndex} src={assetPath(findVisuals[activeIndex])} alt="" loading="lazy" /></div>
       <div className="c-experience-copy" key={`${activeIndex}-${language}`}>
-        <p className="c-quote">«{findQuoteLabels[language][activeIndex === 0 ? 0 : 1]}»</p>
+
         <div className="c-stops">{stops.map((stop, index) => <details key={stop.heading} open={index === 0}>
           <summary><small>{String(index + 1).padStart(2, "0")}</small><span>{stop.heading.replace(/:$/, "").toLocaleLowerCase(language)}</span><i aria-hidden="true" /></summary>
           <p>{stop.body}</p>
@@ -1990,7 +1993,7 @@ function ModernApp() {
   const [language, setLanguage] = useState<LanguageKey>(getInitialLanguage);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const [isNavigationSticky, setIsNavigationSticky] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const [formFeedback, setFormFeedback] = useState<string | null>(null);
   const [railState, setRailState] = useState({ first: 1, start: true, end: false });
   const railIndicator = useRef<HTMLSpanElement>(null);
@@ -2001,22 +2004,22 @@ function ModernApp() {
   const newsletter = newsCopy[language];
   const registration = registrationCopy[language];
   const ui = previewCopy[language];
+  const refinement = refinementCopy[language];
   const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
   const sentenceEnd = copy.heroCopy.indexOf(". ");
 
   useEffect(() => { document.documentElement.lang = language; }, [language]);
   useEffect(() => {
-    const update = () => setIsNavigationSticky(window.scrollY > 64);
-    update(); window.addEventListener("scroll", update, { passive: true });
     const escape = (event: KeyboardEvent) => { if (event.key === "Escape") { setIsNavigationOpen(false); setIsLanguageMenuOpen(false); } };
     window.addEventListener("keydown", escape);
-    return () => { window.removeEventListener("scroll", update); window.removeEventListener("keydown", escape); };
+    return () => { window.removeEventListener("keydown", escape); };
   }, []);
   const moveTo = (target: string) => {
     scrollTo(target);
     setIsNavigationOpen(false); setIsLanguageMenuOpen(false);
   };
+  const openContact = () => { setIsContactOpen(true); setIsNavigationOpen(false); setIsLanguageMenuOpen(false); };
   const changeLanguage = (next: LanguageKey) => {
     setLanguage(next); setFormFeedback(null); setIsLanguageMenuOpen(false);
     try { localStorage.setItem("bcf-preview-language", next); } catch { /* Session choice remains available. */ }
@@ -2033,13 +2036,13 @@ function ModernApp() {
 
   return <CookieConsentProvider language={language}><div ref={scope} className="cinematic">
     <a className="c-skip" href="#festival">{copy.festivalTitle}</a>
-    <header className={`c-header ${isNavigationSticky ? "is-scrolled" : ""}`}>
+    <header className="c-header is-scrolled">
       <nav className="c-nav" aria-label="Principal">
-        <a className="c-logo" href="#home" aria-label="Barcelona Country Festival"><img className="c-logo-full" src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /><img className="c-logo-mark" src={assetPath("/assets/brand-isotype.png")} alt="" /></a>
         <div id="c-navigation" className={`c-nav-links ${isNavigationOpen ? "is-open" : ""}`}>
-          {copy.nav.slice(1).map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index + 1])}>{item.toLocaleLowerCase(language)}</button>)}
-          <a href={sitePath("/newsletters")}>News</a>
+          <div className="c-nav-group c-nav-left">{copy.nav.slice(1, 4).map((item, index) => <button type="button" key={item} onClick={() => moveTo(navTargets[index + 1])}>{item.toLocaleLowerCase(language)}</button>)}</div>
+          <div className="c-nav-group c-nav-right"><button type="button" onClick={() => moveTo("location")}>{copy.nav[4].toLocaleLowerCase(language)}</button><a className="c-blog-link" href={sitePath("/blog")}>Blog</a><button type="button" onClick={openContact}>{refinement.contact}</button></div>
         </div>
+        <a className="c-logo" href="#home" aria-label="Barcelona Country Festival"><img src={assetPath("/assets/brand-logo-nav.png")} alt="Barcelona Country Festival" width="1536" height="1024" /></a>
         <div className="c-language">
           <button className="c-language-trigger" type="button" aria-label={interfaceLabels[language].changeLanguage} aria-expanded={isLanguageMenuOpen} aria-controls="c-language-options" onClick={() => { setIsLanguageMenuOpen(!isLanguageMenuOpen); setIsNavigationOpen(false); }}>
             {language.toUpperCase()}<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5" /></svg>
@@ -2056,18 +2059,19 @@ function ModernApp() {
         <div className="c-hero-light" aria-hidden="true" />
         <div className="c-hero-curtain c-hero-curtain-left" aria-hidden="true" /><div className="c-hero-curtain c-hero-curtain-right" aria-hidden="true" />
         <div className="c-hero-content">
-          <p className="c-hero-eyebrow">{copy.triad.join(" · ")}</p>
-          <h1 className="c-hero-title" id="c-hero-title"><span className="c-title-line"><span>Barcelona</span></span><span className="c-title-line"><em>Country Fest</em></span></h1>
-          <p className="c-hero-date"><strong>{date.days}</strong><span>{date.month}<br />{date.year}</span><i /><span>{date.city}</span></p>
+
+          <h1 className="c-hero-title" id="c-hero-title"><span className="sr-only">Barcelona Country Festival</span><span className="c-title-line" aria-hidden="true"><svg viewBox="20 545 1473 326" role="presentation"><image href={assetPath("/assets/brand-logo.png")} width="1513" height="1039" /></svg></span></h1>
+          <p className="c-hero-date"><strong>{date.days}</strong><span>{date.month} {date.year}</span><i /><span>{date.city}</span></p>
+          <FestivalCountdown language={language} />
         </div>
-        <div className="c-hero-actions"><button type="button" className="c-primary-action" onClick={() => moveTo("contact")}><span>{copy.cta}</span><i><ArrowIcon direction="up-right" /></i></button><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><span>{copy.festivalTitle}</span><i><ArrowIcon direction="down" /></i></button></div>
+        <div className="c-hero-actions"><div className="c-hero-buttons"><button type="button" className="c-primary-action" onClick={() => moveTo("newsletter")}><span>{copy.cta}</span><i><ArrowIcon direction="up-right" /></i></button><button type="button" className="c-secondary-action" onClick={openContact}><span>{refinement.contact}</span><ArrowIcon direction="up-right" /></button></div><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><span>{copy.festivalTitle}</span><i><ArrowIcon direction="down" /></i></button></div>
       </section>
 
       <section id="festival" className="c-festival c-section" aria-labelledby="c-festival-title">
         <p className="c-kicker" data-reveal>{copy.festivalTitle}</p>
         <p className="c-intro-line" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(0, sentenceEnd + 1) : ""}</p>
         <h2 className="c-statement" id="c-festival-title" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(sentenceEnd + 2) : copy.heroCopy}</h2>
-        <div className="c-festival-story"><p data-reveal>{copy.festivalCopy}</p><figure><img className="c-parallax" src={assetPath("/assets/backgrounds/festival-live.jpg")} alt="" loading="lazy" /></figure></div>
+        <div className="c-festival-story"><p data-reveal>{refinement.storyBefore}<strong>Barcelona Country Festival</strong>{refinement.storyAfter}</p><figure><img className="c-parallax" src={assetPath("/assets/backgrounds/festival-live.jpg")} alt="" loading="lazy" /></figure></div>
         <div className="c-stats" data-reveal>{[["3", copy.days], [festivalStatValues.artists, copy.internationalArtists], [festivalStatValues.dancers, copy.expectedDancers]].map(([number, text]) => <div key={number}><strong>{number}</strong><span>{text.toLocaleLowerCase(language)}</span></div>)}</div>
       </section>
 
@@ -2085,7 +2089,7 @@ function ModernApp() {
           {artists.map((artist, index) => <article className="c-artist" key={artist.name}>
             <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a>
             <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
-            <details className="c-biography"><summary>{ui.bio}<i aria-hidden="true" /></summary><p>{artist.body}</p></details>
+            <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>
           </article>)}
           {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(9 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></article>)}
           {[11,12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
@@ -2097,12 +2101,12 @@ function ModernApp() {
       <ModernFindSection key={language} copy={findCopies[language]} language={language} />
 
       <section id="location" className="c-location" aria-labelledby="c-location-title">
-        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/location-country.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><p className="c-kicker">{copy.locationKicker}</p><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p><span>Yeehaw!</span></div></div>
-        <details className="c-map-disclosure"><summary><span>{ui.map}</span><span>Fira Cornellà · Barcelona</span><ArrowIcon direction="down" /></summary><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></details>
+        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/contact-stadium.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><p className="c-kicker">{copy.locationKicker}</p><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p></div></div>
+        <div className="c-venue"><div className="c-venue-info"><p className="c-kicker">{copy.locationKicker}</p><h3>Fira Cornellà</h3><p>Cornellà de Llobregat<br />Barcelona</p><a className="c-directions" href="https://www.google.com/maps/search/?api=1&query=Fira+Cornell%C3%A0" target="_blank" rel="noopener noreferrer"><span>{refinement.directions}</span><ArrowIcon direction="up-right" /></a></div><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></div>
       </section>
 
-      <section id="contact" className="c-contact c-section" aria-labelledby="c-contact-title">
-        <div className="c-contact-copy" data-reveal><p className="c-kicker">Barcelona Country News</p><h2 id="c-contact-title">{newsletter.title}</h2><p className="c-contact-triad">{copy.triad.join(" · ")}</p><p className="c-contact-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Fest.</b></p></div>
+      <section id="newsletter" className="c-contact c-section" aria-labelledby="c-newsletter-title">
+        <div className="c-contact-copy" data-reveal><p className="c-kicker">{refinement.newsletter}</p><h2 id="c-newsletter-title">{newsletter.title}</h2><p className="c-contact-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Festival.</b></p></div>
         <form className="c-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
           <p className="c-preview-note">{ui.note}</p>
           <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
@@ -2122,7 +2126,7 @@ function ModernApp() {
         </a>
       </section>
     </main>
-    <footer className="c-footer"><a className="c-footer-logo" href="#home"><img src={assetPath("/assets/brand-logo.png")} alt="Barcelona Country Festival" /></a><div className="c-footer-main"><p>{copy.footer}</p><nav aria-label={newsletter.legal}><a href={sitePath("/newsletters")}>Barcelona Country News</a><a href={sitePath("/privacidad")}>{newsletter.privacy}</a><a href={sitePath("/aviso-legal")}>{newsletter.legal}</a><a href={sitePath("/cookies")}>{newsletter.cookies}</a><CookiePreferencesButton /></nav></div>
+    <footer className="c-footer"><a className="c-footer-logo" href="#home"><img src={assetPath("/assets/brand-logo-nav.png")} alt="Barcelona Country Festival" /></a><div className="c-footer-main"><p>© 2027 <strong>Barcelona Country Festival</strong></p><nav aria-label={newsletter.legal}><a href={sitePath("/blog")}>Blog</a><a href="#newsletter">{refinement.newsletter}</a><a href={sitePath("/privacidad")}>{newsletter.privacy}</a><a href={sitePath("/aviso-legal")}>{newsletter.legal}</a><a href={sitePath("/cookies")}>{newsletter.cookies}</a><CookiePreferencesButton /></nav></div>
       <details className="c-credits"><summary>Créditos fotográficos</summary><ul>
         <li><a href="https://commons.wikimedia.org/wiki/File:BUCKLE_N_BOOTS_performing_live_at_The_British_Country_Music_Festival_2025.jpg" target="_blank" rel="noreferrer">BeeMusicUK · CC BY-SA 4.0</a></li>
         <li><a href="https://commons.wikimedia.org/wiki/File:Ballymore_Country_Music_Festival_2014.jpg" target="_blank" rel="noreferrer">Lizheen · CC BY-SA 4.0</a></li>
@@ -2132,6 +2136,7 @@ function ModernApp() {
         <li><a href="https://commons.wikimedia.org/wiki/File:George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
       </ul></details>
     </footer>
+    <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} language={language} nameLabel={copy.formName} emailLabel={copy.formEmail} />
   </div></CookieConsentProvider>;
 }
 
