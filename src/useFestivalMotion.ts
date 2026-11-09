@@ -20,6 +20,8 @@ export function useFestivalMotion(language: string) {
       const device = navigator as DeviceNavigator;
       const constrained = device.connection?.saveData || (device.hardwareConcurrency > 0 && device.hardwareConcurrency <= 4) || (device.deviceMemory !== undefined && device.deviceMemory <= 4);
       let full = Boolean(desktop && !reduced && !constrained);
+      const mobileEntrance = !desktop && !reduced && !constrained;
+      root.dataset.entrance = reduced ? "reduced" : mobileEntrance ? "mobile-cinema" : full ? "desktop-cinema" : "light";
       root.dataset.motion = reduced ? "reduced" : full ? "full" : "light";
       if (reduced) return;
 
@@ -31,8 +33,21 @@ export function useFestivalMotion(language: string) {
           .fromTo(".c-hero-light", { xPercent: -20, opacity: 0 }, { xPercent: 15, opacity: 1, duration: 1.8 }, .3)
           .to(".c-hero-light", { opacity: 0, duration: .7 }, 2);
       }
-      intro.from(".c-title-line > *", { yPercent: full ? 115 : 20, opacity: 0, rotation: full ? 2 : 0, duration: full ? 1.25 : .7, stagger: .13 }, full ? .4 : 0)
-        .from(".c-hero-date, .c-countdown, .c-hero-actions", { y: 16, opacity: 0, duration: .7, stagger: .08 }, full ? 1 : .25);
+      if (mobileEntrance) {
+        // One finite reveal; no mobile parallax, smooth-scroll loop or animated filters.
+        intro.fromTo(".c-hero-curtain", { scaleX: 1 }, { scaleX: 0, duration: 1.35, ease: "power3.inOut", stagger: .07 }, .45)
+          .fromTo(".c-mobile-reveal", { autoAlpha: 0, scale: .8 }, { autoAlpha: 1, scale: 1, duration: .5 }, 0)
+          .to(".c-mobile-reveal", { autoAlpha: 0, scale: 1.16, duration: .5 }, .65)
+          .fromTo(".c-hero-photo", { scale: 1.2, xPercent: -2 }, { scale: 1, xPercent: 0, duration: 2.4, ease: "power2.out" }, .45)
+          .from(".c-title-city > span", { yPercent: 115, rotation: 3, opacity: 0, duration: 1.1 }, .8)
+          .from(".c-title-festival > span", { yPercent: 120, opacity: 0, duration: .85 }, 1.12)
+          .from(".c-hero-date", { y: 20, opacity: 0, duration: .65 }, 1.35)
+          .from(".c-countdown-unit", { y: 24, opacity: 0, duration: .55, stagger: .09 }, 1.55)
+          .from(".c-hero-actions", { y: 20, opacity: 0, duration: .65 }, 1.85);
+      } else {
+        intro.from(".c-title-line > *", { yPercent: full ? 115 : 20, opacity: 0, rotation: full ? 2 : 0, duration: full ? 1.25 : .7, stagger: .13 }, full ? .4 : 0)
+          .from(".c-hero-date, .c-countdown, .c-hero-actions", { y: 16, opacity: 0, duration: .7, stagger: .08 }, full ? 1 : .25);
+      }
 
       gsap.utils.toArray<HTMLElement>("[data-reveal]", root).forEach(element => {
         gsap.from(element, { y: full ? 36 : 14, opacity: 0, duration: full ? .85 : .5, scrollTrigger: { trigger: element, start: "top 94%", once: true } });

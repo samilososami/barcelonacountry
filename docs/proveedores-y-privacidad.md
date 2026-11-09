@@ -95,3 +95,9 @@ Por instrucción expresa del cliente se sustituye únicamente el correo de los d
 El nuevo formulario de contacto es una vista de prueba local, independiente de la newsletter. Muestra nombre, correo y mensaje, sin petición HTTP, almacenamiento, destinatario ni servicio de correo. El usuario ha pedido dejar el buzón de consultas pendiente. Antes de activar el envío real habrá que confirmar el destinatario y validar su información de privacidad. No se reutiliza la autorización de newsletter para consultas.
 
 La cuenta atrás se calcula en memoria hasta el inicio del día 22/10/2027 en Barcelona (no afirma una hora de apertura), y se detiene fuera de pantalla o al ocultar la pestaña. El mapa permanece visible en su sección, pero continúa bloqueado hasta que el visitante autoriza Google Maps. El enlace de indicaciones solo conecta con Google al pulsarlo. No se añade ningún proveedor ni cookie.
+
+## Ajustes visuales de /BCN — 9 de noviembre de 2026
+
+Bodoni Moda se obtiene del repositorio oficial de Google Fonts (`google/fonts`, carpeta `ofl/bodonimoda`) y se sirve localmente en WOFF2, junto con su licencia SIL OFL. No hay conexión del visitante a Google Fonts. El título deja de ser una imagen y pasa a texto seleccionable.
+
+El carrusel de artistas avanza cada cuatro segundos únicamente mientras está visible. Se detiene al interactuar, al abrir una biografía, con la pestaña oculta y queda inicialmente pausado si se prefiere movimiento reducido; incluye control de pausa y reanudación explícita. La nueva entrada móvil es una secuencia finita con transformaciones y opacidad, sin vídeo ni servicios externos. El icono de galería se genera con GPT Images y se aloja localmente; la galería queda anunciada como próxima, sin carga ni recogida de datos. No se modifican formularios, proveedores activos ni textos legales.

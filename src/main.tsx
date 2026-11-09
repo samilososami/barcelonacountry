@@ -13,6 +13,7 @@ import { useFestivalMotion } from "./useFestivalMotion";
 import { FestivalCountdown } from "./components/FestivalCountdown";
 import { ContactDialog } from "./components/ContactDialog";
 import { refinementCopy } from "./lib/refinement-copy";
+import { useArtistCarousel } from "./useArtistCarousel";
 
 const NewsPage = lazy(() => import("./newsletters/NewsPage").then((module) => ({ default: module.NewsPage })));
 const LegalPage = lazy(() => import("./newsletters/LegalPage").then((module) => ({ default: module.LegalPage })));
@@ -1998,6 +1999,7 @@ function ModernApp() {
   const [railState, setRailState] = useState({ first: 1, start: true, end: false });
   const railIndicator = useRef<HTMLSpanElement>(null);
   const rail = useRef<HTMLDivElement>(null);
+  const carousel = useArtistCarousel(rail);
   const { scope, scrollTo } = useFestivalMotion(language);
   const copy = copies[language];
   const date = festivalDates[language];
@@ -2023,10 +2025,6 @@ function ModernApp() {
   const changeLanguage = (next: LanguageKey) => {
     setLanguage(next); setFormFeedback(null); setIsLanguageMenuOpen(false);
     try { localStorage.setItem("bcf-preview-language", next); } catch { /* Session choice remains available. */ }
-  };
-  const slideArtists = (direction: number) => {
-    const element = rail.current;
-    if (element) element.scrollBy({ left: direction * element.clientWidth * .8, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -2056,19 +2054,20 @@ function ModernApp() {
       <section id="home" className="c-hero" aria-labelledby="c-hero-title">
         <img className="c-hero-photo" src={assetPath("/assets/hero-festival-1672.webp")} srcSet={`${assetPath("/assets/hero-festival-840.webp")} 840w, ${assetPath("/assets/hero-festival-1672.webp")} 1672w`} sizes="(max-aspect-ratio: 16/9) 192svh, 100vw" width="1672" height="941" alt="" fetchPriority="high" />
         <div className="c-hero-shade" />
+        <div className="c-mobile-reveal" aria-hidden="true"><img src={assetPath("/assets/brand-isotype.png")} alt="" width="110" height="110" /></div>
         <div className="c-hero-light" aria-hidden="true" />
         <div className="c-hero-curtain c-hero-curtain-left" aria-hidden="true" /><div className="c-hero-curtain c-hero-curtain-right" aria-hidden="true" />
         <div className="c-hero-content">
 
-          <h1 className="c-hero-title" id="c-hero-title"><span className="sr-only">Barcelona Country Festival</span><span className="c-title-line" aria-hidden="true"><svg viewBox="20 545 1473 326" role="presentation"><image href={assetPath("/assets/brand-logo.png")} width="1513" height="1039" /></svg></span></h1>
+          <h1 className="c-hero-title" id="c-hero-title"><span className="c-title-line c-title-city"><span>Barcelona</span></span><span className="c-title-line c-title-festival"><span>Country Festival</span></span></h1>
           <p className="c-hero-date"><strong>{date.days}</strong><span>{date.month} {date.year}</span><i /><span>{date.city}</span></p>
           <FestivalCountdown language={language} />
         </div>
-        <div className="c-hero-actions"><div className="c-hero-buttons"><button type="button" className="c-primary-action" onClick={() => moveTo("newsletter")}><span>{copy.cta}</span><i><ArrowIcon direction="up-right" /></i></button><button type="button" className="c-secondary-action" onClick={openContact}><span>{refinement.contact}</span><ArrowIcon direction="up-right" /></button></div><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><span>{copy.festivalTitle}</span><i><ArrowIcon direction="down" /></i></button></div>
+        <div className="c-hero-actions"><div className="c-hero-buttons"><button type="button" className="c-primary-action" onClick={() => moveTo("newsletter")}><span>{copy.cta}</span><i><ArrowIcon direction="up-right" /></i></button><button type="button" className="c-secondary-action" onClick={openContact}><span>{refinement.contact}</span><ArrowIcon direction="up-right" /></button></div><button className="c-scroll-cue" type="button" aria-label={copy.festivalTitle} onClick={() => moveTo("festival")}><i><ArrowIcon direction="down" /></i></button></div>
       </section>
 
       <section id="festival" className="c-festival c-section" aria-labelledby="c-festival-title">
-        <p className="c-kicker" data-reveal>{copy.festivalTitle}</p>
+
         <p className="c-intro-line" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(0, sentenceEnd + 1) : ""}</p>
         <h2 className="c-statement" id="c-festival-title" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(sentenceEnd + 2) : copy.heroCopy}</h2>
         <div className="c-festival-story"><p data-reveal>{refinement.storyBefore}<strong>Barcelona Country Festival</strong>{refinement.storyAfter}</p><figure><img className="c-parallax" src={assetPath("/assets/backgrounds/festival-live.jpg")} alt="" loading="lazy" /></figure></div>
@@ -2076,8 +2075,11 @@ function ModernApp() {
       </section>
 
       <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
-        <div className="c-section-head" data-reveal><div><p className="c-kicker">Line up · 2027</p><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-rail-controls"><button type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => slideArtists(-1)}><ArrowIcon direction="left" /></button><span>{String(railState.first).padStart(2, "0")} <i>/ 12</i></span><button type="button" disabled={railState.end} aria-label={ui.next} onClick={() => slideArtists(1)}><ArrowIcon /></button></div></div>
-        <div ref={rail} className="c-artists-rail" tabIndex={0} aria-label={copy.artistsTitle} onScroll={event => {
+        <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-artists-tools"><button type="button" className="c-gallery-preview" aria-disabled="true" aria-describedby="c-gallery-soon"><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><span>{refinement.gallery}<small id="c-gallery-soon">{refinement.soon}</small></span></button></div></div>
+        <div className="c-carousel-stage">
+        <button className="c-rail-edge c-rail-prev" type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => carousel.slide(-1)}><ArrowIcon direction="left" /></button>
+        <button className="c-rail-edge c-rail-next" type="button" disabled={railState.end} aria-label={ui.next} onClick={() => carousel.slide(1)}><ArrowIcon /></button>
+        <div ref={rail} className="c-artists-rail" data-autoplay={carousel.paused ? "paused" : "playing"} tabIndex={0} aria-label={copy.artistsTitle} onScroll={event => {
           const element = event.currentTarget;
           const maximum = Math.max(1, element.scrollWidth - element.clientWidth);
           const progress = element.scrollLeft / maximum;
@@ -2094,15 +2096,16 @@ function ModernApp() {
           {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(9 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></article>)}
           {[11,12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
         </div>
-        <div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div>
+        </div>
+        <div className="c-carousel-footer"><span className="c-rail-count">{String(railState.first).padStart(2, "0")} <i>/ 12</i></span><div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div><button type="button" className="c-autoplay" onClick={carousel.toggle} aria-pressed={!carousel.paused}><i className={carousel.paused ? "is-paused" : "is-playing"} aria-hidden="true" />{carousel.paused ? refinement.play : refinement.pause}</button></div>
         <p className="c-more-artists">{mystery.title}<img src={assetPath("/assets/brand-isotype.png")} alt="" /></p>
       </section>
 
       <ModernFindSection key={language} copy={findCopies[language]} language={language} />
 
       <section id="location" className="c-location" aria-labelledby="c-location-title">
-        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/contact-stadium.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><p className="c-kicker">{copy.locationKicker}</p><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p></div></div>
-        <div className="c-venue"><div className="c-venue-info"><p className="c-kicker">{copy.locationKicker}</p><h3>Fira Cornellà</h3><p>Cornellà de Llobregat<br />Barcelona</p><a className="c-directions" href="https://www.google.com/maps/search/?api=1&query=Fira+Cornell%C3%A0" target="_blank" rel="noopener noreferrer"><span>{refinement.directions}</span><ArrowIcon direction="up-right" /></a></div><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></div>
+        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/contact-stadium.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p></div></div>
+        <div className="c-venue"><div className="c-venue-info"><h3>Fira Cornellà</h3><p>Cornellà de Llobregat<br />Barcelona</p><a className="c-directions" href="https://www.google.com/maps/search/?api=1&query=Fira+Cornell%C3%A0" target="_blank" rel="noopener noreferrer"><span>{refinement.directions}</span><ArrowIcon direction="up-right" /></a></div><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></div>
       </section>
 
       <section id="newsletter" className="c-contact c-section" aria-labelledby="c-newsletter-title">

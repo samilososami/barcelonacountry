@@ -28,9 +28,9 @@ export function FestivalCountdown({ language }: { language: NewsLanguage }) {
   const seconds = Math.max(0, Math.floor((FESTIVAL_DATE - now) / 1000));
   const values = [Math.floor(seconds / 86400), Math.floor(seconds / 3600) % 24, Math.floor(seconds / 60) % 60, seconds % 60];
   return <div ref={root} className="c-countdown" role="timer" aria-live="off" aria-label={`${copy.countdown} ${values.map((n, i) => `${n} ${copy.units[i]}`).join(', ')}`}>
-    <p>{seconds ? copy.countdown : copy.started}</p>
+    {seconds === 0 && <p>{copy.started}</p>}
     <div className="c-countdown-digits" aria-hidden="true">{values.map((value, index) => <div className="c-countdown-unit" key={index}>
-      <span className="c-countdown-window"><strong key={value}>{String(value).padStart(2, '0')}</strong></span><small>{copy.units[index]}</small>
+      <span className="c-countdown-window"><span className="c-countdown-number" key={value}><strong>{String(value).padStart(2, '0')}</strong></span><i className="c-countdown-seam" /></span><small>{copy.units[index]}</small>
     </div>)}</div>
   </div>;
 }

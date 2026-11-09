@@ -1,12 +1,13 @@
 import type { NewsLanguage } from '../newsletters/copy';
 
 export const refinementCopy: Record<NewsLanguage, {
-  contact: string; contactTitle: string; message: string; send: string; close: string;
+  gallery: string; soon: string; pause: string; play: string; contact: string; contactTitle: string; message: string; send: string; close: string;
   preview: string; pending: string; newsletter: string; directions: string;
   countdown: string; units: [string, string, string, string]; started: string;
   storyBefore: string; storyAfter: string;
 }> = {
   es: {
+    gallery: 'Galería', soon: 'Próximamente', pause: 'Pausar', play: 'Reanudar',
     contact: 'Contacto', contactTitle: 'Hablemos.', message: 'Coméntanos o pregúntanos lo que quieras.', send: 'Enviar', close: 'Cerrar contacto',
     preview: 'Formulario de prueba. El envío de consultas todavía no está habilitado.', pending: 'El formulario está listo. Todavía no se ha enviado tu mensaje.', newsletter: 'Newsletter', directions: 'Cómo llegar',
     countdown: 'Nos vemos en', units: ['Días', 'Horas', 'Minutos', 'Segundos'], started: 'Ha llegado el día.',
@@ -14,6 +15,7 @@ export const refinementCopy: Record<NewsLanguage, {
     storyAfter: ': tres días de talleres, música en directo y encuentros alrededor de la pista. Ven con tus amigos, descubre el ambiente western y haz una pausa entre food trucks y barbacoa americana. Luego, vuelve a bailar.'
   },
   ca: {
+    gallery: 'Galeria', soon: 'Properament', pause: 'Pausa', play: 'Reprèn',
     contact: 'Contacte', contactTitle: 'Parlem.', message: 'Comenta’ns o pregunta’ns el que vulguis.', send: 'Enviar', close: 'Tanca el contacte',
     preview: 'Formulari de prova. L’enviament de consultes encara no està habilitat.', pending: 'El formulari està a punt. Encara no s’ha enviat el teu missatge.', newsletter: 'Newsletter', directions: 'Com arribar-hi',
     countdown: 'Ens veiem en', units: ['Dies', 'Hores', 'Minuts', 'Segons'], started: 'Ha arribat el dia.',
@@ -21,6 +23,7 @@ export const refinementCopy: Record<NewsLanguage, {
     storyAfter: ': tres dies de tallers, música en directe i trobades al voltant de la pista. Vine amb els amics, descobreix l’ambient western i fes una pausa entre food trucks i barbacoa americana. Després, torna a ballar.'
   },
   en: {
+    gallery: 'Gallery', soon: 'Coming soon', pause: 'Pause', play: 'Resume',
     contact: 'Contact', contactTitle: 'Let’s talk.', message: 'Tell us what’s on your mind or ask us a question.', send: 'Send', close: 'Close contact',
     preview: 'Preview form. Enquiries cannot be sent yet.', pending: 'The form is ready. Your message has not been sent yet.', newsletter: 'Newsletter', directions: 'Get directions',
     countdown: 'See you in', units: ['Days', 'Hours', 'Minutes', 'Seconds'], started: 'The day is here.',
@@ -28,6 +31,7 @@ export const refinementCopy: Record<NewsLanguage, {
     storyAfter: ': three days of workshops, live music and meeting people around the dance floor. Bring your friends, discover the western atmosphere and take a break with food trucks and American barbecue. Then, get back to dancing.'
   },
   fr: {
+    gallery: 'Galerie', soon: 'Bientôt', pause: 'Pause', play: 'Reprendre',
     contact: 'Contact', contactTitle: 'Parlons-en.', message: 'Dites-nous ce que vous souhaitez ou posez-nous une question.', send: 'Envoyer', close: 'Fermer le contact',
     preview: 'Formulaire de démonstration. L’envoi de demandes n’est pas encore activé.', pending: 'Le formulaire est prêt. Votre message n’a pas encore été envoyé.', newsletter: 'Newsletter', directions: 'Itinéraire',
     countdown: 'Rendez-vous dans', units: ['Jours', 'Heures', 'Minutes', 'Secondes'], started: 'Le jour est arrivé.',
@@ -35,6 +39,7 @@ export const refinementCopy: Record<NewsLanguage, {
     storyAfter: ' : trois jours d’ateliers, de musique live et de rencontres autour de la piste. Venez avec vos amis, découvrez l’ambiance western et faites une pause entre food trucks et barbecue américain. Puis, retournez danser.'
   },
   it: {
+    gallery: 'Galleria', soon: 'Prossimamente', pause: 'Pausa', play: 'Riprendi',
     contact: 'Contatti', contactTitle: 'Parliamone.', message: 'Scrivici quello che vuoi o facci una domanda.', send: 'Invia', close: 'Chiudi contatti',
     preview: 'Modulo di prova. L’invio delle richieste non è ancora attivo.', pending: 'Il modulo è pronto. Il tuo messaggio non è ancora stato inviato.', newsletter: 'Newsletter', directions: 'Come arrivare',
     countdown: 'Ci vediamo tra', units: ['Giorni', 'Ore', 'Minuti', 'Secondi'], started: 'Il giorno è arrivato.',
@@ -42,6 +47,7 @@ export const refinementCopy: Record<NewsLanguage, {
     storyAfter: ': tre giorni di workshop, musica dal vivo e incontri intorno alla pista. Vieni con gli amici, scopri l’atmosfera western e fai una pausa tra food truck e barbecue americano. Poi, torna a ballare.'
   },
   de: {
+    gallery: 'Galerie', soon: 'Demnächst', pause: 'Pause', play: 'Fortsetzen',
     contact: 'Kontakt', contactTitle: 'Schreib uns.', message: 'Sag uns, was dich beschäftigt, oder stell uns eine Frage.', send: 'Senden', close: 'Kontakt schließen',
     preview: 'Testformular. Anfragen können noch nicht gesendet werden.', pending: 'Das Formular ist bereit. Deine Nachricht wurde noch nicht gesendet.', newsletter: 'Newsletter', directions: 'Anfahrt',
     countdown: 'Wir sehen uns in', units: ['Tagen', 'Stunden', 'Minuten', 'Sekunden'], started: 'Der Tag ist da.',
