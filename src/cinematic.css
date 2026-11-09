@@ -489,15 +489,15 @@ body { background: #10100f; }
 }
 
 /* Selectable wordmark, closer section rhythm and an editorial artist carousel. */
-@font-face { font-family: 'BCF Bodoni'; src: url('/fonts/bodoni-moda.woff2') format('woff2'); font-style: normal; font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'BCF Wordmark'; src: url('/fonts/cormorant-garamond-semibold.woff2') format('woff2'); font-style: normal; font-weight: 600; font-display: swap; }
 .cinematic main > .c-section { padding-top: clamp(44px,4vw,68px); padding-bottom: clamp(44px,4vw,68px); }
 .cinematic main > .c-sponsors { padding-top: 44px; padding-bottom: 48px; margin-top: 0; margin-bottom: 30px; }
 .c-nav,.is-scrolled .c-nav { min-height: 132px; }
 .c-logo,.is-scrolled .c-logo { top: 9px; width: 192px; height: 108px; }
 .cinematic section[id] { scroll-margin-top: 132px; }
-.cinematic .c-hero-title { font-size: clamp(50px,15.2vw,230px); font-family: 'BCF Bodoni', 'Times New Roman', serif; font-weight: 400; font-optical-sizing: auto; line-height: 1.05!important; letter-spacing: -.065em!important; text-transform: uppercase; user-select: text; -webkit-user-select: text; }
-.c-hero-title > .c-title-city { overflow: hidden; padding: .04em .025em .07em 0; }
-.c-hero-title > .c-title-festival { font: 500 clamp(13px,3.85vw,58px)/1.25 var(--sans); letter-spacing: .36em; padding: .07em 0 .18em .36em; margin: 0; }
+.cinematic .c-hero-title { font-size: clamp(54px,16.2vw,253px); font-family: 'BCF Wordmark', 'Times New Roman', serif; font-weight: 600; line-height: 1.05!important; letter-spacing: -.045em!important; text-transform: uppercase; user-select: text; -webkit-user-select: text; }
+.c-hero-title > .c-title-city { overflow: hidden; line-height: .9; padding: .04em .025em 0 0; }
+.c-hero-title > .c-title-festival { font: 600 clamp(13px,3.85vw,58px)/1.25 var(--sans); letter-spacing: .36em; padding: .07em 0 .18em .36em; margin: 0; }
 .c-title-line > span { display: block; }
 .c-hero-date { margin-top: 26px!important; }
 .c-countdown { margin-top: 26px; gap: 0; }
@@ -555,7 +555,7 @@ body { background: #10100f; }
 @media(max-width:760px) {
   .cinematic main > .c-section { padding-top: 40px; padding-bottom: 40px; }
   .cinematic main > .c-sponsors { padding-top: 32px; padding-bottom: 35px; margin-bottom: 22px; }
-  .cinematic .c-hero-title { font-size: 15.1vw; }
+  .cinematic .c-hero-title { font-size: 15.8vw; }
   .c-hero-title > .c-title-festival { font-size: 3.7vw; letter-spacing: .34em; padding-left: .34em; }
   .c-countdown { margin-top: 25px; }
   .c-countdown-digits { gap: 7px; }
