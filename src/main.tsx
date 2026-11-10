@@ -23,9 +23,9 @@ type LanguageKey = "de" | "es" | "ca" | "fr" | "en" | "it";
 type Artist = {
   name: string;
   role: string;
-  body: string;
+  body?: string;
   image: string;
-  instagram: string;
+  instagram?: string;
   x: number;
   y: number;
   imageFit?: "cover" | "stretch" | "montse" | "jonathan" | "steve" | "johnny" | "sofia";
@@ -191,8 +191,22 @@ const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string;
   it: { eyebrow: "Prossimamente", title: "E altri artisti da scoprire", card: "Da scoprire" }
 };
 
-const dancerRoleLabels: Record<LanguageKey, string> = {
-  de: "Tänzerin", es: "Bailarina", ca: "Ballarina", fr: "Danseuse", en: "Dancer", it: "Ballerina"
+const choreographerInstructorLabels: Record<LanguageKey, string> = {
+  de: "Choreografin & Trainerin",
+  es: "Coreógrafa e instructora",
+  ca: "Coreògrafa i instructora",
+  fr: "Chorégraphe et instructrice",
+  en: "Choreographer & instructor",
+  it: "Coreografa e istruttrice"
+};
+
+const davidPrestorRoleLabels: Record<LanguageKey, string> = {
+  de: "Internationaler Choreograf",
+  es: "Coreógrafo internacional",
+  ca: "Coreògraf internacional",
+  fr: "Chorégraphe international",
+  en: "International choreographer",
+  it: "Coreografo internazionale"
 };
 
 const newFestivalArtists = [
@@ -1004,6 +1018,11 @@ const artistLayouts: Omit<Artist, "name" | "role" | "body">[] = [
     imageFit: "montse"
   },
   {
+    image: "/assets/artist-david-prestor.jpg",
+    x: 6,
+    y: 2640
+  },
+  {
     image: "/assets/artist-jonathan-closeup.webp",
     instagram: "https://www.instagram.com/jonathan_jones_music/",
     x: 6,
@@ -1042,7 +1061,7 @@ const artistCardMetrics = {
   bodyWidth: 278
 };
 
-const artistDisplayOrder = [0, 1, 2, 3, 6, 7, 4, 5] as const;
+const artistDisplayOrder = [0, 1, 2, 3, 7, 8, 4, 5, 6] as const;
 
 const getInitialLanguage = (): LanguageKey => {
   try {
@@ -1058,7 +1077,12 @@ const getInitialLanguage = (): LanguageKey => {
 };
 
 const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
-  const artistCopy = [...copy.artists, ...additionalArtistCopies[language]];
+  const artistCopy: Pick<Artist, "name" | "role" | "body">[] = [
+    ...copy.artists.slice(0, 4),
+    { name: "David Prestor", role: davidPrestorRoleLabels[language] },
+    ...copy.artists.slice(4),
+    ...additionalArtistCopies[language]
+  ];
 
   return artistDisplayOrder.map((artistIndex, positionIndex) => ({
     ...artistLayouts[artistIndex],
@@ -1303,16 +1327,18 @@ function ArtistCard({ artist }: { artist: Artist }) {
 
   return (
     <article className="artist-card abs" style={revealStyle({ left: artist.x, top: artist.y }, 80)} data-scrolljs>
-      <a
-        className="artist-photo artist-photo-link abs"
-        style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}
-        href={artist.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Instagram: ${artist.name}`}
-      >
-        <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt={artist.name} />
-      </a>
+      {artist.instagram ? <a
+          className="artist-photo artist-photo-link abs"
+          style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}
+          href={artist.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Instagram: ${artist.name}`}
+        >
+          <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt={artist.name} />
+        </a> : <figure className="artist-photo abs" style={{ left: artistCardMetrics.photoInset, top: artistCardMetrics.photoInset }}>
+          <img className={`artist-image ${artist.imageFit ?? "cover"}`} src={artist.image} alt={artist.name} />
+        </figure>}
       <h3
         className="artist-name abs"
         style={{ left: 0, top: artistCardMetrics.nameTop, width: artistCardMetrics.width }}
@@ -1327,13 +1353,13 @@ function ArtistCard({ artist }: { artist: Artist }) {
       >
         {artist.role}
       </p>
-      <p
+      {artist.body && <p
         className="artist-body abs"
         style={{ left: bodyLeft, top: artistCardMetrics.bodyTop }}
         data-text-node="artist-body"
       >
         {artist.body}
-      </p>
+      </p>}
     </article>
   );
 }
@@ -2089,12 +2115,12 @@ function ModernApp() {
           setRailState(previous => previous.first === next.first && previous.start === next.start && previous.end === next.end ? previous : next);
         }}>
           {artists.map((artist, index) => <article className="c-artist" key={artist.name}>
-            <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a>
+            {artist.instagram ? <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a> : <figure className="c-portrait"><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span></figure>}
             <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
-            <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>
+            {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
           </article>)}
-          {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(9 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{dancerRoleLabels[language]}</p><h3>{artist.name}</h3></article>)}
-          {[11,12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
+          {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(10 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{choreographerInstructorLabels[language]}</p><h3>{artist.name}</h3></article>)}
+          {[12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
         </div>
         </div>
         <div className="c-carousel-footer"><span className="c-rail-count">{String(railState.first).padStart(2, "0")} <i>/ 12</i></span><div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div><button type="button" className="c-autoplay" onClick={carousel.toggle} aria-pressed={!carousel.paused}><i className={carousel.paused ? "is-paused" : "is-playing"} aria-hidden="true" />{carousel.paused ? refinement.play : refinement.pause}</button></div>

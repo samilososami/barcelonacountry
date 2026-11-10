@@ -90,6 +90,7 @@ body { background: #10100f; }
 .c-portrait > svg { position: absolute; bottom: 18px; right: 18px; width: 22px; opacity: 0; transform: translate(-6px,6px); transition: opacity .3s, transform .3s; }
 @media(hover:hover) { .c-portrait:hover img { transform: scale(1.035); } .c-portrait:hover > svg { opacity: 1; transform: none; } }
 .c-portrait .artist-jonathan-jones { object-position: center 40%; }
+.c-portrait .artist-david-prestor { object-position: center 18%; }
 .c-portrait .artist-johnny { position: absolute; top: 0; left: 50%; width: min(200%,865px); max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); }
 .c-portrait:hover .artist-johnny { transform: translateX(-50%) scale(1.025); }
 .c-portrait .artist-neus-lloveras { transform: scale(1.7); transform-origin: center top; }
