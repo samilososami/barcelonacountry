@@ -19,7 +19,7 @@ export function ContactDialog({ open, onClose, language, nameLabel, emailLabel }
   }, [open]);
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // Client requested no recipient yet: keep this preview strictly local.
+    // The client has not approved a recipient yet, so this remains frontend-only.
     setFeedback(true);
   }
   return <dialog ref={dialog} className="c-contact-dialog" aria-labelledby="c-inquiry-title" data-lenis-prevent onCancel={onClose} onClick={event => { if (event.target === event.currentTarget) onClose(); }}>

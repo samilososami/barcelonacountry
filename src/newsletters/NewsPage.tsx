@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { assetPath, sitePath, currentSitePath } from "../lib/site";
+import { supabase } from "../lib/supabase";
 import type { NewsletterIssue } from "../lib/database.types";
 import { newsCopy, type NewsLanguage } from "./copy";
 import { IssueBody } from "./IssueBody";
@@ -14,8 +15,13 @@ export function NewsPage({ language }: { language: NewsLanguage }) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
-    // The design preview deliberately has no database connection.
-    setIssues([]); setState("ready");
+    let active = true;
+    setState("loading");
+    void supabase.from("newsletter_issues").select("*").eq("is_published", true).order("issue_number", { ascending: false }).then(({ data, error }) => {
+      if (!active) return;
+      setIssues(data ?? []); setState(error ? "error" : "ready");
+    });
+    return () => { active = false; };
   }, [attempt]);
   const issue = issues.find(item => item.slug === slug);
   useEffect(() => {
