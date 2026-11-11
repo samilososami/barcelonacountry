@@ -1,8 +1,5 @@
 .git
 .env*
-api
-server
-supabase
 backup
 gallery-backup
 deliverables

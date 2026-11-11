@@ -4,7 +4,7 @@ import { ArrowIcon } from "../components/ArrowIcon";
 import { legalDocuments } from "../privacy/legal-content";
 import { CookiePreferencesButton } from "../privacy/CookieConsent";
 import { registrationCopy } from "../privacy/registration-copy";
-import { assetPath, sitePath, currentSitePath, previewCopy } from "../lib/site";
+import { assetPath, sitePath, currentSitePath } from "../lib/site";
 import "./news.css";
 
 // Link existing words without adding or rewriting the approved document text.
@@ -31,7 +31,17 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
   const [done, setDone] = useState(false);
   useEffect(() => { window.document.title = `${title} | Barcelona Country Festival`; window.document.documentElement.lang = language; }, [title, language]);
   async function unsubscribe() {
-    setStatus(previewCopy[language].note); setDone(true);
+    setBusy(true);
+    try {
+      const response = await fetch(sitePath("/api/newsletter"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "unsubscribe", token: new URLSearchParams(window.location.search).get("token") })
+      });
+      if (!response.ok) throw new Error();
+      setStatus(t.unsubscribed); setDone(true);
+    } catch { setStatus(t.retry); }
+    finally { setBusy(false); }
   }
   return <div className="modern-page news-page">
     <header className="news-header"><a href={sitePath("/")} aria-label="Barcelona Country Festival"><img src={assetPath("/assets/brand-logo-nav.png")} alt="Barcelona Country Festival" /></a><a href={sitePath("/")}><ArrowIcon direction="left" /> {t.back}</a></header>

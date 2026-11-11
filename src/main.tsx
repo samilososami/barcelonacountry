@@ -8,13 +8,15 @@ import { registrationCopy } from "./privacy/registration-copy";
 import "./styles.css";
 import "./modern.css";
 import "./cinematic.css";
-import { assetPath, sitePath, currentSitePath, previewCopy } from "./lib/site";
+import { assetPath, sitePath, currentSitePath, siteCopy } from "./lib/site";
 import { useFestivalMotion } from "./useFestivalMotion";
 import { FestivalCountdown } from "./components/FestivalCountdown";
 import { ContactDialog } from "./components/ContactDialog";
 import { refinementCopy } from "./lib/refinement-copy";
 import { useArtistCarousel } from "./useArtistCarousel";
 
+const AdminPortal = lazy(() => import("./admin/AdminPortal").then((module) => ({ default: module.AdminPortal })));
+const TicketPurchasePage = lazy(() => import("./tickets/TicketPurchasePage").then((module) => ({ default: module.TicketPurchasePage })));
 const NewsPage = lazy(() => import("./newsletters/NewsPage").then((module) => ({ default: module.NewsPage })));
 const LegalPage = lazy(() => import("./newsletters/LegalPage").then((module) => ({ default: module.LegalPage })));
 
@@ -1065,7 +1067,7 @@ const artistDisplayOrder = [0, 1, 2, 3, 7, 8, 4, 5, 6] as const;
 
 const getInitialLanguage = (): LanguageKey => {
   try {
-    const stored = window.localStorage.getItem("bcf-preview-language");
+    const stored = window.localStorage.getItem("barcelona-country-language") ?? window.localStorage.getItem("bcf-preview-language");
     if (stored && stored in copies) {
       return stored as LanguageKey;
     }
@@ -1661,7 +1663,7 @@ function App() {
 
   const handleLanguageChange = (nextLanguage: LanguageKey) => {
     setLanguage(nextLanguage);
-    try { window.localStorage.setItem("bcf-preview-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
+    try { window.localStorage.setItem("barcelona-country-language", nextLanguage); } catch { /* Keep the choice for this visit when browser storage is unavailable. */ }
     setIsLanguageOpen(false);
   };
 
@@ -2021,7 +2023,8 @@ function ModernApp() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [formFeedback, setFormFeedback] = useState<string | null>(null);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [railState, setRailState] = useState({ first: 1, start: true, end: false });
   const railIndicator = useRef<HTMLSpanElement>(null);
   const rail = useRef<HTMLDivElement>(null);
@@ -2031,7 +2034,7 @@ function ModernApp() {
   const date = festivalDates[language];
   const newsletter = newsCopy[language];
   const registration = registrationCopy[language];
-  const ui = previewCopy[language];
+  const ui = siteCopy[language];
   const refinement = refinementCopy[language];
   const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
@@ -2050,12 +2053,51 @@ function ModernApp() {
   const openContact = () => { setIsContactOpen(true); setIsNavigationOpen(false); setIsLanguageMenuOpen(false); };
   const changeLanguage = (next: LanguageKey) => {
     setLanguage(next); setFormFeedback(null); setIsLanguageMenuOpen(false);
-    try { localStorage.setItem("bcf-preview-language", next); } catch { /* Session choice remains available. */ }
+    try { localStorage.setItem("barcelona-country-language", next); } catch { /* Session choice remains available. */ }
   };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // This proposal has no mail/database credentials and never sends personal data.
-    event.currentTarget.reset(); setFormFeedback(ui.done);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const fullName = String(data.get("name") ?? "").trim();
+    const prefix = String(data.get("phonePrefix") ?? "").trim();
+    const countryIso = String(data.get("countryIso") ?? "").trim().toUpperCase();
+    const phoneNumber = String(data.get("phone") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim().toLowerCase();
+    const danceLocation = String(data.get("danceLocation") ?? "").trim();
+
+    if (isFormSubmitting) return;
+    setIsFormSubmitting(true);
+    setFormFeedback(null);
+    try {
+      const response = await fetch(sitePath("/api/newsletter"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "subscribe",
+          full_name: fullName,
+          phone: `${prefix} ${phoneNumber}`.trim(),
+          country_iso: countryIso,
+          email,
+          dance_location: danceLocation,
+          locale: language,
+          consent: true,
+          privacy_accepted: data.get("privacyAccepted") === "on",
+          website: data.get("website")
+        })
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setFormFeedback({ type: "error", message: result.error === "duplicate" ? newsletter.duplicate : formFeedbackLabels[language].error });
+        return;
+      }
+      form.reset();
+      setFormFeedback({ type: "success", message: `${newsletter.success}${result.welcome_email === "sent" ? ` ${newsletter.sent}` : ""}` });
+    } catch {
+      setFormFeedback({ type: "error", message: formFeedbackLabels[language].error });
+    } finally {
+      setIsFormSubmitting(false);
+    }
   };
 
   return <CookieConsentProvider language={language}><div ref={scope} className="cinematic">
@@ -2137,15 +2179,15 @@ function ModernApp() {
       <section id="newsletter" className="c-contact c-section" aria-labelledby="c-newsletter-title">
         <div className="c-contact-copy" data-reveal><p className="c-kicker">{refinement.newsletter}</p><h2 id="c-newsletter-title">{newsletter.title}</h2><p className="c-contact-intro">{newsletter.introBefore} <strong>Barcelona Country News</strong>, {newsletter.introAfter} <b>Barcelona Country Festival.</b></p></div>
         <form className="c-form" aria-label={interfaceLabels[language].form} onSubmit={handleSubmit}>
-          <p className="c-preview-note">{ui.note}</p>
           <label htmlFor="name">{copy.formName}<input id="name" name="name" type="text" autoComplete="name" required maxLength={160} /></label>
           <ModernPhonePrefixSelect language={language} />
           <label htmlFor="email">{copy.formEmail}<input id="email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
           <label htmlFor="dance-location">{copy.formDanceLocation}<input id="dance-location" name="danceLocation" type="text" required maxLength={180} /></label>
+          <div className="subscription-honeypot" aria-hidden="true"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
           <label className="c-consent" htmlFor="privacy-accepted"><input id="privacy-accepted" name="privacyAccepted" type="checkbox" required /><span>{registration.privacyBefore} <a href={sitePath("/privacidad")} target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a> {registration.privacyAfter}</span></label>
-          <button className="c-submit" type="submit" aria-describedby="subscription-authorization"><span>{newsletter.subscribe}</span><ArrowIcon /></button>
+          <button className="c-submit" type="submit" disabled={isFormSubmitting} aria-describedby="subscription-authorization"><span>{isFormSubmitting ? formFeedbackLabels[language].submitting : newsletter.subscribe}</span><ArrowIcon /></button>
           <p id="subscription-authorization" className="c-authorization"><b>{newsletter.authorization}</b> {newsletter.authorizationText} <a href={sitePath("/privacidad")} target="_blank" rel="noopener noreferrer">{newsletter.privacy}</a>.</p>
-          {formFeedback && <p className="c-form-feedback" role="status">{formFeedback}</p>}
+          {formFeedback && <p className={`c-form-feedback is-${formFeedback.type}`} role="status">{formFeedback.message}</p>}
         </form>
       </section>
       <section id="sponsors" className="c-sponsors c-section" aria-labelledby="c-sponsors-title">
@@ -2171,13 +2213,17 @@ function ModernApp() {
 
 
 const currentPath = currentSitePath();
+const isAdminRoute = ["/login", "/dashboard", "/dashbord", "/admin/newsletters"].includes(currentPath);
 const isNewsRoute = currentPath === "/blog" || currentPath === "/newsletters" || currentPath.startsWith("/newsletters/");
 const isLegalRoute = ["/privacidad", "/aviso-legal", "/cookies", "/baja"].includes(currentPath);
+const isTicketRoute = ["/entradas", "/tickets", "/buy"].includes(currentPath);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
   <StrictMode>
-    {isNewsRoute || isLegalRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense></CookieConsentProvider> : <ModernApp />}
+    {isAdminRoute ? <Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando panel"><span /><span /><span /></div>}><AdminPortal /></Suspense>
+      : isTicketRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando entradas"><span /><span /><span /></div>}><TicketPurchasePage /></Suspense></CookieConsentProvider>
+      : isNewsRoute || isLegalRoute ? <CookieConsentProvider language={getInitialLanguage()}><Suspense fallback={<div className="admin-route-fallback" aria-label="Cargando"><span /><span /><span /></div>}>{isNewsRoute ? <NewsPage language={getInitialLanguage()} /> : <LegalPage language={getInitialLanguage()} />}</Suspense></CookieConsentProvider> : <ModernApp />}
   </StrictMode>
 );
 if (import.meta.hot) import.meta.hot.dispose(() => root.unmount());
