@@ -1276,6 +1276,8 @@ const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
     y: 0,
     image: artist.name === "Silvia Denise"
       ? "/assets/artist-silvia-denise.jpg"
+      : artist.name === "Virginie Barjaud"
+        ? "/assets/artist-virginie-barjaud.jpg"
       : artist.name === "Silvia Calsina"
         ? "/assets/artist-silvia-calsina.jpg"
         : artist.name === "Neus Lloveras"
@@ -2231,7 +2233,7 @@ function ModernApp() {
   const refinement = refinementCopy[language];
   const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
-  const artistCardTotal = artists.length + 1;
+  const artistCardTotal = artists.length;
   const sentenceEnd = copy.heroCopy.indexOf(". ");
 
   useEffect(() => { document.documentElement.lang = language; }, [language]);
@@ -2372,7 +2374,6 @@ function ModernApp() {
               {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
             </article>;
           })}
-          <article className="c-artist c-mystery"><div className="c-portrait"><span>{artistCardTotal}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>
         </div>
         </div>
         <div className="c-carousel-footer"><span className="c-rail-count">{String(railState.first).padStart(2, "0")} <i>/ {artistCardTotal}</i></span><div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div><button type="button" className="c-autoplay" onClick={carousel.toggle} aria-pressed={!carousel.paused}><i className={carousel.paused ? "is-paused" : "is-playing"} aria-hidden="true" />{carousel.paused ? refinement.play : refinement.pause}</button></div>
