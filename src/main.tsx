@@ -26,7 +26,7 @@ type Artist = {
   name: string;
   role: string;
   body?: string;
-  image: string;
+  image?: string;
   instagram?: string;
   x: number;
   y: number;
@@ -195,11 +195,11 @@ const mysteryArtistCopies: Record<LanguageKey, { eyebrow: string; title: string;
 
 const choreographerInstructorLabels: Record<LanguageKey, string> = {
   de: "Choreografin & Trainerin",
-  es: "Coreógrafa e instructora",
-  ca: "Coreògrafa i instructora",
-  fr: "Chorégraphe et instructrice",
+  es: "Coreógrafa & instructora",
+  ca: "Coreògrafa & instructora",
+  fr: "Chorégraphe & instructrice",
   en: "Choreographer & instructor",
-  it: "Coreografa e istruttrice"
+  it: "Coreografa & istruttrice"
 };
 
 const davidPrestorRoleLabels: Record<LanguageKey, string> = {
@@ -211,14 +211,18 @@ const davidPrestorRoleLabels: Record<LanguageKey, string> = {
   it: "Coreografo internazionale"
 };
 
-const newFestivalArtists = [
-  { name: "Silvia Calsina", image: "/assets/artist-silvia-calsina.jpg", imageClass: "artist-silvia-calsina" },
-  { name: "Neus Lloveras", image: "/assets/artist-neus-lloveras.jpg", imageClass: "artist-neus-lloveras" }
-] as const;
-
 const SHOW_TICKET_SALES = false;
 
-const festivalStatValues = { artists: "+12", dancers: "+3000" };
+const festivalStatValues = { artists: "+16", dancers: "+3000" };
+
+const lineupIntroLabels: Record<LanguageKey, string> = {
+  de: "Europas führende Namen im Country Line Dance, vereint in Barcelona.",
+  es: "Los grandes referentes del Country Line Dance europeo, reunidos en Barcelona.",
+  ca: "Els grans referents del Country Line Dance europeu, reunits a Barcelona.",
+  fr: "Les grandes références européennes du Country Line Dance, réunies à Barcelone.",
+  en: "Europe’s leading Country Line Dance names, together in Barcelona.",
+  it: "I grandi protagonisti europei del Country Line Dance, riuniti a Barcellona."
+};
 
 const findIntroLabels: Record<LanguageKey, string> = {
   de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
@@ -567,7 +571,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Tänzer & Choreograf",
+        role: "Choreograf & Trainer",
         body:
           "Eine Legende des Catalan Country Style und Wegbereiter dieses Stils in Europa. Seit über 20 Jahren erobern seine Choreografien internationale Festivals. Seine unverwechselbare Präsenz gehört zu jedem großen Event."
       },
@@ -625,7 +629,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Bailarín & coreógrafo",
+        role: "Coreógrafo & instructor",
         body:
           "Auténtica leyenda del Country Catalán Style. Él ha sido el iniciador de este estilo en Europa. Más de 20 años sobre las tablas, sus coreografías han conquistado festivales internacionales. Un evento importante requiere su presencia y su estilo inconfundible."
       },
@@ -683,7 +687,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Ballarí & coreògraf",
+        role: "Coreògraf & instructor",
         body:
           "Autèntica llegenda del Country Catalan Style i iniciador d'aquest estil a Europa. Més de 20 anys sobre els escenaris i coreografies que han conquerit festivals internacionals. La seva presència és imprescindible."
       },
@@ -741,7 +745,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Danseur & chorégraphe",
+        role: "Chorégraphe & instructeur",
         body:
           "Véritable légende du Country Catalan Style et initiateur de ce style en Europe. Plus de 20 ans sur scène et des chorégraphies qui ont conquis les festivals internationaux. Sa présence est incontournable."
       },
@@ -799,7 +803,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Dancer & choreographer",
+        role: "Choreographer & instructor",
         body:
           "A true Catalan Country Style legend and the pioneer of this style in Europe. After more than 20 years on stage, his choreographies have conquered international festivals. Every major event needs his unmistakable presence."
       },
@@ -857,7 +861,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Ballerino & coreografo",
+        role: "Coreografo & istruttore",
         body:
           "Autentica leggenda del Country Catalan Style e iniziatore di questo stile in Europa. Oltre 20 anni sul palco e coreografie che hanno conquistato festival internazionali. La sua presenza è imprescindibile."
       },
@@ -901,7 +905,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Choreografin & Tänzerin",
+      role: "Choreografin & Trainerin",
       body: "Eine junge Stimme der europäischen Line-Dance-Szene. Ihre Choreografien verbinden Persönlichkeit, Energie und einen modernen Blick auf den Country Style."
     }
   ],
@@ -918,7 +922,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Coreógrafa & bailarina",
+      role: "Coreógrafa & instructora",
       body: "Una de las jóvenes figuras de la nueva generación del Line Dance europeo. Sus coreografías combinan personalidad, energía y una mirada actual al Country Style."
     }
   ],
@@ -935,7 +939,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Coreògrafa & ballarina",
+      role: "Coreògrafa & instructora",
       body: "Una de les joves figures de la nova generació del Line Dance europeu. Les seves coreografies combinen personalitat, energia i una mirada actual al Country Style."
     }
   ],
@@ -952,7 +956,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Chorégraphe & danseuse",
+      role: "Chorégraphe & instructrice",
       body: "Une jeune figure de la nouvelle génération du Line Dance européen. Ses chorégraphies mêlent personnalité, énergie et vision actuelle du Country Style."
     }
   ],
@@ -969,7 +973,7 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Choreographer & dancer",
+      role: "Choreographer & instructor",
       body: "A young figure in the new generation of European Line Dance. Her choreographies bring together personality, energy and a contemporary take on Country Style."
     }
   ],
@@ -986,9 +990,162 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
     },
     {
       name: "Sofía Balzano",
-      role: "Coreografa & ballerina",
+      role: "Coreografa & istruttrice",
       body: "Una giovane figura della nuova generazione del Line Dance europeo. Le sue coreografie uniscono personalità, energia e uno sguardo contemporaneo al Country Style."
     }
+  ]
+};
+
+const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | "body">[]> = {
+  de: [
+    { name: "Laura Jones", role: "Choreografin & Trainerin" },
+    {
+      name: "Silvia Denise",
+      role: "Choreografin & Trainerin",
+      body: "Silvia Denise ist eine einflussreiche italienische Country-Line-Dance-Trainerin und Choreografin, die in der internationalen Szene für ihre dynamischen Kreationen und ihren leidenschaftlichen Unterricht bekannt ist. Ihr Stil verbindet Tänzerinnen und Tänzer aller Niveaus bei Festivals und Events. Sie ist eine herausragende Förderin des Voghera Country Festival und des Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Choreografin & Trainerin",
+      body: "Virginie Barjaud ist eine bekannte französische Choreografin mit einer starken Verbindung zum Catalan Style. Als Gründerin der Truppe WANTED gibt sie Workshops in ganz Europa und vermittelt ihre Begeisterung und Leidenschaft für die Westernkultur mit beliebten Kreationen wie Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.de,
+      body: "Silvia Calsina ist eine herausragende Country-Line-Dance-Choreografin und -Trainerin und eine wichtige Referenz für die Verbreitung und Förderung des Country-Tanzes. Bekannt für ihre Technik und ihr Charisma, gibt sie internationale Workshops und zeichnet für beliebte Choreografien verantwortlich, die überall dort die Tanzflächen beleben, wo sie auftritt."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.de,
+      body: "Neus Lloveras ist eine Schlüsselfigur des Country Line Dance und eine der Pionierinnen des Catalan Style. Als Trainerin und Choreografin zeichnet sie sich durch Energie, technische Präzision und dynamische Choreografien aus, die die authentische Westernkultur auf Tanzflächen und internationalen Festivals voranbringen."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
+  ],
+  es: [
+    { name: "Laura Jones", role: "Coreógrafa & instructora" },
+    {
+      name: "Silvia Denise",
+      role: "Coreógrafa & instructora",
+      body: "Silvia Denise es una influyente instructora y coreógrafa italiana de Country Line Dance, destacada en la comunidad internacional por sus dinámicas creaciones y su apasionada enseñanza. Su estilo conecta a bailarines de todos los niveles en festivales y eventos. Brillante promotora del gran Voghera Country Festival y del Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Coreógrafa & instructora",
+      body: "Virginie Barjaud es una famosa coreógrafa francesa, muy vinculada al Catalan Style. Fundadora de la troupe WANTED, imparte talleres por toda Europa transmitiendo su entusiasmo y pasión por la cultura western con creaciones populares como Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.es,
+      body: "Silvia Calsina es una destacada coreógrafa e instructora de Country Line Dance, referente clave en la difusión y promoción del baile country. Reconocida por su técnica y carisma, imparte talleres internacionales y firma populares coreografías que animan las pistas de baile donde actúa."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.es,
+      body: "Neus Lloveras es una referente fundamental del Country Line Dance y una de las pioneras del Catalan Style. Como instructora y coreógrafa, destaca por su energía, precisión técnica y por crear dinámicas coreografías que impulsan la auténtica cultura western en pistas y festivales internacionales."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
+  ],
+  ca: [
+    { name: "Laura Jones", role: "Coreògrafa & instructora" },
+    {
+      name: "Silvia Denise",
+      role: "Coreògrafa & instructora",
+      body: "Silvia Denise és una influent instructora i coreògrafa italiana de Country Line Dance, destacada en la comunitat internacional per les seves creacions dinàmiques i el seu ensenyament apassionat. El seu estil connecta ballarins de tots els nivells en festivals i esdeveniments. És una gran promotora del Voghera Country Festival i del Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Coreògrafa & instructora",
+      body: "Virginie Barjaud és una famosa coreògrafa francesa, molt vinculada al Catalan Style. Fundadora de la troupe WANTED, imparteix tallers arreu d’Europa transmetent el seu entusiasme i passió per la cultura western amb creacions populars com Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.ca,
+      body: "Silvia Calsina és una destacada coreògrafa i instructora de Country Line Dance, referent clau en la difusió i promoció del ball country. Reconeguda per la seva tècnica i carisma, imparteix tallers internacionals i signa coreografies populars que animen les pistes de ball allà on actua."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.ca,
+      body: "Neus Lloveras és una referent fonamental del Country Line Dance i una de les pioneres del Catalan Style. Com a instructora i coreògrafa, destaca per la seva energia, precisió tècnica i per crear coreografies dinàmiques que impulsen l’autèntica cultura western en pistes i festivals internacionals."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
+  ],
+  fr: [
+    { name: "Laura Jones", role: "Chorégraphe & instructrice" },
+    {
+      name: "Silvia Denise",
+      role: "Chorégraphe & instructrice",
+      body: "Silvia Denise est une influente instructrice et chorégraphe italienne de Country Line Dance, reconnue dans la communauté internationale pour ses créations dynamiques et son enseignement passionné. Son style rassemble des danseurs de tous niveaux lors de festivals et d’événements. Elle est une brillante promotrice du Voghera Country Festival et du Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Chorégraphe & instructrice",
+      body: "Virginie Barjaud est une célèbre chorégraphe française, très liée au Catalan Style. Fondatrice de la troupe WANTED, elle anime des ateliers dans toute l’Europe en transmettant son enthousiasme et sa passion pour la culture western à travers des créations populaires comme Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.fr,
+      body: "Silvia Calsina est une chorégraphe et instructrice de Country Line Dance reconnue, référence majeure dans la diffusion et la promotion de la danse country. Appréciée pour sa technique et son charisme, elle anime des ateliers internationaux et signe des chorégraphies populaires qui font vivre les pistes partout où elle se produit."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.fr,
+      body: "Neus Lloveras est une référence fondamentale du Country Line Dance et l’une des pionnières du Catalan Style. Instructrice et chorégraphe, elle se distingue par son énergie, sa précision technique et ses chorégraphies dynamiques qui font rayonner l’authentique culture western sur les pistes et dans les festivals internationaux."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
+  ],
+  en: [
+    { name: "Laura Jones", role: "Choreographer & instructor" },
+    {
+      name: "Silvia Denise",
+      role: "Choreographer & instructor",
+      body: "Silvia Denise is an influential Italian Country Line Dance instructor and choreographer, recognised across the international community for her dynamic creations and passionate teaching. Her style connects dancers of every level at festivals and events. She is a leading promoter of the Voghera Country Festival and the Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Choreographer & instructor",
+      body: "Virginie Barjaud is a renowned French choreographer with strong ties to Catalan Style. Founder of the WANTED troupe, she teaches workshops across Europe, sharing her enthusiasm and passion for western culture through popular creations such as Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.en,
+      body: "Silvia Calsina is a leading Country Line Dance choreographer and instructor, and a key figure in promoting and sharing country dance. Known for her technique and charisma, she teaches international workshops and creates popular choreographies that bring every dance floor she visits to life."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.en,
+      body: "Neus Lloveras is a major figure in Country Line Dance and one of the pioneers of Catalan Style. As an instructor and choreographer, she stands out for her energy, technical precision and dynamic choreographies that advance authentic western culture on dance floors and at international festivals."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
+  ],
+  it: [
+    { name: "Laura Jones", role: "Coreografa & istruttrice" },
+    {
+      name: "Silvia Denise",
+      role: "Coreografa & istruttrice",
+      body: "Silvia Denise è un’influente istruttrice e coreografa italiana di Country Line Dance, apprezzata nella comunità internazionale per le sue creazioni dinamiche e il suo insegnamento appassionato. Il suo stile unisce ballerini di ogni livello in festival ed eventi. È una brillante promotrice del Voghera Country Festival e del Bologna Country Festival."
+    },
+    {
+      name: "Virginie Barjaud",
+      role: "Coreografa & istruttrice",
+      body: "Virginie Barjaud è una celebre coreografa francese, molto legata al Catalan Style. Fondatrice della troupe WANTED, tiene workshop in tutta Europa trasmettendo entusiasmo e passione per la cultura western con creazioni popolari come Backroad."
+    },
+    {
+      name: "Silvia Calsina",
+      role: choreographerInstructorLabels.it,
+      body: "Silvia Calsina è una rinomata coreografa e istruttrice di Country Line Dance, punto di riferimento nella diffusione e promozione del ballo country. Conosciuta per tecnica e carisma, tiene workshop internazionali e firma coreografie popolari che animano le piste ovunque si esibisca."
+    },
+    {
+      name: "Neus Lloveras",
+      role: choreographerInstructorLabels.it,
+      body: "Neus Lloveras è un riferimento fondamentale del Country Line Dance e una delle pioniere del Catalan Style. Come istruttrice e coreografa si distingue per energia, precisione tecnica e coreografie dinamiche che valorizzano l’autentica cultura western sulle piste e nei festival internazionali."
+    },
+    { name: "DJ Lu", role: "DJ" },
+    { name: "Antoine", role: "DJ" }
   ]
 };
 
@@ -1063,7 +1220,24 @@ const artistCardMetrics = {
   bodyWidth: 278
 };
 
-const artistDisplayOrder = [0, 1, 2, 3, 7, 8, 4, 5, 6] as const;
+const artistDisplayOrder = [
+  "Pol F. Ryan",
+  "Algaly Fofana",
+  "David Villellas",
+  "Sofía Balzano",
+  "Montse Moscardó",
+  "Laura Jones",
+  "Silvia Denise",
+  "Virginie Barjaud",
+  "Silvia Calsina",
+  "Neus Lloveras",
+  "Johnny",
+  "David Prestor",
+  "Jonathan Jones",
+  "Steve Frapolli",
+  "DJ Lu",
+  "Antoine"
+] as const;
 
 const getInitialLanguage = (): LanguageKey => {
   try {
@@ -1086,12 +1260,22 @@ const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
     ...additionalArtistCopies[language]
   ];
 
-  return artistDisplayOrder.map((artistIndex, positionIndex) => ({
-    ...artistLayouts[artistIndex],
-    x: artistLayouts[positionIndex].x,
-    y: artistLayouts[positionIndex].y,
-    ...artistCopy[artistIndex]
+  const currentArtists = artistCopy.map((artist, index) => ({ ...artistLayouts[index], ...artist }));
+  const announcedArtists: Artist[] = announcedArtistCopies[language].map(artist => ({
+    ...artist,
+    x: 0,
+    y: 0,
+    image: artist.name === "Silvia Denise"
+      ? "/assets/artist-silvia-denise.jpg"
+      : artist.name === "Silvia Calsina"
+        ? "/assets/artist-silvia-calsina.jpg"
+        : artist.name === "Neus Lloveras"
+          ? "/assets/artist-neus-lloveras.jpg"
+          : undefined
   }));
+  const artistsByName = new Map([...currentArtists, ...announcedArtists].map(artist => [artist.name, artist]));
+
+  return artistDisplayOrder.map(name => artistsByName.get(name)).filter((artist): artist is Artist => Boolean(artist));
 };
 
 const createMapsSrc = (language: LanguageKey) =>
@@ -2038,6 +2222,7 @@ function ModernApp() {
   const refinement = refinementCopy[language];
   const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
+  const artistCardTotal = artists.length + 1;
   const sentenceEnd = copy.heroCopy.indexOf(". ");
 
   useEffect(() => { document.documentElement.lang = language; }, [language]);
@@ -2144,6 +2329,7 @@ function ModernApp() {
 
       <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
         <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-artists-tools"><button type="button" className="c-gallery-preview" aria-disabled="true" aria-describedby="c-gallery-soon"><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><span>{refinement.gallery}<small id="c-gallery-soon">{refinement.soon}</small></span></button></div></div>
+        <p className="c-lineup-intro" data-reveal>{lineupIntroLabels[language]}</p>
         <div className="c-carousel-stage">
         <button className="c-rail-edge c-rail-prev" type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => carousel.slide(-1)}><ArrowIcon direction="left" /></button>
         <button className="c-rail-edge c-rail-next" type="button" disabled={railState.end} aria-label={ui.next} onClick={() => carousel.slide(1)}><ArrowIcon /></button>
@@ -2156,16 +2342,27 @@ function ModernApp() {
           const next = { first: Math.floor((element.scrollLeft + 1) / (second.offsetLeft - first.offsetLeft)) + 1, start: element.scrollLeft < 2, end: maximum - element.scrollLeft < 2 };
           setRailState(previous => previous.first === next.first && previous.start === next.start && previous.end === next.end ? previous : next);
         }}>
-          {artists.map((artist, index) => <article className="c-artist" key={artist.name}>
-            {artist.instagram ? <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span><ArrowIcon direction="up-right" /></a> : <figure className="c-portrait"><img className={`c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span></figure>}
-            <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
-            {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
-          </article>)}
-          {newFestivalArtists.map((artist, index) => <article className="c-artist" key={artist.name}><figure className="c-portrait"><img className={`c-artist-image ${artist.imageClass}`} src={assetPath(artist.image)} alt={artist.name} loading="lazy" /><span>{String(10 + index).padStart(2, "0")}</span></figure><p className="c-artist-role">{choreographerInstructorLabels[language]}</p><h3>{artist.name}</h3></article>)}
-          {[12].map(number => <article className="c-artist c-mystery" key={number}><div className="c-portrait"><span>{number}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>)}
+          {artists.map((artist, index) => {
+            const imageClass = `c-artist-image artist-${artist.name.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}`;
+            const image = artist.imageFit === "johnny" ? "/assets/artist-johnny-portrait-original.jpg" : artist.image;
+            const portrait = <>{image
+              ? <img className={imageClass} src={assetPath(image)} alt={artist.name} loading="lazy" />
+              : <div className="c-portrait-placeholder" aria-hidden="true"><img className="c-placeholder-mark" src={assetPath("/assets/brand-isotype.png")} alt="" /></div>}
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {artist.instagram && <ArrowIcon direction="up-right" />}</>;
+
+            return <article className={`c-artist ${image ? "" : "is-photo-pending"}`} key={artist.name}>
+              {artist.instagram
+                ? <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>{portrait}</a>
+                : <figure className="c-portrait">{portrait}</figure>}
+              <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
+              {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
+            </article>;
+          })}
+          <article className="c-artist c-mystery"><div className="c-portrait"><span>{artistCardTotal}</span><strong>?</strong></div><p className="c-artist-role">{mystery.eyebrow}</p><h3>{mystery.card}</h3></article>
         </div>
         </div>
-        <div className="c-carousel-footer"><span className="c-rail-count">{String(railState.first).padStart(2, "0")} <i>/ 12</i></span><div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div><button type="button" className="c-autoplay" onClick={carousel.toggle} aria-pressed={!carousel.paused}><i className={carousel.paused ? "is-paused" : "is-playing"} aria-hidden="true" />{carousel.paused ? refinement.play : refinement.pause}</button></div>
+        <div className="c-carousel-footer"><span className="c-rail-count">{String(railState.first).padStart(2, "0")} <i>/ {artistCardTotal}</i></span><div className="c-rail-progress" aria-hidden="true"><span ref={railIndicator} /></div><button type="button" className="c-autoplay" onClick={carousel.toggle} aria-pressed={!carousel.paused}><i className={carousel.paused ? "is-paused" : "is-playing"} aria-hidden="true" />{carousel.paused ? refinement.play : refinement.pause}</button></div>
         <p className="c-more-artists">{mystery.title}<img src={assetPath("/assets/brand-isotype.png")} alt="" /></p>
       </section>
 

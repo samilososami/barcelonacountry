@@ -76,6 +76,7 @@ body { background: #10100f; }
 .c-artists .c-section-head { padding-right: var(--gutter); }
 .c-artists h2 { max-width: 800px; }
 .c-artists h2 em { display: block; font-weight: 400; }
+.c-lineup-intro { max-width: 760px; margin: -10px var(--gutter) 42px 0!important; color: #d9d7ce; font: italic clamp(21px,2.1vw,33px)/1.25 var(--serif); }
 .c-rail-controls { display: flex; gap: 28px; align-items: center; flex: 0 0 auto; }
 .c-rail-controls button { padding: 15px 0; }
 .c-rail-controls svg { width: 30px; height: 30px; }
@@ -93,8 +94,15 @@ body { background: #10100f; }
 .c-portrait .artist-david-prestor { object-position: center 18%; }
 .c-portrait .artist-johnny { position: absolute; top: 0; left: 50%; width: min(200%,865px); max-width: none; height: auto; object-fit: initial; transform: translateX(-50%); }
 .c-portrait:hover .artist-johnny { transform: translateX(-50%) scale(1.025); }
+.c-portrait .artist-silvia-denise { object-position: 11% center; }
 .c-portrait .artist-neus-lloveras { transform: scale(1.7); transform-origin: center top; }
 .c-portrait:hover .artist-neus-lloveras { transform: scale(1.73); }
+.c-portrait-placeholder { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 42%,#3a3935 0,#20201e 37%,#121211 78%); }
+.c-portrait-placeholder::before { content: ''; position: absolute; inset: 8%; border: 1px solid #ffffff17; }
+.c-portrait-placeholder::after { content: ''; position: absolute; width: 72%; aspect-ratio: 1; border-radius: 50%; border: 1px solid #c4000038; box-shadow: 0 0 70px #c4000018; }
+.c-portrait .c-placeholder-mark { position: relative; z-index: 1; width: 43%; height: auto; object-fit: contain; opacity: .62; filter: saturate(.7); }
+.c-portrait:hover .c-placeholder-mark { transform: scale(1.035); }
+.is-photo-pending .c-artist-role { color: #d2d0c7; }
 .c-artist-role { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; line-height: 1.5; margin-top: 22px!important; color: #bab9b2; }
 .c-artist h3 { font-size: clamp(32px,2.8vw,46px); margin: 9px 0 20px; }
 .c-biography { border-top: 1px solid #ffffff35; }
