@@ -629,7 +629,7 @@ const copies: Record<LanguageKey, Copy> = {
       },
       {
         name: "David Villellas",
-        role: "Coreógrafo & instructor",
+        role: "Coreógrafo & Instructor",
         body:
           "Auténtica leyenda del Country Catalán Style. Él ha sido el iniciador de este estilo en Europa. Más de 20 años sobre las tablas, sus coreografías han conquistado festivales internacionales. Un evento importante requiere su presencia y su estilo inconfundible."
       },
