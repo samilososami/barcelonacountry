@@ -224,6 +224,15 @@ const lineupIntroLabels: Record<LanguageKey, string> = {
   it: "I grandi protagonisti europei del Country Line Dance, riuniti a Barcellona."
 };
 
+const sponsorInvitationLabels: Record<LanguageKey, string> = {
+  de: "Du möchtest das Festival unterstützen?",
+  es: "¿Quieres patrocinar el festival?",
+  ca: "Vols patrocinar el festival?",
+  fr: "Vous souhaitez devenir partenaire du festival ?",
+  en: "Want to sponsor the festival?",
+  it: "Vuoi sponsorizzare il festival?"
+};
+
 const findIntroLabels: Record<LanguageKey, string> = {
   de: "Wähle einen Halt auf dem Weg. Jede Kategorie öffnet eine Tür zum echten Western-Spirit.",
   es: "Elige una parada del camino. Cada categoría abre una puerta al verdadero espíritu western.",
@@ -249,7 +258,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "CATALAN STYLE & MUSIK",
         icon: "US",
         items: [
-          { heading: "BEREICH FÜR CHOREOGRAFEN UND WORKSHOPS:", body: "Das Kreativlabor der Legenden." },
+          { heading: "BEREICH FÜR CHOREOGRAFEN UND WORKSHOWS:", body: "Das Kreativlabor der Legenden." },
           { heading: "LINE-DANCE-HALLEN:", body: "Ununterbrochener Tanz während des gesamten Events." },
           { heading: "KINDER-WORKSHOP:", body: "Eltern teilen ihre Leidenschaft mit ihren Kindern." },
           { heading: "VERLOSUNG GROSSER REISEN:", body: "Reise mit deinen Lieblingschoreografen." },
@@ -278,7 +287,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FREUNDE",
         icon: "REC",
         items: [
-          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf, im Herzen des Festivals einen gemeinsamen Massentanz zu teilen." },
+          { heading: "BIG DANCE BARCELONA:", body: "Ein Aufruf zu einem gemeinsamen Massentanz im Herzen des Festivals und dazu, eine offene, eng verbundene Country-Community weiter wachsen zu lassen." },
           { heading: "TREFFEN DER COUNTRY-GRUPPEN:", body: "Clubs aus ganz Europa vereint unter derselben Sonne." },
         ]
       }
@@ -293,7 +302,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         icon: "music",
         items: [
           {
-            heading: "ZONA DE COREÓGRAFOS Y TALLERES:",
+            heading: "ZONA DE COREÓGRAFOS Y WORKSHOWS:",
             body: "El laboratorio de creatividad de las leyendas."
           },
           {
@@ -356,7 +365,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         items: [
           {
             heading: "BIG DANCE BARCELONA:",
-            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival."
+            body: "Una convocatoria para compartir un baile multitudinario en el corazón del festival y seguir haciendo crecer una comunidad country abierta, cercana y unida."
           },
           {
             heading: "ENCUENTRO DE GRUPOS COUNTRY:",
@@ -374,7 +383,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "CATALAN STYLE I MÚSICA",
         icon: "US",
         items: [
-          { heading: "ZONA DE COREÒGRAFS I TALLERS:", body: "El laboratori de creativitat de les llegendes." },
+          { heading: "ZONA DE COREÒGRAFS I WORKSHOWS:", body: "El laboratori de creativitat de les llegendes." },
           { heading: "SALES DE LINE DANCE:", body: "Ball ininterromput durant tot l'esdeveniment." },
           { heading: "TALLER INFANTIL:", body: "Pares compartint la passió amb els seus fills." },
           { heading: "SORTEIGS DE GRANS VIATGES:", body: "Viatja amb els teus coreògrafs preferits." },
@@ -403,7 +412,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITAT I AMICS",
         icon: "REC",
         items: [
-          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival." },
+          { heading: "BIG DANCE BARCELONA:", body: "Una convocatòria per compartir un ball multitudinari al cor del festival i continuar fent créixer una comunitat country oberta, propera i unida." },
           { heading: "TROBADA DE COLLES COUNTRY:", body: "Clubs de tot Europa units sota el mateix sol." },
         ]
       }
@@ -417,7 +426,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "STYLE CATALAN & MUSIQUE",
         icon: "US",
         items: [
-          { heading: "ESPACE CHORÉGRAPHES ET ATELIERS :", body: "Le laboratoire créatif des légendes." },
+          { heading: "ESPACE CHORÉGRAPHES ET WORKSHOWS :", body: "Le laboratoire créatif des légendes." },
           { heading: "SALLES DE LINE DANCE :", body: "Danse sans interruption pendant tout l'événement." },
           { heading: "ATELIER POUR ENFANTS :", body: "Des parents partageant leur passion avec leurs enfants." },
           { heading: "TIRAGES AU SORT DE GRANDS VOYAGES :", body: "Voyagez avec vos chorégraphes préférés." },
@@ -446,7 +455,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNAUTÉ ET AMIS",
         icon: "REC",
         items: [
-          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse de masse au cœur du festival." },
+          { heading: "BIG DANCE BARCELONA :", body: "Un appel à partager une danse collective au cœur du festival et à continuer de faire grandir une communauté country ouverte, proche et unie." },
           { heading: "RENCONTRE DES GROUPES COUNTRY :", body: "Des clubs de toute l'Europe réunis sous le même soleil." },
         ]
       }
@@ -460,7 +469,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "CATALAN STYLE & MUSIC",
         icon: "US",
         items: [
-          { heading: "CHOREOGRAPHERS AND WORKSHOPS AREA:", body: "The legends' creative laboratory." },
+          { heading: "CHOREOGRAPHERS AND WORKSHOWS AREA:", body: "The legends' creative laboratory." },
           { heading: "LINE DANCE HALLS:", body: "Non-stop dancing throughout the event." },
           { heading: "KIDS' WORKSHOP:", body: "Parents sharing their passion with their children." },
           { heading: "MAJOR TRAVEL GIVEAWAYS:", body: "Travel with your favorite choreographers." },
@@ -489,7 +498,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMMUNITY & FRIENDS",
         icon: "REC",
         items: [
-          { heading: "BIG DANCE BARCELONA:", body: "A call to share a mass dance at the heart of the festival." },
+          { heading: "BIG DANCE BARCELONA:", body: "A call to share a mass dance at the heart of the festival and keep growing an open, close-knit country community." },
           { heading: "COUNTRY CLUB GATHERING:", body: "Clubs from across Europe united under the same sun." },
         ]
       }
@@ -503,7 +512,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "CATALAN STYLE & MUSICA",
         icon: "US",
         items: [
-          { heading: "AREA COREOGRAFI E WORKSHOP:", body: "Il laboratorio creativo delle leggende." },
+          { heading: "AREA COREOGRAFI E WORKSHOW:", body: "Il laboratorio creativo delle leggende." },
           { heading: "SALE LINE DANCE:", body: "Ballo ininterrotto durante tutto l'evento." },
           { heading: "WORKSHOP PER BAMBINI:", body: "Genitori che condividono la passione con i figli." },
           { heading: "ESTRAZIONE DI GRANDI VIAGGI:", body: "Viaggia con i tuoi coreografi preferiti." },
@@ -532,7 +541,7 @@ const findCopies: Record<LanguageKey, FindCopy> = {
         title: "COMUNITÀ E AMICI",
         icon: "REC",
         items: [
-          { heading: "BIG DANCE BARCELONA:", body: "Un invito a condividere un ballo di massa nel cuore del festival." },
+          { heading: "BIG DANCE BARCELONA:", body: "Un invito a condividere un ballo collettivo nel cuore del festival e a far crescere una comunità country aperta, vicina e unita." },
           { heading: "RADUNO DEI GRUPPI COUNTRY:", body: "Club da tutta Europa uniti sotto lo stesso sole." },
         ]
       }
@@ -2324,11 +2333,15 @@ function ModernApp() {
         <p className="c-intro-line" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(0, sentenceEnd + 1) : ""}</p>
         <h2 className="c-statement" id="c-festival-title" data-reveal>{sentenceEnd > -1 ? copy.heroCopy.slice(sentenceEnd + 2) : copy.heroCopy}</h2>
         <div className="c-festival-story"><p data-reveal>{refinement.storyBefore}<strong>Barcelona Country Festival</strong>{refinement.storyAfter}</p><figure><img className="c-parallax" src={assetPath("/assets/backgrounds/festival-live.jpg")} alt="" loading="lazy" /></figure></div>
-        <div className="c-stats" data-reveal>{[["3", copy.days], [festivalStatValues.artists, copy.internationalArtists], [festivalStatValues.dancers, copy.expectedDancers]].map(([number, text]) => <div key={number}><strong>{number}</strong><span>{text.toLocaleLowerCase(language)}</span></div>)}</div>
+        <div className="c-stats" data-reveal>
+          <div><strong>3</strong><span>{copy.days.toLocaleLowerCase(language)}</span></div>
+          <div><strong>{festivalStatValues.artists}</strong><span>{copy.internationalArtists.toLocaleLowerCase(language)}</span></div>
+          <div className="c-stat-dancers"><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers.toLocaleLowerCase(language)}</span><button className="c-stat-gallery" type="button" title={`${refinement.gallery} · ${refinement.soon}`} aria-label={`${refinement.gallery}. ${refinement.soon}`} onClick={() => moveTo("artists")}><b aria-hidden="true">+</b><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /></button></div>
+        </div>
       </section>
 
       <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
-        <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-artists-tools"><button type="button" className="c-gallery-preview" aria-disabled="true" aria-describedby="c-gallery-soon"><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><span>{refinement.gallery}<small id="c-gallery-soon">{refinement.soon}</small></span></button></div></div>
+        <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-artists-tools"><button id="artist-gallery-preview" type="button" className="c-gallery-preview" aria-disabled="true" aria-describedby="c-gallery-soon"><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><span>{refinement.gallery}<small id="c-gallery-soon">{refinement.soon}</small></span></button></div></div>
         <p className="c-lineup-intro" data-reveal>{lineupIntroLabels[language]}</p>
         <div className="c-carousel-stage">
         <button className="c-rail-edge c-rail-prev" type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => carousel.slide(-1)}><ArrowIcon direction="left" /></button>
@@ -2369,7 +2382,7 @@ function ModernApp() {
       <ModernFindSection key={language} copy={findCopies[language]} language={language} />
 
       <section id="location" className="c-location" aria-labelledby="c-location-title">
-        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/contact-stadium.jpg")} alt="" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p></div></div>
+        <div className="c-location-panorama"><img className="c-parallax" src={assetPath("/assets/backgrounds/fira-cornella.jpg")} alt="Fira Cornellà" loading="lazy" /><div className="c-location-shade" /><div className="c-location-copy" data-reveal><h2 id="c-location-title">{date.days}<span>{date.month} {date.year}</span></h2><p className="c-location-name">{date.city}</p></div></div>
         <div className="c-venue"><div className="c-venue-info"><h3>Fira Cornellà</h3><p>Cornellà de Llobregat<br />Barcelona</p><a className="c-directions" href="https://www.google.com/maps/search/?api=1&query=Fira+Cornell%C3%A0" target="_blank" rel="noopener noreferrer"><span>{refinement.directions}</span><ArrowIcon direction="up-right" /></a></div><div className="c-map"><GoogleMap language={language} title={copy.mapTitle} /></div></div>
       </section>
 
@@ -2388,7 +2401,7 @@ function ModernApp() {
         </form>
       </section>
       <section id="sponsors" className="c-sponsors c-section" aria-labelledby="c-sponsors-title">
-        <div className="c-sponsor-heading" data-reveal><h2 id="c-sponsors-title">{ui.sponsors}</h2><span aria-hidden="true">2027</span></div>
+        <div className="c-sponsor-heading" data-reveal><h2 id="c-sponsors-title">{ui.sponsors}</h2><button className="c-sponsor-invite" type="button" onClick={openContact}><span>{sponsorInvitationLabels[language]}</span><ArrowIcon direction="up-right" /></button></div>
         <a className="c-sponsor-brand" href="https://wowmycity.com/" target="_blank" rel="noopener noreferrer" aria-label="Wow My City" data-reveal>
           <img src={assetPath("/assets/sponsors/wowmycity-white.svg")} width="320" height="86" alt="Wow My City" loading="lazy" /><ArrowIcon direction="up-right" />
         </a>
@@ -2402,6 +2415,7 @@ function ModernApp() {
         <li><a href="https://commons.wikimedia.org/wiki/File:Crowds_going_to_George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
         <li><a href="https://commons.wikimedia.org/wiki/File:Country_Music_Festival_1,_Mirande,_Gers,_France.jpg" target="_blank" rel="noreferrer">Jamiecat · CC BY 2.0</a></li>
         <li><a href="https://commons.wikimedia.org/wiki/File:George_Strait_Country_Music_Festival_in_Tampa_Florida.jpg" target="_blank" rel="noreferrer">ckramer · CC BY 2.0</a></li>
+        <li><a href="https://commons.wikimedia.org/wiki/File:Cornell%C3%A1_de_Llobregat_-_Fira_de_Cornell%C3%A1_1.jpg" target="_blank" rel="noreferrer">Zarateman · CC0 · Fira de Cornellà</a></li>
       </ul></details>
     </footer>
     <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} language={language} nameLabel={copy.formName} emailLabel={copy.formEmail} />
