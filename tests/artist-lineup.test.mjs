@@ -24,10 +24,19 @@ test('the announced choreographers keep the client-approved order', () => {
   ]);
 });
 
-test('Silvia Denise and Virginie Barjaud use real supplied photos', async () => {
-  assert.match(main, /Silvia Denise[\s\S]*?artist-silvia-denise\.jpg/);
-  assert.match(main, /Virginie Barjaud[\s\S]*?artist-virginie-barjaud\.jpg/);
-  for (const filename of ['artist-silvia-denise.jpg', 'artist-virginie-barjaud.jpg']) {
+test('every newly announced artist uses a real supplied photo', async () => {
+  const suppliedPhotos = [
+    ['Laura Jones', 'artist-laura-jones.jpg'],
+    ['Silvia Denise', 'artist-silvia-denise.jpg'],
+    ['Virginie Barjaud', 'artist-virginie-barjaud.jpg'],
+    ['Silvia Calsina', 'artist-silvia-calsina.jpg'],
+    ['Neus Lloveras', 'artist-neus-lloveras.jpg'],
+    ['DJ Lu', 'artist-dj-lu.jpg'],
+    ['Antoine', 'artist-antoine.jpg']
+  ];
+
+  for (const [artist, filename] of suppliedPhotos) {
+    assert.ok(main.includes(`"${artist}": "/assets/${filename}"`), `${artist} must use ${filename}`);
     const path = `${root}public/assets/${filename}`;
     await access(path);
     assert.ok((await stat(path)).size > 10_000, `${filename} must not be an empty placeholder`);

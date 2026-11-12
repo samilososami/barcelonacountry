@@ -1261,6 +1261,16 @@ const getInitialLanguage = (): LanguageKey => {
   return "es";
 };
 
+const announcedArtistImages: Readonly<Record<string, string>> = {
+  "Laura Jones": "/assets/artist-laura-jones.jpg",
+  "Silvia Denise": "/assets/artist-silvia-denise.jpg",
+  "Virginie Barjaud": "/assets/artist-virginie-barjaud.jpg",
+  "Silvia Calsina": "/assets/artist-silvia-calsina.jpg",
+  "Neus Lloveras": "/assets/artist-neus-lloveras.jpg",
+  "DJ Lu": "/assets/artist-dj-lu.jpg",
+  "Antoine": "/assets/artist-antoine.jpg"
+};
+
 const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
   const artistCopy: Pick<Artist, "name" | "role" | "body">[] = [
     ...copy.artists.slice(0, 4),
@@ -1274,15 +1284,7 @@ const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
     ...artist,
     x: 0,
     y: 0,
-    image: artist.name === "Silvia Denise"
-      ? "/assets/artist-silvia-denise.jpg"
-      : artist.name === "Virginie Barjaud"
-        ? "/assets/artist-virginie-barjaud.jpg"
-      : artist.name === "Silvia Calsina"
-        ? "/assets/artist-silvia-calsina.jpg"
-        : artist.name === "Neus Lloveras"
-          ? "/assets/artist-neus-lloveras.jpg"
-          : undefined
+    image: announcedArtistImages[artist.name]
   }));
   const artistsByName = new Map([...currentArtists, ...announcedArtists].map(artist => [artist.name, artist]));
 
