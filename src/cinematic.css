@@ -72,12 +72,6 @@ body { background: #10100f; }
 .c-stats > div { display: flex; align-items: center; gap: 22px; }
 .c-stats strong { font: 400 clamp(64px,8vw,130px)/1 var(--serif); letter-spacing: -.055em; white-space: nowrap; }
 .c-stats span { font: italic clamp(19px,2.1vw,34px)/1.1 var(--serif); white-space: pre-line; }
-.c-stat-dancers { position: relative; }
-.c-stat-gallery { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; min-width: 76px; min-height: 50px; margin-left: auto; padding: 9px 13px; border: 1px solid #10100f55!important; transition: background .25s,color .25s,transform .25s; }
-.c-stat-gallery b { font: 400 28px/1 var(--serif); }
-.c-stat-gallery img { width: 25px; height: 25px; object-fit: contain; filter: brightness(0); }
-.c-stat-gallery:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
-.c-stat-gallery:hover img { filter: brightness(0) invert(1); }
 .c-artists { padding-right: 0; background: #10100f; }
 .c-artists .c-section-head { padding-right: var(--gutter); }
 .c-artists h2 { max-width: 800px; }
@@ -111,8 +105,15 @@ body { background: #10100f; }
 .c-portrait .c-placeholder-mark { position: relative; z-index: 1; width: 43%; height: auto; object-fit: contain; opacity: .62; filter: saturate(.7); }
 .c-portrait:hover .c-placeholder-mark { transform: scale(1.035); }
 .is-photo-pending .c-artist-role { color: #d2d0c7; }
+.c-artist-heading { display: flex; align-items: flex-end; gap: 16px; }
+.c-artist-heading > div { min-width: 0; flex: 1; }
 .c-artist-role { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; line-height: 1.5; margin-top: 22px!important; color: #bab9b2; }
 .c-artist h3 { font-size: clamp(32px,2.8vw,46px); margin: 9px 0 20px; }
+.c-artist-gallery-button { position: relative; flex: 0 0 52px; width: 52px; height: 52px; margin-bottom: 20px; display: grid; place-items: center; border: 1px solid #ffffff42!important; background: #ffffff08!important; transition: border-color .25s,background .25s,transform .25s; }
+.c-artist-gallery-button img { width: 25px; height: 25px; object-fit: contain; filter: brightness(0) invert(1); }
+.c-artist-gallery-button small { position: absolute; top: -7px; right: -7px; display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 9px/1 var(--sans); }
+.c-artist-gallery-button:hover { border-color: #fff!important; background: var(--accent)!important; transform: translateY(-2px); }
+.c-artist-gallery-button:focus-visible { outline: 2px solid #ff5b55; outline-offset: 4px; }
 .c-biography { border-top: 1px solid #ffffff35; }
 .c-biography summary { padding: 17px 0; display: flex; justify-content: space-between; align-items: center; list-style: none; cursor: pointer; font-size: 13px; }
 .c-biography p { color: #c6c5bc; font-size: 14px; line-height: 1.85; padding-bottom: 20px; }
@@ -262,9 +263,6 @@ body { background: #10100f; }
   .c-stats strong { font-size: clamp(44px,12.5vw,80px); }
   .c-stats span { display: block; margin-top: 10px; font-size: clamp(17px,4.3vw,24px); line-height: 1.15; }
   .c-stat-dancers { padding-bottom: 48px; }
-  .c-stat-gallery { position: absolute; left: 0; bottom: 0; min-width: 66px; min-height: 38px; margin: 0; padding: 6px 9px; gap: 6px; }
-  .c-stat-gallery b { font-size: 22px; }
-  .c-stat-gallery img { width: 21px; height: 21px; }
   .c-section-head { display: block; margin-bottom: 35px; }
   .c-section-head h2 { font-size: clamp(53px,12.8vw,85px); max-width: 540px; }
   .c-section-note { margin-top: 25px!important; font-size: 13px; max-width: 330px; }
@@ -537,11 +535,6 @@ body { background: #10100f; }
 @keyframes c-counter-flip { from { transform: rotateX(-65deg) translateY(-4px); opacity: .3; } to { transform: rotateX(0) translateY(0); opacity: 1; } }
 .cinematic[data-motion=light] .c-countdown-number { animation: c-digit-in .25s ease both; }
 .c-artists .c-section-head { align-items: center; }
-.c-artists-tools { display: flex; justify-content: flex-end; align-items: center; }
-.c-gallery-preview { display: inline-flex; align-items: center; gap: 14px; padding: 15px 18px; border: 1px solid #ffffff45!important; text-align: left; cursor: default!important; }
-.c-gallery-preview img { width: 30px; height: 30px; object-fit: contain; }
-.c-gallery-preview > span { font-size: 14px; font-weight: 600; }
-.c-gallery-preview small { display: block; margin-top: 5px; color: #aaa99f; font-size: 10px; font-weight: 400; }
 .c-carousel-stage { position: relative; margin-left: calc(-1 * var(--gutter)); --portrait-size: clamp(250px,24vw,390px); }
 .c-carousel-stage .c-artists-rail { padding-left: var(--gutter); scroll-padding-left: var(--gutter); }
 .c-rail-edge { position: absolute; z-index: 3; top: calc(var(--portrait-size) / .79 / 2); transform: translateY(-50%); display: grid; place-items: center; width: 54px; height: 72px; background: #f2f1ebed!important; color: #10100f!important; border: 1px solid #ffffff75!important; box-shadow: 0 5px 20px #0003; transition: background .2s,opacity .2s; }
@@ -587,11 +580,6 @@ body { background: #10100f; }
   .c-countdown-window { height: 59px; }
   .c-countdown-window strong { font-size: 28px; }
   .c-countdown-unit small { margin-top: 8px; font-size: 8px; letter-spacing: .04em; }
-  .c-artists-tools { margin-left: auto; }
-  .c-gallery-preview { padding: 12px; gap: 10px; }
-  .c-gallery-preview img { width: 26px; height: 26px; }
-  .c-gallery-preview > span { font-size: 12px; }
-  .c-gallery-preview small { font-size: 9px; }
   .c-carousel-stage { --portrait-size: 76vw; }
   .c-rail-edge { width: 40px; height: 54px; }
   .c-rail-prev { left: 5px; } .c-rail-next { right: 5px; }
@@ -601,4 +589,58 @@ body { background: #10100f; }
   .c-experience-photo { height: clamp(210px,64vw,360px); }
   .c-mobile-reveal { display: grid; position: absolute; inset: 0; place-items: center; z-index: 5; pointer-events: none; visibility: hidden; opacity: 0; }
   .c-mobile-reveal img { width: 110px; height: 110px; object-fit: contain; }
+}
+
+/* Artist galleries: one focused lightbox per artist, loaded only on demand. */
+.c-artist-gallery-dialog { width: 100vw; max-width: none; height: 100svh; max-height: none; margin: 0; padding: 0; border: 0; background: #090908; color: var(--paper); overflow: hidden; overscroll-behavior: contain; }
+.c-artist-gallery-dialog::backdrop { background: #000e; backdrop-filter: blur(10px); }
+.c-artist-gallery-shell { height: 100svh; display: grid; grid-template-rows: auto minmax(0,1fr) auto; background: radial-gradient(circle at 50% 36%,#20201c 0,#0d0d0c 52%,#070706 100%); }
+.c-artist-gallery-header { min-height: 120px; display: grid; grid-template-columns: 1fr auto 52px; align-items: center; gap: clamp(24px,4vw,72px); padding: 18px clamp(22px,4vw,68px); border-bottom: 1px solid #ffffff24; }
+.c-artist-gallery-header > div > p { margin: 0 0 5px; color: #9d9c94; font-size: 9px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+.c-artist-gallery-header h2 { margin: 0; font: 400 clamp(37px,4.3vw,70px)/.95 var(--serif); letter-spacing: -.035em; }
+.c-artist-gallery-count { display: flex; align-items: baseline; gap: 9px; margin: 0; font-size: 12px; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.c-artist-gallery-count span:first-child { color: #fff; font-size: 22px; }
+.c-artist-gallery-count i { color: var(--accent); font-style: normal; }
+.c-artist-gallery-count span:last-child { color: #8f8e87; }
+.c-artist-gallery-close { width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid #ffffff42!important; background: #ffffff08!important; transition: background .2s,border-color .2s,transform .2s; }
+.c-artist-gallery-close svg { width: 24px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.c-artist-gallery-close:hover { background: var(--accent)!important; border-color: var(--accent)!important; transform: rotate(3deg); }
+.c-artist-gallery-close:focus-visible,.c-artist-gallery-arrow:focus-visible,.c-artist-gallery-thumbnails button:focus-visible { outline: 2px solid #ff5b55; outline-offset: 3px; }
+.c-artist-gallery-stage { position: relative; min-height: 0; display: grid; place-items: center; padding: 18px clamp(80px,8vw,140px); }
+.c-artist-gallery-stage figure { position: relative; width: 100%; height: 100%; margin: 0; overflow: hidden; }
+.c-artist-gallery-stage figure > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; box-shadow: 0 22px 70px #0008; animation: c-gallery-image-in .38s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes c-gallery-image-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+.c-artist-gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 58px; height: 74px; display: grid; place-items: center; border: 1px solid #ffffff4a!important; background: #090909b8!important; backdrop-filter: blur(8px); transition: background .2s,border-color .2s; }
+.c-artist-gallery-arrow svg { width: 27px; height: 27px; }
+.c-artist-gallery-arrow.is-previous { left: clamp(18px,3vw,48px); }
+.c-artist-gallery-arrow.is-next { right: clamp(18px,3vw,48px); }
+.c-artist-gallery-arrow:hover { background: var(--accent)!important; border-color: var(--accent)!important; }
+.c-artist-gallery-thumbnails { display: flex; justify-content: center; gap: 10px; min-height: 112px; padding: 12px clamp(22px,4vw,68px) 18px; border-top: 1px solid #ffffff24; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+.c-artist-gallery-thumbnails::-webkit-scrollbar { display: none; }
+.c-artist-gallery-thumbnails button { position: relative; flex: 0 0 72px; width: 72px; height: 82px; padding: 0; overflow: hidden; border: 1px solid #ffffff2e!important; background: #171715!important; opacity: .52; transition: opacity .2s,border-color .2s,transform .2s; }
+.c-artist-gallery-thumbnails button.is-active { opacity: 1; border-color: var(--accent)!important; transform: translateY(-3px); }
+.c-artist-gallery-thumbnails img { width: 100%; height: 100%; object-fit: cover; }
+.c-artist-gallery-thumbnails span { position: absolute; left: 6px; bottom: 5px; color: #fff; font-size: 8px; text-shadow: 0 1px 4px #000; }
+
+@media(max-width:760px) {
+  .c-artist-heading { gap: 11px; }
+  .c-artist-gallery-button { flex-basis: 46px; width: 46px; height: 46px; margin-bottom: 19px; }
+  .c-artist-gallery-button img { width: 22px; height: 22px; }
+  .c-artist-gallery-header { min-height: 92px; grid-template-columns: minmax(0,1fr) auto 44px; gap: 12px; padding: 13px 14px; }
+  .c-artist-gallery-header > div > p { display: none; }
+  .c-artist-gallery-header h2 { font-size: clamp(31px,10vw,45px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .c-artist-gallery-count { gap: 5px; font-size: 10px; }
+  .c-artist-gallery-count span:first-child { font-size: 17px; }
+  .c-artist-gallery-close { width: 44px; height: 44px; }
+  .c-artist-gallery-stage { padding: 10px 0; }
+  .c-artist-gallery-stage figure > img { max-height: 100%; }
+  .c-artist-gallery-arrow { width: 43px; height: 58px; }
+  .c-artist-gallery-arrow.is-previous { left: 8px; }
+  .c-artist-gallery-arrow.is-next { right: 8px; }
+  .c-artist-gallery-thumbnails { justify-content: flex-start; min-height: 102px; padding: 11px 14px 14px; }
+  .c-artist-gallery-thumbnails button { flex-basis: 65px; width: 65px; height: 74px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .c-artist-gallery-stage figure > img { animation: none; }
 }

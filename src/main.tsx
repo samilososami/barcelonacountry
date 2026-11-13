@@ -12,6 +12,7 @@ import { assetPath, sitePath, currentSitePath, siteCopy } from "./lib/site";
 import { useFestivalMotion } from "./useFestivalMotion";
 import { FestivalCountdown } from "./components/FestivalCountdown";
 import { ContactDialog } from "./components/ContactDialog";
+import { ArtistGalleryDialog } from "./components/ArtistGalleryDialog";
 import { refinementCopy } from "./lib/refinement-copy";
 import { useArtistCarousel } from "./useArtistCarousel";
 
@@ -1271,6 +1272,85 @@ const announcedArtistImages: Readonly<Record<string, string>> = {
   "Antoine": "/assets/artist-antoine.jpg"
 };
 
+const artistGalleryImages: Readonly<Record<string, readonly string[]>> = {
+  "Pol F. Ryan": ["/assets/artist-pol.png"],
+  "Algaly Fofana": [
+    "/assets/artist-algaly-new.webp",
+    "/assets/artists/algaly-fofana/01.webp",
+    "/assets/artists/algaly-fofana/02.webp",
+    "/assets/artists/algaly-fofana/03.webp",
+    "/assets/artists/algaly-fofana/04.webp"
+  ],
+  "David Villellas": ["/assets/artist-david.png"],
+  "Sofía Balzano": ["/assets/artist-sofia.jpg"],
+  "Montse Moscardó": ["/assets/artist-montse.png"],
+  "Laura Jones": [
+    "/assets/artist-laura-jones.jpg",
+    "/assets/artists/laura-jones/01.webp",
+    "/assets/artists/laura-jones/02.webp",
+    "/assets/artists/laura-jones/03.webp",
+    "/assets/artists/laura-jones/04.webp"
+  ],
+  "Silvia Denise": ["/assets/artist-silvia-denise.jpg"],
+  "Virginie Barjaud": [
+    "/assets/artist-virginie-barjaud.jpg",
+    "/assets/artists/virginie-barjaud/01.webp",
+    "/assets/artists/virginie-barjaud/02.webp",
+    "/assets/artists/virginie-barjaud/03.webp",
+    "/assets/artists/virginie-barjaud/04.webp"
+  ],
+  "Silvia Calsina": [
+    "/assets/artist-silvia-calsina.jpg",
+    "/assets/artists/silvia-calsina/01.webp",
+    "/assets/artists/silvia-calsina/02.webp",
+    "/assets/artists/silvia-calsina/03.webp",
+    "/assets/artists/silvia-calsina/04.webp"
+  ],
+  "Neus Lloveras": [
+    "/assets/artist-neus-lloveras.jpg",
+    "/assets/artists/neus-lloveras/01.webp",
+    "/assets/artists/neus-lloveras/02.webp",
+    "/assets/artists/neus-lloveras/03.webp",
+    "/assets/artists/neus-lloveras/04.webp"
+  ],
+  "Johnny": [
+    "/assets/artist-johnny-portrait-original.jpg",
+    "/assets/artists/johnny/01.webp",
+    "/assets/artists/johnny/02.webp",
+    "/assets/artists/johnny/03.webp",
+    "/assets/artists/johnny/04.webp"
+  ],
+  "David Prestor": ["/assets/artist-david-prestor.jpg"],
+  "Jonathan Jones": [
+    "/assets/artist-jonathan-closeup.webp",
+    "/assets/artists/jonathan-jones/01.webp",
+    "/assets/artists/jonathan-jones/02.webp",
+    "/assets/artists/jonathan-jones/03.webp",
+    "/assets/artists/jonathan-jones/04.webp"
+  ],
+  "Steve Frapolli": [
+    "/assets/artist-steve.jpg",
+    "/assets/artists/steve-frapolli/01.webp",
+    "/assets/artists/steve-frapolli/02.webp",
+    "/assets/artists/steve-frapolli/03.webp",
+    "/assets/artists/steve-frapolli/04.webp"
+  ],
+  "DJ Lu": [
+    "/assets/artist-dj-lu.jpg",
+    "/assets/artists/dj-lu/01.webp",
+    "/assets/artists/dj-lu/02.webp",
+    "/assets/artists/dj-lu/03.webp",
+    "/assets/artists/dj-lu/04.webp"
+  ],
+  "Antoine": [
+    "/assets/artist-antoine.jpg",
+    "/assets/artists/antoine/01.webp",
+    "/assets/artists/antoine/02.webp",
+    "/assets/artists/antoine/03.webp",
+    "/assets/artists/antoine/04.webp"
+  ]
+};
+
 const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
   const artistCopy: Pick<Artist, "name" | "role" | "body">[] = [
     ...copy.artists.slice(0, 4),
@@ -2220,6 +2300,7 @@ function ModernApp() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [activeGalleryArtist, setActiveGalleryArtist] = useState<string | null>(null);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [railState, setRailState] = useState({ first: 1, start: true, end: false });
@@ -2236,6 +2317,9 @@ function ModernApp() {
   const mystery = mysteryArtistCopies[language];
   const artists = createArtists(copy, language);
   const artistCardTotal = artists.length;
+  const activeGalleryImages = activeGalleryArtist
+    ? artistGalleryImages[activeGalleryArtist].map(image => assetPath(image))
+    : [];
   const sentenceEnd = copy.heroCopy.indexOf(". ");
 
   useEffect(() => { document.documentElement.lang = language; }, [language]);
@@ -2340,12 +2424,12 @@ function ModernApp() {
         <div className="c-stats" data-reveal>
           <div><strong>3</strong><span>{copy.days.toLocaleLowerCase(language)}</span></div>
           <div><strong>{festivalStatValues.artists}</strong><span>{copy.internationalArtists.toLocaleLowerCase(language)}</span></div>
-          <div className="c-stat-dancers"><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers.toLocaleLowerCase(language)}</span><button className="c-stat-gallery" type="button" title={`${refinement.gallery} · ${refinement.soon}`} aria-label={`${refinement.gallery}. ${refinement.soon}`} onClick={() => moveTo("artists")}><b aria-hidden="true">+</b><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /></button></div>
+          <div className="c-stat-dancers"><strong>{festivalStatValues.dancers}</strong><span>{copy.expectedDancers.toLocaleLowerCase(language)}</span></div>
         </div>
       </section>
 
       <section id="artists" className="c-artists c-section" aria-labelledby="c-artists-title">
-        <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div><div className="c-artists-tools"><button id="artist-gallery-preview" type="button" className="c-gallery-preview" aria-disabled="true" aria-describedby="c-gallery-soon"><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><span>{refinement.gallery}<small id="c-gallery-soon">{refinement.soon}</small></span></button></div></div>
+        <div className="c-section-head" data-reveal><div><h2 id="c-artists-title">{copy.artistsTitle.split(" ")[0]} <em>{copy.artistsTitle.split(" ").slice(1).join(" ")}</em></h2></div></div>
         <p className="c-lineup-intro" data-reveal>{lineupIntroLabels[language]}</p>
         <div className="c-carousel-stage">
         <button className="c-rail-edge c-rail-prev" type="button" disabled={railState.start} aria-label={ui.previous} onClick={() => carousel.slide(-1)}><ArrowIcon direction="left" /></button>
@@ -2368,11 +2452,12 @@ function ModernApp() {
               <span>{String(index + 1).padStart(2, "0")}</span>
               {artist.instagram && <ArrowIcon direction="up-right" />}</>;
 
+            const galleryImages = artistGalleryImages[artist.name];
             return <article className={`c-artist ${image ? "" : "is-photo-pending"}`} key={artist.name}>
               {artist.instagram
                 ? <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>{portrait}</a>
                 : <figure className="c-portrait">{portrait}</figure>}
-              <p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3>
+              <div className="c-artist-heading"><div><p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3></div><button type="button" className="c-artist-gallery-button" aria-label={`${refinement.gallery}: ${artist.name}`} onClick={() => setActiveGalleryArtist(artist.name)}><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><small>{galleryImages.length}</small></button></div>
               {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
             </article>;
           })}
@@ -2422,6 +2507,7 @@ function ModernApp() {
       </ul></details>
     </footer>
     <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} language={language} nameLabel={copy.formName} emailLabel={copy.formEmail} />
+    {activeGalleryArtist ? <ArtistGalleryDialog artistName={activeGalleryArtist} images={activeGalleryImages} language={language} onClose={() => setActiveGalleryArtist(null)} /> : null}
   </div></CookieConsentProvider>;
 }
 

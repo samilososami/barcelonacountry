@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, type FormEvent } from 'react';
 import type { NewsLanguage } from '../newsletters/copy';
 import { refinementCopy } from '../lib/refinement-copy';
 import { ArrowIcon } from './ArrowIcon';
@@ -7,11 +7,9 @@ export function ContactDialog({ open, onClose, language, nameLabel, emailLabel }
   open: boolean; onClose: () => void; language: NewsLanguage; nameLabel: string; emailLabel: string;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const [feedback, setFeedback] = useState(false);
   const copy = refinementCopy[language];
   useEffect(() => {
     if (!open) { dialog.current?.close(); return; }
-    setFeedback(false);
     const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     dialog.current?.showModal();
@@ -19,8 +17,6 @@ export function ContactDialog({ open, onClose, language, nameLabel, emailLabel }
   }, [open]);
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // The client has not approved a recipient yet, so this remains frontend-only.
-    setFeedback(true);
   }
   return <dialog ref={dialog} className="c-contact-dialog" aria-labelledby="c-inquiry-title" data-lenis-prevent onCancel={onClose} onClick={event => { if (event.target === event.currentTarget) onClose(); }}>
     <div className="c-inquiry">
@@ -30,9 +26,7 @@ export function ContactDialog({ open, onClose, language, nameLabel, emailLabel }
         <label htmlFor="inquiry-name">{nameLabel}<input id="inquiry-name" name="name" autoComplete="name" required maxLength={160} /></label>
         <label htmlFor="inquiry-email">{emailLabel}<input id="inquiry-email" name="email" type="email" autoComplete="email" required maxLength={320} /></label>
         <label htmlFor="inquiry-message">{copy.message}<textarea id="inquiry-message" name="message" rows={4} required maxLength={5000} /></label>
-        <p className="c-preview-note" id="contact-preview-note">{copy.preview}</p>
-        <button type="submit" className="c-submit" aria-describedby="contact-preview-note"><span>{copy.send}</span><ArrowIcon /></button>
-        {feedback && <p className="c-form-feedback" role="status">{copy.pending}</p>}
+        <button type="submit" className="c-submit"><span>{copy.send}</span><ArrowIcon /></button>
       </form>
     </div>
   </dialog>;
