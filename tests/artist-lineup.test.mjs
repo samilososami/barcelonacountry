@@ -10,17 +10,20 @@ test('the announced choreographers keep the client-approved order', () => {
   const source = main.match(/const artistDisplayOrder = \[([\s\S]*?)\] as const;/)?.[1];
   assert.ok(source, 'artistDisplayOrder must remain explicit');
   const names = [...source.matchAll(/"([^"]+)"/g)].map(match => match[1]);
-  assert.deepEqual(names.slice(0, 10), [
+  assert.deepEqual(names.slice(0, 13), [
     'Pol F. Ryan',
     'Algaly Fofana',
     'David Villellas',
     'Sofía Balzano',
     'Montse Moscardó',
+    'Johnny',
+    'David Prestor',
     'Laura Jones',
     'Silvia Denise',
     'Virginie Barjaud',
     'Silvia Calsina',
-    'Neus Lloveras'
+    'Neus Lloveras',
+    'Edu Roldos'
   ]);
 });
 
@@ -31,6 +34,7 @@ test('every newly announced artist uses a real supplied photo', async () => {
     ['Virginie Barjaud', 'artist-virginie-barjaud.jpg'],
     ['Silvia Calsina', 'artist-silvia-calsina.jpg'],
     ['Neus Lloveras', 'artist-neus-lloveras.jpg'],
+    ['Edu Roldos', 'artist-edu-roldos.webp'],
     ['DJ Lu', 'artist-dj-lu.jpg'],
     ['Antoine', 'artist-antoine.jpg']
   ];
@@ -46,4 +50,8 @@ test('every newly announced artist uses a real supplied photo', async () => {
 test('the question-mark discovery card is not rendered or counted', () => {
   assert.doesNotMatch(main, /<article className="c-artist c-mystery"/);
   assert.match(main, /const artistCardTotal = artists\.length;/);
+});
+
+test('the published artist total follows the complete lineup', () => {
+  assert.match(main, /const festivalStatValues = \{ artists: "\+17", dancers: "\+3000" \};/);
 });

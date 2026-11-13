@@ -31,8 +31,16 @@ test('every artist has an individual gallery backed by real local assets', async
 
 test('gallery access lives on each artist card and the old coming-soon controls are gone', () => {
   assert.match(main, /className="c-artist-gallery-button"/);
+  assert.doesNotMatch(main, /<small>\{galleryImages\.length\}<\/small>/);
   assert.doesNotMatch(main, /artist-gallery-preview|c-gallery-preview|c-stat-gallery/);
   assert.doesNotMatch(main, /refinement\.soon/);
+});
+
+test('David Prestor gallery contains every photo supplied in the new Drive folder', () => {
+  const block = main.match(/"David Prestor": \[([\s\S]*?)\n  \],/)?.[1];
+  assert.ok(block, 'David Prestor must keep an explicit gallery');
+  const photos = [...block.matchAll(/"(\/assets\/[^\"]+)"/g)].map(match => match[1]);
+  assert.equal(photos.length, 10, 'official portrait plus nine Drive photos');
 });
 
 test('the gallery dialog supports close, previous, next and thumbnail selection', () => {

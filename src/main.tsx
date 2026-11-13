@@ -212,9 +212,18 @@ const davidPrestorRoleLabels: Record<LanguageKey, string> = {
   it: "Coreografo internazionale"
 };
 
+const eduRoldosRoleLabels: Record<LanguageKey, string> = {
+  de: "Choreograf",
+  es: "Coreógrafo",
+  ca: "Coreògraf",
+  fr: "Chorégraphe",
+  en: "Choreographer",
+  it: "Coreografo"
+};
+
 const SHOW_TICKET_SALES = false;
 
-const festivalStatValues = { artists: "+16", dancers: "+3000" };
+const festivalStatValues = { artists: "+17", dancers: "+3000" };
 
 const lineupIntroLabels: Record<LanguageKey, string> = {
   de: "Europas führende Namen im Country Line Dance, vereint in Barcelona.",
@@ -1029,6 +1038,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.de,
       body: "Neus Lloveras ist eine Schlüsselfigur des Country Line Dance und eine der Pionierinnen des Catalan Style. Als Trainerin und Choreografin zeichnet sie sich durch Energie, technische Präzision und dynamische Choreografien aus, die die authentische Westernkultur auf Tanzflächen und internationalen Festivals voranbringen."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.de },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ],
@@ -1054,6 +1064,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.es,
       body: "Neus Lloveras es una referente fundamental del Country Line Dance y una de las pioneras del Catalan Style. Como instructora y coreógrafa, destaca por su energía, precisión técnica y por crear dinámicas coreografías que impulsan la auténtica cultura western en pistas y festivales internacionales."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.es },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ],
@@ -1079,6 +1090,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.ca,
       body: "Neus Lloveras és una referent fonamental del Country Line Dance i una de les pioneres del Catalan Style. Com a instructora i coreògrafa, destaca per la seva energia, precisió tècnica i per crear coreografies dinàmiques que impulsen l’autèntica cultura western en pistes i festivals internacionals."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.ca },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ],
@@ -1104,6 +1116,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.fr,
       body: "Neus Lloveras est une référence fondamentale du Country Line Dance et l’une des pionnières du Catalan Style. Instructrice et chorégraphe, elle se distingue par son énergie, sa précision technique et ses chorégraphies dynamiques qui font rayonner l’authentique culture western sur les pistes et dans les festivals internationaux."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.fr },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ],
@@ -1129,6 +1142,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.en,
       body: "Neus Lloveras is a major figure in Country Line Dance and one of the pioneers of Catalan Style. As an instructor and choreographer, she stands out for her energy, technical precision and dynamic choreographies that advance authentic western culture on dance floors and at international festivals."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.en },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ],
@@ -1154,6 +1168,7 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
       role: choreographerInstructorLabels.it,
       body: "Neus Lloveras è un riferimento fondamentale del Country Line Dance e una delle pioniere del Catalan Style. Come istruttrice e coreografa si distingue per energia, precisione tecnica e coreografie dinamiche che valorizzano l’autentica cultura western sulle piste e nei festival internazionali."
     },
+    { name: "Edu Roldos", role: eduRoldosRoleLabels.it },
     { name: "DJ Lu", role: "DJ" },
     { name: "Antoine", role: "DJ" }
   ]
@@ -1236,13 +1251,14 @@ const artistDisplayOrder = [
   "David Villellas",
   "Sofía Balzano",
   "Montse Moscardó",
+  "Johnny",
+  "David Prestor",
   "Laura Jones",
   "Silvia Denise",
   "Virginie Barjaud",
   "Silvia Calsina",
   "Neus Lloveras",
-  "Johnny",
-  "David Prestor",
+  "Edu Roldos",
   "Jonathan Jones",
   "Steve Frapolli",
   "DJ Lu",
@@ -1268,6 +1284,7 @@ const announcedArtistImages: Readonly<Record<string, string>> = {
   "Virginie Barjaud": "/assets/artist-virginie-barjaud.jpg",
   "Silvia Calsina": "/assets/artist-silvia-calsina.jpg",
   "Neus Lloveras": "/assets/artist-neus-lloveras.jpg",
+  "Edu Roldos": "/assets/artist-edu-roldos.webp",
   "DJ Lu": "/assets/artist-dj-lu.jpg",
   "Antoine": "/assets/artist-antoine.jpg"
 };
@@ -1320,7 +1337,19 @@ const artistGalleryImages: Readonly<Record<string, readonly string[]>> = {
     "/assets/artists/johnny/03.webp",
     "/assets/artists/johnny/04.webp"
   ],
-  "David Prestor": ["/assets/artist-david-prestor.jpg"],
+  "David Prestor": [
+    "/assets/artist-david-prestor.jpg",
+    "/assets/artists/david-prestor/01.webp",
+    "/assets/artists/david-prestor/02.webp",
+    "/assets/artists/david-prestor/03.webp",
+    "/assets/artists/david-prestor/04.webp",
+    "/assets/artists/david-prestor/05.webp",
+    "/assets/artists/david-prestor/06.webp",
+    "/assets/artists/david-prestor/07.webp",
+    "/assets/artists/david-prestor/08.webp",
+    "/assets/artists/david-prestor/09.webp"
+  ],
+  "Edu Roldos": ["/assets/artist-edu-roldos.webp"],
   "Jonathan Jones": [
     "/assets/artist-jonathan-closeup.webp",
     "/assets/artists/jonathan-jones/01.webp",
@@ -2452,12 +2481,11 @@ function ModernApp() {
               <span>{String(index + 1).padStart(2, "0")}</span>
               {artist.instagram && <ArrowIcon direction="up-right" />}</>;
 
-            const galleryImages = artistGalleryImages[artist.name];
             return <article className={`c-artist ${image ? "" : "is-photo-pending"}`} key={artist.name}>
               {artist.instagram
                 ? <a className="c-portrait" href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram: ${artist.name}`}>{portrait}</a>
                 : <figure className="c-portrait">{portrait}</figure>}
-              <div className="c-artist-heading"><div><p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3></div><button type="button" className="c-artist-gallery-button" aria-label={`${refinement.gallery}: ${artist.name}`} onClick={() => setActiveGalleryArtist(artist.name)}><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /><small>{galleryImages.length}</small></button></div>
+              <div className="c-artist-heading"><div><p className="c-artist-role">{artist.role}</p><h3>{artist.name}</h3></div><button type="button" className="c-artist-gallery-button" aria-label={`${refinement.gallery}: ${artist.name}`} onClick={() => setActiveGalleryArtist(artist.name)}><img src={assetPath("/assets/gallery-icon.png")} alt="" width="28" height="28" /></button></div>
               {artist.body && <details className="c-biography"><summary>{ui.bio}<ArrowIcon direction="down" /></summary><p>{artist.body}</p></details>}
             </article>;
           })}

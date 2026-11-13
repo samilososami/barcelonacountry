@@ -111,7 +111,6 @@ body { background: #10100f; }
 .c-artist h3 { font-size: clamp(32px,2.8vw,46px); margin: 9px 0 20px; }
 .c-artist-gallery-button { position: relative; flex: 0 0 52px; width: 52px; height: 52px; margin-bottom: 20px; display: grid; place-items: center; border: 1px solid #ffffff42!important; background: #ffffff08!important; transition: border-color .25s,background .25s,transform .25s; }
 .c-artist-gallery-button img { width: 25px; height: 25px; object-fit: contain; filter: brightness(0) invert(1); }
-.c-artist-gallery-button small { position: absolute; top: -7px; right: -7px; display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 9px/1 var(--sans); }
 .c-artist-gallery-button:hover { border-color: #fff!important; background: var(--accent)!important; transform: translateY(-2px); }
 .c-artist-gallery-button:focus-visible { outline: 2px solid #ff5b55; outline-offset: 4px; }
 .c-biography { border-top: 1px solid #ffffff35; }
