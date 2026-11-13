@@ -1017,7 +1017,11 @@ const additionalArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" |
 
 const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | "body">[]> = {
   de: [
-    { name: "Laura Jones", role: "Choreografin & Trainerin" },
+    {
+      name: "Laura Jones",
+      role: "Choreografin & Trainerin",
+      body: "Laura Jones ist eine europaweit bekannte Persönlichkeit in der Country-Welt, Trainerin und Choreografin. In der internationalen Szene ist sie für ihre mitreißenden und leicht zugänglichen Choreografien bekannt. Seit zwei Jahrzehnten veranstaltet sie gemeinsam mit ihrem Mann Jonatan das große Event Western Experience in den Niederlanden, ein Pflichttermin auf der Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Choreografin & Trainerin",
@@ -1043,7 +1047,11 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
     { name: "Antoine", role: "DJ" }
   ],
   es: [
-    { name: "Laura Jones", role: "Coreógrafa & instructora" },
+    {
+      name: "Laura Jones",
+      role: "Coreógrafa & instructora",
+      body: "Laura Jones es una figura europea reconocida en todo el mundo Country, instructora y coreógrafa de. Reconocida en la escena internacional por sus contagiosas y accesibles coreografías. Promueve desde hace dos décadas, junto con su marido Jonatan, el gran evento Western Experience, en Países Bajos, visita obligada en el Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Coreógrafa & instructora",
@@ -1069,7 +1077,11 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
     { name: "Antoine", role: "DJ" }
   ],
   ca: [
-    { name: "Laura Jones", role: "Coreògrafa & instructora" },
+    {
+      name: "Laura Jones",
+      role: "Coreògrafa & instructora",
+      body: "Laura Jones és una figura europea reconeguda arreu del món country, instructora i coreògrafa. És reconeguda en l'escena internacional per les seves coreografies contagioses i accessibles. Des de fa dues dècades promou, juntament amb el seu marit Jonatan, el gran esdeveniment Western Experience, als Països Baixos, una cita obligada del Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Coreògrafa & instructora",
@@ -1095,7 +1107,11 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
     { name: "Antoine", role: "DJ" }
   ],
   fr: [
-    { name: "Laura Jones", role: "Chorégraphe & instructrice" },
+    {
+      name: "Laura Jones",
+      role: "Chorégraphe & instructrice",
+      body: "Laura Jones est une figure européenne reconnue dans le monde de la country, instructrice et chorégraphe. Elle est reconnue sur la scène internationale pour ses chorégraphies contagieuses et accessibles. Depuis deux décennies, elle organise avec son mari Jonatan le grand événement Western Experience, aux Pays-Bas, un rendez-vous incontournable du Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Chorégraphe & instructrice",
@@ -1121,7 +1137,11 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
     { name: "Antoine", role: "DJ" }
   ],
   en: [
-    { name: "Laura Jones", role: "Choreographer & instructor" },
+    {
+      name: "Laura Jones",
+      role: "Choreographer & instructor",
+      body: "Laura Jones is a European figure recognised throughout the country world, an instructor and choreographer. She is known on the international scene for her infectious, accessible choreographies. For two decades, together with her husband Jonatan, she has promoted the major Western Experience event in the Netherlands, an essential stop on the Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Choreographer & instructor",
@@ -1147,7 +1167,11 @@ const announcedArtistCopies: Record<LanguageKey, Pick<Artist, "name" | "role" | 
     { name: "Antoine", role: "DJ" }
   ],
   it: [
-    { name: "Laura Jones", role: "Coreografa & istruttrice" },
+    {
+      name: "Laura Jones",
+      role: "Coreografa & istruttrice",
+      body: "Laura Jones è una figura europea riconosciuta nel mondo country, istruttrice e coreografa. È conosciuta sulla scena internazionale per le sue coreografie coinvolgenti e accessibili. Da due decenni promuove, insieme al marito Jonatan, il grande evento Western Experience nei Paesi Bassi, una tappa imperdibile del Country Tour."
+    },
     {
       name: "Silvia Denise",
       role: "Coreografa & istruttrice",
@@ -1383,7 +1407,18 @@ const artistGalleryImages: Readonly<Record<string, readonly string[]>> = {
 const createArtists = (copy: Copy, language: LanguageKey): Artist[] => {
   const artistCopy: Pick<Artist, "name" | "role" | "body">[] = [
     ...copy.artists.slice(0, 4),
-    { name: "David Prestor", role: davidPrestorRoleLabels[language] },
+    {
+      name: "David Prestor",
+      role: davidPrestorRoleLabels[language],
+      body: {
+        de: "David Prestor ist ein anerkannter Country-Line-Dance-Choreograf slowenischer Herkunft. Er zeichnet sich durch seine Vielseitigkeit aus und entwickelt Choreografien von Einsteiger- bis zu fortgeschrittenen und dynamischen Niveaus. Zu seinen in der Szene beliebten Titeln gehören On The Road Again und Pay Me My Money Down.",
+        es: "David Prestor es un reconocido coreógrafo de Country Line Dance de origen esloveno. Destaca por su versatilidad para crear coreografías que abarcan desde niveles de iniciación hasta avanzados y dinámicos, entre las que se encuentran títulos populares de la escena como On The Road Again o Pay Me My Money Down.",
+        ca: "David Prestor és un reconegut coreògraf de Country Line Dance d'origen eslovè. Destaca per la seva versatilitat a l'hora de crear coreografies que van des de nivells d'iniciació fins a avançats i dinàmics, entre les quals hi ha títols populars de l'escena com On The Road Again o Pay Me My Money Down.",
+        fr: "David Prestor est un chorégraphe reconnu de Country Line Dance d'origine slovène. Il se distingue par sa polyvalence et crée des chorégraphies allant des niveaux débutants aux niveaux avancés et dynamiques, parmi lesquelles figurent des titres populaires de la scène comme On The Road Again ou Pay Me My Money Down.",
+        en: "David Prestor is a renowned Slovenian Country Line Dance choreographer. He stands out for his versatility, creating choreographies that range from beginner level to advanced and dynamic dances, including popular titles on the scene such as On The Road Again and Pay Me My Money Down.",
+        it: "David Prestor è un rinomato coreografo sloveno di Country Line Dance. Si distingue per la versatilità con cui crea coreografie che spaziano dai livelli principianti a quelli avanzati e dinamici, tra cui titoli popolari della scena come On The Road Again e Pay Me My Money Down."
+      }[language]
+    },
     ...copy.artists.slice(4),
     ...additionalArtistCopies[language]
   ];

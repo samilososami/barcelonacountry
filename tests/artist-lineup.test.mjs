@@ -55,3 +55,10 @@ test('the question-mark discovery card is not rendered or counted', () => {
 test('the published artist total follows the complete lineup', () => {
   assert.match(main, /const festivalStatValues = \{ artists: "\+17", dancers: "\+3000" \};/);
 });
+
+test('Laura Jones and David Prestor use the biographies supplied by the client', () => {
+  assert.match(main, /Laura Jones es una figura europea reconocida en todo el mundo Country/);
+  assert.match(main, /Promueve desde hace dos décadas, junto con su marido Jonatan, el gran evento Western Experience/);
+  assert.match(main, /David Prestor es un reconocido coreógrafo de Country Line Dance de origen esloveno/);
+  assert.match(main, /On The Road Again o Pay Me My Money Down/);
+});
