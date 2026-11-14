@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { res, useLang } from '../i18n';
 import { finePointer, gsap, reduced } from '../lib/motion';
+import { Instagram } from '../components/ui';
+
+const IG_REEL = 'https://www.instagram.com/reel/DfukCpzo7mt/';
 
 /** The festival reel playing inside a phone: it loads when it scrolls near, plays muted while visible and can be unmuted. */
 export function Reel() {
@@ -10,6 +13,7 @@ export function Reel() {
   const [muted, setMuted] = useState(true);
   const [load, setLoad] = useState(false);
   const [progress, setProgress] = useState(0);
+  const inView = useRef(false);
 
   useEffect(() => {
     const el = box.current!;
@@ -17,6 +21,7 @@ export function Reel() {
     const seen = new IntersectionObserver(
       ([e]) => {
         const v = video.current;
+        inView.current = e.isIntersecting;
         if (!v) return;
         if (e.isIntersecting && !reduced()) v.play().catch(() => undefined);
         else v.pause();
@@ -78,9 +83,16 @@ export function Reel() {
             playsInline
             preload="none"
             aria-label={t.x.reel}
+            // the source arrives a moment after the phone scrolls near: start as soon as it can
+            onLoadedData={(e) => inView.current && !reduced() && e.currentTarget.play().catch(() => undefined)}
             onTimeUpdate={(e) => setProgress(e.currentTarget.currentTime / (e.currentTarget.duration || 1))}
           />
+          <a className="phone-link" href={IG_REEL} target="_blank" rel="noopener noreferrer" aria-label={t.x.watchIg} data-cursor="Instagram" />
           <span className="phone-island" aria-hidden="true" />
+          <a className="phone-ig" href={IG_REEL} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true">
+            <Instagram />
+            <span>{t.x.watchIg}</span>
+          </a>
           <span className="phone-progress" aria-hidden="true">
             <i style={{ transform: `scaleX(${progress})` }} />
           </span>

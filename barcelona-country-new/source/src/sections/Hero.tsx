@@ -3,6 +3,7 @@ import { res, useLang } from '../i18n';
 import { finePointer, gsap, reduced, scrollToId } from '../lib/motion';
 import { Arrow, Magnetic, Neon, Star } from '../components/ui';
 import { Festoon } from './Festoon';
+import { Countdown } from './Place';
 
 export function Hero({ onContact }: { onContact: () => void }) {
   const { t, lang } = useLang();
@@ -26,6 +27,7 @@ export function Hero({ onContact }: { onContact: () => void }) {
         .from('.hero-title .ch', { yPercent: -130, rotate: (i) => (i % 2 ? 9 : -7), opacity: 0, duration: 1, ease: 'back.out(1.7)', stagger: 0.055 }, 0.45)
         .call(() => setLit(true), [], 1.25)
         .from('.hero-country', { letterSpacing: '0.12em', opacity: 0, duration: 1.4, ease: 'expo.out' }, 1.0)
+        .from('.hero-countdown', { y: 24, opacity: 0, duration: 1.1, ease: 'expo.out' }, 1.3)
         .from('.hero-bottom > *', { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1 }, 1.45)
         .from('.ribbon', { yPercent: 120, duration: 1.2, ease: 'expo.out' }, 1.6);
 
@@ -88,6 +90,9 @@ export function Hero({ onContact }: { onContact: () => void }) {
             </span>
             <Neon text="Festival" lit={lit} className="hero-neon" />
           </h1>
+        </div>
+        <div className="hero-countdown">
+          <Countdown compact />
         </div>
       </div>
 

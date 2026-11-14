@@ -40,7 +40,7 @@ function Flap({ value }: { value: string }) {
   );
 }
 
-function Countdown() {
+export function Countdown({ compact = false }: { compact?: boolean }) {
   const { t } = useLang();
   const box = useRef<HTMLDivElement>(null);
   const [now, setNow] = useState(Date.now);
@@ -69,8 +69,8 @@ function Countdown() {
   const values = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
   const label = `${t.ref.countdown} ${values.map((v, i) => `${v} ${t.ref.units[i]}`).join(', ')}`;
   return (
-    <div className="countdown" ref={box} role="timer" aria-live="off" aria-label={label}>
-      <p className="countdown-label">{s === 0 ? t.ref.started : t.ref.countdown}</p>
+    <div className={`countdown ${compact ? 'countdown-compact' : ''}`} ref={box} role="timer" aria-live="off" aria-label={label}>
+      {(!compact || s === 0) && <p className="countdown-label">{s === 0 ? t.ref.started : t.ref.countdown}</p>}
       <div className="countdown-row" aria-hidden="true">
         {values.map((v, i) => {
           const digits = String(v).padStart(i === 0 ? 3 : 2, '0').split('');
