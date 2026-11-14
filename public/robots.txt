@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /dashboard
+Disallow: /dashbord
+Disallow: /admin/
+
+Sitemap: https://www.barcelonacountry.com/sitemap.xml
