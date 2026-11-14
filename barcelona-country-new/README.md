@@ -29,7 +29,7 @@ Para compilar en local: `cd source && npm install && npm run build`. `source/pub
 
 ## Publicación
 
-Proyecto de Vercel `barcelonacountry-new`, conectado a este repositorio con raíz `barcelona-country-new/`. `samilososami.com/claudebcn` es una regla de Vercel (apartado Routes) del proyecto `samilososami_portfolio` que reenvía esa ruta a `barcelonacountry-new.vercel.app`. El proyecto de la web oficial (`barcelonacountry`) no incluye esta carpeta (`.vercelignore`) y el dominio oficial no se toca.
+Proyecto de Vercel `barcelonacountry-new`, conectado a este repositorio con raíz `barcelona-country-new/`. `samilososami.com/claudebcn` es una regla de Vercel (apartado Routes) del proyecto `samilososami_portfolio` que reenvía esa ruta a `barcelonacountry-new.vercel.app`. El proyecto de la web oficial (`barcelonacountry`) compila solo `src/` y el dominio oficial no se toca.
 
 ## Notas
 
