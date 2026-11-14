@@ -2,7 +2,7 @@
 
 Nueva versión de la web de [barcelonacountry.com](https://barcelonacountry.com), el festival internacional de country y line dance de la Fira de Cornellà (22–24 de octubre de 2027). Mantiene la información y los textos de la web actual, con su paleta de colores (negro `#10100f`, papel `#f2f1eb` y rojo `#c40000`).
 
-**En vivo:** https://www.samilososami.com/claudebcn/
+**En vivo:** https://www.samilososami.com/claudebcn/ (proyecto de Vercel `barcelonacountry-new`)
 
 Este proyecto no forma parte de la colección de Claude Creations: solo usa este repositorio para alojar los archivos.
 
@@ -19,18 +19,17 @@ Este proyecto no forma parte de la colección de Claude Creations: solo usa este
 ## Estructura
 
 ```
-barcelona-country/
-├── index.html     Web compilada (Vite + React)
-├── assets/        JS y CSS del build
+barcelona-country-new/
+├── vercel.json    Build del proyecto de Vercel barcelonacountry-new
 ├── resources/     Imágenes, galerías, tipografías y el reel (video/)
-└── source/        Código fuente
+└── source/        Código fuente (Vite + React)
 ```
 
-Para compilar: `cd source && npm install && npm run build`. `source/public/resources` es un enlace a `../../resources`, así que no hace falta copiar nada. El resultado sale en `source/dist/`.
+Para compilar en local: `cd source && npm install && npm run build`. `source/public/resources` es un enlace a `../../resources`. El resultado sale en `source/dist/`.
 
 ## Publicación
 
-El código de trabajo vive en el repositorio `barcelonacountry`, carpeta `barcelona-country-new/`. Por ahora la web solo se publica en `samilososami.com/claudebcn`: tras compilar, se copian `index.html`, `assets/` y `resources/` a `barcelona-country/` del repositorio `claude-creations` y se sube. `samilososami.com/claudebcn` es una regla de Vercel (apartado Routes) del proyecto `samilososami_portfolio`, que reenvía esa ruta a `claude-creations.vercel.app/barcelona-country/`. El dominio oficial no se toca.
+Proyecto de Vercel `barcelonacountry-new`, conectado a este repositorio con raíz `barcelona-country-new/`. `samilososami.com/claudebcn` es una regla de Vercel (apartado Routes) del proyecto `samilososami_portfolio` que reenvía esa ruta a `barcelonacountry-new.vercel.app`. El proyecto de la web oficial (`barcelonacountry`) no incluye esta carpeta (`.vercelignore`) y el dominio oficial no se toca.
 
 ## Notas
 
