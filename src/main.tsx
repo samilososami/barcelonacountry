@@ -223,7 +223,7 @@ const eduRoldosRoleLabels: Record<LanguageKey, string> = {
 
 const SHOW_TICKET_SALES = false;
 
-const festivalStatValues = { artists: "+17", dancers: "+3000" };
+const festivalStatValues = { artists: "17", dancers: "+3000" };
 
 const lineupIntroLabels: Record<LanguageKey, string> = {
   de: "Europas führende Namen im Country Line Dance, vereint in Barcelona.",
@@ -572,8 +572,8 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival vereint drei Tage lang das Beste aus internationalem Line Dance, Live-Musik, hochwertigen Western-Produkten und Foodtrucks mit echter amerikanischer Barbecue-Küche. Ein Event für Tänzer, Familien und Country-Fans, die den amerikanischen Spirit in Barcelona erleben möchten.",
     days: "Tage",
-    internationalArtists: "INTERNATIONALE\nKÜNSTLER",
-    expectedDancers: "TÄNZER",
+    internationalArtists: "INTERNATIONALE\nTOP-KÜNSTLER",
+    expectedDancers: "DANCERS",
     artistsTitle: "Internationale Künstler",
     artists: [
       {
@@ -630,8 +630,8 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival reúne durante tres días a lo mejor del line dance internacional, música en directo, productos western y food trucks con auténtica barbacoa americana. Un evento pensado para bailarines, familias y amantes del country que buscan vivir el auténtico espíritu americano sin salir de Barcelona.",
     days: "Días",
-    internationalArtists: "ARTISTAS\nINTERNACIONALES",
-    expectedDancers: "BAILARINES",
+    internationalArtists: "ARTISTAS TOP\nINTERNACIONALES",
+    expectedDancers: "DANCERS",
     artistsTitle: "Artistas internacionales",
     artists: [
       {
@@ -688,8 +688,8 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival reuneix durant tres dies el millor del line dance internacional, música en directe, productes western i food trucks amb autèntica barbacoa americana. Un esdeveniment per a ballarins, famílies i amants del country que volen viure l'esperit americà sense sortir de Barcelona.",
     days: "Dies",
-    internationalArtists: "ARTISTES\nINTERNACIONALS",
-    expectedDancers: "BALLARINS",
+    internationalArtists: "ARTISTES TOP\nINTERNACIONALS",
+    expectedDancers: "DANCERS",
     artistsTitle: "Artistes internacionals",
     artists: [
       {
@@ -746,8 +746,8 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival réunit pendant trois jours le meilleur du line dance international, de la musique live, des produits western et des food trucks avec un authentique barbecue américain. Un événement pour les danseurs, les familles et les amoureux du country qui souhaitent vivre le véritable esprit américain sans quitter Barcelone.",
     days: "Jours",
-    internationalArtists: "ARTISTES\nINTERNATIONAUX",
-    expectedDancers: "DANSEURS",
+    internationalArtists: "ARTISTES TOP\nINTERNATIONAUX",
+    expectedDancers: "DANCERS",
     artistsTitle: "Artistes internationaux",
     artists: [
       {
@@ -804,7 +804,7 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival brings together three days of international line dance, live music, quality western products and food trucks with authentic American barbecue. An event for dancers, families and country lovers looking for the real American spirit in Barcelona.",
     days: "Days",
-    internationalArtists: "INTERNATIONAL\nARTISTS",
+    internationalArtists: "TOP INTERNATIONAL\nARTISTS",
     expectedDancers: "DANCERS",
     artistsTitle: "International Artists",
     artists: [
@@ -862,8 +862,8 @@ const copies: Record<LanguageKey, Copy> = {
     festivalCopy:
       "Barcelona Country Festival riunisce per tre giorni il meglio del line dance internazionale, musica dal vivo, prodotti western e food truck con autentico barbecue americano. Un evento pensato per ballerini, famiglie e amanti del country che desiderano vivere l'autentico spirito americano senza lasciare Barcellona.",
     days: "Giorni",
-    internationalArtists: "ARTISTI\nINTERNAZIONALI",
-    expectedDancers: "BALLERINI",
+    internationalArtists: "ARTISTI TOP\nINTERNAZIONALI",
+    expectedDancers: "DANCERS",
     artistsTitle: "Artisti internazionali",
     artists: [
       {

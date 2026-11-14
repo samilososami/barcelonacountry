@@ -53,7 +53,9 @@ test('the question-mark discovery card is not rendered or counted', () => {
 });
 
 test('the published artist total follows the complete lineup', () => {
-  assert.match(main, /const festivalStatValues = \{ artists: "\+17", dancers: "\+3000" \};/);
+  assert.match(main, /const festivalStatValues = \{ artists: "17", dancers: "\+3000" \};/);
+  assert.match(main, /internationalArtists: "ARTISTAS TOP\\nINTERNACIONALES"/);
+  assert.equal([...main.matchAll(/expectedDancers: "DANCERS"/g)].length, 6);
 });
 
 test('Laura Jones and David Prestor use the biographies supplied by the client', () => {
