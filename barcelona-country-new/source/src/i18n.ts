@@ -52,7 +52,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   'Silvia Calsina': { img: 'silvia-calsina', gallery: gal('silvia-calsina', 5) },
   'Neus Lloveras': { img: 'neus', gallery: gal('neus-lloveras', 5) },
   'Edu Roldos': { img: 'edu-roldos', gallery: gal('edu-roldos', 1) },
-  'Jonathan Jones': { img: 'jonathan', ig: 'https://www.instagram.com/jonathan_jones_music/', gallery: gal('jonathan-jones', 5) },
+  'Jonathan Jones': { img: 'jonathan', gallery: gal('jonathan-jones', 5) },
   'Steve Frapolli': { img: 'steve', ig: 'https://www.instagram.com/steve_frapolli/', gallery: gal('steve-frapolli', 5) },
   'DJ Lu': { img: 'dj-lu', gallery: gal('dj-lu', 5) },
   Antoine: { img: 'antoine', gallery: gal('antoine', 5) }
