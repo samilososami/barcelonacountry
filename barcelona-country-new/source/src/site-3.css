@@ -14,10 +14,10 @@
 .legal-updated, .blog-mast > p { font-family: var(--f-text); font-weight: 400; }
 
 /* ---------- header: the logo as big as on barcelonacountry.com, over a dark bar with the red rule ---------- */
-.header { padding-top: 10px; padding-bottom: 10px; background: rgba(10, 10, 9, 0.9); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border: 0; border-bottom: 1px solid var(--red); box-shadow: 0 10px 30px -18px rgba(196, 0, 0, 0.9); }
-.header-logo img { height: 130px; }
+.header { padding-top: 6px; padding-bottom: 6px; background: rgba(10, 10, 9, 0.9); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border: 0; border-bottom: 1px solid var(--red); box-shadow: 0 10px 30px -18px rgba(196, 0, 0, 0.9); }
+.header-logo img { height: 92px; }
 .header.is-scrolled { border: 1px solid rgba(196, 0, 0, 0.55); box-shadow: 0 14px 40px -18px rgba(0, 0, 0, 0.7); }
-.header.is-scrolled .header-logo img { height: 66px; }
+.header.is-scrolled .header-logo img { height: 62px; }
 .header.is-menu { border-bottom-color: transparent; box-shadow: none; }
 
 /* ---------- hero: no reading veil, the photo stays bright ---------- */
@@ -25,9 +25,8 @@
 .hero-photo { filter: blur(2.2px) brightness(0.86) saturate(1.04); }
 .hero-center { padding: calc(150px + 1vh) var(--gut) calc(150px + 2.4vh); }
 .hero-word { text-shadow: 0 0.02em 0 rgba(0, 0, 0, 0.25), 0 0.06em 0.4em rgba(0, 0, 0, 0.42); }
-.hero-word { font-size: min(13.2vw, 19vh, 248px); }
-.hero-country { display: block; margin-top: 0.14em; font: 600 min(3.7vw, 5.4vh, 70px)/1 var(--f-serif); letter-spacing: 0.44em; padding-left: 0.44em; text-transform: uppercase; color: var(--paper); text-shadow: 0 0.04em 0.4em rgba(0, 0, 0, 0.55); }
-.hero-neon { font-size: min(8.6vw, 13vh, 164px); margin-top: 0.02em; transform: rotate(-5deg); }
+.hero-word { font-size: min(13.2vw, 19vh, 248px); color: #fff; }
+.hero-neon { font-size: min(9.2vw, 14vh, 176px); margin-top: 0.02em; transform: rotate(-4deg); }
 .hero-date, .hero-date span { text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6); color: var(--paper); }
 .hero-date span { border-left-color: rgba(242, 241, 235, 0.6); }
 
@@ -161,7 +160,7 @@
 .sent .btn { margin-top: 8px; }
 
 @media (max-width: 1180px) {
-  .header-logo img { height: 96px; }
+  .header-logo img { height: 80px; }
 }
 @media (max-width: 900px) {
   .festival-intro { grid-template-columns: 1fr; justify-items: center; }
@@ -171,7 +170,7 @@
 }
 @media (max-width: 760px) {
   .header { padding-top: 8px; padding-bottom: 8px; }
-  .header-logo img { height: 80px; }
+  .header-logo img { height: 64px; }
   .header.is-scrolled .header-logo img { height: 50px; }
   .hero-center { padding: 96px var(--gut) 190px; }
   .hero-word { font-size: 12.6vw; }
@@ -182,8 +181,7 @@
   .hero-countdown { margin-top: 16px; }
   .countdown-compact .flap { width: 7vw; height: 10.4vw; font-size: 7.8vw; border-radius: 4px; }
   .countdown-compact .countdown-unit small { font-size: 12px; margin-top: 6px; }
-  .hero-country { font-size: 5.6vw; letter-spacing: 0.36em; padding-left: 0.36em; }
-  .hero-neon { font-size: 15vw; margin-top: 0.12em; }
+  .hero-neon { font-size: 15.5vw; margin-top: 0.08em; }
   .festival-intro .statement { font-size: 10.6vw; }
   .ribbon-set span { font-size: 19px; }
   .day { font-size: 21vw; }
@@ -201,3 +199,8 @@
 @media (max-height: 760px) {
   .np-wrap { width: min(420px, 84vw); margin-left: calc(min(420px, 84vw) / -2); }
 }
+
+/* ---------- DJs: a row of their own under the artists ---------- */
+.rail-sub { margin: clamp(44px, 5vw, 80px) var(--gut) 0 0; padding-top: 22px; border-top: 1px solid var(--line); font: 500 clamp(30px, 3.4vw, 54px)/1 var(--f-serif); }
+.rail-sub span { font-style: italic; letter-spacing: 0.01em; }
+.rail-sub + div .rail-stage { margin-top: clamp(22px, 2.4vw, 36px); }

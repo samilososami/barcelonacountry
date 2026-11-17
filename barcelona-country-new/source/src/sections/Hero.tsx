@@ -26,7 +26,6 @@ export function Hero({ onContact }: { onContact: () => void }) {
         .from('.hero-photo', { scale: 1.22, opacity: 0, duration: 2.6, ease: 'power3.out' }, 0)
         .from('.hero-title .ch', { yPercent: -130, rotate: (i) => (i % 2 ? 9 : -7), opacity: 0, duration: 1, ease: 'back.out(1.7)', stagger: 0.055 }, 0.45)
         .call(() => setLit(true), [], 1.25)
-        .from('.hero-country', { letterSpacing: '0.12em', opacity: 0, duration: 1.4, ease: 'expo.out' }, 1.0)
         .from('.hero-countdown', { y: 24, opacity: 0, duration: 1.1, ease: 'expo.out' }, 1.3)
         .from('.hero-bottom > *', { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1 }, 1.45)
         .from('.ribbon', { yPercent: 120, duration: 1.2, ease: 'expo.out' }, 1.6);
@@ -85,10 +84,7 @@ export function Hero({ onContact }: { onContact: () => void }) {
                 </span>
               ))}
             </span>
-            <span className="hero-country" aria-hidden="true">
-              Country
-            </span>
-            <Neon text="Festival" lit={lit} className="hero-neon" />
+            <Neon text="Country Festival" lit={lit} className="hero-neon" />
           </h1>
         </div>
         <div className="hero-countdown">

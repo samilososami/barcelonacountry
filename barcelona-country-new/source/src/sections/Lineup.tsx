@@ -28,8 +28,8 @@ function GalleryIcon() {
 }
 
 /** One autoplay timer, active only while the rail is visible and nobody is using it. */
-function useAutoplay(rail: RefObject<HTMLDivElement | null>, step: (dir: number) => void) {
-  const [paused, setPaused] = useState(() => reduced());
+function useAutoplay(rail: RefObject<HTMLDivElement | null>, step: (dir: number) => void, enabled = true) {
+  const [paused, setPaused] = useState(() => reduced() || !enabled);
   const dir = useRef(1);
   useEffect(() => {
     const el = rail.current;
@@ -93,20 +93,16 @@ function useAutoplay(rail: RefObject<HTMLDivElement | null>, step: (dir: number)
   return { paused, setPaused };
 }
 
-export function Lineup() {
+/** One horizontal row of portraits. `full` adds the counter, progress bar and autoplay; the short DJ row skips them. */
+function ArtistRail({ artists, label, full, onGallery }: { artists: Artist[]; label: string; full: boolean; onGallery: (a: Artist) => void }) {
   const { t, lang } = useLang();
-  const artists = artistsFor(t);
   const n = artists.length;
-  const root = useRef<HTMLElement>(null);
+  const root = useRef<HTMLDivElement>(null);
   const rail = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
   const drag = useRef({ on: false, x: 0, left: 0, moved: false });
   const [first, setFirst] = useState(1);
   const [edges, setEdges] = useState({ start: true, end: false });
-  const [gallery, setGallery] = useState<number | null>(null);
-  const [titleRef, titleSeen] = useInView<HTMLHeadingElement>(0.6);
-  useReveal(root, [lang]);
-  const [lead, ...restWords] = t.artistsTitle.split(' ');
 
   const stepSize = () => {
     const el = rail.current;
@@ -119,7 +115,7 @@ export function Lineup() {
     if (!el) return;
     el.scrollBy({ left: dir * stepSize(), behavior: reduced() ? 'auto' : 'smooth' });
   }, []);
-  const { paused, setPaused } = useAutoplay(rail, step);
+  const { paused, setPaused } = useAutoplay(rail, step, full);
 
   // progress, counter and the slow inner parallax of each portrait
   const update = useCallback(() => {
@@ -209,21 +205,7 @@ export function Lineup() {
   };
 
   return (
-    <section id="artists" className="lineup dark" ref={root} aria-labelledby="artists-title">
-      <div className="lineup-head">
-        <h2 id="artists-title" className="lineup-title" ref={titleRef}>
-          <span className="lineup-lead" data-words>
-            <span className="w">
-              <i>{lead}</i>
-            </span>
-          </span>{' '}
-          <Neon text={restWords.join(' ')} lit={titleSeen} className="lineup-neon" />
-        </h2>
-        <p className="lineup-intro" data-reveal>
-          {t.lineupIntro}
-        </p>
-      </div>
-
+    <div ref={root}>
       <div className="rail-stage">
         <button type="button" className="rail-edge rail-prev" disabled={edges.start} aria-label={t.site.previous} onClick={() => { setPaused(true); step(-1); }}>
           <Arrow dir="left" />
@@ -235,7 +217,7 @@ export function Lineup() {
           ref={rail}
           className="rail"
           tabIndex={0}
-          aria-label={t.artistsTitle}
+          aria-label={label}
           onPointerDown={down}
           onPointerMove={move}
           onPointerUp={up}
@@ -277,7 +259,7 @@ export function Lineup() {
                     <p className="card-role">{a.role}</p>
                     <h3 className="card-name">{a.name}</h3>
                   </div>
-                  <button type="button" className="card-gallery" aria-label={`${t.ref.gallery}: ${a.name}`} onClick={() => setGallery(i)} data-cursor={t.ref.gallery}>
+                  <button type="button" className="card-gallery" aria-label={`${t.ref.gallery}: ${a.name}`} onClick={() => onGallery(a)} data-cursor={t.ref.gallery}>
                     <GalleryIcon />
                   </button>
                 </div>
@@ -296,25 +278,71 @@ export function Lineup() {
         </div>
       </div>
 
-      <div className="rail-foot">
-        <span className="rail-count">
-          {pad(first)} <i>/ {pad(n)}</i>
-        </span>
-        <div className="rail-progress" aria-hidden="true">
-          <span ref={bar} />
+      {full && (
+        <div className="rail-foot">
+          <span className="rail-count">
+            {pad(first)} <i>/ {pad(n)}</i>
+          </span>
+          <div className="rail-progress" aria-hidden="true">
+            <span ref={bar} />
+          </div>
+          <button type="button" className="rail-play" onClick={() => setPaused(!paused)} aria-pressed={!paused}>
+            <i className={paused ? 'is-paused' : 'is-playing'} aria-hidden="true" />
+            {paused ? t.ref.play : t.ref.pause}
+          </button>
         </div>
-        <button type="button" className="rail-play" onClick={() => setPaused(!paused)} aria-pressed={!paused}>
-          <i className={paused ? 'is-paused' : 'is-playing'} aria-hidden="true" />
-          {paused ? t.ref.play : t.ref.pause}
-        </button>
+      )}
+    </div>
+  );
+}
+
+/** DJs get a row of their own under the artists instead of trailing at the end of it. */
+const isDj = (a: Artist) => /\bDJ\b/.test(a.role);
+
+export function Lineup() {
+  const { t, lang } = useLang();
+  const all = artistsFor(t);
+  const artists = all.filter((a) => !isDj(a));
+  const djs = all.filter(isDj);
+  const root = useRef<HTMLElement>(null);
+  const [gallery, setGallery] = useState<Artist | null>(null);
+  const [titleRef, titleSeen] = useInView<HTMLHeadingElement>(0.6);
+  useReveal(root, [lang]);
+  const [lead, ...restWords] = t.artistsTitle.split(' ');
+
+  return (
+    <section id="artists" className="lineup dark" ref={root} aria-labelledby="artists-title">
+      <div className="lineup-head">
+        <h2 id="artists-title" className="lineup-title" ref={titleRef}>
+          <span className="lineup-lead" data-words>
+            <span className="w">
+              <i>{lead}</i>
+            </span>
+          </span>{' '}
+          <Neon text={restWords.join(' ')} lit={titleSeen} className="lineup-neon" />
+        </h2>
+        <p className="lineup-intro" data-reveal>
+          {t.lineupIntro}
+        </p>
       </div>
+
+      <ArtistRail artists={artists} label={t.artistsTitle} full onGallery={setGallery} />
+
+      {djs.length > 0 && (
+        <>
+          <h3 className="rail-sub" data-reveal>
+            <span>DJs</span>
+          </h3>
+          <ArtistRail artists={djs} label="DJs" full={false} onGallery={setGallery} />
+        </>
+      )}
 
       <p className="lineup-more" data-reveal>
         <span>{t.mystery.title}</span>
         <img src={res('img/isotype.webp')} alt="" />
       </p>
 
-      <GalleryDialog artist={gallery !== null ? artists[gallery] : null} onClose={() => setGallery(null)} />
+      <GalleryDialog artist={gallery} onClose={() => setGallery(null)} />
     </section>
   );
 }
