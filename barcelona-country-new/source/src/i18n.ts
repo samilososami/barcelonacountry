@@ -39,7 +39,7 @@ export const STATS = { days: '3', artists: '17', dancers: '+3000' };
 const gal = (slug: string, n: number) => Array.from({ length: n }, (_, i) => `gal/${slug}/${String(i).padStart(2, '0')}.webp`);
 
 const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
-  'Pol F. Ryan': { img: 'pol', ig: 'https://www.instagram.com/polfryann/', gallery: gal('pol-f-ryan', 1) },
+  'Pol F. Ryan': { img: 'pol', ig: 'https://www.instagram.com/polfryann/', gallery: gal('pol-f-ryan', 11) },
   'Algaly Fofana': { img: 'algaly', ig: 'https://www.instagram.com/algalyfofana/', gallery: gal('algaly-fofana', 5) },
   'David Villellas': { img: 'david-villellas', ig: 'https://www.instagram.com/david.villellas/', gallery: gal('david-villellas', 1) },
   'Sofía Balzano': { img: 'sofia', ig: 'https://www.instagram.com/sofiabalzanoo_/', gallery: gal('sofia-balzano', 1) },
@@ -47,7 +47,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   Johnny: { img: 'johnny', ig: 'https://www.instagram.com/learnwithjohnny/', gallery: gal('johnny', 5) },
   'David Prestor': { img: 'david-prestor', gallery: gal('david-prestor', 10) },
   'Laura Jones': { img: 'laura-jones', gallery: gal('laura-jones', 5) },
-  'Silvia Denise': { img: 'silvia-denise', gallery: gal('silvia-denise', 1) },
+  'Silvia Denise': { img: 'silvia-denise', gallery: gal('silvia-denise', 7) },
   'Virginie Barjaud': { img: 'virginie', gallery: gal('virginie-barjaud', 5) },
   'Silvia Calsina': { img: 'silvia-calsina', gallery: gal('silvia-calsina', 5) },
   'Neus Lloveras': { img: 'neus', gallery: gal('neus-lloveras', 5) },
