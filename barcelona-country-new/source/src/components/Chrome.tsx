@@ -171,7 +171,7 @@ export function Header({ onContact, onNavigate }: { onContact: () => void; onNav
 
 const SPONSORS: [string, string, string, number, number][] = [
   ['https://wowmycity.com/', 'Wow My City', 'img/wowmycity.webp', 320, 86],
-  ['https://gestoriamundial.com/', 'Gestoría Mundial', 'img/gestoriamundial.webp', 320, 103],
+  ['https://gestoriamundial.com/', 'Gestoría Mundial', 'img/sponsor-gestoria-mundial.webp', 320, 103],
 ];
 
 export function Sponsors({ onContact }: { onContact: () => void }) {
