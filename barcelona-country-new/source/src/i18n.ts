@@ -47,7 +47,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   Johnny: { img: 'johnny', ig: 'https://www.instagram.com/learnwithjohnny/', gallery: gal('johnny', 5) },
   'David Prestor': { img: 'david-prestor', gallery: gal('david-prestor', 10) },
   'Laura Jones': { img: 'laura-jones', gallery: gal('laura-jones', 5) },
-  'Silvia Denise': { img: 'silvia-denise', gallery: gal('silvia-denise', 7) },
+  'Silvia Denise': { img: 'silvia-denise', gallery: gal('silvia-denise-v2', 7) },
   'Virginie Barjaud': { img: 'virginie', gallery: gal('virginie-barjaud', 5) },
   'Silvia Calsina': { img: 'silvia-calsina', gallery: gal('silvia-calsina', 5) },
   'Neus Lloveras': { img: 'neus', gallery: gal('neus-lloveras', 5) },
