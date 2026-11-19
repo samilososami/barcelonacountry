@@ -169,6 +169,11 @@ export function Header({ onContact, onNavigate }: { onContact: () => void; onNav
   );
 }
 
+const SPONSORS: [string, string, string, number, number][] = [
+  ['https://wowmycity.com/', 'Wow My City', 'img/wowmycity.webp', 320, 86],
+  ['https://gestoriamundial.com/', 'Gestoría Mundial', 'img/gestoriamundial.webp', 320, 103],
+];
+
 export function Sponsors({ onContact }: { onContact: () => void }) {
   const { t, lang } = useLang();
   const root = useRef<HTMLElement>(null);
@@ -182,10 +187,14 @@ export function Sponsors({ onContact }: { onContact: () => void }) {
           <Arrow dir="up-right" />
         </button>
       </div>
-      <a className="sponsor" href="https://wowmycity.com/" target="_blank" rel="noopener noreferrer" aria-label="Wow My City" data-reveal>
-        <img src={res('img/wowmycity.webp')} width="320" height="86" alt="Wow My City" loading="lazy" />
-        <Arrow dir="up-right" />
-      </a>
+      <div className="sponsor-list">
+        {SPONSORS.map(([href, name, img, w, h]) => (
+          <a key={name} className="sponsor" href={href} target="_blank" rel="noopener noreferrer" aria-label={name} data-reveal>
+            <img src={res(img)} width={w} height={h} alt={name} loading="lazy" />
+            <Arrow dir="up-right" />
+          </a>
+        ))}
+      </div>
     </section>
   );
 }
