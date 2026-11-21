@@ -13,6 +13,7 @@ import type { Registration, RegistrationInsert, RegistrationUpdate } from "../li
 import { executeRegistrationSql } from "../lib/sqlConsole";
 import { countryFlag, getPhoneCountry, phoneCountries, phoneDisplayParts } from "../lib/phoneCountries";
 import "./admin.css";
+import "./admin-theme.css";
 import { NewsletterManager } from "./NewsletterManager";
 
 type AuthStatus = "loading" | "authenticated" | "unauthenticated";

@@ -10,12 +10,12 @@ import "./news.css";
 // Link existing words without adding or rewriting the approved document text.
 function LegalText({ text }: { text: string }) {
   const links: Record<string, string> = {
-    "privacidad@barcelonacountryfest.com": "mailto:privacidad@barcelonacountryfest.com",
+    "privacidad@barcelonacountry.com": "mailto:privacidad@barcelonacountry.com",
     "https://www.barcelonacountry.com/": "https://www.barcelonacountry.com/",
     "Política de Privacidad": sitePath("/privacidad"),
     "Política de Cookies": sitePath("/cookies")
   };
-  return text.split(/(privacidad@barcelonacountryfest\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
+  return text.split(/(privacidad@barcelonacountry\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, index) =>
     links[part] ? <a key={index} href={links[part]}>{part}</a> : part
   );
 }
@@ -70,6 +70,6 @@ export function LegalPage({ language }: { language: NewsLanguage }) {
         </> : <p>{t.pending}</p>}
       </article>
     </main>
-    <footer className="news-footer"><a href={sitePath("/")}>Barcelona Country Festival</a><a href="mailto:privacidad@barcelonacountryfest.com">privacidad@barcelonacountryfest.com</a><CookiePreferencesButton /></footer>
+    <footer className="news-footer"><a href={sitePath("/")}>Barcelona Country Festival</a><a href="mailto:privacidad@barcelonacountry.com">privacidad@barcelonacountry.com</a><CookiePreferencesButton /></footer>
   </div>;
 }

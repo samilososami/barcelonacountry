@@ -50,7 +50,8 @@ test('subscription persists consent and sends issue 1 with blog and unsubscribe 
   assert.ok(Date.parse(h.rows[0].privacy_accepted_at) <= Date.now());
   assert.ok(h.rows[0].welcome_newsletter_sent_at);
   const mail = JSON.parse(h.emails[0].body);
-  assert.match(mail.html, /https:\/\/bcncountryfest.com\/newsletters\/primer-numero/);
+  assert.match(mail.html, /https:\/\/www.barcelonacountry.com\/newsletters\/primer-numero/);
+  assert.equal(mail.reply_to, 'info@barcelonacountry.com');
   assert.match(mail.html, /\/baja\?token=/); assert.deepEqual(mail.to, [input.email]);
   assert.match(h.emails[0].headers['Idempotency-Key'], /^welcome-v1-/);
 });

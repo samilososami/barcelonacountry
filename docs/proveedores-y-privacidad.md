@@ -90,7 +90,7 @@ La adaptación de movimiento usa preferencias locales de accesibilidad, ahorro d
 
 ## Ajustes de la propuesta /BCN — 8 de noviembre de 2026
 
-Por instrucción expresa del cliente se sustituye únicamente el correo de los documentos públicos por `privacidad@barcelonacountryfest.com`. Se conservan literalmente los demás textos legales, incluido el nombre abreviado que aparece en los originales y la autorización del formulario.
+Por instrucción expresa del cliente se sustituye únicamente el correo de los documentos públicos por `privacidad@barcelonacountry.com`. Se conservan literalmente los demás textos legales, incluido el nombre abreviado que aparece en los originales y la autorización del formulario.
 
 El nuevo formulario de contacto es una vista de prueba local, independiente de la newsletter. Muestra nombre, correo y mensaje, sin petición HTTP, almacenamiento, destinatario ni servicio de correo. El usuario ha pedido dejar el buzón de consultas pendiente. Antes de activar el envío real habrá que confirmar el destinatario y validar su información de privacidad. No se reutiliza la autorización de newsletter para consultas.
 

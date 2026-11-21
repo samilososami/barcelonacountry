@@ -5,6 +5,7 @@ import { IssueBody } from "../newsletters/IssueBody";
 import { NewsletterMediaTools } from "./NewsletterMediaTools";
 import "../newsletters/news.css";
 import "./newsletter-admin.css";
+import "./admin-theme.css";
 
 type Draft = {
   id?: string;
@@ -47,15 +48,41 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
   const editorBusy = isSaving || isUploading;
   const [error, setError] = useState("");
   const [preview, setPreview] = useState(false);
-  const [delivery, setDelivery] = useState<{ configured: boolean; issue_one_published: boolean; pending: number } | null>(null);
+  const [delivery, setDelivery] = useState<{ configured: boolean; from: string | null; issue_one_published: boolean; pending: number; subscribers: number; sent_by_issue: Record<string, number> } | null>(null);
+  const [testTo, setTestTo] = useState("");
+  const [mailBusy, setMailBusy] = useState<"" | "test" | "broadcast">("");
   const [dispatching, setDispatching] = useState(false);
   const [deliveryError, setDeliveryError] = useState("");
 
-  const deliveryRequest = async (action: "status" | "dispatch") => {
+  const deliveryRequest = async (action: "status" | "dispatch" | "test" | "broadcast", extra: Record<string, string> = {}) => {
     const { data } = await supabase.auth.getSession();
-    const response = await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${data.session?.access_token ?? ""}` }, body: JSON.stringify({ action }) });
+    if (!testTo && data.session?.user.email) setTestTo(data.session.user.email);
+    const response = await fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${data.session?.access_token ?? ""}` }, body: JSON.stringify({ action, ...extra }) });
     if (!response.ok) throw new Error("No se ha podido consultar o procesar el envío. Revisa la configuración del servidor.");
     return response.json();
+  };
+  const sendTest = async () => {
+    if (!draft.id) return;
+    setMailBusy("test"); setDeliveryError("");
+    try { await deliveryRequest("test", { issue_id: draft.id, to: testTo.trim() }); notify(`Prueba enviada a ${testTo.trim()}.`); }
+    catch { setDeliveryError("No se pudo enviar la prueba. Comprueba la dirección y la configuración del correo."); }
+    finally { setMailBusy(""); }
+  };
+  const broadcast = async () => {
+    if (!draft.id || !delivery) return;
+    const left = delivery.subscribers - (delivery.sent_by_issue[draft.id] ?? 0);
+    if (!window.confirm(`Se enviará «${draft.title}» a ${left} suscriptores. Cada persona lo recibe una sola vez. ¿Continuar?`)) return;
+    setMailBusy("broadcast"); setDeliveryError("");
+    let sent = 0;
+    try {
+      for (let guard = 0; guard < 100; guard++) { // 100 per call; the server skips anyone already sent
+        const result = await deliveryRequest("broadcast", { issue_id: draft.id });
+        sent += result.sent;
+        if (!result.remaining || !result.sent) break;
+      }
+      notify(`${sent} correos enviados.`);
+    } catch { setDeliveryError(`El envío se ha interrumpido tras ${sent} correos. Vuelve a pulsar para continuar: nadie lo recibirá dos veces.`); }
+    finally { setMailBusy(""); await loadDelivery(); }
   };
   const loadDelivery = async () => {
     try { setDelivery(await deliveryRequest("status")); setDeliveryError(""); }
@@ -153,7 +180,7 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
       </header>
 
       <div className="newsletter-delivery-status" role="status">
-        <div><strong>{delivery?.configured ? "Remitente configurado" : "Envío automático pendiente de configuración"}</strong><p>{delivery?.issue_one_published ? "El número 1 está publicado." : "El primer número está pendiente de contenido y publicación."} {delivery ? `Suscripciones pendientes de envío: ${delivery.pending}.` : ""}</p>{deliveryError && <p>{deliveryError}</p>}</div>
+        <div><strong>{delivery?.configured ? `Remitente: ${delivery.from}` : "Envío por correo pendiente de configuración"}</strong><p>{delivery?.issue_one_published ? "El número 1 está publicado." : "El primer número está pendiente de contenido y publicación."} {delivery ? `${delivery.subscribers} suscriptores con consentimiento. Pendientes de bienvenida: ${delivery.pending}.` : ""}</p>{deliveryError && <p>{deliveryError}</p>}</div>
         <button type="button" className="admin-primary-button" disabled={!delivery?.configured || !delivery.issue_one_published || !delivery.pending || dispatching} onClick={dispatch}>{dispatching ? "Enviando…" : "Enviar hasta 10 pendientes"}</button>
       </div>
 
@@ -183,6 +210,17 @@ export function NewsletterManager({ notify }: { notify: (message: string) => voi
           <NewsletterMediaTools key={draft.id ?? `new-${newDraftKey}`} content={draft.content} onChange={content => setDraft(current => ({ ...current, content }))} position={mediaPosition} disabled={editorBusy} onBusy={setIsUploading} />
           <button className="newsletter-preview-toggle" type="button" aria-expanded={preview} onClick={() => setPreview(value => !value)}>{preview ? "Ocultar vista previa" : "Ver diseño antes de publicar"}</button>
           {preview && <article className="news-article newsletter-preview"><p className="news-number">Nº {draft.issueNumber}</p><h2>{draft.title || "Título de la publicación"}</h2><p className="news-excerpt">{draft.excerpt}</p><IssueBody content={draft.content} /></article>}
+          {draft.id && (
+            <fieldset className="newsletter-mailing" disabled={!delivery?.configured || !!mailBusy || editorBusy}>
+              <legend>Envío por correo</legend>
+              <p>{!delivery?.configured ? "El remitente todavía no está configurado." : `Enviado a ${delivery.sent_by_issue[draft.id] ?? 0} de ${delivery.subscribers} suscriptores. Guarda los cambios antes de enviar.`}</p>
+              <div className="newsletter-mailing-row">
+                <label>Correo de prueba<input type="email" value={testTo} onChange={(event) => setTestTo(event.target.value)} placeholder="tu@correo.com" /></label>
+                <button type="button" className="admin-secondary-button" disabled={!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(testTo.trim())} onClick={sendTest}>{mailBusy === "test" ? "Enviando…" : "Enviar prueba"}</button>
+              </div>
+              <button type="button" className="admin-primary-button" disabled={!draft.isPublished || !delivery || (delivery.sent_by_issue[draft.id] ?? 0) >= delivery.subscribers} onClick={broadcast}>{mailBusy === "broadcast" ? "Enviando…" : draft.isPublished ? "Enviar a los suscriptores" : "Publica el número para enviarlo"}</button>
+            </fieldset>
+          )}
           {error && <p className="modal-form-error" role="alert">{error}</p>}
           <footer>
             <span>{draft.slug && draft.isPublished ? <a href={`/newsletters/${draft.slug}`} target="_blank" rel="noreferrer">Ver en el blog ↗</a> : "Borrador privado"}</span>

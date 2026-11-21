@@ -74,14 +74,14 @@ export async function validateMediaFile(file) {
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 export function contentEmailHtml(content) {
   return parseContent(content).map(block => {
-    if (block.type === 'heading') return `<h2 style="font:700 26px Georgia,serif">${escape(block.text)}</h2>`;
-    if (block.type === 'list') return `<ul>${block.items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>`;
+    if (block.type === 'heading') return `<h2 style="margin:34px 0 12px;font:600 28px/1.2 'Cormorant Garamond',Georgia,serif;color:#241a12">${escape(block.text)}</h2>`;
+    if (block.type === 'list') return `<ul style="margin:0 0 22px;padding-left:22px">${block.items.map(item => `<li style="margin:0 0 8px">${escape(item)}</li>`).join('')}</ul>`;
     if (block.type === 'media') {
       const label = escape(block.label || 'Archivo');
       const url = escape(block.url);
-      if (block.kind === 'image') return `<p style="margin:24px 0"><a href="${url}"><img src="${url}" alt="${label}" width="576" style="display:block;max-width:100%;width:100%;height:auto;border:0"></a><span style="font-size:13px;color:#555">${label}</span></p>`;
+      if (block.kind === 'image') return `<p style="margin:24px 0"><a href="${url}"><img src="${url}" alt="${label}" width="576" style="display:block;max-width:100%;width:100%;height:auto;border:0"></a><span style="display:block;margin-top:8px;font:italic 15px/1.4 'Cormorant Garamond',Georgia,serif;color:#6f6153">${label}</span></p>`;
       const kind = { video: 'Vídeo', audio: 'Audio', file: 'PDF' }[block.kind];
-      return `<p style="margin:24px 0;padding:16px;border:1px solid #ccc"><a href="${url}" style="color:#a40000">${kind}: ${label}</a></p>`;
+      return `<p style="margin:24px 0;padding:16px 18px;border:1px solid #d8cbb5;background:#ebe1cf"><a href="${url}" style="color:#c40000;font-weight:700">${kind}: ${label} &rarr;</a></p>`;
     }
     return `<p style="margin:0 0 20px;white-space:pre-line">${escape(block.text).replaceAll('\n', '<br>')}</p>`;
   }).join('');
