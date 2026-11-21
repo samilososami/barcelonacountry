@@ -180,12 +180,12 @@
 .delete-confirmation dl { background: var(--ink); border: 1px solid var(--line); border-radius: 6px; }
 .delete-confirmation dt { color: var(--faint); }
 .delete-confirmation dd { color: var(--paper); }
-.admin-toast { background: var(--ink-3); color: var(--paper); border: 1px solid var(--line-2); border-left: 3px solid var(--red); border-radius: 6px; box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.9); font: 500 14px var(--f-ui); }
+.admin-toast { background: var(--ink-3); color: var(--paper); border: 1px solid var(--line-2); border-radius: 6px; box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.9); font: 500 14px var(--f-ui); }
 .admin-toast span { background: var(--red); color: #fff; }
 
 /* ---------- newsletters ---------- */
 .admin-shell .newsletter-admin-panel .panel-heading { border-bottom: 1px solid var(--line); }
-.admin-shell .newsletter-delivery-status { background: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 6px; color: var(--paper); }
+.admin-shell .newsletter-delivery-status { background: var(--ink); border: 1px solid var(--line); border-radius: 6px; color: var(--paper); }
 .admin-shell .newsletter-delivery-status strong { font: 500 22px var(--f-display); }
 .admin-shell .newsletter-delivery-status p { color: var(--muted); }
 .admin-shell .newsletter-issue-list button { background: var(--ink); border: 1px solid var(--line); border-radius: 6px; color: var(--paper); transition: border-color 0.3s, transform 0.3s; }
@@ -219,7 +219,7 @@
 .admin-shell .newsletter-admin-empty { color: var(--muted); font: italic 400 18px var(--f-aside); }
 
 /* ---------- newsletter mailing (test + broadcast) ---------- */
-.admin-shell .newsletter-mailing { display: grid; gap: 16px; margin: 26px 0 0; padding: 22px 24px 24px; border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 6px; background: var(--ink); min-width: 0; }
+.admin-shell .newsletter-mailing { display: grid; gap: 16px; margin: 26px 0 0; padding: 22px 24px 24px; border: 1px solid var(--line); border-radius: 6px; background: var(--ink); min-width: 0; }
 .admin-shell .newsletter-mailing legend { padding: 0 8px; margin-left: -8px; font: 500 22px var(--f-display); color: var(--paper); }
 .admin-shell .newsletter-mailing p { margin: 0; color: var(--muted); font: 500 13px/1.5 var(--f-ui); }
 .admin-shell .newsletter-mailing-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
