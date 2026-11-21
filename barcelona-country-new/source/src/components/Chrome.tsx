@@ -3,6 +3,7 @@ import { LANGS, T, res, sentence, useLang, type Lang } from '../i18n';
 import { finePointer, gsap, lockScroll, reduced, scrollToId, useReveal } from '../lib/motion';
 import { PreferencesButton } from './Consent';
 import { Arrow, Close, Neon, Star } from './ui';
+import { apiBase } from '../api';
 
 const TARGETS = ['home', 'festival', 'artists', 'program', 'location'];
 
@@ -271,8 +272,10 @@ export function Footer({ onContact, onNavigate }: { onContact: () => void; onNav
 }
 
 export function ContactDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const dialog = useRef<HTMLDialogElement>(null);
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
   const inner = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<'form' | 'sending' | 'sent'>('form');
   const [letter, setLetter] = useState({ name: '', message: '' });
@@ -287,10 +290,24 @@ export function ContactDialog({ open, onClose }: { open: boolean; onClose: () =>
   }, [open]);
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // The client has not approved a recipient yet, so this remains frontend-only.
+    if (busy) return;
     const data = new FormData(e.currentTarget);
-    setLetter({ name: String(data.get('name') ?? '').trim(), message: String(data.get('message') ?? '').trim() });
-    setPhase(reduced() ? 'sent' : 'sending');
+    const field = (k: string) => String(data.get(k) ?? '').trim();
+    const go = () => {
+      setLetter({ name: field('name'), message: field('message') });
+      setPhase(reduced() ? 'sent' : 'sending');
+    };
+    if (!apiBase) return go(); // design preview hosts have no /api
+    setBusy(true);
+    setError('');
+    fetch(`${apiBase}/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: field('name'), email: field('email'), message: field('message'), locale: lang, website: field('website') }),
+    })
+      .then((r) => (r.ok ? go() : setError(t.feedback.error)))
+      .catch(() => setError(t.feedback.error))
+      .finally(() => setBusy(false));
   };
 
   // the message is folded into an airmail envelope, sealed with the festival star and posted
@@ -363,11 +380,24 @@ export function ContactDialog({ open, onClose }: { open: boolean; onClose: () =>
                 <span>{t.ref.message}</span>
                 <textarea name="message" rows={4} required maxLength={5000} />
               </label>
-              <p className="preview-note" id="contact-note">
-                {t.ui.preview}
-              </p>
-              <button type="submit" className="btn btn-gold" aria-describedby="contact-note">
-                <span>{t.ref.send}</span>
+              <div className="honeypot" aria-hidden="true">
+                <label>
+                  Website
+                  <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+                </label>
+              </div>
+              {!apiBase && (
+                <p className="preview-note" id="contact-note">
+                  {t.ui.preview}
+                </p>
+              )}
+              {error && (
+                <p className="form-feedback" role="alert">
+                  {error}
+                </p>
+              )}
+              <button type="submit" className="btn btn-gold" disabled={busy}>
+                <span>{busy ? t.feedback.submitting : t.ref.send}</span>
                 <Arrow />
               </button>
             </form>

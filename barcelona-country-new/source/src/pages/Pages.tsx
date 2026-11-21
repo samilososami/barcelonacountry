@@ -10,7 +10,7 @@ const DOCS = legal as Record<string, Doc>;
 
 // Links existing words without adding or rewriting the approved document text.
 const LINKS: Record<string, string> = {
-  'privacidad@barcelonacountryfest.com': 'mailto:privacidad@barcelonacountryfest.com',
+  'privacidad@barcelonacountry.com': 'mailto:privacidad@barcelonacountry.com',
   'https://www.barcelonacountry.com/': 'https://www.barcelonacountry.com/',
   'Política de Privacidad': '#/privacidad',
   'Política de Cookies': '#/cookies'
@@ -18,7 +18,7 @@ const LINKS: Record<string, string> = {
 function LegalText({ text }: { text: string }) {
   return (
     <>
-      {text.split(/(privacidad@barcelonacountryfest\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, i) =>
+      {text.split(/(privacidad@barcelonacountry\.com|https:\/\/www\.barcelonacountry\.com\/|Política de Privacidad|Política de Cookies)/g).map((part, i) =>
         LINKS[part] ? (
           <a key={i} href={LINKS[part]}>
             {part}
@@ -50,7 +50,7 @@ function PageShell({ children, onHome }: { children: ReactNode; onHome: (target?
         <a href="#/privacidad">{t.news.privacy}</a>
         <a href="#/aviso-legal">{t.news.legal}</a>
         <a href="#/cookies">{t.news.cookies}</a>
-        <a href="mailto:privacidad@barcelonacountryfest.com">privacidad@barcelonacountryfest.com</a>
+        <a href="mailto:privacidad@barcelonacountry.com">privacidad@barcelonacountry.com</a>
         <PreferencesButton />
       </footer>
     </div>

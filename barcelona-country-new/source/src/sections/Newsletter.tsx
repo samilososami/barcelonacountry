@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { apiBase } from '../api';
 import { res, useLang } from '../i18n';
 import { finePointer, gsap, reduced, useReveal } from '../lib/motion';
 import { countryFlag, phoneCountries } from '../data/phoneCountries';
@@ -47,11 +48,13 @@ export function Newsletter() {
   const ticket = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
-  const [status, setStatus] = useState<'idle' | 'done'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle');
+  const [error, setError] = useState('');
   const [name, setName] = useState('');
   useReveal(root, [lang]);
 
   useEffect(() => setStatus('idle'), [lang]);
+  useEffect(() => setError(''), [lang]);
 
   // gentle 3D tilt of the ticket
   useEffect(() => {
@@ -82,9 +85,28 @@ export function Newsletter() {
     const form = e.currentTarget;
     const data = new FormData(form);
     if (String(data.get('website') ?? '')) return;
-    // Design preview only: nothing is sent or stored. Production keeps its own /api/newsletter flow.
-    setName(String(data.get('name') ?? '').trim().split(/\s+/)[0].slice(0, 24));
-    setStatus('done');
+    const field = (k: string) => String(data.get(k) ?? '').trim();
+    setName(field('name').split(/\s+/)[0].slice(0, 24));
+    if (!apiBase) return setStatus('done'); // design preview hosts have no /api
+    setStatus('sending');
+    setError('');
+    fetch(`${apiBase}/newsletter`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'subscribe', full_name: field('name'), phone: `${field('phonePrefix')} ${field('phone')}`, country_iso: field('countryIso'),
+        email: field('email'), dance_location: field('danceLocation'), consent: true, privacy_accepted: data.get('privacyAccepted') === 'on', locale: lang, website: field('website'),
+      }),
+    })
+      .then((r) => {
+        if (r.ok) return setStatus('done');
+        setError(r.status === 409 ? t.feedback.duplicate : t.feedback.error);
+        setStatus('idle');
+      })
+      .catch(() => {
+        setError(t.feedback.error);
+        setStatus('idle');
+      });
   };
 
   const closePress = () => {
@@ -151,12 +173,17 @@ export function Newsletter() {
               </label>
               <div className="form-submit">
                 <Magnetic strength={0.25}>
-                  <button className="btn btn-gold btn-lg" type="submit" ref={submitRef} aria-describedby="news-auth">
-                    <span>{t.news.subscribe}</span>
+                  <button className="btn btn-gold btn-lg" type="submit" ref={submitRef} aria-describedby="news-auth" disabled={status === 'sending'}>
+                    <span>{status === 'sending' ? t.feedback.submitting : t.news.subscribe}</span>
                     <Arrow />
                   </button>
                 </Magnetic>
-                <p className="preview-note">{t.ui.preview}</p>
+                {!apiBase && <p className="preview-note">{t.ui.preview}</p>}
+                {error && (
+                  <p className="form-feedback" role="alert">
+                    {error}
+                  </p>
+                )}
               </div>
               <p id="news-auth" className="auth">
                 <b>{t.news.authorization}</b> {t.news.authorizationText}{' '}
