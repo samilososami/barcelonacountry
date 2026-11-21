@@ -166,10 +166,6 @@ function LoginPage({ initialError }: { initialError?: string }) {
               <span aria-hidden="true">→</span>
             </button>
           </form>
-
-          <p className="login-security-note">
-            <span aria-hidden="true">◆</span> Sesión protegida por Supabase Auth y políticas RLS.
-          </p>
         </div>
       </section>
     </main>
