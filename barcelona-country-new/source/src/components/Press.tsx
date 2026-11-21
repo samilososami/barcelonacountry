@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { res, useLang } from '../i18n';
 import { gsap, lockScroll, reduced } from '../lib/motion';
 import { Star } from './ui';
+import { apiBase } from '../api';
 
 /**
  * Subscription celebration: a press prints the first issue of Barcelona Country News,
@@ -140,7 +141,7 @@ export function Press({ open, name, onClose }: { open: boolean; name: string; on
         <div className="press-card">
           <h2 id="press-title">{t.x.newsTitle}</h2>
           <p>{t.x.newsBody}</p>
-          <p className="press-note">{t.ui.preview}</p>
+          {!apiBase && <p className="press-note">{t.ui.preview}</p>}
           <button type="button" className="btn btn-gold" onClick={close}>
             <span>{t.x.done}</span>
             <Star />

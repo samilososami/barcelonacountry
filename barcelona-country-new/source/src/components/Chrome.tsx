@@ -440,7 +440,7 @@ export function ContactDialog({ open, onClose }: { open: boolean; onClose: () =>
             </span>
             <h2 id="contact-title">{t.x.contactTitle}</h2>
             <p className="contact-msg">{t.x.contactBody}</p>
-            <p className="preview-note">{t.ui.preview}</p>
+            {!apiBase && <p className="preview-note">{t.ui.preview}</p>}
             <button type="button" className="btn btn-gold" onClick={() => dialog.current?.close()}>
               <span>{t.x.done}</span>
               <Star />
