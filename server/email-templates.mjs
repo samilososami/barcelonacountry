@@ -102,24 +102,18 @@ export function issueEmail({ issue, name = '', lang = 'es', unsubscribeUrl, welc
   return { subject, html: layout({ lang: l, preheader: issue.excerpt || issue.title, kicker: `${escapeHtml(t.news)} &nbsp;·&nbsp; ${escapeHtml(t.issue)} ${number}`, body, footer }), text };
 }
 
-// Auto-reply to whoever writes through the contact form.
-export function contactReplyEmail({ name = '', message = '', lang = 'es' }) {
+// Auto-reply to whoever writes through the contact form. Fixed text only: echoing the visitor's name or
+// message would let anyone use the form to send their own words to any address from our domain.
+export function contactReplyEmail({ lang = 'es' } = {}) {
   const l = pickLang(lang); const t = copy[l];
-  const first = String(name).trim().split(/\s+/)[0] || '';
-  const quoted = escapeHtml(String(message).slice(0, 5000)).replace(/\n/g, '<br>');
   const body = `
     <h1 class="title" style="margin:0 0 18px;font:600 40px/1.08 ${SERIF};color:${C.ink}">${escapeHtml(t.replyTitle)}</h1>
-    ${first ? `<p style="margin:0 0 18px;font:italic 500 21px/1.45 ${SERIF};color:${C.muted}">${t.hi(escapeHtml(first))}</p>` : ''}
     <p style="margin:0 0 26px">${escapeHtml(t.replyBody)}</p>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 26px"><tr><td style="border-left:3px solid ${C.red};background:${C.paper2};padding:18px 22px">
-      <p style="margin:0 0 8px;font:700 11px/1.4 ${SANS};letter-spacing:.2em;text-transform:uppercase;color:${C.muted}">${escapeHtml(t.replyCopy)}</p>
-      <p style="margin:0;font:italic 500 18px/1.55 ${SERIF};color:${C.ink}">${quoted}</p>
-    </td></tr></table>
     <p style="margin:0">${escapeHtml(t.replyMore)}</p>
     ${button(SITE, t.visit)}
     <p style="margin:26px 0 0;font:italic 500 19px/1.4 ${SERIF};color:${C.muted}">${escapeHtml(t.sign)}</p>`;
   const footer = `<p style="margin:0 0 8px">${escapeHtml(t.replyWhy)}</p><p style="margin:0"><a href="${SITE}/#/privacidad" style="color:#d9cdbb">${escapeHtml(t.privacy)}</a></p>`;
-  const text = [t.replyTitle, first ? t.hi(first) : '', t.replyBody, `${t.replyCopy}\n${message}`, t.replyMore, SITE, t.sign, '—', t.replyWhy].filter(Boolean).join('\n\n');
+  const text = [t.replyTitle, t.replyBody, t.replyMore, SITE, t.sign, '—', t.replyWhy].join('\n\n');
   return { subject: t.replySubject, html: layout({ lang: l, preheader: t.replyBody, kicker: escapeHtml(t.replyKicker), body, footer }), text };
 }
 

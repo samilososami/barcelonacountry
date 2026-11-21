@@ -5,7 +5,7 @@ import { CONTACT_EMAIL, contactNoticeEmail, contactReplyEmail, pickLang } from '
 // The message is saved first, so a mail-provider outage never loses it.
 const origins = new Set(['https://bcncountryfest.com', 'https://www.bcncountryfest.com', 'https://barcelonacountry.com', 'https://www.barcelonacountry.com']);
 const json = (body, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
-const PER_EMAIL_WINDOW_MIN = 10, PER_EMAIL_LIMIT = 3;
+const PER_EMAIL_WINDOW_MIN = 10, PER_EMAIL_LIMIT = 3, AUTOREPLY_PER_HOUR = 40;
 
 export function createContactHandler({ env = process.env, clientFactory = createClient, sendFetch = fetch, now = () => new Date() } = {}) {
   const url = env.SUPABASE_URL || env.VITE_SUPABASE_URL;
@@ -46,11 +46,15 @@ export function createContactHandler({ env = process.env, clientFactory = create
       if (error) return json({ error: 'save_failed' }, 500);
       if (!mailReady) return json({ ok: true, email: 'pending' }, 201);
 
+      // Global cap on auto-replies so a flood of fake addresses cannot turn the form into a mailer.
+      // shortcut: the count-then-insert checks are not atomic, so parallel bursts can slightly exceed both caps; move to a SQL function if abused.
+      const hourAgo = new Date(now().getTime() - 3600000).toISOString();
+      const { count: lastHour } = await db.from('contact_messages').select('id', { count: 'exact', head: true }).gte('created_at', hourAgo);
       const notice = contactNoticeEmail({ name, email, message, lang, receivedAt: now() });
-      const reply = contactReplyEmail({ name, message, lang });
+      const reply = contactReplyEmail({ lang });
       const [noticed, replied] = await Promise.all([
         send({ from: `Web Barcelona Country <${from}>`, to: [inbox], reply_to: `${name.replace(/[<>"]/g, '')} <${email}>`, subject: notice.subject, html: notice.html, text: notice.text }),
-        send({ from: `Barcelona Country Festival <${from}>`, to: [email], reply_to: CONTACT_EMAIL, subject: reply.subject, html: reply.html, text: reply.text }),
+        (lastHour ?? 0) <= AUTOREPLY_PER_HOUR ? send({ from: `Barcelona Country Festival <${from}>`, to: [email], reply_to: CONTACT_EMAIL, subject: reply.subject, html: reply.html, text: reply.text }) : false,
       ]);
       await db.from('contact_messages').update({ notified_at: noticed ? now().toISOString() : null, replied_at: replied ? now().toISOString() : null }).eq('id', saved.id);
       return json({ ok: true, email: noticed ? 'sent' : 'pending' }, 201);

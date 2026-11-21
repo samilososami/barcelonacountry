@@ -103,6 +103,15 @@ test('contact stores the message, notifies the inbox (reply-to sender) and auto-
   assert.match(reply.subject, /Nous avons reçu/);
   assert.ok(!notice.html.includes('<script>x') && notice.html.includes('&lt;script&gt;'));
   assert.ok(h.tables.contact_messages[0].notified_at && h.tables.contact_messages[0].replied_at);
+  assert.ok(!reply.html.includes('Hola'));
+});
+
+test('auto-replies stop past the hourly cap, but the inbox is still notified', async () => {
+  const h = contactHarness();
+  for (let i = 0; i < 41; i++) h.tables.contact_messages.push({ id: `old${i}`, email: `x${i}@example.com`, created_at: new Date().toISOString() });
+  assert.equal((await h.request(msg)).status, 201);
+  assert.ok(h.calls.some((c) => c.to[0] === 'info@barcelonacountry.com'));
+  assert.ok(!h.calls.some((c) => c.to[0] === 'ana@example.com'));
 });
 
 test('contact validates, honours the honeypot, blocks foreign origins and rate-limits per email', async () => {
@@ -127,6 +136,7 @@ test('templates escape user text and carry the festival frame in every language'
     const m = issueEmail({ issue: { issue_number: 3, slug: 's', title: '<i>T</i>', excerpt: '', content: 'x' }, name: '<b>N', lang, unsubscribeUrl: 'https://www.barcelonacountry.com/baja?token=t' });
     assert.ok(!m.html.includes('<i>T</i>') && m.html.includes('FIRA CORNELLÀ') && m.html.includes('/baja?token=t'));
   }
-  assert.ok(!contactReplyEmail({ name: '<x>', message: '<y>' }).html.includes('<y>'));
+  const reply = contactReplyEmail({ name: 'Spam <b>', message: 'buy pills', lang: 'es' });
+  assert.ok(!reply.html.includes('pills') && !reply.html.includes('Spam') && !reply.text.includes('pills'));
   assert.match(contactNoticeEmail({ name: 'A', email: 'a@b.co', message: 'm' }).subject, /^Contacto web/);
 });
