@@ -113,7 +113,8 @@
 .ar-media { margin: 2.4em calc(var(--gut) * -0.5) 2.4em; }
 .ar-media img, .ar-media video { display: block; width: 100%; height: auto; border-radius: 4px; background: var(--ink); box-shadow: 0 34px 60px -38px rgba(16, 16, 15, 0.7); }
 .ar-media--video video { width: auto; max-width: 100%; max-height: 78vh; margin-inline: auto; }
-.ar-media figcaption, .ar-audio figcaption { margin-top: 14px; padding-left: 14px; border-left: 2px solid var(--red); font: italic 400 18px/1.35 var(--f-text); color: var(--muted-ink); }
+.ar-media figcaption, .ar-audio figcaption { display: flex; align-items: baseline; gap: 12px; margin-top: 14px; font: italic 400 18px/1.35 var(--f-text); color: var(--muted-ink); }
+.ar-media figcaption::before { content: ''; flex: none; width: 22px; height: 1px; background: var(--red); transform: translateY(-5px); }
 .ar-audio { margin: 2em 0; padding: 22px 24px; border: 1px solid var(--line-ink); border-radius: 4px; background: var(--paper-2); }
 .ar-audio figcaption { margin: 0 0 14px; padding: 0; border: 0; display: flex; gap: 10px; align-items: center; color: var(--ink); }
 .ar-audio .star { color: var(--red); font-size: 12px; }
