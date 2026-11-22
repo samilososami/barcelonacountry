@@ -139,4 +139,6 @@ test('templates escape user text and carry the festival frame in every language'
   const reply = contactReplyEmail({ name: 'Spam <b>', message: 'buy pills', lang: 'es' });
   assert.ok(!reply.html.includes('pills') && !reply.html.includes('Spam') && !reply.text.includes('pills'));
   assert.match(contactNoticeEmail({ name: 'A', email: 'a@b.co', message: 'm' }).subject, /^Contacto web/);
+  const evil = contactNoticeEmail({ name: 'A', email: 'a@b.co?cc=x@y.z&body=hi', message: 'm' }).html;
+  assert.ok(!evil.includes('mailto:a@b.co?cc=') && evil.includes('mailto:a%40b.co%3Fcc%3D'));
 });

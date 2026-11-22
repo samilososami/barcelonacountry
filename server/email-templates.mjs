@@ -168,13 +168,13 @@ export function contactNoticeEmail({ name, email, message, lang = 'es', received
     ${kickerLine('Formulario de contacto · barcelonacountry.com')}
     <h1 class="title" style="margin:0 0 24px;font:500 40px/1.04 ${SERIF};color:${C.ink}">Nuevo mensaje de ${escapeHtml(String(name).slice(0, 80))}</h1>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;border-top:1px solid ${C.line}">
-      ${row('Nombre', escapeHtml(name))}${row('Email', `<a href="mailto:${escapeHtml(email)}" style="color:${C.red}">${escapeHtml(email)}</a>`)}${row('Idioma', escapeHtml(pickLang(lang).toUpperCase()))}${row('Recibido', escapeHtml(when))}
+      ${row('Nombre', escapeHtml(name))}${row('Email', `<a href="mailto:${encodeURIComponent(email)}" style="color:${C.red}">${escapeHtml(email)}</a>`)}${row('Idioma', escapeHtml(pickLang(lang).toUpperCase()))}${row('Recibido', escapeHtml(when))}
     </table>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#ffffff" style="background:#ffffff;border:1px solid ${C.line};border-radius:6px;padding:22px 24px">
       <p style="margin:0 0 10px;font:700 10.5px/1.4 ${SANS};letter-spacing:.24em;text-transform:uppercase;color:${C.red}">Mensaje</p>
       <p style="margin:0;font:400 16px/1.7 ${SANS};color:${C.ink};white-space:pre-line">${escapeHtml(message)}</p>
     </td></tr></table>
-    ${button(`mailto:${email}`, 'Responder')}
+    ${button(`mailto:${encodeURIComponent(email)}`, 'Responder')}
     <p style="margin:14px 0 0;font:400 13px/1.6 ${SANS};color:${C.muted}">También puedes responder directamente a este correo: la respuesta irá a ${escapeHtml(email)}.</p>`;
   return {
     subject: `Contacto web · ${String(name).slice(0, 80)}`,
