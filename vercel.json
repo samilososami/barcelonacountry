@@ -8,7 +8,9 @@
     { "source": "/privacidad", "destination": "/#/privacidad", "permanent": false },
     { "source": "/aviso-legal", "destination": "/#/aviso-legal", "permanent": false },
     { "source": "/cookies", "destination": "/#/cookies", "permanent": false },
-    { "source": "/blog", "destination": "/#/blog", "permanent": false }
+    { "source": "/blog", "destination": "/#/blog", "permanent": false },
+    { "source": "/newsletters", "destination": "/#/blog", "permanent": false },
+    { "source": "/newsletters/:slug", "destination": "/#/blog/:slug", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
@@ -17,8 +19,6 @@
     { "source": "/dashbord", "destination": "/app.html" },
     { "source": "/admin/newsletters", "destination": "/app.html" },
     { "source": "/baja", "destination": "/app.html" },
-    { "source": "/newsletters", "destination": "/app.html" },
-    { "source": "/newsletters/:path*", "destination": "/app.html" },
     { "source": "/entradas", "destination": "/app.html" },
     { "source": "/tickets", "destination": "/app.html" },
     { "source": "/buy", "destination": "/app.html" },

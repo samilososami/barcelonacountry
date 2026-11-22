@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/admin/admin-theme.css"
+        ],
+        "createdAt": "2026-11-21T20:33:05.517Z",
+        "reason": "Claude: L58 is a bottom inset red band under the login poster image (echoes the site's red header rule), not a side tab; the three real side-tab borders were removed"
+      }
+    ]
+  }
+}

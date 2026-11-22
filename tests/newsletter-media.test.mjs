@@ -5,7 +5,7 @@ import { welcomeEmail } from '../server/newsletter.mjs';
 
 test('existing paragraphs, headings and lists retain their format', () => {
   assert.deepEqual(parseContent('Texto\ncon salto\n\n## Título\n\n- Uno\n- Dos').map(b => b.type), ['paragraph', 'heading', 'list']);
-  assert.match(contentEmailHtml("- Uno\n- Dos"), /<ul[^>]*><li[^>]*>Uno<\/li><li[^>]*>Dos<\/li><\/ul>/);
+  assert.match(contentEmailHtml("- Uno\n- Dos"), /<ul[^>]*><li[^>]*>[^<]*<span[^>]*>&#9733;<\/span>[^<]*Uno<\/li><li[^>]*>.*Dos<\/li><\/ul>/);
 });
 
 test('all media types round-trip with readable captions and safe URLs', () => {

@@ -72,16 +72,24 @@ export async function validateMediaFile(file) {
 }
 
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-export function contentEmailHtml(content) {
+// Email body for an issue, in the festival's look: serif headings with a red star, star-ruled lists,
+// framed photos with a red caption rule, and dark "ticket" cards for video, audio and PDF (mail clients
+// cannot play media). Inline styles only. `assets` is the absolute URL of /assets/email on the site.
+export function contentEmailHtml(content, { assets = 'https://www.barcelonacountry.com/assets/email' } = {}) {
+  const SERIF = "'Cormorant Garamond',Georgia,'Times New Roman',serif";
+  const SANS = "'Manrope','Helvetica Neue',Helvetica,Arial,sans-serif";
+  const card = (url, kicker, label, icon) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0"><tr><td bgcolor="#10100f" style="background:#10100f;border-radius:6px;padding:18px 20px"><a href="${url}" style="text-decoration:none;color:#f2f1eb"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="64" style="padding-right:18px;vertical-align:middle">${icon}</td><td style="vertical-align:middle"><span style="display:block;font:700 10px/1.4 ${SANS};letter-spacing:.28em;text-transform:uppercase;color:#ff5b55">${kicker}</span><span style="display:block;margin-top:4px;font:500 23px/1.15 ${SERIF};color:#f2f1eb">${label}</span></td></tr></table></a></td></tr></table>`;
+  const disc = (text) => `<span style="display:inline-block;width:52px;height:52px;line-height:52px;border-radius:26px;background:#c40000;color:#ffffff;text-align:center;font:800 12px/52px ${SANS};letter-spacing:.1em">${text}</span>`;
   return parseContent(content).map(block => {
-    if (block.type === 'heading') return `<h2 style="margin:34px 0 12px;font:600 28px/1.2 'Cormorant Garamond',Georgia,serif;color:#241a12">${escape(block.text)}</h2>`;
-    if (block.type === 'list') return `<ul style="margin:0 0 22px;padding-left:22px">${block.items.map(item => `<li style="margin:0 0 8px">${escape(item)}</li>`).join('')}</ul>`;
+    if (block.type === 'heading') return `<h2 style="margin:38px 0 14px;font:500 31px/1.12 ${SERIF};color:#10100f"><span style="color:#c40000;font-size:15px;vertical-align:middle">&#9733;</span>&nbsp; ${escape(block.text)}</h2>`;
+    if (block.type === 'list') return `<ul style="margin:0 0 26px;padding:0;list-style:none;border-top:1px solid #d9d6cc">${block.items.map(item => `<li style="margin:0;padding:12px 0 12px 26px;border-bottom:1px solid #d9d6cc;text-indent:-26px"><span style="color:#c40000;font-size:11px">&#9733;</span>&nbsp;&nbsp;&nbsp;${escape(item)}</li>`).join('')}</ul>`;
     if (block.type === 'media') {
       const label = escape(block.label || 'Archivo');
       const url = escape(block.url);
-      if (block.kind === 'image') return `<p style="margin:24px 0"><a href="${url}"><img src="${url}" alt="${label}" width="576" style="display:block;max-width:100%;width:100%;height:auto;border:0"></a><span style="display:block;margin-top:8px;font:italic 15px/1.4 'Cormorant Garamond',Georgia,serif;color:#6f6153">${label}</span></p>`;
-      const kind = { video: 'Vídeo', audio: 'Audio', file: 'PDF' }[block.kind];
-      return `<p style="margin:24px 0;padding:16px 18px;border:1px solid #d8cbb5;background:#ebe1cf"><a href="${url}" style="color:#c40000;font-weight:700">${kind}: ${label} &rarr;</a></p>`;
+      if (block.kind === 'image') return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:30px 0"><tr><td><a href="${url}"><img src="${url}" alt="${label}" width="512" style="display:block;width:100%;max-width:100%;height:auto;border:0;border-radius:6px"></a></td></tr>${block.label ? `<tr><td style="padding:12px 0 0 14px;border-left:2px solid #c40000;font:italic 500 17px/1.35 ${SERIF};color:#5f5a52">${label}</td></tr>` : ''}</table>`;
+      if (block.kind === 'video') return card(url, 'Vídeo', label, `<img src="${assets}/play.png" width="52" height="52" alt="" style="display:block;border:0">`);
+      if (block.kind === 'audio') return card(url, 'Audio', label, disc('&#9835;'));
+      return card(url, 'PDF', label, disc('PDF'));
     }
     return `<p style="margin:0 0 20px;white-space:pre-line">${escape(block.text).replaceAll('\n', '<br>')}</p>`;
   }).join('');
