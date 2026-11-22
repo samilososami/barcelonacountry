@@ -266,6 +266,7 @@
     "next": "Foto siguiente",
     "photo": "Foto"
   },
+  "blog": {"edition": "Edición digital", "latest": "Último número", "minRead": "min de lectura", "all": "Todos los números", "more": "Números anteriores", "prev": "Anterior", "next": "Siguiente", "notFound": "No encontramos este número.", "ctaKicker": "Barcelona Country News", "ctaTitle": "El próximo número, directo a tu correo.", "ctaBody": "Artistas, novedades y entradas antes que nadie. Sin spam: solo country.", "copy": "Copiar enlace", "copied": "¡Enlace copiado!", "issues": "números", "file": "Descargar"},
   "news": {
     "title": "¡No te pierdas nada!",
     "introBefore": "Suscríbete para recibir en tu correo electrónico nuestra publicación",

@@ -10,18 +10,19 @@ import { Chapters } from './sections/Chapters';
 import { Place } from './sections/Place';
 import { Newsletter } from './sections/Newsletter';
 
-const BlogPage = lazy(() => import('./pages/Pages').then((m) => ({ default: m.BlogPage })));
+const BlogPage = lazy(() => import('./pages/Blog').then((m) => ({ default: m.BlogPage })));
 const LegalPage = lazy(() => import('./pages/Pages').then((m) => ({ default: m.LegalPage })));
 
 const PAGES = ['privacidad', 'aviso-legal', 'cookies', 'blog', 'newsletters'];
-const routeOf = () => {
-  const h = window.location.hash.replace(/^#\/?/, '').split(/[?#]/)[0].toLowerCase();
-  return PAGES.includes(h) ? h : '';
-};
+const hashPath = () => window.location.hash.replace(/^#\/?/, '').split(/[?#]/)[0].toLowerCase().split('/');
+const routeOf = () => (PAGES.includes(hashPath()[0]) ? hashPath()[0] : '');
+// #/blog/<slug> (and the legacy #/newsletters/<slug>) open a single issue
+const slugOf = () => decodeURIComponent(hashPath()[1] ?? '');
 
 function Site() {
   const [lang, setLangState] = useState<Lang>(initialLang);
   const [route, setRoute] = useState(routeOf);
+  const [slug, setSlug] = useState(slugOf);
   const [contact, setContact] = useState(false);
   const curtain = useRef<HTMLDivElement>(null);
   const pending = useRef<string | null>(null);
@@ -63,8 +64,10 @@ function Site() {
   useEffect(() => {
     const onHash = () => {
       const next = routeOf();
+      const nextSlug = slugOf();
       swap(() => {
         setRoute(next);
+        setSlug(nextSlug);
         scrollTopNow();
       });
     };
@@ -126,7 +129,7 @@ function Site() {
           </>
         ) : (
           <Suspense fallback={<div className="page paper" />}>
-            {route === 'blog' || route === 'newsletters' ? <BlogPage onHome={goHome} /> : <LegalPage slug={route} onHome={goHome} />}
+            {route === 'blog' || route === 'newsletters' ? <BlogPage slug={slug} onHome={goHome} onNavigate={navigate} /> : <LegalPage slug={route} onHome={goHome} />}
           </Suspense>
         )}
         <ContactDialog open={contact} onClose={() => setContact(false)} />

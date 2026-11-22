@@ -266,6 +266,7 @@
     "next": "Photo suivante",
     "photo": "Photo"
   },
+  "blog": {"edition": "Édition numérique", "latest": "Dernier numéro", "minRead": "min de lecture", "all": "Tous les numéros", "more": "Numéros précédents", "prev": "Précédent", "next": "Suivant", "notFound": "Nous ne trouvons pas ce numéro.", "ctaKicker": "Barcelona Country News", "ctaTitle": "Le prochain numéro, directement dans votre boîte mail.", "ctaBody": "Artistes, nouveautés et billets en avant-première. Pas de spam : que du country.", "copy": "Copier le lien", "copied": "Lien copié !", "issues": "numéros", "file": "Télécharger"},
   "news": {
     "title": "Ne manquez rien !",
     "introBefore": "Inscrivez-vous pour recevoir par e-mail notre publication",

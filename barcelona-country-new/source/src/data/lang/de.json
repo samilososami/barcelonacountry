@@ -266,6 +266,7 @@
     "next": "Nächstes Foto",
     "photo": "Foto"
   },
+  "blog": {"edition": "Digitale Ausgabe", "latest": "Neueste Ausgabe", "minRead": "Min. Lesezeit", "all": "Alle Ausgaben", "more": "Frühere Ausgaben", "prev": "Zurück", "next": "Weiter", "notFound": "Diese Ausgabe haben wir nicht gefunden.", "ctaKicker": "Barcelona Country News", "ctaTitle": "Die nächste Ausgabe direkt in dein Postfach.", "ctaBody": "Künstler, Neuigkeiten und Tickets vor allen anderen. Kein Spam: nur Country.", "copy": "Link kopieren", "copied": "Link kopiert!", "issues": "Ausgaben", "file": "Herunterladen"},
   "news": {
     "title": "Verpasse nichts!",
     "introBefore": "Abonniere unsere Publikation per E-Mail,",

@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import legal from '../data/legal.json';
 import { res, useLang } from '../i18n';
 import { PreferencesButton } from '../components/Consent';
-import { Arrow, Star } from '../components/ui';
+import { Arrow } from '../components/ui';
 
 type Block = { type: 'paragraph' | 'heading'; text: string } | { type: 'list'; items: string[] };
 type Doc = { title: string; updatedAt: string; updatedLabel: string; sections: { id: string; title: string; blocks: Block[] }[] };
@@ -31,7 +31,7 @@ function LegalText({ text }: { text: string }) {
   );
 }
 
-function PageShell({ children, onHome }: { children: ReactNode; onHome: (target?: string) => void }) {
+export function PageShell({ children, onHome, bleed }: { children: ReactNode; onHome: (target?: string) => void; bleed?: boolean }) {
   const { t } = useLang();
   return (
     <div className="page paper">
@@ -44,7 +44,7 @@ function PageShell({ children, onHome }: { children: ReactNode; onHome: (target?
           <span>{t.news.back}</span>
         </a>
       </header>
-      <main className="page-main">{children}</main>
+      <main className={bleed ? 'page-main page-main--bleed' : 'page-main'}>{children}</main>
       <footer className="page-foot">
         <span>Barcelona Country Festival · {t.date.days} {t.date.month.toUpperCase()} {t.date.year}</span>
         <a href="#/privacidad">{t.news.privacy}</a>
@@ -133,40 +133,6 @@ export function LegalPage({ slug, onHome }: { slug: string; onHome: (target?: st
       ) : (
         <p>{t.news.pending}</p>
       )}
-    </PageShell>
-  );
-}
-
-export function BlogPage({ onHome }: { onHome: (target?: string) => void }) {
-  const { t } = useLang();
-  useEffect(() => {
-    document.title = 'Barcelona Country News | Barcelona Country Festival';
-  }, []);
-  return (
-    <PageShell onHome={onHome}>
-      <div className="blog-mast">
-        <p className="kicker">
-          <Star /> {t.news.archive}
-        </p>
-        <h1>
-          Barcelona Country <em>News</em>
-        </h1>
-        <p>{t.news.archiveIntro}</p>
-      </div>
-      <section className="blog-empty">
-        <span className="blog-num" aria-hidden="true">
-          01
-        </span>
-        <div>
-          <p className="kicker">Barcelona Country News</p>
-          <h2>{t.news.empty}</h2>
-          <p>{t.news.emptyBody}</p>
-          <a className="btn btn-gold" href="#/" onClick={(e) => { e.preventDefault(); onHome('newsletter'); }}>
-            <span>{t.news.subscribe}</span>
-            <Arrow dir="up-right" />
-          </a>
-        </div>
-      </section>
     </PageShell>
   );
 }

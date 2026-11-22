@@ -266,6 +266,7 @@
     "next": "Next photo",
     "photo": "Photo"
   },
+  "blog": {"edition": "Digital edition", "latest": "Latest issue", "minRead": "min read", "all": "All issues", "more": "Earlier issues", "prev": "Previous", "next": "Next", "notFound": "We couldn't find this issue.", "ctaKicker": "Barcelona Country News", "ctaTitle": "The next issue, straight to your inbox.", "ctaBody": "Artists, news and tickets before anyone else. No spam: just country.", "copy": "Copy link", "copied": "Link copied!", "issues": "issues", "file": "Download"},
   "news": {
     "title": "Don't miss a thing!",
     "introBefore": "Subscribe to receive our publication by email,",
