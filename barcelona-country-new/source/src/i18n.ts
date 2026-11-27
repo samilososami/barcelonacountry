@@ -16,6 +16,16 @@ export const T = data as Record<Lang, Copy>;
 export const LANG_KEY = 'barcelona-country-language';
 
 export function initialLang(): Lang {
+  // ?lang=fr from a newsletter link wins and is remembered, so readers land in their email's language.
+  const asked = new URLSearchParams(window.location.search).get('lang');
+  if (asked && (LANGS as readonly string[]).includes(asked)) {
+    try {
+      window.localStorage.setItem(LANG_KEY, asked);
+    } catch {
+      /* storage blocked: still use it for this visit */
+    }
+    return asked as Lang;
+  }
   try {
     const stored = window.localStorage.getItem(LANG_KEY);
     if (stored && (LANGS as readonly string[]).includes(stored)) return stored as Lang;
@@ -42,7 +52,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   'Pol F. Ryan': { img: 'pol', ig: 'https://www.instagram.com/polfryann/', gallery: gal('pol-f-ryan', 11) },
   'Algaly Fofana': { img: 'algaly', ig: 'https://www.instagram.com/algalyfofana/', gallery: gal('algaly-fofana', 5) },
   'David Villellas': { img: 'david-villellas', ig: 'https://www.instagram.com/david.villellas/', gallery: gal('david-villellas', 1) },
-  'Sofía Balzano': { img: 'sofia', ig: 'https://www.instagram.com/sofiabalzanoo_/', gallery: gal('sofia-balzano', 1) },
+  'Sofía Balzano': { img: 'sofia', ig: 'https://www.instagram.com/sofiabalzanoo_/', gallery: gal('sofia-balzano', 14) },
   'Montse Moscardó': { img: 'montse', ig: 'https://www.instagram.com/montse.moscardo/', gallery: gal('montse-moscardo', 1) },
   Johnny: { img: 'johnny', ig: 'https://www.instagram.com/learnwithjohnny/', gallery: gal('johnny', 5) },
   'David Prestor': { img: 'david-prestor', gallery: gal('david-prestor', 10) },
@@ -51,7 +61,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   'Virginie Barjaud': { img: 'virginie', gallery: gal('virginie-barjaud', 5) },
   'Silvia Calsina': { img: 'silvia-calsina', gallery: gal('silvia-calsina', 5) },
   'Neus Lloveras': { img: 'neus', gallery: gal('neus-lloveras', 5) },
-  'Edu Roldos': { img: 'edu-roldos', gallery: gal('edu-roldos', 1) },
+  'Edu Roldos': { img: 'edu-roldos', gallery: gal('edu-roldos', 12) },
   'Jonathan Jones': { img: 'jonathan', gallery: gal('jonathan-jones', 5) },
   'Steve Frapolli': { img: 'steve', ig: 'https://www.instagram.com/steve_frapolli/', gallery: gal('steve-frapolli', 5) },
   'DJ Lu': { img: 'dj-lu', gallery: gal('dj-lu', 5) },
@@ -59,6 +69,16 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
 };
 
 export const artistsFor = (t: Copy): Artist[] => t.artists.map((a) => ({ ...a, ...META[a.name] }));
+
+// One cover per artist per page load, drawn from the portrait and the gallery, so the rail changes on every visit.
+const covers = new Map<string, string>();
+export const coverOf = (a: Artist) => {
+  if (!covers.has(a.name)) {
+    const pool = [`art/${a.img}.webp`, ...a.gallery];
+    covers.set(a.name, pool[Math.floor(Math.random() * pool.length)]);
+  }
+  return covers.get(a.name)!;
+};
 
 /** Display casing for copy stored in capitals: 'DETALLES DEL FESTIVAL' -> 'Detalles del festival'. */
 export const sentence = (text: string, lang: string) => {

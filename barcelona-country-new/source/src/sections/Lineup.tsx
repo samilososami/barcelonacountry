@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type PointerEvent as RPointerEvent, type RefObject } from 'react';
-import { artistsFor, pad, res, useLang, type Artist } from '../i18n';
+import { artistsFor, coverOf, pad, res, useLang, type Artist } from '../i18n';
 import { finePointer, gsap, lockScroll, reduced, useReveal } from '../lib/motion';
 import { Arrow, Close, Instagram, Neon } from '../components/ui';
 
@@ -235,7 +235,7 @@ function ArtistRail({ artists, label, full, onGallery }: { artists: Artist[]; la
             const photo = (
               <>
                 <span className="card-frame">
-                  <img src={res(`art/${a.img}.webp`)} alt={a.name} loading="lazy" draggable={false} />
+                  <img src={res(coverOf(a))} alt={a.name} loading="lazy" draggable={false} />
                 </span>
                 <span className="card-num">{pad(i + 1)}</span>
                 {a.ig && (

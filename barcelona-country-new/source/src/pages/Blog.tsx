@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { res, useLang } from '../i18n';
 import { useReveal } from '../lib/motion';
-import { coverOf, issueDate, loadIssues, pad, parseContent, readingMinutes, type Block, type Issue } from '../lib/news';
+import { coverOf, issueDate, loadIssues, localize, pad, parseContent, readingMinutes, type Block, type Issue } from '../lib/news';
 import { Arrow, Neon, Star } from '../components/ui';
 import { Ribbon } from '../sections/Hero';
 import { PageShell } from './Pages';
@@ -11,8 +11,9 @@ type Nav = (hash: string) => void;
 const link = (nav: Nav, hash: string) => ({ href: hash, onClick: (e: MouseEvent) => { e.preventDefault(); nav(hash); } });
 
 export function BlogPage({ slug, onHome, onNavigate }: { slug: string; onHome: (target?: string) => void; onNavigate: Nav }) {
-  const { t } = useLang();
-  const [issues, setIssues] = useState<Issue[] | null>(null);
+  const { t, lang } = useLang();
+  const [raw, setIssues] = useState<Issue[] | null>(null);
+  const issues = useMemo(() => raw?.map((i) => localize(i, lang)) ?? null, [raw, lang]);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
@@ -244,7 +245,7 @@ function Article({ issue, newer, older, nav }: { issue: Issue; newer?: Issue; ol
         </span>
       </header>
 
-      <div className="ar-body" lang="es">
+      <div className="ar-body" lang={issue.lang ?? 'es'}>
         {blocks.map((b, i) => (
           <BlockView key={i} block={b} first={i === blocks.findIndex((x) => x.type === 'paragraph')} />
         ))}
@@ -285,12 +286,22 @@ function Article({ issue, newer, older, nav }: { issue: Issue; newer?: Issue; ol
   );
 }
 
+// **bold** and *italic*, the only inline marks the newsletter editor uses.
+function inline(text: string): ReactNode[] {
+  return text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*\n]+\*)/g).map((part, k) => {
+    if (part.startsWith('***') && part.endsWith('***') && part.length > 6) return <strong key={k}><em>{part.slice(3, -3)}</em></strong>;
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) return <strong key={k}>{part.slice(2, -2)}</strong>;
+    if (part.startsWith('*') && part.endsWith('*') && part.length > 2) return <em key={k}>{part.slice(1, -1)}</em>;
+    return part;
+  });
+}
+
 function BlockView({ block, first }: { block: Block; first: boolean }) {
   const { t } = useLang();
   if (block.type === 'heading')
     return (
       <h2 className="ar-h" data-reveal>
-        <Star /> {block.text}
+        <Star /> {inline(block.text)}
       </h2>
     );
   if (block.type === 'list')
@@ -299,7 +310,7 @@ function BlockView({ block, first }: { block: Block; first: boolean }) {
         {block.items.map((item, k) => (
           <li key={k}>
             <Star />
-            <span>{item}</span>
+            <span>{inline(item)}</span>
           </li>
         ))}
       </ul>
@@ -307,7 +318,7 @@ function BlockView({ block, first }: { block: Block; first: boolean }) {
   if (block.type === 'paragraph')
     return (
       <p className={first ? 'ar-p ar-p--first' : 'ar-p'} data-reveal>
-        {block.text}
+        {inline(block.text)}
       </p>
     );
   if (block.kind === 'image')

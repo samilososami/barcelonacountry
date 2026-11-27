@@ -3,7 +3,8 @@
 const SUPABASE_URL = 'https://chtblgjrntxlpqhffxnq.supabase.co';
 const PUBLIC_KEY = 'sb_publishable_9CqB3wxIVv3e8j2mMR7zhA_CNlnlBII';
 
-export type Issue = { id: string; issue_number: number; slug: string; title: string; excerpt: string; content: string; published_at: string | null; created_at: string };
+type Text = { title: string; excerpt: string; content: string };
+export type Issue = Text & { id: string; issue_number: number; slug: string; published_at: string | null; created_at: string; translations?: Partial<Record<string, Partial<Text>>>; lang?: string };
 export type Block =
   | { type: 'paragraph'; text: string }
   | { type: 'heading'; text: string }
@@ -13,7 +14,7 @@ export type Block =
 let cache: Promise<Issue[]> | null = null;
 export function loadIssues(force = false): Promise<Issue[]> {
   if (!cache || force) {
-    cache = fetch(`${SUPABASE_URL}/rest/v1/newsletter_issues?select=id,issue_number,slug,title,excerpt,content,published_at,created_at&is_published=eq.true&order=issue_number.desc`, {
+    cache = fetch(`${SUPABASE_URL}/rest/v1/newsletter_issues?select=id,issue_number,slug,title,excerpt,content,translations,published_at,created_at&is_published=eq.true&order=issue_number.desc`, {
       headers: { apikey: PUBLIC_KEY, Authorization: `Bearer ${PUBLIC_KEY}` }
     }).then((r) => {
       if (!r.ok) throw new Error(String(r.status));
@@ -22,6 +23,13 @@ export function loadIssues(force = false): Promise<Issue[]> {
     cache.catch(() => (cache = null));
   }
   return cache;
+}
+
+// The issue in the reader's language when a translation exists; Spanish is the original.
+export function localize(issue: Issue, lang: string): Issue {
+  const tr = lang === 'es' ? undefined : issue.translations?.[lang];
+  if (!tr?.title || !tr.content) return { ...issue, lang: 'es' };
+  return { ...issue, title: tr.title, excerpt: tr.excerpt ?? '', content: tr.content, lang };
 }
 
 // Same grammar as the admin editor (shared/newsletter-content.mjs in the official repo).
