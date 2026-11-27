@@ -4,9 +4,11 @@ import { createNewsletterHandler, unsubscribeToken, verifyUnsubscribe, welcomeEm
 
 const env = { SUPABASE_URL: 'https://test.supabase.co', SUPABASE_PUBLISHABLE_KEY: 'public', SUPABASE_SERVICE_ROLE_KEY: 'test-secret', NEWSLETTER_SIGNING_SECRET: 'test-signature', RESEND_API_KEY: 'test-mail', NEWSLETTER_FROM_EMAIL: 'news@example.com', NODE_ENV: 'production' };
 const input = { action: 'subscribe', full_name: 'Test Dancer', email: 'dancer@example.com', phone: '+34 600000000', country_iso: 'ES', dance_location: 'Test dance hall', consent: true, privacy_accepted: true, locale: 'es' };
-const issue = { issue_number: 1, is_published: true, slug: 'primer-numero', title: 'Primer número', content: 'Contenido aprobado\n\n## Artistas\n\nNos vemos en Barcelona.' };
-function harness({ configured = true, published = true, mailFails = false, throws = false, admin = false } = {}) {
+const issue = { id: 'issue-1', issue_number: 1, is_published: true, slug: 'primer-numero', title: 'Primer número', content: 'Contenido aprobado\n\n## Artistas\n\nNos vemos en Barcelona.' };
+function harness({ configured = true, published = true, mailFails = false, throws = false, admin = false, released = true } = {}) {
   const rows = []; const emails = []; const tables = [];
+  // Issue 1 counts as released once it reached someone (an admin broadcast).
+  const deliveries = released ? [{ issue_id: 'issue-1', registration_id: 'earlier-subscriber' }] : [];
   const client = {
     auth: { getUser: async token => ({ data: { user: token === 'admin-token' ? { id: 'admin' } : null } }) },
     from(table) {
@@ -15,6 +17,7 @@ function harness({ configured = true, published = true, mailFails = false, throw
       const query = {
         insert(value) { op = 'insert'; data = value; return query; },
         update(value) { op = 'update'; data = value; return query; },
+        upsert(value) { op = 'upsert'; data = value; return query; },
         select(_cols, options) { count = options?.count; head = options?.head; return query; },
         eq(key, value) { filters.push(row => row[key] === value); return query; },
         is(key, value) { filters.push(row => (row[key] ?? null) === value); return query; },
@@ -26,7 +29,12 @@ function harness({ configured = true, published = true, mailFails = false, throw
               if (rows.some(row => row.email === data.email)) return { error: { code: '23505' } };
               rows.push({ ...data, welcome_newsletter_sent_at: null }); return { error: null };
             }
-            const selected = (table === 'registrations' ? rows : table === 'newsletter_issues' ? published ? [issue] : [] : admin ? [{ user_id: 'admin' }] : []).filter(row => filters.every(f => f(row)));
+            if (op === 'upsert') {
+              for (const item of [data].flat()) if (!deliveries.some(d => d.issue_id === item.issue_id && d.registration_id === item.registration_id)) deliveries.push(item);
+              return { error: null };
+            }
+            const source = table === 'registrations' ? rows : table === 'newsletter_issues' ? published ? [issue] : [] : table === 'newsletter_deliveries' ? deliveries : admin ? [{ user_id: 'admin' }] : [];
+            const selected = source.filter(row => filters.every(f => f(row)));
             if (op === 'update') selected.forEach(row => Object.assign(row, data));
             return { data: head ? null : selected, error: null, count: count ? selected.length : undefined };
           }).then(resolve, reject);
@@ -39,7 +47,7 @@ function harness({ configured = true, published = true, mailFails = false, throw
     return Response.json(mailFails ? { error: 'fail' } : { id: 'mail-1' }, { status: mailFails ? 503 : 200 });
   } });
   const request = (body, headers = {}) => handler(new Request('https://bcncountryfest.com/api/newsletter', { method: 'POST', headers: { origin: 'https://bcncountryfest.com', 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body) }));
-  return { rows, emails, tables, request, handler };
+  return { rows, emails, tables, deliveries, request, handler };
 }
 
 test('subscription persists consent and sends issue 1 with blog and unsubscribe links', async () => {
@@ -50,7 +58,7 @@ test('subscription persists consent and sends issue 1 with blog and unsubscribe 
   assert.ok(Date.parse(h.rows[0].privacy_accepted_at) <= Date.now());
   assert.ok(h.rows[0].welcome_newsletter_sent_at);
   const mail = JSON.parse(h.emails[0].body);
-  assert.match(mail.html, /https:\/\/www.barcelonacountry.com\/newsletters\/primer-numero/);
+  assert.match(mail.html, /https:\/\/www.barcelonacountry.com\/\?lang=es#\/blog\/primer-numero/);
   assert.equal(mail.reply_to, 'info@barcelonacountry.com');
   assert.match(mail.html, /\/baja\?token=/); assert.deepEqual(mail.to, [input.email]);
   assert.match(h.emails[0].headers['Idempotency-Key'], /^welcome-v1-/);
@@ -139,4 +147,39 @@ test('mail-client one-click POST unsubscribes without treating GET as an action'
   const token = unsubscribeToken(h.rows[0].id, env.NEWSLETTER_SIGNING_SECRET);
   const result = await h.handler(new Request(`https://bcncountryfest.com/api/newsletter?action=unsubscribe&token=${token}`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'List-Unsubscribe=One-Click' }));
   assert.equal(result.status, 200); assert.equal(h.rows[0].newsletter_consent, false);
+});
+
+test('no welcome email on signup until issue 1 has been broadcast', async () => {
+  const h = harness({ released: false });
+  const response = await h.request(input);
+  assert.equal(response.status, 201); assert.equal((await response.json()).welcome_email, 'pending');
+  assert.equal(h.emails.length, 0);
+});
+test('a welcome email is recorded as a delivery so a later broadcast skips that person', async () => {
+  const h = harness();
+  await h.request(input);
+  assert.ok(h.deliveries.some(d => d.issue_id === 'issue-1' && d.registration_id === h.rows[0].id));
+});
+import { subscriberLang, localizeIssue } from '../server/newsletter.mjs';
+test('each subscriber gets the language of their country, with Catalan and multilingual choices kept', () => {
+  const lang = (r) => subscriberLang({ subscription_locale: 'es', phone: '', country_iso: null, ...r });
+  assert.equal(lang({ country_iso: 'ES' }), 'es');
+  assert.equal(lang({ country_iso: 'ES', subscription_locale: 'ca' }), 'ca');
+  assert.equal(lang({ country_iso: 'DE', subscription_locale: 'en' }), 'de');
+  assert.equal(lang({ country_iso: 'FR' }), 'fr');
+  assert.equal(lang({ country_iso: 'IT' }), 'it');
+  assert.equal(lang({ country_iso: 'CH', subscription_locale: 'fr' }), 'fr');
+  assert.equal(lang({ country_iso: 'CH', subscription_locale: 'es' }), 'de');
+  assert.equal(lang({ country_iso: 'GB' }), 'en');
+  assert.equal(lang({ phone: '+33 6 12 34 56 78' }), 'fr');
+  assert.equal(lang({ phone: '0049 151 000000' }), 'de');
+  assert.equal(lang({ phone: '+376 300 000' }), 'ca');
+  assert.equal(lang({ phone: '600 000 000', subscription_locale: 'it' }), 'it');
+});
+test('an issue is read in the subscriber language only when the translation is complete', () => {
+  const issue = { title: 'Hola', excerpt: 'E', content: 'C', subject: 'S', translations: { en: { title: 'Hi', excerpt: 'Ex', content: 'Co', subject: 'Su' }, fr: { title: 'Salut' } } };
+  assert.equal(localizeIssue(issue, 'en').title, 'Hi');
+  assert.equal(localizeIssue(issue, 'en').subject, 'Su');
+  assert.equal(localizeIssue(issue, 'fr').title, 'Hola');
+  assert.equal(localizeIssue(issue, 'es').title, 'Hola');
 });

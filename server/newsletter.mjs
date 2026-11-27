@@ -20,11 +20,38 @@ export function verifyUnsubscribe(token, secret) {
   return timingSafeEqual(Buffer.from(token), Buffer.from(expected)) ? id : null;
 }
 
+// Each subscriber reads the newsletter in the language of their country (from the form, else the phone
+// prefix). In Spain, whoever signed up with the site in Catalan gets Catalan; in Switzerland, Belgium and
+// Luxembourg the site language they chose wins when it is French, German or Italian. Others get English.
+const BY_COUNTRY = { ES: 'es', AD: 'ca', FR: 'fr', BE: 'fr', LU: 'fr', MC: 'fr', IT: 'it', SM: 'it', VA: 'it', DE: 'de', AT: 'de', LI: 'de', CH: 'de',
+  PT: 'es', BR: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es', EC: 'es', UY: 'es', PY: 'es', BO: 'es', CR: 'es', PA: 'es', DO: 'es', GT: 'es', HN: 'es', SV: 'es', NI: 'es', CU: 'es', PR: 'es' };
+const PREFIXES = [['376', 'AD'], ['352', 'LU'], ['377', 'MC'], ['378', 'SM'], ['423', 'LI'], ['351', 'PT'], ['593', 'EC'], ['598', 'UY'], ['595', 'PY'], ['591', 'BO'], ['506', 'CR'], ['507', 'PA'],
+  ['34', 'ES'], ['33', 'FR'], ['32', 'BE'], ['39', 'IT'], ['49', 'DE'], ['43', 'AT'], ['41', 'CH'], ['55', 'BR'], ['52', 'MX'], ['54', 'AR'], ['57', 'CO'], ['56', 'CL'], ['51', 'PE'], ['58', 'VE'], ['44', 'GB'], ['1', 'US']];
+export function subscriberLang(registration) {
+  const chosen = languages.includes(registration.subscription_locale) ? registration.subscription_locale : null;
+  const digits = String(registration.phone ?? '').replace(/[\s().-]/g, '');
+  const international = digits.startsWith('+') ? digits.slice(1) : digits.startsWith('00') ? digits.slice(2) : '';
+  const country = registration.country_iso || (international && PREFIXES.find(([p]) => international.startsWith(p))?.[1]) || null;
+  if (!country) return chosen ?? 'es';
+  const lang = BY_COUNTRY[country] ?? 'en';
+  if (lang === 'es' && chosen === 'ca') return 'ca';
+  if (['CH', 'BE', 'LU'].includes(country) && ['fr', 'de', 'it'].includes(chosen)) return chosen;
+  return lang;
+}
+
+// The issue in one language: translations live in issue.translations[lang]; Spanish is the original.
+export function localizeIssue(issue, lang) {
+  const tr = lang !== 'es' && issue.translations && typeof issue.translations === 'object' ? issue.translations[lang] : null;
+  if (!tr?.title || !tr?.content) return issue;
+  return { ...issue, title: tr.title, excerpt: tr.excerpt ?? '', content: tr.content, subject: tr.subject ?? null };
+}
+
 // One email for one subscriber: content, signed unsubscribe link and the one-click unsubscribe headers.
 function personalEmail(registration, issue, secret, from, { welcome = false, subjectPrefix = '' } = {}) {
   const token = unsubscribeToken(registration.id, secret);
   const unsubscribeUrl = `${site}/baja?token=${token}`;
-  const mail = issueEmail({ issue, name: registration.full_name, lang: registration.subscription_locale, unsubscribeUrl, welcome });
+  const lang = subscriberLang(registration);
+  const mail = issueEmail({ issue: localizeIssue(issue, lang), name: registration.full_name, lang, unsubscribeUrl, welcome });
   return {
     from: `Barcelona Country Festival <${from}>`, reply_to: CONTACT_EMAIL, to: [registration.email], subject: subjectPrefix + mail.subject,
     headers: { 'List-Unsubscribe': `<${site}/api/newsletter?action=unsubscribe&token=${token}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
@@ -51,11 +78,15 @@ export function createNewsletterHandler({ env = process.env, clientFactory = cre
   async function sendWelcome(registration, issue) {
     if (!registration.newsletter_consent || registration.welcome_newsletter_sent_at) return 'skipped';
     try {
+      // Never twice: a broadcast of this issue may already have reached them.
+      const { count: had } = await db.from('newsletter_deliveries').select('issue_id', { count: 'exact', head: true }).eq('issue_id', issue.id).eq('registration_id', registration.id);
+      if (had) return 'skipped';
       const response = await resend('/emails', welcomeEmail(registration, issue, signingSecret, from), `welcome-v1-${registration.id}`);
       if (!response.ok) return 'pending';
       const receipt = await response.json();
       if (!receipt.id) return 'pending';
       const { error } = await db.from('registrations').update({ welcome_newsletter_sent_at: new Date().toISOString() }).eq('id', registration.id);
+      await db.from('newsletter_deliveries').upsert({ issue_id: issue.id, registration_id: registration.id, provider_id: receipt.id }, { onConflict: 'issue_id,registration_id', ignoreDuplicates: true });
       return error ? 'pending' : 'sent';
     } catch { return 'pending'; }
   }
@@ -149,7 +180,8 @@ export function createNewsletterHandler({ env = process.env, clientFactory = cre
         const already = new Set((done ?? []).map((d) => d.registration_id));
         const { data: subscribers, error: subError } = await db.from('registrations').select('*').eq('newsletter_consent', true).order('created_at');
         if (subError) return json({ error: 'registrations_unavailable' }, 500);
-        const todo = (subscribers ?? []).filter((r) => !already.has(r.id));
+        // Issue 1 doubles as the welcome email: whoever already got it on signup is skipped.
+        const todo = (subscribers ?? []).filter((r) => !already.has(r.id) && !(issue.issue_number === 1 && r.welcome_newsletter_sent_at));
         const batch = todo.slice(0, BATCH);
         if (!batch.length) return json({ sent: 0, remaining: 0, total: already.size });
         const key = 'issue-' + issue.id + '-' + createHash('sha256').update(batch.map((r) => r.id).join(',')).digest('hex').slice(0, 32);
@@ -176,7 +208,9 @@ export function createNewsletterHandler({ env = process.env, clientFactory = cre
       let delivery = 'pending';
       try {
         const { data: issue } = await db.from('newsletter_issues').select('*').eq('issue_number', 1).eq('is_published', true).maybeSingle();
-        if (issue) delivery = await sendWelcome(registration, issue);
+        // The welcome email starts only once issue 1 has gone out to the list (an admin broadcast).
+        const { count: released } = issue ? await db.from('newsletter_deliveries').select('issue_id', { count: 'exact', head: true }).eq('issue_id', issue.id) : { count: 0 };
+        if (issue && released) delivery = await sendWelcome(registration, issue);
       } catch { /* Pending deliveries remain visible to the administrator. */ }
       return json({ ok: true, welcome_email: delivery }, 201);
     } catch {
