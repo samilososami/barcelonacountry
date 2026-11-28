@@ -53,7 +53,7 @@ const META: Record<string, Omit<Artist, 'name' | 'role' | 'body'>> = {
   'Algaly Fofana': { img: 'algaly', ig: 'https://www.instagram.com/algalyfofana/', gallery: gal('algaly-fofana', 5) },
   'David Villellas': { img: 'david-villellas', ig: 'https://www.instagram.com/david.villellas/', gallery: gal('david-villellas', 1) },
   'Sofía Balzano': { img: 'sofia', ig: 'https://www.instagram.com/sofiabalzanoo_/', gallery: gal('sofia-balzano', 14) },
-  'Montse Moscardó': { img: 'montse', ig: 'https://www.instagram.com/montse.moscardo/', gallery: gal('montse-moscardo', 1) },
+  'Montse Moscardó': { img: 'montse', ig: 'https://www.instagram.com/montse.moscardo/', gallery: gal('montse-moscardo', 12) },
   Johnny: { img: 'johnny', ig: 'https://www.instagram.com/learnwithjohnny/', gallery: gal('johnny', 5) },
   'David Prestor': { img: 'david-prestor', gallery: gal('david-prestor', 10) },
   'Laura Jones': { img: 'laura-jones', gallery: gal('laura-jones', 5) },
